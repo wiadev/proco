@@ -1,0 +1,8 @@
+const actionList = {
+  REQUEST_DATA: 'REQUEST_DATA',
+  RECEIVE_DATA: 'RECEIVE_DATA',
+  USER_LOGIN_SUCCESS: 'USER_LOGIN_SUCCESS',
+  USER_LOGIN_ERROR: 'USER_LOGIN_ERROR',
+};
+
+export default actionList;
