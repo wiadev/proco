@@ -3,50 +3,49 @@ import {
   StyleSheet,
   Navigator,
 } from 'react-native';
+import Intro from './../../components/intro/intro';
 
-import helloWorld from './../../components/helloWorld/helloWorld';
+const styles = StyleSheet.create({
+  navigator: {
+    flex: 1,
+  },
+});
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  renderScene(route, navigator) {
-    let component = route.component;
-
-    return (
-      <component navigator={navigator} route={route} />
-    );
-  }
-
   configureScene(route) {
     if (route.name && route.name === 'Search') {
       return Navigator.SceneConfigs.FadeAndroid;
-    } else {
-      return Navigator.SceneConfigs.FloatFromBottomAndroid;
     }
+
+    return Navigator.SceneConfigs.FloatFromBottomAndroid;
+  }
+
+  renderScene(route, navigator) {
+    let Comp = route.component;
+
+    return (
+      <Comp
+        name={route.name}
+        navigator={navigator}
+        route={route}
+        {...route.passProps}
+      />
+    );
   }
 
   render() {
     return (
       <Navigator
-        ref="navigator"
         style={styles.navigator}
         configureScene={this.configureScene}
         renderScene={this.renderScene}
         initialRoute={{
-          component: helloWorld,
-          name: 'HelloWorld',
+          component: Intro,
+          name: 'Intro',
         }}
       />
     );
   }
 }
-
-let styles = StyleSheet.create({
-  navigator: {
-    flex: 1,
-  },
-});
 
 export default App;
