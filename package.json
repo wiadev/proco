@@ -17,7 +17,7 @@
     "moment": "2.13.0",
     "react": "15.0.2",
     "react-native": "0.26.3",
-    "react-native-fbsdk": "0.2.1",
+    "react-native-fbsdk": "^0.2.1",
     "react-native-linear-gradient": "1.5.10",
     "react-native-swiper": "1.4.5",
     "react-native-vector-icons": "^2.0.3",
