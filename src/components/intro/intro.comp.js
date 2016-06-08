@@ -123,10 +123,7 @@ const styles = StyleSheet.create({
 });
 
 class IntroComp extends Component {
-  static propTypes = {
-    styles: React.PropTypes.any.isRequired,
-  };
-
+  
   constructor(props) {
     super(props);
     this.styles = styles;
