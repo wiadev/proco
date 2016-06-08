@@ -1,11 +1,12 @@
 /* @flow */
 
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import { Map } from 'immutable';
-import HelloWorldReducer from './../reducers/HelloWorldReducer';
+
+import introReducer from './../components/intro/intro.reducer';
 
 const reducers = {
-	helloWorld: HelloWorldReducer
+	introReducer,
 };
 
 const immutableStateContainer = Map();
@@ -20,5 +21,5 @@ const namespacedReducer = combineReducers(
 );
 
 export default function mainReducer(state, action) {
-	return namespacedReducer(state || void 0, action);
+  return namespacedReducer(state || void 0, action);
 }
