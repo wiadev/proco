@@ -28,10 +28,15 @@
 		5BAFD0041D079ACF006BD0FE /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BAFCFFF1D079ACF006BD0FE /* Montserrat-Light.ttf */; };
 		5BAFD0051D079ACF006BD0FE /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BAFD0001D079ACF006BD0FE /* Montserrat-Regular.ttf */; };
 		5BAFD0061D079ACF006BD0FE /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5BAFD0011D079ACF006BD0FE /* Montserrat-Thin.ttf */; };
-		5BFDE05D1D062ECA00B1DCC4 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFDE05A1D062ECA00B1DCC4 /* FBSDKCoreKit.framework */; };
-		5BFDE05E1D062ECA00B1DCC4 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFDE05B1D062ECA00B1DCC4 /* FBSDKLoginKit.framework */; };
-		5BFDE05F1D062ECA00B1DCC4 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFDE05C1D062ECA00B1DCC4 /* FBSDKShareKit.framework */; };
 		5BFDE08E1D0636A300B1DCC4 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BFDE0841D06366A00B1DCC4 /* libRCTFBSDK.a */; };
+		7458317B1D081DAA00C8FB86 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 745831791D081DAA00C8FB86 /* FBSDKLoginKit.framework */; };
+		7458317C1D081DAB00C8FB86 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458317A1D081DAA00C8FB86 /* FBSDKShareKit.framework */; };
+		7458318B1D081DB800C8FB86 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7458318A1D081DB800C8FB86 /* FBSDKCoreKit.framework */; };
+		7458318D1D08201F00C8FB86 /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7458318C1D08201F00C8FB86 /* Montserrat-Light.ttf */; };
+		745831921D08212B00C8FB86 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7458318F1D08212B00C8FB86 /* Montserrat-Bold.ttf */; };
+		745831931D08212B00C8FB86 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745831901D08212B00C8FB86 /* Montserrat-Regular.ttf */; };
+		745831941D08212B00C8FB86 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745831911D08212B00C8FB86 /* Montserrat-Thin.ttf */; };
+		745831961D08217200C8FB86 /* Montserrat-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 745831951D08217200C8FB86 /* Montserrat-Black.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9B0C07A3AEDF4BE68D9F4DEB /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4D82628F026467F9AF8298C /* MaterialIcons.ttf */; };
 		9B1412227E6A4178A8ABDD28 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1FE9221D9D9464FBC33ADF9 /* Ionicons.ttf */; };
@@ -172,12 +177,17 @@
 		5BAFCFFF1D079ACF006BD0FE /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Light.ttf"; path = "../src/fonts/montserrat/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		5BAFD0001D079ACF006BD0FE /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../src/fonts/montserrat/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		5BAFD0011D079ACF006BD0FE /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Thin.ttf"; path = "../src/fonts/montserrat/Montserrat-Thin.ttf"; sourceTree = "<group>"; };
-		5BFDE05A1D062ECA00B1DCC4 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		5BFDE05B1D062ECA00B1DCC4 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		5BFDE05C1D062ECA00B1DCC4 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		5BFDE07E1D06366900B1DCC4 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/iOS/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		607604E970ED419EA09722E9 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		6536B9A40C7A426DA139A547 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		745831791D081DAA00C8FB86 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		7458317A1D081DAA00C8FB86 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		7458318A1D081DB800C8FB86 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		7458318C1D08201F00C8FB86 /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		7458318F1D08212B00C8FB86 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		745831901D08212B00C8FB86 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		745831911D08212B00C8FB86 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
+		745831951D08217200C8FB86 /* Montserrat-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Black.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D0FACB78B79469D9CCCAF2C /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		7EAACEC276FD46B592B79DAE /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -201,19 +211,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7458317B1D081DAA00C8FB86 /* FBSDKLoginKit.framework in Frameworks */,
 				5BFDE08E1D0636A300B1DCC4 /* libRCTFBSDK.a in Frameworks */,
+				7458318B1D081DB800C8FB86 /* FBSDKCoreKit.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
-				5BFDE05E1D062ECA00B1DCC4 /* FBSDKLoginKit.framework in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
-				5BFDE05F1D062ECA00B1DCC4 /* FBSDKShareKit.framework in Frameworks */,
-				5BFDE05D1D062ECA00B1DCC4 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				7458317C1D081DAB00C8FB86 /* FBSDKShareKit.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				48ECFAFE026C40BBBB2BA21C /* libBVLinearGradient.a in Frameworks */,
 				B40C91E6C31148D9B7185600 /* libRNVectorIcons.a in Frameworks */,
@@ -337,9 +347,9 @@
 		5BFDE04F1D062E7800B1DCC4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5BFDE05A1D062ECA00B1DCC4 /* FBSDKCoreKit.framework */,
-				5BFDE05B1D062ECA00B1DCC4 /* FBSDKLoginKit.framework */,
-				5BFDE05C1D062ECA00B1DCC4 /* FBSDKShareKit.framework */,
+				7458318A1D081DB800C8FB86 /* FBSDKCoreKit.framework */,
+				745831791D081DAA00C8FB86 /* FBSDKLoginKit.framework */,
+				7458317A1D081DAA00C8FB86 /* FBSDKShareKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -350,6 +360,18 @@
 				5BFDE0841D06366A00B1DCC4 /* libRCTFBSDK.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		7458318E1D08202400C8FB86 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7458318F1D08212B00C8FB86 /* Montserrat-Bold.ttf */,
+				745831901D08212B00C8FB86 /* Montserrat-Regular.ttf */,
+				745831951D08217200C8FB86 /* Montserrat-Black.ttf */,
+				745831911D08212B00C8FB86 /* Montserrat-Thin.ttf */,
+				7458318C1D08201F00C8FB86 /* Montserrat-Light.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -391,6 +413,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7458318E1D08202400C8FB86 /* Fonts */,
 				5BFDE04F1D062E7800B1DCC4 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* Hello */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -482,6 +505,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = V8V7Q8FUZ2;
 					};
 				};
 			};
@@ -664,15 +690,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				745831931D08212B00C8FB86 /* Montserrat-Regular.ttf in Resources */,
+				745831961D08217200C8FB86 /* Montserrat-Black.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				5BAFD0051D079ACF006BD0FE /* Montserrat-Regular.ttf in Resources */,
 				C8C69D214842464F90A42BC9 /* Entypo.ttf in Resources */,
+				745831941D08212B00C8FB86 /* Montserrat-Thin.ttf in Resources */,
+				7458318D1D08201F00C8FB86 /* Montserrat-Light.ttf in Resources */,
 				F9B641D06F9D49AC9DA8A4D7 /* EvilIcons.ttf in Resources */,
 				B147B3E7DA2D4E5DBC474D65 /* FontAwesome.ttf in Resources */,
 				BB43333877FA4D339DFB8327 /* Foundation.ttf in Resources */,
 				9B1412227E6A4178A8ABDD28 /* Ionicons.ttf in Resources */,
 				5BAFD0021D079ACF006BD0FE /* Montserrat-Black.ttf in Resources */,
+				745831921D08212B00C8FB86 /* Montserrat-Bold.ttf in Resources */,
 				5BAFD0031D079ACF006BD0FE /* Montserrat-Bold.ttf in Resources */,
 				5BAFD0061D079ACF006BD0FE /* Montserrat-Thin.ttf in Resources */,
 				9B0C07A3AEDF4BE68D9F4DEB /* MaterialIcons.ttf in Resources */,
@@ -787,8 +818,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -802,8 +838,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.beta.hello.ios;
 				PRODUCT_NAME = Hello;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -811,7 +848,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -825,8 +867,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.beta.hello.ios;
 				PRODUCT_NAME = Hello;
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
