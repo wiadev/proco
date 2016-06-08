@@ -1,6 +1,8 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -9,6 +11,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.facebook.FacebookSdk;
 import com.facebook.CallbackManager;
+
+import com.BV.LinearGradient.LinearGradientPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,8 +46,10 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
-                new MainReactPackage(),
-                new FBSDKPackage(mCallbackManager),
+          new MainReactPackage(),
+            new VectorIconsPackage(),
+          new LinearGradientPackage(),
+          new FBSDKPackage(mCallbackManager),
         };
         return Arrays.<ReactPackage>asList(packages);
     }
