@@ -13,6 +13,7 @@ import {
 } from 'react-native-fbsdk';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Actions } from 'react-native-router-flux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -106,6 +107,7 @@ const styles = StyleSheet.create({
     height: 45,
     justifyContent: 'center',
     borderRadius: 50,
+    paddingTop: 60,
   },
   fbLoginText: {
     color: '#3B5998',
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
 });
 
 class IntroComp extends Component {
-  
+
   constructor(props) {
     super(props);
     this.styles = styles;
@@ -167,14 +169,20 @@ class IntroComp extends Component {
           </Swiper>
 
           <View style={this.styles.fbLoginView}>
+            {/*
             <LoginButton
               publishPermissions={['publish_actions']}
               onLoginFinished={::this.onLoginFinished}
               onLogoutFinished={() => alert('User logged out')}
               style={this.styles.fbLogin}
+            />*/}
+            <Icon
+              name="facebook-official"
+              size={26}
+              color="#3B5998"
+              style={this.styles.fbLoginIcon}
             />
-          <Icon name="facebook-official" size={26} color="#3B5998" style={this.styles.fbLoginIcon} />
-            <Text style={this.styles.fbLoginText}>
+            <Text style={this.styles.fbLoginText} onPress={Actions.registerForm}>
               Login with Facebook
             </Text>
           </View>

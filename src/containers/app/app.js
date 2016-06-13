@@ -1,49 +1,24 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Navigator,
-} from 'react-native';
-import Intro from './../../components/intro/intro';
+import { Router, Scene } from 'react-native-router-flux';
 
-const styles = StyleSheet.create({
-  navigator: {
-    flex: 1,
-  },
-});
+import Intro from './../../components/intro/intro';
+import RegisterForm from './../../components/registerForm/registerForm';
 
 class App extends Component {
-  configureScene(route) {
-    if (route.name && route.name === 'Search') {
-      return Navigator.SceneConfigs.FadeAndroid;
-    }
-
-    return Navigator.SceneConfigs.FloatFromBottomAndroid;
-  }
-
-  renderScene(route, navigator) {
-    let Comp = route.component;
-
-    return (
-      <Comp
-        name={route.name}
-        navigator={navigator}
-        route={route}
-        {...route.passProps}
-      />
-    );
-  }
-
   render() {
     return (
-      <Navigator
-        style={styles.navigator}
-        configureScene={this.configureScene}
-        renderScene={this.renderScene}
-        initialRoute={{
-          component: Intro,
-          name: 'Intro',
-        }}
-      />
+      <Router>
+        <Scene key="root">
+          <Scene key="intro" component={Intro} hideNavBar={true} initial={true} />
+          <Scene key="registerForm" component={RegisterForm}
+            hideNavBar={false}
+            navigationBarStyle={RegisterForm.getStyles().navBar}
+            rightButtonTextStyle={RegisterForm.getStyles().rightButtonTextStyle}
+            renderBackButton={RegisterForm.onRenderBackButton}
+            rightTitle={'Next'}
+            onRight={::RegisterForm.onRightClick} />
+        </Scene>
+      </Router>
     );
   }
 }

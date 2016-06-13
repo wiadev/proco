@@ -1,6 +1,7 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -47,6 +48,7 @@ public class MainActivity extends ReactActivity {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
           new MainReactPackage(),
+            new ReactMaterialKitPackage(),
             new VectorIconsPackage(),
           new LinearGradientPackage(),
           new FBSDKPackage(mCallbackManager),
