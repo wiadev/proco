@@ -17,13 +17,14 @@
     "moment": "2.13.0",
     "react": "15.0.2",
     "react-native": "0.26.3",
-    "react-native-blur": "0.8.0",
+    "react-native-blur": "1.0.0",
+    "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-datepicker": "1.2.1",
     "react-native-fbsdk": "0.2.1",
-    "react-native-linear-gradient": "1.5.10",
+    "react-native-linear-gradient": "1.5.12",
     "react-native-material-kit": "0.3.2",
     "react-native-popup": "0.5.2",
-    "react-native-router-flux": "3.26.24",
+    "react-native-router-flux": "3.30.0",
     "react-native-swiper": "1.4.5",
     "react-native-vector-icons": "2.0.3",
     "react-redux": "4.4.5",
@@ -32,17 +33,17 @@
     "redux-loop": "2.1.1",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.1.0",
-    "rnpm": "1.8.0"
+    "rnpm": "1.9.0"
   },
   "devDependencies": {
     "babel-eslint": "6.0.4",
     "babel-preset-react-native": "1.9.0",
     "babel-preset-stage-0": "6.5.0",
-    "eslint": "2.11.1",
+    "eslint": "2.13.0",
     "eslint-config-airbnb": "9.0.1",
     "eslint-plugin-babel": "3.2.0",
     "eslint-plugin-import": "1.8.1",
-    "eslint-plugin-jsx-a11y": "1.2.3",
-    "eslint-plugin-react": "5.1.1"
+    "eslint-plugin-jsx-a11y": "1.5.3",
+    "eslint-plugin-react": "5.2.2"
   }
 }

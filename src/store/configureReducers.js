@@ -4,9 +4,11 @@ import { combineReducers } from 'redux';
 import { Map } from 'immutable';
 
 import introReducer from './../components/intro/intro.reducer';
+import registerformReducer from './../components/registerForm/registerForm.reducer';
 
 const reducers = {
-	introReducer,
+  introReducer,
+  registerformReducer,
 };
 
 const immutableStateContainer = Map();

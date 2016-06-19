@@ -1,7 +1,7 @@
 import { Map } from 'immutable';
 
 // Actions
-const LOADED = 'hello/intro/LOADED';
+const LOADED = 'hello/mainscreen/LOADED';
 
 // Reducer
 const defState = Map({
