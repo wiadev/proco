@@ -2,6 +2,7 @@
   "presets": ["react-native-stage-0"],
   "plugins": [
     "babel-plugin-transform-decorators-legacy",
+    "transform-do-expressions",
     "transform-function-bind",
     "transform-class-constructor-call",
     "transform-export-extensions",
