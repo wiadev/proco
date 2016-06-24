@@ -1,14 +1,14 @@
 {
-  "name": "HelloApp",
+  "name": "Proco",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
-  "bugs": "https://github.com/barbar/hello/issues",
+  "bugs": "https://github.com/barbar/proco/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/barbar/hello"
+    "url": "https://github.com/barbar/proco"
   },
   "dependencies": {
     "babel-preset-react-native-stage-0": "1.0.1",
