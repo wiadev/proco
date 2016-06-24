@@ -5,7 +5,6 @@ import {
   View,
   Dimensions,
   Image,
-  TouchableHighlight,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +13,8 @@ import {
   MKTextField,
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
+import { loadPage, registerAccount } from './registerForm.reducer';
+import store from './../../store/configureStore';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -39,20 +40,15 @@ const styles = StyleSheet.create({
   leftButtonTextStyle: {
     color: 'white',
     left: 20,
-    top: 18,
     width: 30,
-  },
-  rightButtonTextStyle: {
-    color: 'white',
-    fontFamily: 'Montserrat-Regular',
-    textAlign: 'center',
+    top: 30,
   },
   logo: {
     transform: [{ scale: 0.8 }],
     alignSelf: 'center',
-    top: 15,
-    left: -10,
     flex: 0,
+    top: -15,
+    left: -5,
   },
   infoBox: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -122,6 +118,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingLeft: 20,
   },
+  btnNext: {
+    color: 'white',
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 16,
+    right: 25,
+    position: 'absolute',
+    top: 30,
+  },
+  header: {
+    flex: 0,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: 70,
+    width,
+  },
 });
 
 const dpCustom = StyleSheet.create({
@@ -152,35 +163,9 @@ const dpCustom = StyleSheet.create({
   },
 });
 
-const formOptions = {
-  fields: {
-    bornDate: {
-      label: 'VERIFY WHEN YOU WERE BORN',
-      mode: 'date',
-    },
-    email: {
-      label: 'VERIFY WHAT YOUR EMAIL IS',
-      placeholder: 'Please enter here'
-    }
-  }
-};
-
 class registerFormComp extends Component {
-  constructor(props) {
-    super(props);
-    this.styles = styles;
-  }
-
-  state = {
-    date: '01/01/1990',
-  };
-
   static getStyles() {
     return styles;
-  }
-
-  static onRightClick() {
-    console.log('TEST');
   }
 
   static onRenderBackButton() {
@@ -193,7 +178,26 @@ class registerFormComp extends Component {
     />);
   }
 
-  static onClickBack() {
+  constructor(props) {
+    super(props);
+    this.styles = styles;
+  }
+
+  state = {
+    date: '01/01/1990',
+    email: '',
+  };
+
+  componentDidMount() {
+    store.dispatch(loadPage());
+  }
+
+  onRightClick() {
+    store.dispatch(registerAccount(this.state.date, this.state.email));
+    Actions.mainScreen();
+  }
+
+  onClickBack() {
     Actions.intro();
   }
 
@@ -201,7 +205,19 @@ class registerFormComp extends Component {
     return (
       <View style={this.styles.container}>
         <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.linearGradient}>
-          <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
+          <View style={this.styles.header}>
+            <Icon
+              name="angle-left"
+              size={42}
+              color="#FFFFFF"
+              style={this.styles.leftButtonTextStyle}
+              onPress={::this.onClickBack}
+            />
+            <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
+            <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
+              Next
+            </Text>
+          </View>
 
           <View style={this.styles.infoBox}>
             <View style={this.styles.leftBox}>
@@ -245,6 +261,7 @@ class registerFormComp extends Component {
               underlineEnabled={false}
               placeholderTextColor={'white'}
               defaultValue={'..@..com'}
+              onTextChange={(email) => { this.setState({ email }); }}
             />
           </View>
 

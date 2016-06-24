@@ -14,6 +14,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
+import { loadPage } from './intro.reducer';
+import store from './../../store/configureStore';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -129,6 +131,10 @@ class IntroComp extends Component {
   constructor(props) {
     super(props);
     this.styles = styles;
+  }
+
+  componentDidMount() {
+    store.dispatch(loadPage());
   }
 
   onLoginFinished(error, result) {
