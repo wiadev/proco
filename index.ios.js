@@ -8,4 +8,4 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 import Root from './src/containers/root/root';
 
-AppRegistry.registerComponent('Hello', () => Root);
+AppRegistry.registerComponent('Proco', () => Root);

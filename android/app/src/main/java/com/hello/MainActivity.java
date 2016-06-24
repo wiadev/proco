@@ -1,6 +1,12 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.microsoft.codepush.react.CodePush;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
@@ -48,6 +54,12 @@ public class MainActivity extends ReactActivity {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
           new MainReactPackage(),
+            new CodePush(null, this, BuildConfig.DEBUG),
+            new RCTCameraPackage(),
+            new VectorIconsPackage(),
+            new ReactMaterialKitPackage(),
+            new LinearGradientPackage(),
+            new FBSDKPackage(),
             new RCTCameraPackage(),
             new VectorIconsPackage(),
             new ReactMaterialKitPackage(),

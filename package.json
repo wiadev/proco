@@ -16,9 +16,10 @@
     "lodash": "4.13.1",
     "moment": "2.13.0",
     "react": "15.0.2",
-    "react-native": "0.26.3",
+    "react-native": "^0.26.3",
     "react-native-blur": "1.0.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
+    "react-native-code-push": "^1.12.2-beta",
     "react-native-datepicker": "1.2.1",
     "react-native-fbsdk": "0.2.1",
     "react-native-linear-gradient": "1.5.12",
@@ -51,6 +52,7 @@
     "eslint-plugin-babel": "3.2.0",
     "eslint-plugin-import": "1.8.1",
     "eslint-plugin-jsx-a11y": "1.5.3",
-    "eslint-plugin-react": "5.2.2"
+    "eslint-plugin-react": "5.2.2",
+    "rnpm-plugin-upgrade": "^0.26.0"
   }
 }
