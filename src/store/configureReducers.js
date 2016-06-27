@@ -5,10 +5,12 @@ import { Map } from 'immutable';
 
 import introReducer from './../components/intro/intro.reducer';
 import registerformReducer from './../components/registerForm/registerForm.reducer';
+import mainScreenReducer from './../components/mainScreen/mainScreen.reducer';
 
 const reducers = {
   introReducer,
   registerformReducer,
+  mainScreenReducer,
 };
 
 const immutableStateContainer = Map();

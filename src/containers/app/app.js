@@ -11,8 +11,8 @@ class App extends Component {
       <Router>
         <Scene key="root">
           <Scene key="intro" component={Intro} hideNavBar={true} initial={true} />
-          <Scene key="registerForm" component={RegisterForm} hideNavBar={true} />
-          <Scene key="mainScreen" component={MainScreen} hideNavBar={true} />
+          <Scene key="registerForm" component={RegisterForm} hideNavBar={true} initial={false} />
+          <Scene key="mainScreen" component={MainScreen} hideNavBar={true} initial={false} />
         </Scene>
       </Router>
     );
