@@ -15,6 +15,7 @@ import {
 import DatePicker from 'react-native-datepicker';
 import { loadPage, registerAccount } from './registerForm.reducer';
 import store from './../../store/configureStore';
+import Header from './../header/header';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -40,9 +41,7 @@ const styles = StyleSheet.create({
   leftButtonTextStyle: {
     backgroundColor: 'transparent',
     color: 'white',
-    left: 20,
     width: 30,
-    bottom: -53,
   },
   logo: {
     transform: [{ scale: 0.6 }],
@@ -129,10 +128,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Montserrat-Regular',
     fontSize: 16,
-    right: 25,
     backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 42,
   },
   header: {
     flex: 0,
@@ -214,19 +210,22 @@ class registerFormComp extends Component {
     return (
       <View style={this.styles.container}>
         <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.linearGradient}>
-          <View style={this.styles.header}>
-            <Icon
-              name="angle-left"
-              size={42}
-              color="#FFFFFF"
-              style={this.styles.leftButtonTextStyle}
-              onPress={::this.onClickBack}
-            />
-            <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
-            <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
-              Next
-            </Text>
-          </View>
+          <Header
+            leftContainer={
+              <Icon
+                name="angle-left"
+                size={42}
+                color="#FFFFFF"
+                style={this.styles.leftButtonTextStyle}
+                onPress={::this.onClickBack}
+              />
+            }
+            rightContainer={
+              <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
+                Next
+              </Text>
+            }
+          />
 
           <View style={this.styles.infoBox}>
             <View style={this.styles.leftBox}>

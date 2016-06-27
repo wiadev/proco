@@ -15,6 +15,8 @@ import store from './../../store/configureStore';
 import Camera from 'react-native-camera';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
+import Header from './../header/header';
+import MessageCountIcon from './../messageCountIcon/messageCountIcon';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -33,31 +35,10 @@ const styles = StyleSheet.create({
     height,
     width,
   },
-  messageCount: {
-    color: '#F9365F',
-    left: -35,
-    textAlign: 'center',
-    width: 18,
-    textShadowColor: 'rgba(0,0,0,0.5)',
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
-  },
-  messageIcon: {
-    flex: 0,
-    justifyContent: 'flex-end',
-    marginTop: 20,
-    marginRight: 0,
-    alignItems: 'center',
-    left: 35,
-  },
-  messageDot: {
-    color: '#F9365F',
-    left: -37,
-    top: -8,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 10,
+  backgroundImage: {
+    position: 'absolute',
+    height,
+    width,
   },
   answerButton: {
     width: 150,
@@ -113,31 +94,10 @@ const styles = StyleSheet.create({
     left: -15,
     top: 9,
   },
-  header: {
-    flex: 0,
-    height: 50,
-    position: 'relative',
-    width,
-    flexDirection: 'column',
-  },
-  logo: {
-    flex: 0,
-    transform: [{ scale: 0.6 }],
-    alignSelf: 'center',
-    top: -15,
-    width: 200,
-  },
   topScreenMessageIcon: {
-    flex: 0,
-    marginTop: -20,
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
-  },
-  leftButtonTextStyle: {
-    alignSelf: 'flex-start',
-    flex: 0,
-    left: 20,
-    top: 27,
+    position: 'absolute',
+    left: 0,
+    top: 0,
   },
   menuList: {
     position: 'relative',
@@ -151,6 +111,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Light',
     fontSize: 24,
     textAlign: 'center',
+  },
+  avatar: {
+    left: width / 2 - 80,
+    height: 160,
+    width: 160,
+    margin: 0,
+    position: 'absolute',
+    top: 120,
+    borderRadius: 80,
+    borderWidth: 2,
+    borderColor: 'white',
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    width: 160,
+    height: 160,
+    margin: 0,
   },
 });
 
@@ -203,6 +180,13 @@ class mainScreenComp extends Component {
       </View>
     ));
 
+    let rightContainerHeader = null;
+    if (states.get('messageCount') > 0) {
+      rightContainerHeader = (
+        <MessageCountIcon messageCount={states.get('messageCount')} />
+      );
+    }
+
     return (
       <View style={this.styles.container}>
         <Swiper
@@ -220,34 +204,14 @@ class mainScreenComp extends Component {
             index={1}
           >
             <View style={this.styles.preview}>
-              <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.preview}>
-                <View style={this.styles.header}>
-                  <IconM
-                    name="close"
-                    size={34}
-                    color="rgba(255,255,255,0.8)"
-                    style={this.styles.leftButtonTextStyle}
-                  />
-                  <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
-                  { states.get('messageCount') <= 0 ? null : (
-                    <Icon.Button
-                      color={'white'}
-                      name="comment"
-                      backgroundColor="transparent"
-                      style={[this.styles.messageIcon, this.styles.topScreenMessageIcon]}
-                      size={32}
-                    >
-                      <Text style={this.styles.messageCount}>
-                        3
-                      </Text>
-                      <Icon
-                        name="circle"
-                        size={12}
-                        color="#FFFFFF"
-                        style={this.styles.messageDot}
-                      />
-                    </Icon.Button>
-                  ) }
+              <Image style={this.styles.backgroundImage} source={require('./../../images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} />
+              <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={this.styles.preview}>
+                <Header
+                  hideLeft={true}
+                  rightContainer={rightContainerHeader}
+                />
+                <View style={this.styles.avatar}>
+                  <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
                 </View>
                 <View style={this.styles.menuList}>
                   <View style={this.styles.menuItem}>
@@ -295,25 +259,11 @@ class mainScreenComp extends Component {
                 style={this.styles.preview}
                 aspect={Camera.constants.Aspect.fill}
               >
-                { states.get('messageCount') <= 0 ? null : (
-                  <Icon.Button
-                    color={'white'}
-                    name="comment"
-                    backgroundColor="transparent"
-                    style={this.styles.messageIcon}
-                    size={32}
-                  >
-                    <Text style={this.styles.messageCount}>
-                      3
-                    </Text>
-                    <Icon
-                      name="circle"
-                      size={12}
-                      color="#FFFFFF"
-                      style={this.styles.messageDot}
-                    />
-                  </Icon.Button>
-                ) }
+                <Header
+                  hideLeft={true}
+                  hideMid={true}
+                  rightContainer={rightContainerHeader}
+                />
                 <IconM
                   name="expand-less"
                   size={44}
