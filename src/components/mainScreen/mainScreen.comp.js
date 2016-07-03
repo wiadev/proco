@@ -192,11 +192,8 @@ class mainScreenComp extends Component {
         <Swiper
           loop={false}
           showsPagination={false}
-          index={1}
+          index={0}
         >
-          <View style={this.styles.defScreen}>
-            <TitleText label="Left" />
-          </View>
           <Swiper
             horizontal={false}
             loop={false}
@@ -290,9 +287,6 @@ class mainScreenComp extends Component {
                   {messages}
                 </View>
               </Camera>
-            </View>
-            <View style={this.styles.defScreen}>
-              <TitleText label="Bottom" />
             </View>
           </Swiper>
           <View style={this.styles.defScreen}>
