@@ -215,12 +215,12 @@ class mainScreenComp extends Component {
                 </View>
                 <View style={this.styles.menuList}>
                   <View style={this.styles.menuItem}>
-                    <Text style={this.styles.menuItemText}>
+                    <Text style={this.styles.menuItemText} onPress={Actions.updateYourQuestionScreen}>
                       Update your question
                     </Text>
                   </View>
                   <View style={this.styles.menuItem}>
-                    <Text style={this.styles.menuItemText}>
+                    <Text style={this.styles.menuItemText} onPress={Actions.shootNewProfileScreen}>
                       Shoot a new profile loop
                     </Text>
                   </View>
