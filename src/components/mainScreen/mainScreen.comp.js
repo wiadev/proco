@@ -192,11 +192,8 @@ class mainScreenComp extends Component {
         <Swiper
           loop={false}
           showsPagination={false}
-          index={1}
+          index={0}
         >
-          <View style={this.styles.defScreen}>
-            <TitleText label="Left" />
-          </View>
           <Swiper
             horizontal={false}
             loop={false}
@@ -215,12 +212,12 @@ class mainScreenComp extends Component {
                 </View>
                 <View style={this.styles.menuList}>
                   <View style={this.styles.menuItem}>
-                    <Text style={this.styles.menuItemText}>
+                    <Text style={this.styles.menuItemText} onPress={Actions.updateYourQuestionScreen}>
                       Update your question
                     </Text>
                   </View>
                   <View style={this.styles.menuItem}>
-                    <Text style={this.styles.menuItemText}>
+                    <Text style={this.styles.menuItemText} onPress={Actions.shootNewProfileScreen}>
                       Shoot a new profile loop
                     </Text>
                   </View>
@@ -290,9 +287,6 @@ class mainScreenComp extends Component {
                   {messages}
                 </View>
               </Camera>
-            </View>
-            <View style={this.styles.defScreen}>
-              <TitleText label="Bottom" />
             </View>
           </Swiper>
           <View style={this.styles.defScreen}>

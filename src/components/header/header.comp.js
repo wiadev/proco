@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     paddingLeft: 10,
+    backgroundColor: 'transparent',
   },
   headerMid: {
     flex: 2,
@@ -40,6 +41,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     position: 'relative',
     justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   logo: {
     flex: 0,
@@ -85,7 +87,7 @@ class HeaderComp extends Component {
                 size={34}
                 color="rgba(255,255,255,0.8)"
                 style={this.styles.leftButtonTextStyle}
-                onClick={this.props.leftAction()}
+                onPress={this.props.leftAction}
               />
             )
           ) : null}
