@@ -222,7 +222,7 @@ class mainScreenComp extends Component {
                     </Text>
                   </View>
                   <View style={this.styles.menuItem}>
-                    <Text style={this.styles.menuItemText}>
+                    <Text style={this.styles.menuItemText} onPress={Actions.discoverySettingsScreen}>
                       Discovery Filters
                     </Text>
                   </View>
