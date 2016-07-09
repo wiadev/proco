@@ -2,15 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View,
-  Dimensions,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import IconM from 'react-native-vector-icons/MaterialIcons';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+import { Actions } from 'react-native-router-flux';
 
 const styles = StyleSheet.create({
   messageCount: {
@@ -41,12 +35,14 @@ const styles = StyleSheet.create({
 class MessageCountIconComp extends Component {
 
   static propTypes = {
-    onClick: React.PropTypes.func,
+    onPress: React.PropTypes.func,
     messageCount: React.PropTypes.number,
   };
 
   static defaultProps = {
-    onClick: () => {}
+    onPress: () => {
+      Actions.messagesListScreen();
+    },
   };
 
   constructor(props) {
@@ -62,7 +58,8 @@ class MessageCountIconComp extends Component {
         backgroundColor="transparent"
         style={this.styles.messageIcon}
         size={32}
-        onClick={this.props.onClick}
+        onPress={this.props.onPress}
+        pointerEvents={'box-only'}
       >
         <Text style={this.styles.messageCount}>
           {this.props.messageCount}

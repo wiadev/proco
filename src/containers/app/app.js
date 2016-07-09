@@ -7,6 +7,8 @@ import MainScreen from './../../components/mainScreen/mainScreen';
 import updateYourQuestionScreen from './../../components/updateYourQuestionScreen/updateYourQuestionScreen';
 import shootNewProfileScreen from './../../components/shootNewProfileScreen/shootNewProfileScreen';
 import discoverySettingsScreen from './../../components/discoverySettingsScreen/discoverySettingsScreen';
+import moreSettingsScreen from './../../components/moreSettingsScreen/moreSettingsScreen';
+import messagesListScreen from './../../components/messagesListScreen/messagesListScreen';
 
 class App extends Component {
   render() {
@@ -31,6 +33,18 @@ class App extends Component {
           <Scene
             key="discoverySettingsScreen"
             component={discoverySettingsScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="moreSettingsScreen"
+            component={moreSettingsScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="messagesListScreen"
+            component={messagesListScreen}
             hideNavBar={true}
             initial={false}
           />

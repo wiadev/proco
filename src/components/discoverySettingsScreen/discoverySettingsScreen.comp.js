@@ -305,7 +305,6 @@ class discoverySettingsScreenComp extends Component {
               }]}>
                 <MKSwitch
                   style={{ alignSelf: 'flex-end' }}
-                  onPress={() => console.log('orange switch pressed')}
                   onCheckedChange={(e) => {
                     this.setState({
                       showFriendsInDiscovery: e.checked,
