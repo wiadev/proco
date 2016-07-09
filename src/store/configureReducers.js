@@ -8,6 +8,9 @@ import registerformReducer from './../components/registerForm/registerForm.reduc
 import mainScreenReducer from './../components/mainScreen/mainScreen.reducer';
 import updateYourQuestionScreenReducer from './../components/updateYourQuestionScreen/updateYourQuestionScreen.reducer';
 import shootNewProfileScreenReducer from './../components/shootNewProfileScreen/shootNewProfileScreen.reducer';
+import discoverySettingsScreenReducer from './../components/discoverySettingsScreen/discoverySettingsScreen.reducer';
+import moreSettingsScreenReducer from './../components/moreSettingsScreen/moreSettingsScreen.reducer';
+import messagesListScreenReducer from './../components/messagesListScreen/messagesListScreen.reducer';
 
 const reducers = {
   introReducer,
@@ -15,6 +18,9 @@ const reducers = {
   mainScreenReducer,
   updateYourQuestionScreenReducer,
   shootNewProfileScreenReducer,
+  discoverySettingsScreenReducer,
+  moreSettingsScreenReducer,
+  messagesListScreenReducer,
 };
 
 const immutableStateContainer = Map();
