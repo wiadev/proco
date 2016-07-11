@@ -1,6 +1,7 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.rnfs.RNFSPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -62,6 +63,7 @@ public class MainActivity extends ReactActivity {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
           new MainReactPackage(),
+            new RNFSPackage(),
             new VectorIconsPackage(),
             new ReactMaterialKitPackage(),
             new LinearGradientPackage(),
