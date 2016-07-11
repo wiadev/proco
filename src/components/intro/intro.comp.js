@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { loadPage } from './intro.reducer';
 import store from './../../store/configureStore';
+import API from '../../api';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -191,7 +192,7 @@ class IntroComp extends Component {
               color="#3B5998"
               style={this.styles.fbLoginIcon}
             />
-            <Text style={this.styles.fbLoginText} onPress={Actions.registerForm}>
+            <Text style={this.styles.fbLoginText} onPress={API.Authentication.login}>
               Login with Facebook
             </Text>
           </View>

@@ -5,8 +5,12 @@ import { Provider } from 'react-redux';
 import codePush from "react-native-code-push";
 import store from '../../store/configureStore';
 import App from '../app/app';
+import API from '../../api';
 
 class Root extends Component {
+  componentWillMount() {
+    API.Initiliazer();
+  }
   componentDidMount() {
     codePush.sync();
   }
