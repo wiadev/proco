@@ -6,16 +6,14 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
-  ListView,
   Image,
-  TouchableHighlight,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { loadPage, defaultState } from './messagesListScreen.reducer';
+import { loadPage, defaultState, receivedMessage, sentMessage } from './talkScreen.reducer';
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MessageCountIcon from './../messageCountIcon/messageCountIcon';
+import ChatComponent from 'react-native-gifted-messenger';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -80,36 +78,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rowItem: {
-    width,
+    width: width * 70 / 100,
     backgroundColor: 'white',
     flex: 0,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderBottomColor: 'rgb(222,222,222)',
-    borderBottomWidth: 1,
+    alignSelf: 'center',
   },
   rowItemLeft: {
     flex: 0,
-    width: width * 35 / 100,
     position: 'relative',
     backgroundColor: 'transparent',
     alignItems: 'flex-start',
-    paddingLeft: 12,
-  },
-  rowItemRight: {
-    flex: 0,
-    width: width * 15 / 100,
-    position: 'relative',
-    backgroundColor: 'transparent',
-    alignItems: 'flex-start',
-    paddingLeft: 12,
   },
   rowItemImage: {
-    height: 56,
-    width: 56,
+    height: 34,
+    width: 34,
     margin: 0,
     borderRadius: 28,
     borderWidth: 0,
@@ -117,18 +102,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   avatarImage: {
-    width: 56,
-    height: 56,
+    width: 34,
+    height: 34,
     margin: 0,
   },
-  listView: {
-    flex: 0,
-    width,
-    flexDirection: 'row',
-  },
   rowItemUsername: {
-    fontSize: 18,
-    color: 'rgb(22,20,23)',
+    fontSize: 16,
+    color: 'rgb(249,54,95)',
     fontFamily: 'Montserrat-Regular',
   },
   rowItemUserTitle: {
@@ -136,9 +116,46 @@ const styles = StyleSheet.create({
     color: 'rgb(139,139,139)',
     fontFamily: 'Montserrat-Light',
   },
+  rowItemSecond: {
+    marginLeft: 10,
+    marginTop: -3,
+  },
 });
 
-class messagesListScreenComp extends Component {
+const messengerStyle = {
+  sendButton: {
+    fontSize: 11,
+    fontFamily: 'Montserrat-Regular',
+    color: 'white',
+    backgroundColor: 'rgb(86,54,234)',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 15,
+    alignSelf: 'center',
+    marginTop: 5,
+    width: 90,
+  },
+  bubbleRight: {
+    backgroundColor: 'rgb(86,54,234)',
+  },
+  bubbleLeft: {
+    backgroundColor: 'rgb(249,54,95)',
+  },
+  textLeft: {
+    fontSize: 15,
+    fontFamily: 'Montserrat-Light',
+    color: 'white',
+  },
+  textRight: {
+    fontSize: 15,
+    fontFamily: 'Montserrat-Light',
+    color: 'white',
+  },
+};
+
+class talkScreenComp extends Component {
   static getStyles() {
     return styles;
   }
@@ -146,9 +163,7 @@ class messagesListScreenComp extends Component {
   constructor(props) {
     super(props);
     this.styles = styles;
-    this.state = store.getState().messagesListScreenReducer.toJS();
-    const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.state.dataSource = ds.cloneWithRows(this.state.messageList);
+    this.state = store.getState().talkScreenReducer.toJS();
   }
 
   state = {};
@@ -165,39 +180,10 @@ class messagesListScreenComp extends Component {
     Actions.pop();
   }
 
-  onItemPress() {
-    Actions.talkScreen();
-  }
-
-  renderRow(rowData) {
-    return (
-      <TouchableHighlight onPress={::this.onItemPress}>
-        <View style={this.styles.rowItem} onPress={::this.onItemPress}>
-          <View style={[this.styles.rowItemLeft, {
-            width: width * 20 / 100,
-          }]}>
-            <View style={this.styles.rowItemImage}>
-              <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
-            </View>
-          </View>
-          <View style={[this.styles.rowItemLeft, {
-            width: width * 65 / 100,
-          }]}>
-            <Text style={this.styles.rowItemUsername}>{rowData.userName + ', ' + rowData.userAge}</Text>
-            <Text style={this.styles.rowItemUserTitle}>{rowData.userTitle}</Text>
-          </View>
-          <View style={this.styles.rowItemRight}>
-            <MessageCountIcon
-              messageCount={rowData.messageCount}
-              textColor={rowData.messageCount ? 'rgb(249,54,95)' : 'rgb(209,213,217)'}
-              textStyles={rowData.messageCount ? {color: 'white', fontSize: 12, left: -31} : {color: 'transparent'}}
-              showEmpty={false}
-              size={25}
-            />
-          </View>
-        </View>
-      </TouchableHighlight>
-    );
+  onSend(message) {
+    store.dispatch(sentMessage(message.text));
+    this.setState(store.getState().talkScreenReducer.toJS());
+    this.refs.ChatComponent.onChangeText('');
   }
 
   render() {
@@ -220,17 +206,36 @@ class messagesListScreenComp extends Component {
             />
           </View>
           <View style={this.styles.topMenuMid}>
-            <Text style={this.styles.menuTitle}>Messages</Text>
+            <View style={this.styles.rowItem}>
+              <View style={[this.styles.rowItemFirst]}>
+                <View style={this.styles.rowItemImage}>
+                  <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                </View>
+              </View>
+              <View style={[this.styles.rowItemSecond]}>
+                <Text style={this.styles.rowItemUsername}>{'Leyla'}</Text>
+                <Text style={this.styles.rowItemUserTitle}>{'Bogazici University'}</Text>
+              </View>
+            </View>
           </View>
           <View style={this.styles.topMenuRight}>
             <Text style={this.styles.btnSave} />
           </View>
         </View>
         <ScrollView>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={::this.renderRow}
-            style={this.styles.listView}
+          <ChatComponent
+            autoFocus={false}
+            ref='ChatComponent'
+            maxHeight={height - 70}
+            blurOnSubmit={false}
+            displayNames={false}
+            loadEarlierMessagesButton={true}
+            keyboardShouldPersistTaps={true}
+            placeholder={'Your message?'}
+            styles={messengerStyle}
+            messages={this.state.messageList}
+            onCustomSend={::this.onSend}
+            sendButtonText={'SEND'}
           />
         </ScrollView>
       </View>
@@ -238,4 +243,4 @@ class messagesListScreenComp extends Component {
   }
 }
 
-export default connect(() => defaultState.toJS())(messagesListScreenComp);
+export default connect(() => defaultState.toJS())(talkScreenComp);

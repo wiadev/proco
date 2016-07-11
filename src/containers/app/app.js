@@ -9,6 +9,7 @@ import shootNewProfileScreen from './../../components/shootNewProfileScreen/shoo
 import discoverySettingsScreen from './../../components/discoverySettingsScreen/discoverySettingsScreen';
 import moreSettingsScreen from './../../components/moreSettingsScreen/moreSettingsScreen';
 import messagesListScreen from './../../components/messagesListScreen/messagesListScreen';
+import talkScreen from './../../components/talkScreen/talkScreen';
 
 class App extends Component {
   render() {
@@ -45,6 +46,12 @@ class App extends Component {
           <Scene
             key="messagesListScreen"
             component={messagesListScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="talkScreen"
+            component={talkScreen}
             hideNavBar={true}
             initial={false}
           />

@@ -11,6 +11,7 @@ import shootNewProfileScreenReducer from './../components/shootNewProfileScreen/
 import discoverySettingsScreenReducer from './../components/discoverySettingsScreen/discoverySettingsScreen.reducer';
 import moreSettingsScreenReducer from './../components/moreSettingsScreen/moreSettingsScreen.reducer';
 import messagesListScreenReducer from './../components/messagesListScreen/messagesListScreen.reducer';
+import talkScreenReducer from './../components/talkScreen/talkScreen.reducer';
 
 const reducers = {
   introReducer,
@@ -21,6 +22,7 @@ const reducers = {
   discoverySettingsScreenReducer,
   moreSettingsScreenReducer,
   messagesListScreenReducer,
+  talkScreenReducer,
 };
 
 const immutableStateContainer = Map();

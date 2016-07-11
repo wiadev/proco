@@ -37,12 +37,22 @@ class MessageCountIconComp extends Component {
   static propTypes = {
     onPress: React.PropTypes.func,
     messageCount: React.PropTypes.number,
+    textColor: React.PropTypes.string,
+    showEmpty: React.PropTypes.bool,
+    styles: React.PropTypes.object,
+    textStyles: React.PropTypes.object,
+    size: React.PropTypes.number,
   };
 
   static defaultProps = {
     onPress: () => {
       Actions.messagesListScreen();
     },
+    textColor: 'white',
+    size: 32,
+    showEmpty: true,
+    styles: {},
+    textStyles: {},
   };
 
   constructor(props) {
@@ -51,25 +61,32 @@ class MessageCountIconComp extends Component {
   }
 
   render() {
+    let messageCount = this.props.messageCount;
+    if (!this.props.showEmpty && this.props.messageCount <= 0) messageCount = '';
+
     return (
       <Icon.Button
-        color={'white'}
+        color={this.props.textColor}
         name="comment"
         backgroundColor="transparent"
-        style={this.styles.messageIcon}
-        size={32}
+        style={[this.styles.messageIcon, this.props.styles]}
+        size={this.props.size}
         onPress={this.props.onPress}
         pointerEvents={'box-only'}
       >
-        <Text style={this.styles.messageCount}>
-          {this.props.messageCount}
+        <Text style={[this.styles.messageCount, this.props.textStyles]}>
+          {messageCount}
         </Text>
-        <Icon
-          name="circle"
-          size={12}
-          color="#FFFFFF"
-          style={this.styles.messageDot}
-        />
+        {
+          this.props.messageCount <= 0 ? null : (
+            <Icon
+              name="circle"
+              size={12}
+              color={this.props.textColor}
+              style={this.styles.messageDot}
+            />
+          )
+        }
       </Icon.Button>
     );
   }
