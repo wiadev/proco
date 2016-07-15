@@ -11,11 +11,14 @@
 #import "CodePush.h"
 #import "RCTRootView.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+@import Firebase;
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [FIRApp configure];
+
   NSURL *jsCodeLocation;
 
   [[FBSDKApplicationDelegate sharedInstance] application:application
@@ -59,7 +62,6 @@
   #else
     jsCodeLocation = [CodePush bundleURL];
   #endif
-
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Proco"
