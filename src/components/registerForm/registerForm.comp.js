@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Dimensions,
-  Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,6 +15,8 @@ import DatePicker from 'react-native-datepicker';
 import { loadPage, registerAccount } from './registerForm.reducer';
 import store from './../../store/configureStore';
 import Header from './../header/header';
+import Picker from 'react-native-picker';
+import MailVerifyModalComp from './../MailVerifyModal/MailVerifyModal';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -53,10 +54,10 @@ const styles = StyleSheet.create({
   infoBox: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'flex-start',
-    paddingTop: 15,
-    height: 100,
+    paddingTop: 4,
+    height: 80,
     flexDirection: 'row',
-    top: 50,
+    top: 30,
   },
   leftBox: {
     width: width * 0.2,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     width,
   },
   bornBox: {
-    marginTop: 90,
+    marginTop: 60,
     paddingLeft: 20,
   },
   emailBox: {
@@ -136,6 +137,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50,
     width,
+  },
+  genderView: {
+    width,
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+  },
+  genderText: {
+    fontFamily: 'Montserrat-Light',
+    color: 'white',
+    fontSize: 26,
+    height: 35,
+    marginTop: 10,
+    marginRight: 10,
+    backgroundColor: 'transparent',
+  },
+  genderIcon: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: 'transparent',
+    top: 10,
   },
 });
 
@@ -191,6 +212,7 @@ class registerFormComp extends Component {
   state = {
     date: '01/01/1990',
     email: '',
+    gender: null,
   };
 
   componentDidMount() {
@@ -198,7 +220,7 @@ class registerFormComp extends Component {
   }
 
   onRightClick() {
-    store.dispatch(registerAccount(this.state.date, this.state.email));
+    store.dispatch(registerAccount(this.state.date, this.state.email, this.state.gender));
     Actions.mainScreen();
   }
 
@@ -259,6 +281,24 @@ class registerFormComp extends Component {
 
           <View style={this.styles.emailBox}>
             <Text style={this.styles.emailLabel}>
+              YOUR GENDER
+            </Text>
+            <View style={this.styles.genderView}>
+              <Text
+                style={this.styles.genderText}
+                onPress={() => { this.picker.toggle(); }}
+              >{this.state.gender || 'Please Select'}</Text>
+              <Icon
+                name="angle-right"
+                size={32}
+                color="rgba(255, 255, 255, 0.7)"
+                style={this.styles.genderIcon}
+              />
+            </View>
+          </View>
+
+          <View style={this.styles.emailBox}>
+            <Text style={this.styles.emailLabel}>
               VERIFY WHAT YOUR EMAIL IS
             </Text>
             <MKTextField
@@ -278,6 +318,26 @@ class registerFormComp extends Component {
               Why does Hello need my school e-mail?
             </Text>
           </View>
+          <Picker
+            ref={picker => this.picker = picker}
+            style={{
+              height: 250,
+              width,
+              left: 0,
+              position: 'absolute',
+              bottom: 0,
+            }}
+            showDuration={200}
+            showMask={true}
+            pickerData={['Male', 'Female']}
+            selectedValue={'Male'}
+            onPickerDone={(e) => {
+              this.setState({
+                gender: e[0],
+              });
+            }}
+          />
+          <MailVerifyModalComp />
         </LinearGradient>
       </View>
     );

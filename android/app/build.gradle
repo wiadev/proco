@@ -120,6 +120,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-media-player')
     compile project(':react-native-fs')
     compile project(':react-native-vector-icons')
     compile project(':react-native-material-kit')

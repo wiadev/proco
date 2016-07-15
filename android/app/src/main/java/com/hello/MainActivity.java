@@ -1,6 +1,7 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.mybigday.rnmediaplayer.RNMediaPlayerPackage;
 import com.rnfs.RNFSPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
@@ -63,6 +64,7 @@ public class MainActivity extends ReactActivity {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
           new MainReactPackage(),
+            new RNMediaPlayerPackage(),
             new RNFSPackage(),
             new VectorIconsPackage(),
             new ReactMaterialKitPackage(),

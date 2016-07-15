@@ -22,7 +22,8 @@ export default function reducer(state = defState, action = {}) {
       return state.set('isLoaded', true);
     case REGISTERED:
       return state.set('email', action.values.email)
-                  .set('birthDate', action.values.birthDate);
+                  .set('birthDate', action.values.birthDate)
+                  .set('gender', action.values.gender);
     case PAGECHANGED:
       return state.set('page', action.values.pageName)
                   .set('pageX', action.values.pageX)
