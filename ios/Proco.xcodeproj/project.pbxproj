@@ -41,6 +41,8 @@
 		74A831E61D1D8EC300CC1517 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74A831E11D1D8EC300CC1517 /* Montserrat-Regular.ttf */; };
 		74A831E71D1D8EC300CC1517 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74A831E21D1D8EC300CC1517 /* Montserrat-Thin.ttf */; };
 		74A8323C1D1DA0EB00CC1517 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74A8323B1D1DA0EB00CC1517 /* FontAwesome.ttf */; };
+		74EA418D1D38095100E1D8FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74EA418C1D38095100E1D8FC /* GoogleService-Info.plist */; };
+		74EA418E1D38095100E1D8FC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74EA418C1D38095100E1D8FC /* GoogleService-Info.plist */; };
 		7811E70B75CD4D0199DCB1CC /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A8F29A19BCA44809F03C944 /* Octicons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8A6DBE519A3D49989F1C461C /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55636F68958F435E8AC4999E /* libRNBlur.a */; };
@@ -49,6 +51,7 @@
 		A3615CFBEE7F4000A7F35610 /* libRCTMaterialKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD5BD6422A9E41FFA05E0D2B /* libRCTMaterialKit.a */; };
 		BEC2DA28BB8B41059805CA93 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BFD308A7FD54498870A1CD1 /* libRCTCamera.a */; };
 		CD8C09EC609942EE9A03367C /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB6F890EA5F442DBC4D61A0 /* libBVLinearGradient.a */; };
+		EC6B178600E366612AA1531F /* libPods-Proco.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F636ACDCB0A340C1777739AD /* libPods-Proco.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +238,7 @@
 		74A831E21D1D8EC300CC1517 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Thin.ttf"; sourceTree = "<group>"; };
 		74A8323B1D1DA0EB00CC1517 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		74E263AAD36A4565B381C3B5 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		74EA418C1D38095100E1D8FC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		761156341C2E4C19AD714202 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		772D4F1E3CDA40F68F7E8F10 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -242,15 +246,18 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8BE22F47D2E14CD285ADEBD7 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8F75266E47BB42E383C7C2D5 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		91925B6E47E022E5F680427B /* Pods-Proco.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Proco.release.xcconfig"; path = "Pods/Target Support Files/Pods-Proco/Pods-Proco.release.xcconfig"; sourceTree = "<group>"; };
 		9195C035ECE74C58A53FFE5F /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		94493B388B444A368AA9A50F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		9A8F29A19BCA44809F03C944 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		9BFD308A7FD54498870A1CD1 /* libRCTCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTCamera.a; sourceTree = "<group>"; };
 		AAE50971DC2E48F8BF8E6229 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/iOS/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		B02B5226D3B844B5A53C3187 /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		B38746592BB146468204D3C7 /* Pods-Proco.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Proco.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Proco/Pods-Proco.debug.xcconfig"; sourceTree = "<group>"; };
 		B4E755EA2E0941EE9D3F0DEE /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		C0BDB91ABDE247DEB3E2BDD0 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		C0CDE0FDE23A489F9437D622 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		F636ACDCB0A340C1777739AD /* libPods-Proco.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Proco.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5BD6422A9E41FFA05E0D2B /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -289,6 +296,7 @@
 				7400651A354145FE898F93BB /* libz.tbd in Frameworks */,
 				3FB32C5C22204598886BEE9F /* libRNImagePicker.a in Frameworks */,
 				A34B010B09204293AF65F08A /* libRNFS.a in Frameworks */,
+				EC6B178600E366612AA1531F /* libPods-Proco.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +453,7 @@
 				74A831B51D1D8BC600CC1517 /* FBSDKLoginKit.framework */,
 				74A831B61D1D8BC600CC1517 /* FBSDKShareKit.framework */,
 				363063507BC447CBA749F317 /* libz.tbd */,
+				F636ACDCB0A340C1777739AD /* libPods-Proco.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -539,12 +548,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				74EA418C1D38095100E1D8FC /* GoogleService-Info.plist */,
 				74A831B31D1D8BAA00CC1517 /* Frameworks */,
 				13B07FAE1A68108700A75B9A /* Proco */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ProcoTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				80EB06F6F6DF45598C16C6FF /* Resources */,
+				A32D3B721A7A4260DB8366E0 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -557,6 +568,15 @@
 				00E356EE1AD99517003FC87E /* ProcoTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A32D3B721A7A4260DB8366E0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B38746592BB146468204D3C7 /* Pods-Proco.debug.xcconfig */,
+				91925B6E47E022E5F680427B /* Pods-Proco.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -584,10 +604,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Proco" */;
 			buildPhases = (
+				553F39EB14A5E9C6C5186B42 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				4026FE5FDF00C4D191F2C1BA /* [CP] Embed Pods Frameworks */,
+				75E8D143053388747B4DCA2A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -613,6 +636,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = DEU2CCLWQ5;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -854,6 +882,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74EA418E1D38095100E1D8FC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,6 +902,7 @@
 				74A831E31D1D8EC300CC1517 /* Montserrat-Black.ttf in Resources */,
 				74A831E41D1D8EC300CC1517 /* Montserrat-Bold.ttf in Resources */,
 				74A831E71D1D8EC300CC1517 /* Montserrat-Thin.ttf in Resources */,
+				74EA418D1D38095100E1D8FC /* GoogleService-Info.plist in Resources */,
 				41C65CDACFB44F1595342180 /* MaterialIcons.ttf in Resources */,
 				7811E70B75CD4D0199DCB1CC /* Octicons.ttf in Resources */,
 				0E079A0400C043FB96EE4895 /* Zocial.ttf in Resources */,
@@ -896,6 +926,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		4026FE5FDF00C4D191F2C1BA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Proco/Pods-Proco-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		553F39EB14A5E9C6C5186B42 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		75E8D143053388747B4DCA2A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Proco/Pods-Proco-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -973,13 +1048,17 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B38746592BB146468204D3C7 /* Pods-Proco.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1000,6 +1079,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
@@ -1009,12 +1089,16 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91925B6E47E022E5F680427B /* Pods-Proco.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "~/Documents/FacebookSDK";
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1035,6 +1119,7 @@
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
+					"$(inherited)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
