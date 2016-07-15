@@ -141,14 +141,15 @@ class IntroComp extends Component {
     store.dispatch(loadPage());
   }
 
-  onLoginFinished(error, result) {
-    if (error) {
-      alert('Login failed with error: ' + result.error);
-    } else if (result.isCancelled) {
-      alert('Login was cancelled');
-    } else {
-      alert('Login was successful with permissions: ' + result.grantedPermissions);
-    }
+
+  startLogin () {
+    API.Authentication.login()
+      .then(() => {
+        Actions.registerForm();
+      })
+      .catch(() => {
+        alert("There was an error with your login.")
+      });
   }
 
   render() {
@@ -179,20 +180,13 @@ class IntroComp extends Component {
           </Swiper>
 
           <View style={this.styles.fbLoginView}>
-            {/*
-            <LoginButton
-              publishPermissions={['publish_actions']}
-              onLoginFinished={::this.onLoginFinished}
-              onLogoutFinished={() => alert('User logged out')}
-              style={this.styles.fbLogin}
-            />*/}
             <Icon
               name="facebook-official"
               size={26}
               color="#3B5998"
               style={this.styles.fbLoginIcon}
             />
-            <Text style={this.styles.fbLoginText} onPress={API.Authentication.login}>
+            <Text style={this.styles.fbLoginText} onPress={this.startLogin}>
               Login with Facebook
             </Text>
           </View>
