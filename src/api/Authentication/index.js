@@ -1,6 +1,5 @@
 const firebase = require('firebase');
 const FBSDK = require('react-native-fbsdk');
-const runner = require('../Utils/Tasks');
 
 const {
   LoginManager,
@@ -15,31 +14,12 @@ const login = () => {
         if (result.isCancelled) {
           reject('cancelled');
         } else {
-
           return AccessToken.getCurrentAccessToken().then(
             (data) => {
-
               const access_token = data.accessToken.toString();
               const credential = firebase.auth.FacebookAuthProvider.credential(access_token);
-              return firebase.auth().signInWithCredential(credential).then((data) => {
-
-                console.log("data", data);
-                return runner('AFTER_LOGIN', {
-                  access_token
-                }).then((data) => {
-                  console.log("after login data", data);
-                })
-              }).catch(function(error) {
-
-                console.log(error);
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
+              return firebase.auth().signInWithCredential(credential).then(() => {
+                resolve();
               });
             }
           );

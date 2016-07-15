@@ -1,45 +1,61 @@
 const firebase = require('firebase');
 const database = firebase.database();
+const ref = database.ref('queues/client-actions');
 
-const TASK_LIST = {
-  'AFTER_LOGIN',
-  'COMPLETE_ONBOARDING',
-  'VERIFY_SCHOOL_EMAIL',
-  'SEND_MESSAGE',
+const getActionTasksReference = (action) => {
+  return ref.child('tasks').child(action);
 };
 
-const tasks = database.ref('queues/client-tasks');
+const getActionResultsReference = (action) => {
+  return ref.child('results').child(action);
+};
 
-const runner = (task, payload = {}) => {
+const promised = (dispatched) => {
+  const ref = getActionResultsReference(dispatched.action).child(dispatched.key);
+  return ref.on('once').then(snapshot => Object.assign(dispatched, {
+    results: snapshot.val()
+  }));
+};
 
-  return new Promise((resolve, reject) => {
+const dispatch = (action, payload, files) => {
 
-    const currentUser = firebase.auth().currentUser;
-    return currentUser.getToken().then((token) => {
-      const resultsKey = `users/${currentUser.uid}/task-results`;
-      const results = database.ref(resultsKey);
+  const ref = getActionTasksReference(action).push();
 
-      const result = results.push();
+  const data = {
+    action,
+    payload,
+    files,
+    key: ref.key
+  };
 
-      result.on('value', (snapshot) => {
-        result.off();
-        resolve(snapshot.val());
+  const set = (data) => {
+    return ref.set(data).then(() => {
+      return data;
+    });
+  };
+
+  if (files) {
+    const uploads = Object.keys(files).map((file) => {
+      return new Promise((resolve, reject) => {
+        return upload(files[file]).then(file => file.id);
       });
-
-      tasks.push({
-        task,
-        payload,
-        token,
-        resolveTo: `${resultsKey}/${result.key}`,
-      });
-
-    }).catch(function(error) {
-      // Handle error
     });
 
+    return Promise.all(uploads).then((files) => {
+      return set(Object.assign(data, {
+        files
+      }));
+    });
+  }
 
-  });
+  return set(data);
 
 };
 
-module.exports = runner;
+
+module.exports = {
+  promised,
+  dispatch
+};
+
+

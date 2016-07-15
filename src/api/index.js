@@ -1,8 +1,10 @@
-const firebase = require('firebase');
+import codePush from "react-native-code-push";
+
 const Onboarding = require('./Onboarding');
 const Authentication = require('./Authentication');
 
 const Initiliazer = (obj = {}) => {
+codePush.sync();
 
   firebase.initializeApp({
     apiKey: "AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc",
@@ -13,11 +15,6 @@ const Initiliazer = (obj = {}) => {
 
   firebase.auth().onAuthStateChanged((user) => {
     console.log("user", user);
-    if(!user) {
-
-    }
-
-    if(obj.onAuthState) obj.onAuthState(user);
   });
 
 
@@ -27,5 +24,4 @@ module.exports = {
   Initiliazer,
   Authentication,
   Onboarding,
-
 };
