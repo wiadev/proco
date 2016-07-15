@@ -1,6 +1,21 @@
 package com.hello;
 
 import com.facebook.react.ReactActivity;
+import com.rnfs.RNFSPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.microsoft.codepush.react.CodePush;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.cmcewen.blurview.BlurViewPackage;
+import com.microsoft.codepush.react.CodePush;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.github.xinthink.rnmk.ReactMaterialKitPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.github.xinthink.rnmk.ReactMaterialKitPackage;
@@ -48,6 +63,21 @@ public class MainActivity extends ReactActivity {
         mCallbackManager = new CallbackManager.Factory().create();
         ReactPackage packages[] = new ReactPackage[]{
           new MainReactPackage(),
+            new RNFSPackage(),
+            new VectorIconsPackage(),
+            new ReactMaterialKitPackage(),
+            new LinearGradientPackage(),
+            new ImagePickerPackage(),
+            new FBSDKPackage(),
+            new CodePush(null, this, BuildConfig.DEBUG),
+            new RCTCameraPackage(),
+            new BlurViewPackage(),
+            new CodePush(null, this, BuildConfig.DEBUG),
+            new RCTCameraPackage(),
+            new VectorIconsPackage(),
+            new ReactMaterialKitPackage(),
+            new LinearGradientPackage(),
+            new FBSDKPackage(),
             new RCTCameraPackage(),
             new VectorIconsPackage(),
             new ReactMaterialKitPackage(),

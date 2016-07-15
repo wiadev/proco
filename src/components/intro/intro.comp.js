@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { loadPage } from './intro.reducer';
 import store from './../../store/configureStore';
+import API from '../../api';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingBottom: 50,
     textAlign: 'center',
+    backgroundColor: 'transparent',
     width: width * 0.7,
     fontFamily: 'Montserrat-Light',
     lineHeight: 15,
@@ -113,14 +115,16 @@ const styles = StyleSheet.create({
   },
   fbLoginText: {
     color: '#3B5998',
+    backgroundColor: 'transparent',
     fontSize: 18,
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
-    top: -42,
+    top: -50,
     lineHeight: 30,
     left: 20,
   },
   fbLoginIcon: {
+    backgroundColor: 'transparent',
     top: -17,
     left: 60,
   },
@@ -188,7 +192,7 @@ class IntroComp extends Component {
               color="#3B5998"
               style={this.styles.fbLoginIcon}
             />
-            <Text style={this.styles.fbLoginText} onPress={Actions.registerForm}>
+            <Text style={this.styles.fbLoginText} onPress={API.Authentication.login}>
               Login with Facebook
             </Text>
           </View>

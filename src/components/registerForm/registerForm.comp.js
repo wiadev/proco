@@ -15,6 +15,7 @@ import {
 import DatePicker from 'react-native-datepicker';
 import { loadPage, registerAccount } from './registerForm.reducer';
 import store from './../../store/configureStore';
+import Header from './../header/header';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -38,22 +39,22 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
   },
   leftButtonTextStyle: {
+    backgroundColor: 'transparent',
     color: 'white',
-    left: 20,
     width: 30,
-    top: 30,
   },
   logo: {
-    transform: [{ scale: 0.8 }],
+    transform: [{ scale: 0.6 }],
     alignSelf: 'center',
     flex: 0,
-    top: -15,
+    top: 8,
     left: -5,
   },
   infoBox: {
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'flex-start',
-    height: 75,
+    paddingTop: 15,
+    height: 100,
     flexDirection: 'row',
     top: 50,
   },
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     justifyContent: 'center',
-    bottom: -70,
+    bottom: -150,
     alignItems: 'center',
     width,
   },
@@ -92,13 +93,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Light',
     color: 'rgba(255, 255, 255, 0.5)',
     fontSize: 11,
+    backgroundColor: 'transparent',
     textDecorationLine: 'underline',
   },
   email: {
     borderWidth: 0,
   },
   emailLabel: {
-    color: 'rgba(255, 255, 255, 0.4)',
+    color: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'transparent',
     fontFamily: 'Montserrat-Regular',
     fontSize: 11,
   },
@@ -106,6 +109,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Light',
     color: 'white',
     fontSize: 26,
+    height: 35,
+    marginTop: 10,
+    width,
   },
   datepicker: {
     width,
@@ -122,15 +128,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Montserrat-Regular',
     fontSize: 16,
-    right: 25,
-    position: 'absolute',
-    top: 30,
+    backgroundColor: 'transparent',
   },
   header: {
     flex: 0,
     flexDirection: 'column',
     justifyContent: 'center',
-    height: 70,
+    height: 50,
     width,
   },
 });
@@ -149,6 +153,7 @@ const dpCustom = StyleSheet.create({
     borderColor: 'transparent',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    marginTop: 5,
   },
   dateText: {
     fontFamily: 'Montserrat-Light',
@@ -205,19 +210,22 @@ class registerFormComp extends Component {
     return (
       <View style={this.styles.container}>
         <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.linearGradient}>
-          <View style={this.styles.header}>
-            <Icon
-              name="angle-left"
-              size={42}
-              color="#FFFFFF"
-              style={this.styles.leftButtonTextStyle}
-              onPress={::this.onClickBack}
-            />
-            <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
-            <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
-              Next
-            </Text>
-          </View>
+          <Header
+            leftContainer={
+              <Icon
+                name="angle-left"
+                size={42}
+                color="#FFFFFF"
+                style={this.styles.leftButtonTextStyle}
+                onPress={::this.onClickBack}
+              />
+            }
+            rightContainer={
+              <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
+                Next
+              </Text>
+            }
+          />
 
           <View style={this.styles.infoBox}>
             <View style={this.styles.leftBox}>
