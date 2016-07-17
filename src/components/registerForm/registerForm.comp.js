@@ -12,7 +12,7 @@ import {
   MKTextField,
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
-import { loadPage, registerAccount } from './registerForm.reducer';
+import { loadPage, registerAccount, verifyAccount } from './registerForm.reducer';
 import store from './../../store/configureStore';
 import Header from './../header/header';
 import Picker from 'react-native-picker';
@@ -213,6 +213,7 @@ class registerFormComp extends Component {
     date: '01/01/1990',
     email: '',
     gender: null,
+    showVerify: false,
   };
 
   componentDidMount() {
@@ -221,11 +222,18 @@ class registerFormComp extends Component {
 
   onRightClick() {
     store.dispatch(registerAccount(this.state.date, this.state.email, this.state.gender));
-    Actions.mainScreen();
+    this.setState({
+      showVerify: true,
+    });
   }
 
   onClickBack() {
     Actions.intro();
+  }
+
+  onClickVerify() {
+    store.dispatch(verifyAccount());
+    Actions.mainScreen();
   }
 
   render() {
@@ -337,7 +345,9 @@ class registerFormComp extends Component {
               });
             }}
           />
-          <MailVerifyModalComp />
+          {this.state.showVerify ? (
+            <MailVerifyModalComp onVerifyClick={this.onClickVerify} />
+          ) : null}
         </LinearGradient>
       </View>
     );

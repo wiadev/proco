@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   Image,
+  PixelRatio,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
@@ -17,6 +18,7 @@ import IconM from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import Header from './../header/header';
 import MessageCountIcon from './../messageCountIcon/messageCountIcon';
+import { getCorrectFontSizeForScreen } from './../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
   },
   menuList: {
     position: 'relative',
-    top: 300,
+    top: height * 0.45,
   },
   menuItem: {
     marginBottom: 30,
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
   menuItemText: {
     color: 'white',
     fontFamily: 'Montserrat-Light',
-    fontSize: 24,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 20),
     textAlign: 'center',
   },
   avatar: {
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     width: 160,
     margin: 0,
     position: 'absolute',
-    top: 120,
+    top: height * 0.175,
     borderRadius: 80,
     borderWidth: 2,
     borderColor: 'white',

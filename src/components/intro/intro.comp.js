@@ -5,18 +5,16 @@ import {
   View,
   Dimensions,
   Image,
-  TouchableHighlight,
+  PixelRatio,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import {
-  LoginButton,
-} from 'react-native-fbsdk';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { loadPage } from './intro.reducer';
 import store from './../../store/configureStore';
 import API from '../../api';
+import { getCorrectFontSizeForScreen } from './../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -107,7 +105,7 @@ const styles = StyleSheet.create({
   },
   fbLoginView: {
     backgroundColor: 'white',
-    width: 340,
+    width: width * 80 / 100,
     height: 45,
     justifyContent: 'center',
     borderRadius: 50,
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
   fbLoginText: {
     color: '#3B5998',
     backgroundColor: 'transparent',
-    fontSize: 18,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 16),
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
     top: -50,
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
   fbLoginIcon: {
     backgroundColor: 'transparent',
     top: -17,
-    left: 60,
+    left: getCorrectFontSizeForScreen(PixelRatio, width, height, 30),
   },
 });
 

@@ -5,11 +5,13 @@ import {
   Dimensions,
   Image,
   Text,
+  PixelRatio,
 } from 'react-native';
 import { BlurView } from 'react-native-blur';
 import {
   MKTextField,
 } from 'react-native-material-kit';
+import { getCorrectFontSizeForScreen } from './../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -39,29 +41,28 @@ const styles = StyleSheet.create({
     height: popupHeight,
     borderRadius: 11,
     padding: 10,
+    paddingTop: 5,
     alignItems: 'center',
   },
   password: {
     borderWidth: 0,
-    height: 80,
+    width: 150,
   },
-  passwordArea: {
-    backgroundColor: 'green',
-    height: 80,
-  },
+  passwordArea: {},
   passwordTxt: {
     fontFamily: 'Montserrat-Light',
     color: 'rgb(5,5,6)',
     fontSize: 26,
-    marginTop: 30,
-    height: 80,
-    backgroundColor: 'red',
+    marginTop: 15,
+    height: 50,
+    marginBottom: 15,
+    textAlign: 'center',
   },
   headText: {
     fontFamily: 'Montserrat-Regular',
     color: 'rgb(51,205,153)',
-    fontSize: 20,
-    marginTop: 10,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 18),
+    marginTop: 5,
     alignSelf: 'center',
     textAlign: 'center',
   },
@@ -85,23 +86,45 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     color: 'white',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 16),
+  },
+  error: {
+    fontFamily: 'Montserrat-Regular',
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 12,
+    opacity: 0,
+  },
+  image: {
+    height: height * 0.3,
   },
 });
 
 class MailVerifyModalComp extends Component {
+
+  static propTypes = {
+    onVerifyClick: React.PropTypes.any,
+  };
+
+  static defaultProps = {
+    onVerifyClick: null,
+  };
 
   constructor(props) {
     super(props);
     this.styles = styles;
   }
 
+  state = {
+    email: null,
+  };
+
   render() {
     return (
       <View style={this.styles.popup}>
         <BlurView blurType="light" style={this.styles.blurView}>
           <View style={this.styles.popupInside}>
-            <Image source={require('./../../images/grofersBeeVisuals.png')} />
+            <Image resizeMode={'contain'} source={require('./../../images/grofersBeeVisuals.png')} style={this.styles.image} />
             <Text style={this.styles.headText}>We'll need to verify your school e-mail.</Text>
             <Text style={this.styles.descriptionText}>
               You can easily do that by either entering the code we’ve just
@@ -112,19 +135,26 @@ class MailVerifyModalComp extends Component {
                 autoCapitalize={'characters'}
                 autoCorrect={false}
                 keyboardType={'numeric'}
-                tintColor={'red'}
+                tintColor={'transparent'}
                 textInputStyle={this.styles.passwordTxt}
-                placeholder="XXX XXX"
-                value="XXX XXX"
+                placeholder="XXXXXX"
                 style={this.styles.password}
-                underlineEnabled={true}
-                placeholderTextColor={'rgb(5,5,6)'}
+                underlineEnabled={false}
+                placeholderTextColor={'rgb(180, 180, 190)'}
                 onTextChange={(email) => { this.setState({ email }); }}
+                maxHeight={6}
               />
             </View>
-            <View style={this.styles.verifyButton}>
-              <Text style={this.styles.verifyButtonTxt}>Verify School E-mail</Text>
+            <View
+              style={this.styles.verifyButton}
+              pointerEvents={'box-none'}
+            >
+              <Text
+                style={this.styles.verifyButtonTxt}
+                onPress={this.props.onVerifyClick}
+              >Verify School E-mail</Text>
             </View>
+            <Text style={this.styles.error}>*Wrong Code, please try again in a minute</Text>
           </View>
         </BlurView>
       </View>

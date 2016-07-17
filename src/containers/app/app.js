@@ -10,6 +10,10 @@ import discoverySettingsScreen from './../../components/discoverySettingsScreen/
 import moreSettingsScreen from './../../components/moreSettingsScreen/moreSettingsScreen';
 import messagesListScreen from './../../components/messagesListScreen/messagesListScreen';
 import talkScreen from './../../components/talkScreen/talkScreen';
+import cameraPermissionScreen from './../../components/cameraPermissionScreen/cameraPermissionScreen';
+import askQuestionPermissionScreen from './../../components/askQuestionPermissionScreen/askQuestionPermissionScreen';
+import notificationPermissionScreen from './../../components/notificationPermissionScreen/notificationPermissionScreen';
+import shootLoopPermissionScreen from './../../components/shootLoopPermissionScreen/shootLoopPermissionScreen';
 
 class App extends Component {
   render() {
@@ -17,8 +21,8 @@ class App extends Component {
       <Router>
         <Scene key="root">
           <Scene key="intro" component={Intro} hideNavBar={true} initial={false} />
-          <Scene key="registerForm" component={RegisterForm} hideNavBar={true} initial={true} />
-          <Scene key="mainScreen" component={MainScreen} hideNavBar={true} initial={false} />
+          <Scene key="registerForm" component={RegisterForm} hideNavBar={true} initial={false} />
+          <Scene key="mainScreen" component={MainScreen} hideNavBar={true} initial={true} />
           <Scene
             key="updateYourQuestionScreen"
             component={updateYourQuestionScreen}
@@ -52,6 +56,30 @@ class App extends Component {
           <Scene
             key="talkScreen"
             component={talkScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="cameraPermissionScreen"
+            component={cameraPermissionScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="askQuestionPermissionScreen"
+            component={askQuestionPermissionScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="notificationPermissionScreen"
+            component={notificationPermissionScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="shootLoopPermissionScreen"
+            component={shootLoopPermissionScreen}
             hideNavBar={true}
             initial={false}
           />

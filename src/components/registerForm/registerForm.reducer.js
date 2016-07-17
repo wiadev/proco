@@ -4,6 +4,7 @@ import { Map } from 'immutable';
 const LOADED = 'hello/registerform/LOADED';
 const REGISTERED = 'hello/registerform/REGISTERED';
 const PAGECHANGED = 'hello/registerform/PAGECHANGED';
+const VERIFIED = 'hello/registerform/VERIFIED';
 
 // Reducer
 const defState = Map({
@@ -13,6 +14,7 @@ const defState = Map({
   page: 'mainScreen',
   pageX: 1,
   pageY: 1,
+  isVerified: false,
 });
 
 export default function reducer(state = defState, action = {}) {
@@ -28,6 +30,8 @@ export default function reducer(state = defState, action = {}) {
       return state.set('page', action.values.pageName)
                   .set('pageX', action.values.pageX)
                   .set('pageY', action.values.pageY);
+    case VERIFIED:
+      return state.set('isVerified', true);
   }
 }
 
@@ -55,4 +59,8 @@ export function changedPage(pageName) {
       break;
   }
   return { type: PAGECHANGED, values: { pageX, pageY, pageName } };
+}
+
+export function verifyAccount() {
+  return { type: VERIFIED };
 }
