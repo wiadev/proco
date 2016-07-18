@@ -152,7 +152,7 @@ class IntroComp extends Component {
           error,
           [
             {text: 'Try again', onPress: () => self.startLogin},
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+            {text: 'Cancel', onPress: () => Actions.registerForm, style: 'cancel'},
           ]
         );
       });
