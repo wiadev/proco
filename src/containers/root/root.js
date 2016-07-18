@@ -1,15 +1,21 @@
 /* @flow */
 
 import React, { Component } from 'react';
+import { AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import store from '../../store/configureStore';
 import App from '../app/app';
 import API from '../../api';
 
 class Root extends Component {
-
   componentDidMount() {
-    API.Initiliazer();
+    AppState.addEventListener('change', API.handleAppStateChange);
+
+    API.handleAppStateChange('active');
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', API.handleAppStateChange);
   }
   
   render() {

@@ -12,7 +12,7 @@ const login = () => {
     return LoginManager.logInWithReadPermissions(['public_profile', 'user_likes', 'user_friends', 'user_birthday']).then(
       (result) => {
         if (result.isCancelled) {
-          reject('cancelled');
+          reject('Login was cancelled by you.');
         } else {
           return AccessToken.getCurrentAccessToken().then(
             (data) => {
@@ -27,7 +27,7 @@ const login = () => {
         }
       },
       (error) => {
-        alert('Login fail with error: ' + error);
+        reject(error);
       }
     );
 

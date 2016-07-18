@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   PixelRatio,
+  Alert,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
@@ -139,14 +140,21 @@ class IntroComp extends Component {
     store.dispatch(loadPage());
   }
 
-
   startLogin () {
+    const self = this;
     API.Authentication.login()
       .then(() => {
         Actions.registerForm();
       })
-      .catch(() => {
-        alert("There was an error with your login.")
+      .catch((error) => {
+        Alert.alert(
+          'Login Problem',
+          error,
+          [
+            {text: 'Try again', onPress: () => self.startLogin},
+            {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          ]
+        );
       });
   }
 
