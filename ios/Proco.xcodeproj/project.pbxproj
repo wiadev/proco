@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -31,6 +32,7 @@
 		5852F5D441C74B38AEF65540 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94493B388B444A368AA9A50F /* FontAwesome.ttf */; };
 		63437157191E4897B7492257 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4E755EA2E0941EE9D3F0DEE /* EvilIcons.ttf */; };
 		7400651A354145FE898F93BB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 363063507BC447CBA749F317 /* libz.tbd */; };
+		7445605730C2417A917FCF56 /* libRNMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C043295009D4CCDB6D5A955 /* libRNMediaPlayer.a */; };
 		74A831B71D1D8BC600CC1517 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A831B41D1D8BC600CC1517 /* FBSDKCoreKit.framework */; };
 		74A831B81D1D8BC600CC1517 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A831B51D1D8BC600CC1517 /* FBSDKLoginKit.framework */; };
 		74A831B91D1D8BC600CC1517 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A831B61D1D8BC600CC1517 /* FBSDKShareKit.framework */; };
@@ -51,7 +53,6 @@
 		BEC2DA28BB8B41059805CA93 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BFD308A7FD54498870A1CD1 /* libRCTCamera.a */; };
 		CD8C09EC609942EE9A03367C /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EB6F890EA5F442DBC4D61A0 /* libBVLinearGradient.a */; };
 		EC6B178600E366612AA1531F /* libPods-Proco.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F636ACDCB0A340C1777739AD /* libPods-Proco.a */; };
-		7445605730C2417A917FCF56 /* libRNMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C043295009D4CCDB6D5A955 /* libRNMediaPlayer.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,6 +182,13 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
+		74E337901D3CDBF90071DBC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6AA547EA31F4A178322928D /* RNMediaPlayer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 56C0CD761C6444FE006E08C2;
+			remoteInfo = RNMediaPlayer;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -222,6 +230,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1B532F6003CF4E5788F1CE60 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		255B0305115448589882378D /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
+		2C043295009D4CCDB6D5A955 /* libRNMediaPlayer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMediaPlayer.a; sourceTree = "<group>"; };
 		2C547865A3E945BF95572D46 /* RCTMaterialKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTMaterialKit.xcodeproj; path = "../node_modules/react-native-material-kit/iOS/RCTMaterialKit.xcodeproj"; sourceTree = "<group>"; };
 		333540B1BAD44230A8FC3DEF /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		363063507BC447CBA749F317 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -257,10 +266,9 @@
 		B4E755EA2E0941EE9D3F0DEE /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		C0BDB91ABDE247DEB3E2BDD0 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		C0CDE0FDE23A489F9437D622 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
+		C6AA547EA31F4A178322928D /* RNMediaPlayer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMediaPlayer.xcodeproj; path = "../node_modules/react-native-media-player/ios/RNMediaPlayer.xcodeproj"; sourceTree = "<group>"; };
 		F636ACDCB0A340C1777739AD /* libPods-Proco.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Proco.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD5BD6422A9E41FFA05E0D2B /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
-		C6AA547EA31F4A178322928D /* RNMediaPlayer.xcodeproj */ = {isa = PBXFileReference; name = "RNMediaPlayer.xcodeproj"; path = "../node_modules/react-native-media-player/ios/RNMediaPlayer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		2C043295009D4CCDB6D5A955 /* libRNMediaPlayer.a */ = {isa = PBXFileReference; name = "libRNMediaPlayer.a"; path = "libRNMediaPlayer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -485,6 +493,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		74E3377B1D3CDBF70071DBC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				74E337911D3CDBF90071DBC7 /* libRNMediaPlayer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,7 +647,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 610;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -731,6 +747,10 @@
 				{
 					ProductGroup = 74B75E351D2A2822004B5023 /* Products */;
 					ProjectRef = 04A2A3A700C34169B2C9CD70 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 74E3377B1D3CDBF70071DBC7 /* Products */;
+					ProjectRef = C6AA547EA31F4A178322928D /* RNMediaPlayer.xcodeproj */;
 				},
 				{
 					ProductGroup = 74A831AE1D1D8AEF00CC1517 /* Products */;
@@ -863,6 +883,13 @@
 			fileType = archive.ar;
 			path = libRNImagePicker.a;
 			remoteRef = 74B75E481D2A2822004B5023 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		74E337911D3CDBF90071DBC7 /* libRNMediaPlayer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMediaPlayer.a;
+			remoteRef = 74E337901D3CDBF90071DBC7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -1159,6 +1186,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
