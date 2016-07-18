@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     backgroundColor: 'transparent',
     alignItems: 'flex-start',
-    paddingLeft: 12,
   },
   rowItemImage: {
     height: 56,

@@ -148,6 +148,13 @@ const styles = StyleSheet.create({
     marginTop: -12,
     marginRight: -15,
   },
+  underMessage: {
+    fontFamily: 'Montserrat-Light',
+    fontSize: 12,
+    color: 'rgb(135, 129, 129)',
+    padding: 5,
+    paddingLeft: 10,
+  },
 });
 
 class moreSettingsScreenComp extends Component {
@@ -217,6 +224,7 @@ class moreSettingsScreenComp extends Component {
               >{this.state.birthday}</Text>
             </View>
           </View>
+          <Text style={this.styles.underMessage}>You can only change your birthdate once</Text>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
               <Text style={this.styles.pinkText}>School</Text>
@@ -227,6 +235,7 @@ class moreSettingsScreenComp extends Component {
               >{this.state.school}</Text>
             </View>
           </View>
+          <Text style={this.styles.underMessage}>No longer a __UNIVERSITY__ student? Tap here.</Text>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
               <Text style={[this.styles.blackText, { fontSize: 14 }]}>Suspend Discovery</Text>
@@ -245,6 +254,11 @@ class moreSettingsScreenComp extends Component {
               />
             </View>
           </View>
+          <Text style={this.styles.underMessage}>
+            When you suspend discovery, you'll no longer recieve answers
+            or will be able to answer questions. You'll still be able to
+            chat with current matches.
+          </Text>
           <View style={[this.styles.inputBox, {
             flexDirection: 'column',
             alignItems: 'flex-start',

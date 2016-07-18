@@ -6,6 +6,7 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
+  PixelRatio,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, saveDiscoverySettings } from './discoverySettingsScreen.reducer';
@@ -16,10 +17,10 @@ import Picker from 'react-native-picker';
 import {
   MKRangeSlider,
   MKRadioButton,
-  MKSwitch,
   setTheme,
 } from 'react-native-material-kit';
 import { round } from 'lodash';
+import { getCorrectFontSizeForScreen } from './../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -265,11 +266,11 @@ class discoverySettingsScreenComp extends Component {
                 checked={this.state.onlyFromSchool}
                 group={this.groupRdSchool}
               />
-              <Text style={[this.styles.blackText, { fontSize: 14 }]} onPress={() => {
+              <Text style={[this.styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({
                   onlyFromSchool: true,
                 });
-              }}>Only show people from Boğaziçi University</Text>
+              }}>Only show people from my university</Text>
             </View>
             <View style={{
               flexDirection: 'row',
@@ -279,61 +280,11 @@ class discoverySettingsScreenComp extends Component {
                 checked={!this.state.onlyFromSchool}
                 group={this.groupRdSchool}
               />
-              <Text style={[this.styles.blackText, { fontSize: 14 }]} onPress={() => {
+              <Text style={[this.styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({
                   onlyFromSchool: false,
                 });
               }}>Show people from other universites too</Text>
-            </View>
-          </View>
-          <View style={[this.styles.inputBox, {
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-          }]}>
-            <Text style={[this.styles.pinkText, { marginBottom: 10 }]}>Other</Text>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-              <View style={[this.styles.inputBoxLeft, {
-                width: (width - 28) * 60 / 100,
-              }]}>
-                <Text style={[this.styles.blackText, { fontSize: 14 }]}>Show my friends in Discovery</Text>
-              </View>
-              <View style={[this.styles.inputBoxRight, {
-                width: (width - 28) * 40 / 100,
-              }]}>
-                <MKSwitch
-                  style={{ alignSelf: 'flex-end' }}
-                  onCheckedChange={(e) => {
-                    this.setState({
-                      showFriendsInDiscovery: e.checked,
-                    });
-                  }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
-                  checked={this.state.showFriendsInDiscovery}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={[this.styles.inputBox, {
-            padding: 0,
-          }]}>
-            <View style={this.styles.pinkHead}>
-              <View style={[this.styles.inputBoxLeft, {
-                width: width * 75 / 100,
-                flex: 0,
-              }]}>
-                <Text style={this.styles.pinkHeadText}>Tell us more about yourself to see more likeminded people in Discovery</Text>
-              </View>
-              <View style={[this.styles.inputBoxRight]}>
-                <Icon
-                  name="angle-down"
-                  size={42}
-                  color="rgba(0, 0, 0, 0.3)"
-                />
-              </View>
             </View>
           </View>
         </ScrollView>

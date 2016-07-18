@@ -7,6 +7,7 @@ import {
   StatusBar,
   ScrollView,
   Image,
+  ActionSheetIOS,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, receivedMessage, sentMessage } from './talkScreen.reducer';
@@ -186,6 +187,29 @@ class talkScreenComp extends Component {
     this.refs.ChatComponent.onChangeText('');
   }
 
+  showActionSheet() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [
+        'Mute Notifications',
+        'Delete Conversation',
+        'Unmatch',
+        'Report & Block User',
+        'Cancel',
+      ],
+      cancelButtonIndex: 4,
+    },
+    (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+          console.log('buttonIndex ' + buttonIndex);
+          break;
+      }
+    });
+  }
+
   render() {
     return (
       <View style={this.styles.preview}>
@@ -219,7 +243,12 @@ class talkScreenComp extends Component {
             </View>
           </View>
           <View style={this.styles.topMenuRight}>
-            <Text style={this.styles.btnSave} />
+            <Icon
+              name="navicon"
+              size={24}
+              color="rgba(0, 0, 0, 0.3)"
+              onPress={::this.showActionSheet}
+            />
           </View>
         </View>
         <ScrollView>
