@@ -14,6 +14,7 @@ import cameraPermissionScreen from './../../components/cameraPermissionScreen/ca
 import askQuestionPermissionScreen from './../../components/askQuestionPermissionScreen/askQuestionPermissionScreen';
 import notificationPermissionScreen from './../../components/notificationPermissionScreen/notificationPermissionScreen';
 import shootLoopPermissionScreen from './../../components/shootLoopPermissionScreen/shootLoopPermissionScreen';
+import updateYourSchoolScreen from './../../components/updateYourSchoolScreen/updateYourSchoolScreen';
 
 class App extends Component {
   render() {
@@ -80,6 +81,12 @@ class App extends Component {
           <Scene
             key="shootLoopPermissionScreen"
             component={shootLoopPermissionScreen}
+            hideNavBar={true}
+            initial={false}
+          />
+          <Scene
+            key="updateYourSchoolScreen"
+            component={updateYourSchoolScreen}
             hideNavBar={true}
             initial={false}
           />

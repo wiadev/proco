@@ -207,7 +207,7 @@ class moreSettingsScreenComp extends Component {
             />
           </View>
           <View style={this.styles.topMenuMid}>
-            <Text style={this.styles.menuTitle}>More</Text>
+            <Text style={this.styles.menuTitle}>Settings</Text>
           </View>
           <View style={this.styles.topMenuRight}>
             <Text style={this.styles.btnSave} onPress={::this.onSave}>Save</Text>
@@ -235,7 +235,7 @@ class moreSettingsScreenComp extends Component {
               >{this.state.school}</Text>
             </View>
           </View>
-          <Text style={this.styles.underMessage}>No longer a __UNIVERSITY__ student? Tap here.</Text>
+          <Text onPress={Actions.updateYourSchoolScreen} style={this.styles.underMessage}>No longer a __UNIVERSITY__ student? Tap here.</Text>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
               <Text style={[this.styles.blackText, { fontSize: 14 }]}>Suspend Discovery</Text>
