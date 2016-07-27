@@ -13,6 +13,7 @@ import { loadPage, defaultState, saveMoreSettings } from './moreSettingsScreen.r
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 import Picker from 'react-native-picker';
 import {
   MKRangeSlider,
@@ -258,6 +259,42 @@ class moreSettingsScreenComp extends Component {
           </View>
         </View>
         <ScrollView>
+          <View style={[{
+            flexDirection: 'column',
+            width,
+            marginTop: 5,
+            marginBottom: -5,
+            padding: 10,
+            flex: 0,
+            alignItems: 'center',
+          }]}>
+            <View style={{
+              flex: 0,
+              width: width - 28,
+              flexDirection: 'row',
+            }}>
+              <View style={[this.styles.inputBoxLeft, {
+                alignItems: 'flex-start',
+                width: (width - 28) * 15 / 100,
+                flex: 0,
+              }]}>
+                <IconM name="info-outline" size={42} color="rgba(0, 0, 0, 0.3)" />
+              </View>
+              <View style={[this.styles.inputBoxRight, {
+                alignItems: 'flex-start',
+                width: (width - 28) * 85 / 100,
+                flex: 0,
+                justifyContent: 'flex-start',
+                flexDirection: 'column'
+              }]}>
+                <Text style={[this.styles.blackText, { fontSize: 12 }]}>
+                  We synchronize your name, gender and birthdate from your facebook profile.
+                  You've changed it there and can't see the changes here?
+                  <Text style={{color: 'rgb(249,59,95)'}}> Tap here sync.</Text>
+                </Text>
+              </View>
+            </View>
+          </View>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
               <Text style={this.styles.pinkText}>Birthday</Text>

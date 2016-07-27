@@ -13,6 +13,7 @@ import { loadPage, defaultState, updateYourSchool } from './updateYourSchoolScre
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 import {
   MKTextField,
 } from 'react-native-material-kit';
@@ -221,7 +222,7 @@ class updateYourSchoolScreenComp extends Component {
                 width: (width - 28) * 15 / 100,
                 flex: 0,
               }]}>
-                <Icon name="info-circle" size={42} color="#FFFFFF" />
+                <IconM name="info-outline" size={42} color="#FFFFFF" />
               </View>
               <View style={[this.styles.inputBoxRight, {
                 alignItems: 'flex-start',

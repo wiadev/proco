@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 import {
   MKTextField,
@@ -259,7 +260,7 @@ class registerFormComp extends Component {
 
           <View style={this.styles.infoBox}>
             <View style={this.styles.leftBox}>
-              <Icon name="info-circle" size={42} color="#FFFFFF" />
+              <IconM name="info-outline" size={42} color="#FFFFFF" />
             </View>
             <View style={this.styles.rightBox}>
               <Text style={this.styles.rightBoxText}>
