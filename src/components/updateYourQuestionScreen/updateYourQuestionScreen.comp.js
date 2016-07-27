@@ -13,11 +13,10 @@ import { loadPage, defaultState, questionChanged } from './updateYourQuestionScr
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Header from './../header/header';
-import MessageCountIcon from './../messageCountIcon/messageCountIcon';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   MKTextField,
 } from 'react-native-material-kit';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -62,6 +61,9 @@ const styles = StyleSheet.create({
   },
   textBoxLabel: {
     fontFamily: 'Montserrat-Light',
+  },
+  leftButtonTextStyle: {
+    marginLeft: 10,
   },
 });
 
@@ -121,15 +123,6 @@ class updateYourQuestionScreenComp extends Component {
   }
 
   render() {
-    const states = store.getState().mainScreenReducer;
-
-    let rightContainerHeader = null;
-    if (states.get('messageCount') > 0) {
-      rightContainerHeader = (
-        <MessageCountIcon messageCount={states.get('messageCount')} />
-      );
-    }
-
     return (
       <View style={[this.styles.preview, {
         height: this.state.visibleHeight
@@ -145,11 +138,12 @@ class updateYourQuestionScreenComp extends Component {
           }]}
         >
           <Header
-            rightContainer={rightContainerHeader}
+            hideRight={true}
+            hideMid={true}
             leftContainer={
-              <Icon
-                name="angle-left"
-                size={42}
+              <Ionicons
+                name="ios-close"
+                size={60}
                 color="#FFFFFF"
                 style={this.styles.leftButtonTextStyle}
                 onPress={() => {

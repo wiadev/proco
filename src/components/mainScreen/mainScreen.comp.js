@@ -43,17 +43,17 @@ const styles = StyleSheet.create({
     width,
   },
   answerButton: {
-    width: 150,
-    height: 150,
+    width: 50,
+    height: 50,
     backgroundColor: 'white',
     position: 'absolute',
-    bottom: -65,
-    right: -65,
+    bottom: 15,
+    right: 20,
     borderRadius: 100,
   },
   answerIcon: {
-    top: 25,
-    left: -80,
+    top: 13,
+    left: -15,
     backgroundColor: 'transparent',
     transform: [{
       rotateY: '180deg',
@@ -265,7 +265,7 @@ class mainScreenComp extends Component {
               <View style={this.styles.answerButton}>
                 <Icon
                   name="comment"
-                  size={44}
+                  size={22}
                   color="#F9365F"
                   style={this.styles.answerIcon}
                 />

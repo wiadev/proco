@@ -82,6 +82,36 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
   },
+  buttonList: {
+    flex: 0,
+    width: popupWidth * 80 / 100,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    height: 0,
+    opacity: 0,
+  },
+  backBtn: {
+    flex: 1,
+    borderRadius: 50,
+    backgroundColor: '#fff',
+    height: 50,
+    justifyContent: 'center',
+    padding: 10,
+    alignSelf: 'auto',
+    borderWidth: 1,
+    borderColor: '#fa3f6a',
+    marginRight: 15,
+  },
+  resendBtn: {
+    flex: 1,
+    borderRadius: 50,
+    backgroundColor: '#fa3f6a',
+    height: 50,
+    justifyContent: 'center',
+    padding: 10,
+    alignSelf: 'auto',
+  },
   verifyButtonTxt: {
     fontFamily: 'Montserrat-Regular',
     color: 'white',
@@ -153,6 +183,30 @@ class MailVerifyModalComp extends Component {
                 style={this.styles.verifyButtonTxt}
                 onPress={this.props.onVerifyClick}
               >Verify School E-mail</Text>
+            </View>
+            <View style={this.styles.buttonList}>
+              <View
+                style={this.styles.backBtn}
+                pointerEvents={'box-none'}
+              >
+                <Text
+                  style={[this.styles.verifyButtonTxt, {
+                    color: '#fa3f6a',
+                  }]}
+                  onPress={this.props.onVerifyClick}
+                >Back</Text>
+              </View>
+              <View
+                style={this.styles.resendBtn}
+                pointerEvents={'box-none'}
+              >
+                <Text
+                  style={[this.styles.verifyButtonTxt, {
+                    color: '#ffffff',
+                  }]}
+                  onPress={this.props.onVerifyClick}
+                >Re-send</Text>
+              </View>
             </View>
             <Text style={this.styles.error}>*Wrong Code, please try again in a minute</Text>
           </View>

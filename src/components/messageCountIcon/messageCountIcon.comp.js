@@ -23,12 +23,13 @@ const styles = StyleSheet.create({
   },
   messageDot: {
     color: '#F9365F',
-    left: -37,
+    left: -36,
     top: -8,
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 
@@ -41,6 +42,7 @@ class MessageCountIconComp extends Component {
     showEmpty: React.PropTypes.bool,
     styles: React.PropTypes.object,
     textStyles: React.PropTypes.object,
+    messageDot: React.PropTypes.object,
     size: React.PropTypes.number,
   };
 
@@ -53,6 +55,7 @@ class MessageCountIconComp extends Component {
     showEmpty: true,
     styles: {},
     textStyles: {},
+    messageDot: {},
   };
 
   constructor(props) {
@@ -83,7 +86,7 @@ class MessageCountIconComp extends Component {
               name="circle"
               size={12}
               color={this.props.textColor}
-              style={this.styles.messageDot}
+              style={[this.styles.messageDot, this.props.messageDot]}
             />
           )
         }

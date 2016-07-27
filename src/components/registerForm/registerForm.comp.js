@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     justifyContent: 'center',
-    bottom: -150,
+    bottom: -50,
     alignItems: 'center',
     width,
   },
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   emailBox: {
-    marginTop: 20,
+    marginTop: 32,
     paddingLeft: 20,
   },
   btnNext: {

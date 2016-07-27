@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#dadada',
+    backgroundColor: '#f6f6f6',
   },
   topMenu: {
     paddingTop: 20,
@@ -188,6 +188,7 @@ class messagesListScreenComp extends Component {
           <View style={this.styles.rowItemRight}>
             <MessageCountIcon
               messageCount={rowData.messageCount}
+              messageDot={{borderColor: 'white'}}
               textColor={rowData.messageCount ? 'rgb(249,54,95)' : 'rgb(209,213,217)'}
               textStyles={rowData.messageCount ? {color: 'white', fontSize: 12, left: -31} : {color: 'transparent'}}
               showEmpty={false}

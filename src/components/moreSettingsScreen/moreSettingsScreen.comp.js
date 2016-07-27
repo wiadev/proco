@@ -6,6 +6,7 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
+  Image,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, saveMoreSettings } from './moreSettingsScreen.reducer';
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#dadada',
+    backgroundColor: '#f6f6f6',
   },
   topMenu: {
     paddingTop: 20,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgb(206,206,206)',
+    borderColor: '#dadbda',
   },
   inputBoxLeft: {
     flex: 1,
@@ -137,16 +138,18 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   mkSwitch: {
+    position: 'relative',
     alignSelf: 'flex-end',
     height: 55,
-    marginTop: 0,
-    marginRight: -15,
+    top: 15,
+    marginRight: 0,
   },
   mkSwitch2: {
     alignSelf: 'flex-end',
-    height: 45,
-    marginTop: -12,
-    marginRight: -15,
+    height: 25,
+    top: -5,
+    marginRight: 0,
+    position: 'relative',
   },
   underMessage: {
     fontFamily: 'Montserrat-Light',
@@ -154,6 +157,47 @@ const styles = StyleSheet.create({
     color: 'rgb(135, 129, 129)',
     padding: 5,
     paddingLeft: 10,
+  },
+  appLogoBottom: {
+    width,
+    justifyContent: 'center',
+    padding: 30,
+    alignItems: 'center',
+  },
+  companyLogoBottom: {
+    width,
+    justifyContent: 'center',
+    padding: 30,
+    alignItems: 'center',
+  },
+  companyLogoBottomText: {
+    color: '#2d2d2d',
+    fontSize: 18,
+    marginTop: 15,
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: 'Montserrat-Light',
+  },
+  scrollView: {
+    marginTop: 10,
+    width: width - 20,
+    marginBottom: 10,
+    height: 70,
+  },
+  avatar: {
+    height: 60,
+    width: 60,
+    margin: 0,
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: 'white',
+    overflow: 'hidden',
+    marginLeft: 5,
+  },
+  avatarImage: {
+    width: 60,
+    height: 60,
+    margin: 0,
   },
 });
 
@@ -210,7 +254,7 @@ class moreSettingsScreenComp extends Component {
             <Text style={this.styles.menuTitle}>Settings</Text>
           </View>
           <View style={this.styles.topMenuRight}>
-            <Text style={this.styles.btnSave} onPress={::this.onSave}>Save</Text>
+            <Text style={this.styles.btnSave} onPress={::this.onSave}>Done</Text>
           </View>
         </View>
         <ScrollView>
@@ -235,7 +279,8 @@ class moreSettingsScreenComp extends Component {
               >{this.state.school}</Text>
             </View>
           </View>
-          <Text onPress={Actions.updateYourSchoolScreen} style={this.styles.underMessage}>No longer a __UNIVERSITY__ student? Tap here.</Text>
+          <Text onPress={Actions.updateYourSchoolScreen} style={this.styles.underMessage}>No longer a __UNIVERSITY__ student?
+          <Text style={{color: 'rgb(249,59,95)'}}> Tap here.</Text></Text>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
               <Text style={[this.styles.blackText, { fontSize: 14 }]}>Suspend Discovery</Text>
@@ -248,9 +293,10 @@ class moreSettingsScreenComp extends Component {
                     suspendDiscovery: e.checked,
                   });
                 }}
-                onColor={'rgb(249,59,95)'}
-                thumbOnColor={'rgb(255, 212, 220)'}
+                onColor={'#43da5e'}
+                thumbOnColor={'white'}
                 checked={this.state.suspendDiscovery}
+                trackSize={32}
               />
             </View>
           </View>
@@ -283,9 +329,10 @@ class moreSettingsScreenComp extends Component {
                       newMessagesFromMatches: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.newMessagesFromMatches}
+                  trackSize={32}
                 />
               </View>
             </View>
@@ -308,9 +355,10 @@ class moreSettingsScreenComp extends Component {
                       newMessages: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.newMessages}
+                  trackSize={32}
                 />
               </View>
             </View>
@@ -333,9 +381,10 @@ class moreSettingsScreenComp extends Component {
                       newAnswers: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.newAnswers}
+                  trackSize={32}
                 />
               </View>
             </View>
@@ -358,9 +407,10 @@ class moreSettingsScreenComp extends Component {
                       trendingSpots: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.trendingSpots}
+                  trackSize={32}
                 />
               </View>
             </View>
@@ -383,9 +433,10 @@ class moreSettingsScreenComp extends Component {
                       reminders: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.reminders}
+                  trackSize={32}
                 />
               </View>
             </View>
@@ -408,12 +459,159 @@ class moreSettingsScreenComp extends Component {
                       announcements: e.checked,
                     });
                   }}
-                  onColor={'rgb(249,59,95)'}
-                  thumbOnColor={'rgb(255, 212, 220)'}
+                  onColor={'#43da5e'}
+                  thumbOnColor={'white'}
                   checked={this.state.announcements}
+                  trackSize={32}
                 />
               </View>
             </View>
+          </View>
+          <Text style={[this.styles.underMessage, {
+            marginTop: 10,
+            color: 'black',
+            fontFamily: 'Montserrat-Regular',
+          }]}>
+            HELLO
+          </Text>
+          <View style={this.styles.inputBox}>
+            <View style={this.styles.inputBoxLeft}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>Contact</Text>
+            </View>
+            <View style={this.styles.inputBoxRight}>
+              <Icon
+                name="angle-right"
+                size={30}
+                color="#c2c2c2"
+              />
+            </View>
+          </View>
+          <View style={[this.styles.inputBox, {
+            flexDirection: 'column',
+            paddingLeft: 10,
+            paddingRight: 10,
+          }]}>
+            <View style={{
+              width: width - 20,
+              marginBottom: 10,
+            }}>
+              <Text style={[this.styles.pinkText]}>People</Text>
+            </View>
+            <View style={{
+              width: width - 20,
+              marginBottom: 10,
+            }}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>These are the people who've made Proco. Tap to anyone to see
+             their loops and chat with them.</Text>
+            </View>
+             <ScrollView
+               ref={(scrollView) => { _scrollView = scrollView; }}
+               automaticallyAdjustContentInsets={false}
+               horizontal={true}
+               scrollEventThrottle={200}
+               style={styles.scrollView}
+              >
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+              <View style={this.styles.avatar}>
+                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              </View>
+             </ScrollView>
+          </View>
+          <Text style={[this.styles.underMessage, {
+            marginTop: 10,
+            color: 'black',
+            fontFamily: 'Montserrat-Regular',
+          }]}>
+            LEGAL
+          </Text>
+          <View style={[this.styles.inputBox, {
+            borderBottomWidth: 0,
+          }]}>
+            <View style={this.styles.inputBoxLeft}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>Privacy Policy</Text>
+            </View>
+            <View style={this.styles.inputBoxRight}>
+              <Icon
+                name="angle-right"
+                size={30}
+                color="#c2c2c2"
+              />
+            </View>
+          </View>
+          <View style={[this.styles.inputBox, {
+            marginTop: 0,
+            borderBottomWidth: 0,
+          }]}>
+            <View style={this.styles.inputBoxLeft}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>Terms of Service</Text>
+            </View>
+            <View style={this.styles.inputBoxRight}>
+              <Icon
+                name="angle-right"
+                size={30}
+                color="#c2c2c2"
+              />
+            </View>
+          </View>
+          <View style={[this.styles.inputBox, {
+            marginTop: 0,
+          }]}>
+            <View style={this.styles.inputBoxLeft}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>Licenses</Text>
+            </View>
+            <View style={this.styles.inputBoxRight}>
+              <Icon
+                name="angle-right"
+                size={30}
+                color="#c2c2c2"
+              />
+            </View>
+          </View>
+          <View style={this.styles.appLogoBottom}>
+            <Image source={require('./../../images/logo.png')} />
+          </View>
+          <View style={this.styles.inputBox}>
+            <View style={this.styles.inputBoxLeft}>
+              <Text style={[this.styles.blackText, { fontSize: 14 }]}>Logout</Text>
+            </View>
+            <View style={this.styles.inputBoxRight}>
+              <Icon
+                name="angle-right"
+                size={30}
+                color="#c2c2c2"
+              />
+            </View>
+          </View>
+          <Text style={this.styles.underMessage}>
+            No longer want to use Hello? You can <Text style={{color: 'rgb(249,59,95)'}}>tap here</Text> to suspend your account and come at anytime.
+            Alternatively, you can suspend discovery so your questions and loop won't show up to other users.
+          </Text>
+          <View style={this.styles.companyLogoBottom}>
+            <Image source={require('./../../images/logo.png')} />
+            <Text style={this.styles.companyLogoBottomText}>This application was developed by Barbar Startup Factory</Text>
           </View>
         </ScrollView>
         <Picker

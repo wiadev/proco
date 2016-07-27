@@ -180,16 +180,7 @@ class shootNewProfileScreenComp extends Component {
                 onPress={::this.onPressTakePhoto}
               />
             </View>
-            <View style={this.styles.bottomMenuRight}>
-              <View style={this.styles.bottomMenuRightBtn}>
-                <Ionicons
-                  name="ios-images"
-                  size={30}
-                  color="white"
-                  onPress={::this.onPressImagePicker}
-                />
-              </View>
-            </View>
+            <View style={this.styles.bottomMenuRight} />
           </View>
         </Camera>
       </View>

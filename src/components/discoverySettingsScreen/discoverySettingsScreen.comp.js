@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#dadada',
+    backgroundColor: '#f6f6f6',
   },
   topMenu: {
     paddingTop: 20,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: 'rgb(206,206,206)',
+    borderColor: '#dadbda',
   },
   inputBoxLeft: {
     flex: 1,
@@ -195,10 +195,10 @@ class discoverySettingsScreenComp extends Component {
             />
           </View>
           <View style={this.styles.topMenuMid}>
-            <Text style={this.styles.menuTitle}>Discovery Settings</Text>
+            <Text style={this.styles.menuTitle}>Discovery Filters</Text>
           </View>
           <View style={this.styles.topMenuRight}>
-            <Text style={this.styles.btnSave} onPress={::this.onSave}>Save</Text>
+            <Text style={this.styles.btnSave} onPress={::this.onSave}>Done</Text>
           </View>
         </View>
         <ScrollView>

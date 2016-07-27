@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#dadada',
+    backgroundColor: '#f6f6f6',
   },
   topMenu: {
     paddingTop: 20,
