@@ -18,6 +18,7 @@ import IconM from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import Header from './../header/header';
 import MessageCountIcon from './../messageCountIcon/messageCountIcon';
+import MessageBox from './../messageBox/messageBox';
 import { getCorrectFontSizeForScreen } from './../../core/functions';
 
 const width = Dimensions.get('window').width;
@@ -159,17 +160,7 @@ class mainScreenComp extends Component {
     const states = store.getState().mainScreenReducer;
 
     const messages = states.get('messageList').toJS().map((message, idx) => (
-      <View style={this.styles.messageBox} key={ 'messages-' + idx }>
-        <IconM
-          name="reply"
-          size={44}
-          color="#F9365F"
-          style={this.styles.messagePrefixIcon}
-        />
-        <Text style={this.styles.messageBoxText}>
-          {message.text}
-        </Text>
-      </View>
+      <MessageBox key={'messages-' + idx} text={message.text} position="right" />
     ));
 
     let rightContainerHeader = null;
@@ -192,7 +183,7 @@ class mainScreenComp extends Component {
             <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={this.styles.preview}>
               <Header
                 hideLeft={true}
-                rightContainer={rightContainerHeader}
+                hideRight={true}
               />
               <View style={this.styles.avatar}>
                 <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
@@ -223,7 +214,7 @@ class mainScreenComp extends Component {
                 name="expand-more"
                 size={44}
                 color="white"
-                style={{ opacity: 0.5,
+                style={{ opacity: 0.8,
                   backgroundColor: 'transparent',
                   textAlign: 'center',
                   alignItems: 'center',
