@@ -184,16 +184,7 @@ class discoverySettingsScreenComp extends Component {
           hidden={false}
         />
         <View style={this.styles.topMenu}>
-          <View style={this.styles.topMenuLeft}>
-            <Icon
-              name="angle-left"
-              size={42}
-              color="rgba(0, 0, 0, 0.3)"
-              onPress={() => {
-                Actions.pop();
-              }}
-            />
-          </View>
+          <View style={this.styles.topMenuLeft} />
           <View style={this.styles.topMenuMid}>
             <Text style={this.styles.menuTitle}>Discovery Filters</Text>
           </View>
@@ -208,13 +199,16 @@ class discoverySettingsScreenComp extends Component {
             </View>
             <View style={this.styles.inputBoxRight}>
               <Text
-                style={[this.styles.blackText, { marginRight: 10 }]}
+                style={[this.styles.blackText, { marginRight: 10, marginRight: 40 }]}
                 onPress={() => { this.picker.toggle(); }}
               >{this.state.gender}</Text>
               <Icon
                 name="angle-right"
                 size={32}
                 color="rgba(0, 0, 0, 0.3)"
+                style={{
+                  left: -28
+                }}
               />
             </View>
           </View>
@@ -230,7 +224,7 @@ class discoverySettingsScreenComp extends Component {
                 <Text style={[this.styles.pinkText, { marginBottom: 10 }]}>Age Limit</Text>
               </View>
               <View style={this.styles.inputBoxRight}>
-                <Text style={[this.styles.blackText, { marginBottom: 10 }]}>{this.state.ageMin} - {this.state.ageMax}</Text>
+                <Text style={[this.styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{this.state.ageMin} - {this.state.ageMax}</Text>
               </View>
             </View>
             <View style={{

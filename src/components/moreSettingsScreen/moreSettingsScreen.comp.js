@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
   inputBoxLeft: {
     flex: 1,
     alignItems: 'flex-start',
-    width: width * 50 / 100,
+    width: (width * 50 / 100) - 28,
   },
   inputBoxRight: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: width * 50 / 100,
+    width: (width * 50 / 100) - 28,
     flexDirection: 'row',
   },
   pinkText: {
@@ -241,16 +241,7 @@ class moreSettingsScreenComp extends Component {
           hidden={false}
         />
         <View style={this.styles.topMenu}>
-          <View style={this.styles.topMenuLeft}>
-            <Icon
-              name="angle-left"
-              size={42}
-              color="rgba(0, 0, 0, 0.3)"
-              onPress={() => {
-                Actions.pop();
-              }}
-            />
-          </View>
+          <View style={this.styles.topMenuLeft} />
           <View style={this.styles.topMenuMid}>
             <Text style={this.styles.menuTitle}>Settings</Text>
           </View>

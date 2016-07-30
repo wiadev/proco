@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, updateYourSchool } from './updateYourSchoolScreen.reducer';
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import {
   MKTextField,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#dadada',
+    backgroundColor: '#f6f6f6',
   },
   topMenu: {
     paddingTop: 20,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
   btnSave: {
-    color: 'rgb(71,71,71)',
+    color: '#2ac687',
     fontFamily: 'Montserrat-Regular',
     fontSize: 13,
     textAlign: 'center',
@@ -190,9 +190,9 @@ class updateYourSchoolScreenComp extends Component {
         />
         <View style={this.styles.topMenu}>
           <View style={this.styles.topMenuLeft}>
-            <Icon
-              name="angle-left"
-              size={42}
+            <Ionicons
+              name="ios-close"
+              size={50}
               color="rgba(0, 0, 0, 0.3)"
               onPress={() => {
                 Actions.pop();

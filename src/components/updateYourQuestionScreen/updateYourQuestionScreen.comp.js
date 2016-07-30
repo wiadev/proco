@@ -13,6 +13,7 @@ import { loadPage, defaultState, questionChanged } from './updateYourQuestionScr
 import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Header from './../header/header';
+import MessageBox from './../messageBox/messageBox';
 import {
   MKTextField,
 } from 'react-native-material-kit';
@@ -49,12 +50,9 @@ const styles = StyleSheet.create({
   },
   textBoxArea: {
     width,
-    height: 40,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     position: 'absolute',
-    bottom: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
+    bottom: 30,
   },
   textBoxInput: {
     fontFamily: 'Montserrat-Light',
@@ -80,6 +78,7 @@ class updateYourQuestionScreenComp extends Component {
 
   state = {
     question: '',
+    height: 0,
   };
 
   componentDidMount() {
@@ -122,6 +121,12 @@ class updateYourQuestionScreenComp extends Component {
     });
   }
 
+  onChange(e) {
+    this.setState({
+      height: e.nativeEvent.contentSize.height,
+    });
+  }
+
   render() {
     return (
       <View style={[this.styles.preview, {
@@ -159,15 +164,31 @@ class updateYourQuestionScreenComp extends Component {
             </Text>
           </View>
           <View style={this.styles.textBoxArea}>
-            <MKTextField
-              tintColor={'transparent'}
-              placeholder="Your question"
-              underlineEnabled={false}
-              placeholderTextColor={'gray'}
-              returnKeyType="send"
-              onSubmitEditing={::this.onSubmitEditing}
-              onChangeText={::this.onChangeText}
-            />
+            <MessageBox position="right" backgroundColor={'white'} color={'#F9365F'}>
+              <MKTextField
+                tintColor={'transparent'}
+                placeholder="Your question"
+                underlineEnabled={false}
+                placeholderTextColor={'rgba(249, 53, 94, 0.6)'}
+                returnKeyType="send"
+                multiline={true}
+                onSubmitEditing={::this.onSubmitEditing}
+                onChangeText={::this.onChangeText}
+                onChange={::this.onChange}
+                style={{
+                  flex: 1,
+                  minHeight: 25,
+                  height: Math.max(35, this.state.height),
+                }}
+                textInputStyle={{
+                  flex: 1,
+                  minWidth: 150,
+                  minHeight: 25,
+                  color: '#F9365F',
+                  fontFamily: 'Montserrat-Light',
+                }}
+              />
+            </MessageBox>
           </View>
         </LinearGradient>
       </View>

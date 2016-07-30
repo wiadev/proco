@@ -15,6 +15,7 @@ import store from './../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ChatComponent from 'react-native-gifted-messenger';
+import MessageBox from './../messageBox/messageBox';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#ffffff',
   },
   topMenu: {
     paddingTop: 20,
@@ -139,10 +140,12 @@ const messengerStyle = {
     width: 90,
   },
   bubbleRight: {
-    backgroundColor: 'rgb(86,54,234)',
+    backgroundColor: 'transparent',
+    marginLeft: 0,
   },
   bubbleLeft: {
-    backgroundColor: 'rgb(249,54,95)',
+    backgroundColor: 'transparent',
+    marginRight: 0,
   },
   textLeft: {
     fontSize: 15,
@@ -238,7 +241,6 @@ class talkScreenComp extends Component {
               </View>
               <View style={[this.styles.rowItemSecond]}>
                 <Text style={this.styles.rowItemUsername}>{'Leyla'}</Text>
-                <Text style={this.styles.rowItemUserTitle}>{'Bogazici University'}</Text>
               </View>
             </View>
           </View>
@@ -265,6 +267,7 @@ class talkScreenComp extends Component {
             messages={this.state.messageList}
             onCustomSend={::this.onSend}
             sendButtonText={'SEND'}
+            renderCustomText={(props) => <MessageBox type={'chatScreen'} {...props} />}
           />
         </ScrollView>
       </View>

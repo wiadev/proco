@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
-    backgroundColor: '#f6f6f6',
+    backgroundColor: '#ffffff',
   },
   topMenu: {
     paddingTop: 20,
@@ -182,8 +182,7 @@ class messagesListScreenComp extends Component {
           <View style={[this.styles.rowItemLeft, {
             width: width * 65 / 100,
           }]}>
-            <Text style={this.styles.rowItemUsername}>{rowData.userName + ', ' + rowData.userAge}</Text>
-            <Text style={this.styles.rowItemUserTitle}>{rowData.userTitle}</Text>
+            <Text style={this.styles.rowItemUsername}>{rowData.userName}</Text>
           </View>
           <View style={this.styles.rowItemRight}>
             <MessageCountIcon

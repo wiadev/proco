@@ -69,34 +69,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     width,
   },
-  messageBox: {
-    flex: 0,
-    backgroundColor: '#F9365F',
-    borderRadius: 20,
-    paddingTop: 10,
-    paddingBottom: 13,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginLeft: 20,
-    marginTop: 5,
-    width: 250,
-  },
-  messageBoxText: {
-    color: 'white',
-    fontFamily: 'Montserrat-Light',
-    fontSize: 18,
-  },
-  messagePrefixIcon: {
-    transform: [{
-      rotateX: '180deg',
-    }, {
-      rotateZ: '180deg',
-    }],
-    position: 'absolute',
-    backgroundColor: 'transparent',
-    left: -15,
-    top: 9,
-  },
   topScreenMessageIcon: {
     position: 'absolute',
     left: 0,
@@ -160,7 +132,7 @@ class mainScreenComp extends Component {
     const states = store.getState().mainScreenReducer;
 
     const messages = states.get('messageList').toJS().map((message, idx) => (
-      <MessageBox key={'messages-' + idx} text={message.text} position="right" />
+      <MessageBox key={'messages-' + idx} text={message.text} position="left" />
     ));
 
     let rightContainerHeader = null;
