@@ -3,7 +3,7 @@
 import { combineReducers } from 'redux';
 import { Map } from 'immutable';
 
-import introReducer from './../components/intro/intro.reducer';
+import authReducer from '../api/Authentication/reducer';
 import registerformReducer from './../components/registerForm/registerForm.reducer';
 import mainScreenReducer from './../components/mainScreen/mainScreen.reducer';
 import updateYourQuestionScreenReducer from './../components/updateYourQuestionScreen/updateYourQuestionScreen.reducer';
@@ -15,7 +15,7 @@ import talkScreenReducer from './../components/talkScreen/talkScreen.reducer';
 import updateYourSchoolScreenReducer from './../components/updateYourSchoolScreen/updateYourSchoolScreen.reducer';
 
 const reducers = {
-  introReducer,
+  auth: authReducer,
   registerformReducer,
   mainScreenReducer,
   updateYourQuestionScreenReducer,

@@ -6,6 +6,6 @@
 
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import Root from './src/containers/root/root';
+import Root from './src/containers/root/index';
 
 AppRegistry.registerComponent('Proco', () => Root);

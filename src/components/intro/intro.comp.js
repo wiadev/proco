@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
+  ActivityIndicator,
   View,
   Dimensions,
   Image,
@@ -12,11 +13,12 @@ import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
-import { loadPage } from './intro.reducer';
+import { defaultState } from '../../api/Authentication/reducer';
 import store from './../../store/configureStore';
+import { connect } from 'react-redux';
+
 import API from '../../api';
 import { getCorrectFontSizeForScreen } from './../../core/functions';
-
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -127,8 +129,16 @@ const styles = StyleSheet.create({
     top: -17,
     left: getCorrectFontSizeForScreen(PixelRatio, width, height, 30),
   },
+  authLoading: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
+  },
 });
 
+@connect(
+  state => ({ auth: state.auth }),
+)
 class IntroComp extends Component {
 
   constructor(props) {
@@ -136,28 +146,52 @@ class IntroComp extends Component {
     this.styles = styles;
   }
 
-  componentDidMount() {
-    store.dispatch(loadPage());
-  }
-
   startLogin () {
     const self = this;
-    API.Authentication.login()
-      .then(() => {
-        Actions.registerForm();
-      })
+    API.Authentication.facebookLogin()
       .catch((error) => {
         Alert.alert(
           'Login Problem',
           error,
           [
             {text: 'Try again', onPress: () => self.startLogin},
-            {text: 'Cancel', onPress: () => Actions.registerForm, style: 'cancel'},
+            {text: 'Cancel', onPress: () => Actions.registerForm, style: 'cancel'}, //@TODO: Only for debug purposes, remove before public beta
           ]
         );
       });
   }
 
+  componentWillReceiveProps(props) {
+    if(props.auth.get('isLoggedIn')) {
+      Actions.registerForm();
+    }
+  }
+
+  renderLoginButton() {
+    return (<View>
+      <View style={this.styles.fbLoginView}>
+        <Icon
+          name="facebook-official"
+          size={26}
+          color="#3B5998"
+          style={this.styles.fbLoginIcon}
+        />
+        <Text style={this.styles.fbLoginText} onPress={this.startLogin}>
+          Login with Facebook
+        </Text>
+      </View>
+      <Text style={this.styles.footerText}>
+        By continuing you agree to our terms and privacy policy
+      </Text>
+    </View>);
+  }
+
+  renderAuthLoading() {
+    return (<ActivityIndicator
+      style={[styles.centering, {transform: [{scale: 1.5}]}]}
+      size="large"
+    />);
+  }
   render() {
     return (
       <View style={this.styles.container}>
@@ -185,20 +219,10 @@ class IntroComp extends Component {
             </View>
           </Swiper>
 
-          <View style={this.styles.fbLoginView}>
-            <Icon
-              name="facebook-official"
-              size={26}
-              color="#3B5998"
-              style={this.styles.fbLoginIcon}
-            />
-            <Text style={this.styles.fbLoginText} onPress={this.startLogin}>
-              Login with Facebook
-            </Text>
-          </View>
-          <Text style={this.styles.footerText}>
-            By continuing you agree to our terms and privacy policy
-          </Text>
+          {
+            (this.props.auth.get('isLoaded')) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
+          }
+
         </LinearGradient>
       </View>
     );

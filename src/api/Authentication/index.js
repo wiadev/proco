@@ -1,29 +1,45 @@
 const firebase = require('firebase');
-const FBSDK = require('react-native-fbsdk');
+const {LoginManager, AccessToken} = require('react-native-fbsdk');
+import {startAuth, stopAuth, loadAuth, goLogin} from './reducer';
+import store from '../../store/configureStore';
+import {Actions} from 'react-native-router-flux';
 
-const {
-  LoginManager,
-  AccessToken,
-} = FBSDK;
+export const startChecking = () => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      AccessToken.getCurrentAccessToken().then(
+        (data) => {
+          const facebookToken = data.accessToken.toString();
+          store.dispatch(goLogin(facebookToken, user.uid));
+        }
+      ).catch(e => {
+        console.log("e", e)
+      })
+    } else {
+      store.dispatch(loadAuth({isLoggedIn: false, isLoaded: true}));
+    }
+  });
+};
 
-const login = () => {
+export const facebookLogin = () => {
+
+  store.dispatch(startAuth());
 
   return new Promise((resolve, reject) => {
     return LoginManager.logInWithReadPermissions(['public_profile', 'user_likes', 'user_friends', 'user_birthday']).then(
       (result) => {
         if (result.isCancelled) {
+          store.dispatch(stopAuth());
           reject('Login was cancelled by you.');
         } else {
-          return AccessToken.getCurrentAccessToken().then(
+          AccessToken.getCurrentAccessToken().then(
             (data) => {
-              const access_token = data.accessToken.toString();
-              const credential = firebase.auth.FacebookAuthProvider.credential(access_token);
-              return firebase.auth().signInWithCredential(credential).then(() => {
-                resolve();
-              });
+              const facebookToken = data.accessToken.toString();
+              return firebase.auth().signInWithCredential(
+                firebase.auth.FacebookAuthProvider.credential(facebookToken)
+              );
             }
           );
-
         }
       },
       (error) => {
@@ -33,11 +49,4 @@ const login = () => {
 
   });
 
-};
-
-const logout = () => {};
-
-module.exports = {
-  login,
-  logout
 };

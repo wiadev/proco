@@ -8,8 +8,7 @@ const Initiliazer = (obj = {}) => {
 
   try {
     firebase.app(); // Check if the app exists 
-  }
-  catch(err) {
+  } catch(e) {
      firebase.initializeApp({
       apiKey: "AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc",
       authDomain: "hello-4c376.firebaseapp.com",
@@ -18,9 +17,7 @@ const Initiliazer = (obj = {}) => {
     });
   }
 
-  firebase.auth().onAuthStateChanged((user) => {
-    console.log("user", user);
-  });
+  Authentication.startChecking();
 
 };
 

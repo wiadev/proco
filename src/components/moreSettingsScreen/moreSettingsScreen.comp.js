@@ -215,10 +215,6 @@ class moreSettingsScreenComp extends Component {
 
   state = {};
 
-  componentWillMount() {
-    StatusBar.setHidden(true);
-  }
-
   componentDidMount() {
     store.dispatch(loadPage());
   }
@@ -235,11 +231,7 @@ class moreSettingsScreenComp extends Component {
   render() {
     return (
       <View style={this.styles.preview}>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="default"
-          hidden={false}
-        />
+        <StatusBar barStyle="default" />
         <View style={this.styles.topMenu}>
           <View style={this.styles.topMenuLeft} />
           <View style={this.styles.topMenuMid}>

@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   PixelRatio,
+  StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
@@ -114,10 +115,12 @@ class mainScreenComp extends Component {
   constructor(props) {
     super(props);
     this.styles = styles;
+    //this._onMomentumScrollEnd = this._onMomentumScrollEnd.bind(this);
   }
 
   state = {
     messageCount: 0,
+    hideStatusBar: true
   };
 
   componentDidMount() {
@@ -144,11 +147,19 @@ class mainScreenComp extends Component {
 
     return (
       <View style={this.styles.container}>
+        <StatusBar
+          hidden={this.state.hideStatusBar}
+          showHideTransition="slide"
+          barStyle="light-content"
+        />
         <Swiper
           horizontal={false}
           loop={false}
           showsPagination={false}
           index={1}
+          onMomentumScrollEnd={
+            (e, state) => this.setState({ hideStatusBar: (state.index === 1) })
+          }
         >
           <View style={this.styles.preview}>
             <Image style={this.styles.backgroundImage} source={require('./../../images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} />

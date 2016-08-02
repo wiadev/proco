@@ -153,17 +153,12 @@ class discoverySettingsScreenComp extends Component {
 
   state = {};
 
-  componentWillMount() {
-    StatusBar.setHidden(true);
-  }
-
   componentDidMount() {
     store.dispatch(loadPage());
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextState.showFriendsInDiscovery !== this.state.showFriendsInDiscovery) return false;
-    return true;
+    return (nextState.showFriendsInDiscovery !== this.state.showFriendsInDiscovery);
   }
 
   onPressBottomLeft() {
@@ -178,11 +173,7 @@ class discoverySettingsScreenComp extends Component {
   render() {
     return (
       <View style={this.styles.preview}>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="default"
-          hidden={false}
-        />
+        <StatusBar barStyle="default" />
         <View style={this.styles.topMenu}>
           <View style={this.styles.topMenuLeft} />
           <View style={this.styles.topMenuMid}>

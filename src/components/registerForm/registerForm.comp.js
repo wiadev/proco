@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +15,9 @@ import {
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
 import { loadPage, registerAccount, verifyAccount } from './registerForm.reducer';
+import { goLogout } from '../../api/Authentication/reducer';
+import { connect } from 'react-redux';
+
 import store from './../../store/configureStore';
 import Header from './../header/header';
 import Picker from 'react-native-picker';
@@ -190,6 +194,9 @@ const dpCustom = StyleSheet.create({
   },
 });
 
+@connect(
+  state => ({ auth: state.auth }),
+)
 class registerFormComp extends Component {
   static getStyles() {
     return styles;
@@ -211,7 +218,6 @@ class registerFormComp extends Component {
   }
 
   state = {
-    date: '01/01/1990',
     email: '',
     gender: null,
     showVerify: false,
@@ -229,7 +235,19 @@ class registerFormComp extends Component {
   }
 
   onClickBack() {
-    Actions.intro();
+
+    Alert.alert(
+      'Are you sure?',
+      'Going back will log you off from your Facebook account.',
+      [
+        {text: 'I\'m sure.', onPress: () => {
+          store.dispatch(goLogout());
+          Actions.intro();
+        }},
+        {text: 'Cancel', style: 'cancel'},
+      ]
+    );
+
   }
 
   onClickVerify() {
@@ -238,6 +256,7 @@ class registerFormComp extends Component {
   }
 
   render() {
+    const onboardingFormStatus = this.props.auth.get('onboardingFormStatus');
     return (
       <View style={this.styles.container}>
         <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.linearGradient}>
@@ -264,7 +283,7 @@ class registerFormComp extends Component {
             </View>
             <View style={this.styles.rightBox}>
               <Text style={this.styles.rightBoxText}>
-                Hello Batuhan.
+                Hello {this.props.auth.get('first_name')}.
               </Text>
               <Text style={this.styles.rightBoxText2}>
                 to continue, we need you to complete this short form.
@@ -283,12 +302,13 @@ class registerFormComp extends Component {
               cancelBtnText="Cancel"
               iconSource={null}
               customStyles={dpCustom}
-              date={this.state.date}
+              date={this.props.auth.get('birthday')}
               onDateChange={(date) => { this.setState({ date }); }}
             />
           </View>
 
-          <View style={this.styles.emailBox}>
+          { onboardingFormStatus ? null : (
+            <View style={this.styles.emailBox}>
             <Text style={this.styles.emailLabel}>
               YOUR GENDER
             </Text>
@@ -305,10 +325,12 @@ class registerFormComp extends Component {
               />
             </View>
           </View>
+          ) }
+
 
           <View style={this.styles.emailBox}>
             <Text style={this.styles.emailLabel}>
-              VERIFY WHAT YOUR EMAIL IS
+              WHAT IS YOUR SCHOOL E-MAIL?
             </Text>
             <MKTextField
               tintColor={'transparent'}
@@ -317,7 +339,7 @@ class registerFormComp extends Component {
               style={this.styles.email}
               underlineEnabled={false}
               placeholderTextColor={'white'}
-              defaultValue={'..@..com'}
+              defaultValue={this.props.auth.get('first_name') + '@proco.edu.tr'}
               onTextChange={(email) => { this.setState({ email }); }}
             />
           </View>
