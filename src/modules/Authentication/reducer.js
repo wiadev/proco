@@ -7,7 +7,7 @@ import {
   LOGGED_IN_TO_FACEBOOK,
   LOGGED_IN_TO_FIREBASE,
   LOGGED_OUT,
-} from './constants';
+} from './actionTypes';
 
 export const initialState = Map({
   isLoaded: false,
