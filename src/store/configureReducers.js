@@ -3,28 +3,10 @@
 import { combineReducers } from 'redux';
 import { Map } from 'immutable';
 
-import authReducer from '../api/Authentication/reducer';
-import registerformReducer from './../components/registerForm/registerForm.reducer';
-import mainScreenReducer from './../components/mainScreen/mainScreen.reducer';
-import updateYourQuestionScreenReducer from './../components/updateYourQuestionScreen/updateYourQuestionScreen.reducer';
-import shootNewProfileScreenReducer from './../components/shootNewProfileScreen/shootNewProfileScreen.reducer';
-import discoverySettingsScreenReducer from './../components/discoverySettingsScreen/discoverySettingsScreen.reducer';
-import moreSettingsScreenReducer from './../components/moreSettingsScreen/moreSettingsScreen.reducer';
-import messagesListScreenReducer from './../components/messagesListScreen/messagesListScreen.reducer';
-import talkScreenReducer from './../components/talkScreen/talkScreen.reducer';
-import updateYourSchoolScreenReducer from './../components/updateYourSchoolScreen/updateYourSchoolScreen.reducer';
+import authReducer from '../modules/Authentication/reducer';
 
 const reducers = {
   auth: authReducer,
-  registerformReducer,
-  mainScreenReducer,
-  updateYourQuestionScreenReducer,
-  shootNewProfileScreenReducer,
-  discoverySettingsScreenReducer,
-  moreSettingsScreenReducer,
-  messagesListScreenReducer,
-  talkScreenReducer,
-  updateYourSchoolScreenReducer,
 };
 
 const immutableStateContainer = Map();

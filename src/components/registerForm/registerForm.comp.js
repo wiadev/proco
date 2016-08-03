@@ -15,7 +15,7 @@ import {
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
 import { loadPage, registerAccount, verifyAccount } from './registerForm.reducer';
-import { goLogout } from '../../api/Authentication/reducer';
+import { goLogout } from '../../modules/Authentication/reducer';
 import { connect } from 'react-redux';
 
 import store from './../../store/configureStore';
