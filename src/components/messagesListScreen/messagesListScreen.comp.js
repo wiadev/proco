@@ -176,7 +176,7 @@ class messagesListScreenComp extends Component {
             width: width * 20 / 100,
           }]}>
             <View style={this.styles.rowItemImage}>
-              <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+              <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
             </View>
           </View>
           <View style={[this.styles.rowItemLeft, {

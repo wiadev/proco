@@ -162,14 +162,14 @@ class mainScreenComp extends Component {
           }
         >
           <View style={this.styles.preview}>
-            <Image style={this.styles.backgroundImage} source={require('./../../images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} />
+            <Image style={this.styles.backgroundImage} source={require('../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} />
             <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={this.styles.preview}>
               <Header
                 hideLeft={true}
                 hideRight={true}
               />
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.menuList}>
                 <View style={this.styles.menuItem}>

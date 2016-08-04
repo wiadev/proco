@@ -154,7 +154,7 @@ class MailVerifyModalComp extends Component {
       <View style={this.styles.popup}>
         <BlurView blurType="light" style={this.styles.blurView}>
           <View style={this.styles.popupInside}>
-            <Image resizeMode={'contain'} source={require('./../../images/grofersBeeVisuals.png')} style={this.styles.image} />
+            <Image resizeMode={'contain'} source={require('../../assets/images/grofersBeeVisuals.png')} style={this.styles.image} />
             <Text style={this.styles.headText}>We'll need to verify your school e-mail.</Text>
             <Text style={this.styles.descriptionText}>
               You can easily do that by either entering the code we’ve just

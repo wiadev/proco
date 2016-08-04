@@ -24,27 +24,19 @@ class Login extends Component {
     this.styles = styles;
   }
 
-  startLogin () {
-    const self = this;
-   /* API.Authentication.facebookLogin()
-      .catch((error) => {
-        Alert.alert(
-          'Login Problem',
-          error,
-          [
-            {text: 'Try again', onPress: () => self.startLogin},
-            {text: 'Cancel', onPress: () => Actions.registerForm, style: 'cancel'}, //@TODO: Only for debug purposes, remove before public beta
-          ]
-        );
-      });*/
+  componentWillMount() {
+    this.checkAuthAndRedirect();
   }
 
   componentWillReceiveProps(props) {
+    this.checkAuthAndRedirect(props);
+  }
+
+  checkAuthAndRedirect(props = this.props) {
     if(props.auth.get('isLoggedIn')) {
       Actions.registerForm();
     }
   }
-
   renderLoginButton() {
     return (<View>
       <View style={this.styles.fbLoginView}>
@@ -54,7 +46,7 @@ class Login extends Component {
           color="#3B5998"
           style={this.styles.fbLoginIcon}
         />
-        <Text style={this.styles.fbLoginText} onPress={this.startLogin}>
+        <Text style={this.styles.fbLoginText} onPress={this.dispatch(startLogin())}>
           Login with Facebook
         </Text>
       </View>
@@ -66,17 +58,16 @@ class Login extends Component {
 
   renderAuthLoading() {
     return (<ActivityIndicator
-      style={[styles.centering, {transform: [{scale: 1.5}]}]}
+      style={[styles.centering, {paddingBottom: 75}]}
       size="large"
+      color="#ffffff"
     />);
   }
   render() {
-
-    console.log(this.props.auth.toJS())
     return (
       <View style={this.styles.container}>
-        <LinearGradient colors={['#3B1CFF', '#F9365F']} style={this.styles.linearGradient}>
-          <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
+        <LinearGradient colors={['#7A36AD', '#7A36AD']} style={this.styles.linearGradient}>
+          <Image style={this.styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
           <Swiper
             style={this.styles.swiper}
             height={231}
@@ -86,15 +77,15 @@ class Login extends Component {
             paginationStyle={this.styles.swiperPagination}
           >
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('./../../images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
               <Text style={this.styles.text}>Answer people's questions</Text>
             </View>
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('./../../images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
               <Text style={this.styles.text}>Second Text</Text>
             </View>
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('./../../images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
               <Text style={this.styles.text}>And third Text</Text>
             </View>
           </Swiper>

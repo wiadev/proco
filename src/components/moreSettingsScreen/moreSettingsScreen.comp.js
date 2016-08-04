@@ -532,31 +532,31 @@ class moreSettingsScreenComp extends Component {
                style={styles.scrollView}
               >
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
               <View style={this.styles.avatar}>
-                <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
               </View>
              </ScrollView>
           </View>
@@ -611,7 +611,7 @@ class moreSettingsScreenComp extends Component {
             </View>
           </View>
           <View style={this.styles.appLogoBottom}>
-            <Image source={require('./../../images/logo.png')} />
+            <Image source={require('../../assets/images/logo.png')} />
           </View>
           <View style={this.styles.inputBox}>
             <View style={this.styles.inputBoxLeft}>
@@ -630,7 +630,7 @@ class moreSettingsScreenComp extends Component {
             Alternatively, you can suspend discovery so your questions and loop won't show up to other users.
           </Text>
           <View style={this.styles.companyLogoBottom}>
-            <Image source={require('./../../images/logo.png')} />
+            <Image source={require('../../assets/images/logo.png')} />
             <Text style={this.styles.companyLogoBottomText}>This application was developed by Barbar Startup Factory</Text>
           </View>
         </ScrollView>

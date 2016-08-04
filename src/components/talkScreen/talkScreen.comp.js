@@ -236,7 +236,7 @@ class talkScreenComp extends Component {
             <View style={this.styles.rowItem}>
               <View style={[this.styles.rowItemFirst]}>
                 <View style={this.styles.rowItemImage}>
-                  <Image style={this.styles.avatarImage} source={require('./../../images/exampleAvatar.jpg')} />
+                  <Image style={this.styles.avatarImage} source={require('../../assets/images/exampleAvatar.jpg')} />
                 </View>
               </View>
               <View style={[this.styles.rowItemSecond]}>

@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-   AppState.addEventListener('change', this.handleAppStateChange);
+    AppState.addEventListener('change', this.handleAppStateChange);
     this.handleAppStateChange('active');
   }
 

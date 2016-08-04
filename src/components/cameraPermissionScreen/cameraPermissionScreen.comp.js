@@ -76,14 +76,14 @@ class cameraPermissionScreenComp extends Component {
       <View style={this.styles.preview}>
         <Image
           style={this.styles.backgroundImage}
-          source={require('./../../images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}
+          source={require('../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}
         />
         <LinearGradient
           colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']}
           style={this.styles.preview}
         >
           <View style={this.styles.permissionArea}>
-            <Image style={this.styles.permissionImage} source={require('./../../images/cameraPermission.png')} />
+            <Image style={this.styles.permissionImage} source={require('../../assets/images/cameraPermission.png')} />
             <Text style={this.styles.permissionLabel}>
               Camera permission is required
             </Text>

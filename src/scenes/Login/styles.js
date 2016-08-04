@@ -82,8 +82,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   logo: {
-    marginBottom: 50,
-    marginTop: 50,
+    marginBottom: 25,
+    marginTop: 75,
+    height: 100,
   },
   fbLogin: {
     opacity: 0,
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   authLoading: {
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
+    top: -25,
   },
 });
 export default styles;

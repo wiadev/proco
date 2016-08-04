@@ -134,7 +134,7 @@ class updateYourQuestionScreenComp extends Component {
       }]}>
         <Image
           style={this.styles.backgroundImage}
-          source={require('./../../images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}
+          source={require('../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}
         />
         <LinearGradient
           colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']}
@@ -158,7 +158,7 @@ class updateYourQuestionScreenComp extends Component {
             }
           />
           <View style={this.styles.questionArea}>
-            <Image style={this.styles.questionImage} source={require('./../../images/shape.png')} />
+            <Image style={this.styles.questionImage} source={require('../../assets/images/shape.png')} />
             <Text style={this.styles.questionLabel}>
               Now, ask your question.
             </Text>

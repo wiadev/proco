@@ -1,40 +1,118 @@
+const { LoginManager, AccessToken } = require('react-native-fbsdk');
+
 import {
   STARTED,
-  LOADED,
-  LOGGED_IN_TO_FACEBOOK,
-  LOGGED_IN_TO_FIREBASE,
+  LOGGED_IN,
   LOGGED_OUT,
 } from './actionTypes';
 
-export function loadAuth() {
-  return (dispatch, getState) => {
-    const { auth } = getState();
+import {
+  showInAppAlert,
+} from '../InAppAlert/actions';
 
-    if (auth.get('isLoaded')) return;
+import {
+  loadUser,
+  unloadUser,
+} from '../User/actions';
 
-    dispatch({ type: STARTED });
+import {
+  serverAction
+} from '../../core/Api/actions';
+
+const getAuth = () =>{
+  return (dispatch) => {
     const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+
       if (user) {
-        dispatch({
-          type: LOGGED_IN_TO_FIREBASE,
-          payload: {
-            uid: user.uid
-          }
-        });
+        dispatch(loadAuth(user.uid));
       } else {
-        dispatch({ type: LOADED });
+        AccessToken.getCurrentAccessToken()
+          .then((data) => data.accessToken.toString())
+          .then(facebookToken => {
+
+            if (facebookToken) {
+              firebase.auth().signInWithCredential(
+                firebase.auth.FacebookAuthProvider.credential(facebookToken)
+              ).then((user) => {
+                dispatch(loadAuth(user.uid, facebookToken));
+              });
+            } else {
+              dispatch({type: LOGGED_OUT});
+            }
+
+        });
       }
 
       unsubscribe();
     });
+  };
+};
+
+const setFacebookToken = (token) => {
+
+  dispatch(serverAction({
+    type: 'USER_SET_FACEBOOK_TOKEN',
+    payload: {
+      token
+    },
+    after: () => {
+      dispatch({
+        type: SET_FACEBOOK_TOKEN,
+        payload: {
+          token
+        }
+      });
+    }
+  }))
+
+
+};
+export const loadAuth = (uid, facebookToken) => {
+  return (dispatch) => {
+
+    if (!uid) {
+      dispatch(getAuth());
+      return;
+    }
+
+    dispatch({
+      type: LOGGED_IN,
+      payload: {
+        uid,
+        facebookToken
+      }
+    });
+    dispatch(loadUser());
 
   }
+};
+
+export function login() {
+  return (dispatch) => {
+
+    dispatch({ type: STARTED });
+    LoginManager.logInWithReadPermissions(
+      ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
+    ).then((result) => {
+      if (result.isCancelled) {
+        dispatch(showInAppAlert({
+          type: 'error',
+          title: 'Login was cancelled',
+          message: 'You\'ve cancelled the login flow'
+        }));
+      } else {
+        dispatch(getAuth());
+      }
+    });
+
+  };
 }
 
 export function logout() {
   return dispatch => {
     AsyncStorage.clear().then(() => {
       dispatch({ type: LOGGED_OUT });
+      dispatch(unloadUser());
     });
   }
 }

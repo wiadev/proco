@@ -95,7 +95,7 @@ class HeaderComp extends Component {
         <View style={this.styles.headerMid}>
           {!this.props.hideMid ? (
             this.props.midContainer ? this.props.midContainer : (
-              <Image style={this.styles.logo} source={require('./../../images/logo.png')} />
+              <Image style={this.styles.logo} source={require('../../assets/images/logo.png')} />
             )
           ) : null}
         </View>
