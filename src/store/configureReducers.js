@@ -4,11 +4,11 @@ import { combineReducers } from 'redux';
 import { Map } from 'immutable';
 
 import authReducer from '../modules/Authentication/reducer';
-import inAppAlertsReducer from '../modules/InAppAlerts/reducer';
+import inAppAlertReducer from '../modules/InAppAlert/reducer';
 
 const reducers = {
   auth: authReducer,
-  inAppAlerts: inAppAlertsReducer,
+  inAppAlert: inAppAlertReducer,
 };
 
 const immutableStateContainer = Map();

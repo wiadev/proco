@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { AppState } from 'react-native';
 import { connect } from 'react-redux';
 import { loadAuth } from '../../modules/Authentication/actions';
+import InAppAlert  from '../../components/InAppAlert';
 
 import Routes from './Routes';
 
 @connect(
-  state => ({ auth: state.auth }),
+  state => ({
+    auth: state.auth,
+    inAppAlert: state.inAppAlert
+  }),
 )
 class App extends Component {
 
@@ -35,7 +39,19 @@ class App extends Component {
 
   render() {
     if(this.props.auth.get('isLoaded')) {
-      return (<Routes />);
+      const inAppAlert = this.props.inAppAlert;
+      return (
+        <View>
+          <InAppAlert
+            show={inAppAlert.get('show')}
+            type={inAppAlert.get('type')}
+            title={inAppAlert.get('title')}
+            text={inAppAlert.get('text')}
+            closeInterval={inAppAlert.get('closeInterval')}
+          />
+          <Routes/>
+        </View>
+      );
     } else {
       return null;
     }
