@@ -28,8 +28,7 @@ export default function reducer(state = initialState, action = {}) {
                   .set('uid', action.payload.uid)
                   .set('facebookToken', action.payload.facebookToken);
     case LOGGED_OUT:
-      return initialState.set('isLoaded', true)
-                         .set('isInProgress', false);
+      return initialState.set('isLoaded', true);
   }
 
 }

@@ -16,11 +16,12 @@ const getReferenceForAction = (action, child = null) => {
   }
 };
 
-export function serverActionMiddleware() {
+export default function serverActionMiddleware() {
 
   return ({ getState }) => {
 
     return next => action => {
+      console.log(action);
 
       if (action.type === 'SERVER_ACTION' || action.type === 'SERVER_PROMISED_ACTION' ) {
         const { payload, type, after } = action.payload;

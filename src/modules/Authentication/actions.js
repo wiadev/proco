@@ -27,10 +27,11 @@ const getAuth = () =>{
         dispatch(loadAuth(user.uid));
       } else {
         AccessToken.getCurrentAccessToken()
-          .then((data) => data.accessToken.toString())
-          .then(facebookToken => {
+          .then(data => {
 
-            if (facebookToken) {
+            if (data) {
+              const facebookToken = data.accessToken.toString();
+
               firebase.auth().signInWithCredential(
                 firebase.auth.FacebookAuthProvider.credential(facebookToken)
               ).then((user) => {
@@ -48,26 +49,8 @@ const getAuth = () =>{
   };
 };
 
-const setFacebookToken = (token) => {
 
-  dispatch(serverAction({
-    type: 'USER_SET_FACEBOOK_TOKEN',
-    payload: {
-      token
-    },
-    after: () => {
-      dispatch({
-        type: SET_FACEBOOK_TOKEN,
-        payload: {
-          token
-        }
-      });
-    }
-  }))
-
-
-};
-export const loadAuth = (uid, facebookToken) => {
+export const loadAuth = (uid, facebookToken = null) => {
   return (dispatch) => {
 
     if (!uid) {
@@ -82,6 +65,16 @@ export const loadAuth = (uid, facebookToken) => {
         facebookToken
       }
     });
+
+    if (facebookToken) {
+      dispatch(serverAction({
+        type: 'USER_SET_FACEBOOK_TOKEN',
+        payload: {
+          facebookToken
+        },
+      }));
+    }
+
     dispatch(loadUser());
 
   }

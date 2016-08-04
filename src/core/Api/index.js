@@ -3,7 +3,7 @@ const firebase = require('firebase');
 export const FirebaseInit = () => {
 
   try {
-    firebase.app(); // Check if the app exists
+    firebase.app();
   } catch(e) {
     firebase.initializeApp({
       apiKey: "AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc",

@@ -10,7 +10,7 @@ import Swiper from 'react-native-swiper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
-import { defaultState } from '../../modules/Authentication/reducer';
+import { login } from '../../modules/Authentication/actions';
 import { connect } from 'react-redux';
 import styles from './styles';
 
@@ -37,23 +37,26 @@ class Login extends Component {
       Actions.registerForm();
     }
   }
+  
   renderLoginButton() {
-    return (<View>
-      <View style={this.styles.fbLoginView}>
-        <Icon
-          name="facebook-official"
-          size={26}
-          color="#3B5998"
-          style={this.styles.fbLoginIcon}
-        />
-        <Text style={this.styles.fbLoginText} onPress={this.dispatch(startLogin())}>
-          Login with Facebook
+    return (
+      <View>
+        <View style={this.styles.fbLoginView}>
+          <Icon
+            name="facebook-official"
+            size={26}
+            color="#3B5998"
+            style={this.styles.fbLoginIcon}
+          />
+          <Text style={this.styles.fbLoginText} onPress={() => this.props.dispatch(login())}>
+            Login with Facebook
+          </Text>
+        </View>
+        <Text style={this.styles.footerText}>
+          By continuing you agree to our terms and privacy policy
         </Text>
       </View>
-      <Text style={this.styles.footerText}>
-        By continuing you agree to our terms and privacy policy
-      </Text>
-    </View>);
+    );
   }
 
   renderAuthLoading() {

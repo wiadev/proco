@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppState } from 'react-native';
+import { AppState, View } from 'react-native';
 import { connect } from 'react-redux';
 import { loadAuth } from '../../modules/Authentication/actions';
 import InAppAlert  from '../../components/InAppAlert';
@@ -38,6 +38,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.props.auth.toJS())
     if(this.props.auth.get('isLoaded')) {
       const inAppAlert = this.props.inAppAlert;
       return (

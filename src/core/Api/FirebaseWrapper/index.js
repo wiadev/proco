@@ -1,8 +1,9 @@
 const firebase = require('firebase');
-const firebaseDb = firebase.database();
 
 export default class FirebaseWrapper {
   constructor(actions, modelClass, path = null) {
+    this.firebaseDb = firebase.database();
+
     this._actions = actions;
     this._modelClass = modelClass;
     this._path = path;
@@ -18,34 +19,34 @@ export default class FirebaseWrapper {
 
   push(value) {
     return new Promise((resolve, reject) => {
-      firebaseDb.ref(this._path)
+      this.firebaseDb.ref(this._path)
         .push(value, error => error ? reject(error) : resolve());
     });
   }
 
   remove(key) {
     return new Promise((resolve, reject) => {
-      firebaseDb.ref(`${this._path}/${key}`)
+      this.firebaseDb.ref(`${this._path}/${key}`)
         .remove(error => error ? reject(error) : resolve());
     });
   }
 
   set(key, value) {
     return new Promise((resolve, reject) => {
-      firebaseDb.ref(`${this._path}/${key}`)
+      this.firebaseDb.ref(`${this._path}/${key}`)
         .set(value, error => error ? reject(error) : resolve());
     });
   }
 
   update(key, value) {
     return new Promise((resolve, reject) => {
-      firebaseDb.ref(`${this._path}/${key}`)
+      this.firebaseDb.ref(`${this._path}/${key}`)
         .update(value, error => error ? reject(error) : resolve());
     });
   }
 
   subscribe(emit) {
-    let ref = firebaseDb.ref(this._path);
+    let ref = this.firebaseDb.ref(this._path);
     let initialized = false;
     let list = [];
 

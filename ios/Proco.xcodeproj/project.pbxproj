@@ -32,6 +32,9 @@
 		5852F5D441C74B38AEF65540 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 94493B388B444A368AA9A50F /* FontAwesome.ttf */; };
 		63437157191E4897B7492257 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4E755EA2E0941EE9D3F0DEE /* EvilIcons.ttf */; };
 		7400651A354145FE898F93BB /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 363063507BC447CBA749F317 /* libz.tbd */; };
+		74116A191D53667F00D983FD /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74116A161D53667F00D983FD /* logo@3x.png */; };
+		74116A1A1D53667F00D983FD /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 74116A171D53667F00D983FD /* logo.png */; };
+		74116A1B1D53667F00D983FD /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74116A181D53667F00D983FD /* logo@2x.png */; };
 		7445605730C2417A917FCF56 /* libRNMediaPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C043295009D4CCDB6D5A955 /* libRNMediaPlayer.a */; };
 		74A831B71D1D8BC600CC1517 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A831B41D1D8BC600CC1517 /* FBSDKCoreKit.framework */; };
 		74A831B81D1D8BC600CC1517 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A831B51D1D8BC600CC1517 /* FBSDKLoginKit.framework */; };
@@ -237,6 +240,9 @@
 		55636F68958F435E8AC4999E /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		69D6E81817964205B055DEDB /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		6CDB07144FC9439299952B53 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
+		74116A161D53667F00D983FD /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
+		74116A171D53667F00D983FD /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		74116A181D53667F00D983FD /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		74A831B41D1D8BC600CC1517 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		74A831B51D1D8BC600CC1517 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		74A831B61D1D8BC600CC1517 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -512,6 +518,9 @@
 		80EB06F6F6DF45598C16C6FF /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				74116A161D53667F00D983FD /* logo@3x.png */,
+				74116A171D53667F00D983FD /* logo.png */,
+				74116A181D53667F00D983FD /* logo@2x.png */,
 				74A8323B1D1DA0EB00CC1517 /* FontAwesome.ttf */,
 				74A831DE1D1D8EC300CC1517 /* Montserrat-Black.ttf */,
 				74A831DF1D1D8EC300CC1517 /* Montserrat-Bold.ttf */,
@@ -927,12 +936,15 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				74A831E61D1D8EC300CC1517 /* Montserrat-Regular.ttf in Resources */,
 				4B842046EA80400BA3BBD5EB /* Entypo.ttf in Resources */,
+				74116A1B1D53667F00D983FD /* logo@2x.png in Resources */,
 				63437157191E4897B7492257 /* EvilIcons.ttf in Resources */,
 				5852F5D441C74B38AEF65540 /* FontAwesome.ttf in Resources */,
 				46F7D5A00BC640E5ABA80102 /* Foundation.ttf in Resources */,
 				0F5B19B454E146C28F03A733 /* Ionicons.ttf in Resources */,
 				74A831E31D1D8EC300CC1517 /* Montserrat-Black.ttf in Resources */,
+				74116A191D53667F00D983FD /* logo@3x.png in Resources */,
 				74A831E41D1D8EC300CC1517 /* Montserrat-Bold.ttf in Resources */,
+				74116A1A1D53667F00D983FD /* logo.png in Resources */,
 				74A831E71D1D8EC300CC1517 /* Montserrat-Thin.ttf in Resources */,
 				74EA418D1D38095100E1D8FC /* GoogleService-Info.plist in Resources */,
 				41C65CDACFB44F1595342180 /* MaterialIcons.ttf in Resources */,

@@ -9,7 +9,7 @@ import { FirebaseInit } from './core/Api';
 
 const setup = () => {
   FirebaseInit();
-
+  
   class Root extends Component {
 
     constructor() {

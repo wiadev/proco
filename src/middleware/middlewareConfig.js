@@ -7,5 +7,5 @@ export default [
   promiseMiddleware,
   thunkMiddleware,
   loggerMiddleware,
-  serverActionMiddleware,
+  serverActionMiddleware(),
 ];

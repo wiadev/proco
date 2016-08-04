@@ -1,11 +1,11 @@
-import { Record } from 'immutable';
+import { Map } from 'immutable';
 
 import {
   SHOW_IN_APP_ALERT,
   CLEAR_IN_APP_ALERT,
 } from './actionTypes';
 
-export const initialState = new Record({
+export const initialState = new Map({
   show: false,
   type: null,
   title: null,
