@@ -37,7 +37,7 @@ class Login extends Component {
       Actions.registerForm();
     }
   }
-  
+
   renderLoginButton() {
     return (
       <View>

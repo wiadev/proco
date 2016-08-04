@@ -5,10 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
-  "bugs": "https://github.com/barbar/proco/issues",
+  "bugs": "https://github.com/barbar/proco-app/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/barbar/proco"
+    "url": "https://github.com/barbar/proco-app"
   },
   "dependencies": {
     "babel-preset-react-native-stage-0": "1.0.1",
