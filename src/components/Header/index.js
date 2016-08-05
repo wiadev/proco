@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 0,
     alignSelf: 'center',
-    height: 25
+    height: 50
   },
 });
 
@@ -95,7 +95,7 @@ class Header extends Component {
         <View style={this.styles.headerMid}>
           {!this.props.hideMid ? (
             this.props.midContainer ? this.props.midContainer : (
-              <Image style={this.styles.logo} source={require('../../assets/images/logo.png')} />
+              <Image style={this.styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
             )
           ) : null}
         </View>
