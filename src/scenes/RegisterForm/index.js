@@ -130,7 +130,7 @@ class RegisterForm extends Component {
               cancelBtnText="Cancel"
               iconSource={null}
               customStyles={dpCustom}
-              date={this.props.auth.get('birthday')}
+              date={user.get('birthday')}
               onDateChange={(date) => { this.setState({ date }); }}
             />
           </View>
