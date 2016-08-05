@@ -1,23 +1,42 @@
-var transit = require('transit-immutable-js');
-var reduxPersist = require('redux-persist');
+import { Map } from 'immutable';
 
-module.exports = function (config) {
-  var transitInstance = transit;
+export const lastStateInit = new Map();
 
+export function stateIterator(state, callback) {
+  return state.forEach(callback);
+}
 
-  return reduxPersist.createTransform(
-    function(state){
-      if(state && typeof state === 'object'){
-        return transitInstance.toJSON(state)
-      }
-      return state
-    },
-    function(raw){
-      if(typeof raw === 'string'){
-        return transitInstance.fromJSON(raw)
-      }
-      return raw
-    },
-    config
-  )
+export function stateGetter(state, key) {
+  return state.get(key)
+};
+
+export function stateSetter(state, key, value) {
+  return state.set(key, value)
+};
+
+export function stateReconciler(state, inboundState, reducedState, logger) {
+  let newState = reducedState ? reducedState : new Map();
+
+  Object.keys(inboundState).forEach((key) => {
+    // if initialState does not have key, skip auto rehydration
+    if (!state.has(key)) return
+
+    // if reducer modifies substate, skip auto rehydration
+    if (state.get('key') !== reducedState.get('key')) {
+      if (logger) console.log('redux-persist/autoRehydrate: sub state for key `%s` modified, skipping autoRehydrate.', key)
+      newState = newState.set(key, reducedState.get(key))
+      return
+    }
+
+    // otherwise take the inboundState
+    if (state.has(key)) {
+      newState = state.merge(inboundState) // shallow merge
+    } else {
+      newState = state.set(key, inboundState[key]) // hard set
+    }
+
+    if (logger) console.log('redux-persist/autoRehydrate: key `%s`, rehydrated to ', key, newState[key])
+  })
+
+  return newState
 };

@@ -83,10 +83,7 @@ export const loadAuth = (uid, facebookToken) => {
     dispatch(loadUser());
 
     dispatch(serverAction({
-      type: 'USER_SET_FACEBOOK_TOKEN',
-      payload: {
-        facebookToken
-      }
+      type: 'USER_PING'
     }));
 
   }

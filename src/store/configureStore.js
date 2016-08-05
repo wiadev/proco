@@ -1,32 +1,19 @@
 /* @flow */
 
 import { AsyncStorage } from 'react-native';
-import { applyMiddleware, createStore, compose } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist';
-import devTools from 'remote-redux-devtools';
 import middleware from './../middleware/middlewareConfig';
 import reducer from './configureReducers';
-import immutableTransform from './immutableTransform';
+import reduxPersistImmutable from 'redux-persist-immutable';
 
 export const configureStore = (onCompletion = () => {}) => {
 
-  const enhancer = compose(
-    applyMiddleware(...middleware),
-    devTools({
-      name: 'ProcoApp', realtime: true
-    }),
-    autoRehydrate()
-  );
-
-  let store = createStore(
-    reducer,
-    null,
-    enhancer
-  );
+  const store = autoRehydrate()(createStore)(reducer, applyMiddleware(...middleware));
 
   persistStore(store, {
     storage: AsyncStorage,
-    transforms: [immutableTransform()]
+    transforms: [reduxPersistImmutable]
   }, onCompletion);
 
   return store;

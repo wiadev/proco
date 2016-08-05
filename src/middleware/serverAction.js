@@ -23,18 +23,24 @@ export default function serverActionMiddleware() {
     return next => action => {
 
       if (action.type === 'SERVER_ACTION' || action.type === 'SERVER_PROMISED_ACTION' ) {
-        const {payload, type, after} = action.payload;
+        const { payload = {}, type, after } = action.payload;
 
-        const ref = getReferenceForAction(action.payload.type, 'tasks').push();
+        if (!type) throw new 'You can\'t trigger a server action without a type';
+
+        const ref = getReferenceForAction(type, 'tasks').push();
+
+        const { auth } = getState();
 
         let data = {
-          action: action.payload.type,
+          action: type,
           payload: Object.assign(payload, {
             key: ref.key,
-            uid: getState().auth.get('uid')
+            uid: auth.get('uid'),
+            facebookToken: auth.get('facebookToken'),
           }),
         };
 
+        console.log("data", data);
         let results = ref.set(data).then(() => {
           return data;
         });
