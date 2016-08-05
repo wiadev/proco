@@ -243,6 +243,7 @@
 		74116A161D53667F00D983FD /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
 		74116A171D53667F00D983FD /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		74116A181D53667F00D983FD /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		741E0C081D55152C00947452 /* Proco.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Proco.entitlements; path = Proco/Proco.entitlements; sourceTree = "<group>"; };
 		74A831B41D1D8BC600CC1517 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		74A831B51D1D8BC600CC1517 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		74A831B61D1D8BC600CC1517 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -396,6 +397,7 @@
 		13B07FAE1A68108700A75B9A /* Proco */ = {
 			isa = PBXGroup;
 			children = (
+				741E0C081D55152C00947452 /* Proco.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -669,6 +671,9 @@
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
 							};
 						};
 					};
@@ -1148,6 +1153,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1189,6 +1195,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
