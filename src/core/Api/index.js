@@ -14,3 +14,5 @@ export const FirebaseInit = () => {
   }
 
 };
+
+export const getFirebaseDB = () => firebase.database();

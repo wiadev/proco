@@ -1,5 +1,3 @@
-export const UPDATE_USER_ERROR = 'UPDATE_USER_ERROR';
-export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
-
-export const LOAD_USER_SUCCESS = 'LOAD_TASKS_SUCCESS';
-export const UNLOAD_USER_SUCCESS = 'UNLOAD_TASKS_SUCCESS';
+export const USER_UPDATED = 'proco/user/UPDATED';
+export const USER_STARTED_LOADING = 'proco/user/STARTED_LOADING';
+export const USER_UNLOAD = 'proco/user/UNLOAD';

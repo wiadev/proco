@@ -7,7 +7,6 @@ import {
   Alert,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { login } from '../../modules/Authentication/actions';
@@ -15,7 +14,10 @@ import { connect } from 'react-redux';
 import styles from './styles';
 
 @connect(
-  state => ({ auth: state.auth }),
+  state => ({
+    auth: state.auth,
+    user: state.user,
+  }),
 )
 class Login extends Component {
 
@@ -33,8 +35,8 @@ class Login extends Component {
   }
 
   checkAuthAndRedirect(props = this.props) {
-    if(props.auth.get('isLoggedIn')) {
-      Actions.registerForm();
+    if(props.user.get('isLoaded')) {
+      Actions.RegisterForm();
     }
   }
 
@@ -69,7 +71,6 @@ class Login extends Component {
   render() {
     return (
       <View style={this.styles.container}>
-        <LinearGradient colors={['#7A36AD', '#7A36AD']} style={this.styles.linearGradient}>
           <Image style={this.styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
           <Swiper
             style={this.styles.swiper}
@@ -94,10 +95,9 @@ class Login extends Component {
           </Swiper>
 
           {
-            (this.props.auth.get('isLoaded') && !this.props.auth.get('isLoggedIn')) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
+            (!this.props.auth.get('isInProgress') && !this.props.auth.get('uid')) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
           }
 
-        </LinearGradient>
       </View>
     );
   }

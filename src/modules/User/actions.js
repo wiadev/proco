@@ -1,4 +1,4 @@
-import FirebaseWrapper from '../../core/Api/FirebaseWrapper';
+import { getFirebaseDB } from '../../core/Api';
 
 import {
   serverPromisedAction,
@@ -6,20 +6,27 @@ import {
 } from '../../core/Api/actions';
 
 import {
-  LOAD_USER,
-  UPDATE_USER,
-  UNLOAD_USER
+  USER_STARTED_LOADING,
+  USER_UPDATED,
+  USER_UNLOAD,
 } from './actionTypes';
+
+function updateUserLocally(data) {
+  return {
+    type: USER_UPDATED,
+    payload: {
+      ...data
+    }
+  };
+}
 
 export function updateUser(data) {
   return (dispatch, getState) => {
-    dispatch(serverPromisedAction({
+    dispatch(updateUserLocally(data));
+    dispatch(serverAction({
       type: 'USER_UPDATE',
       payload: {
         ...data
-      },
-      after: (results) => {
-        dispatch(userUpdate(results));
       }
     }));
   };
@@ -27,12 +34,28 @@ export function updateUser(data) {
 
 export function loadUser() {
   return (dispatch, getState) => {
-    const { auth } = getState();
+    const { auth, user} = getState();
+
+    if (!auth.get('uid')) return;
+    if (user.get('hasStartedLoading')) return;
+
+    dispatch({
+      type: USER_STARTED_LOADING
+    });
+
+    const ref = getFirebaseDB().ref(`users/${auth.get('uid')}/info`);
+
+    ref.on('value', (snap) => {
+      const info = snap.val();
+      if (info) {
+        dispatch(updateUserLocally(info));
+      }
+    });
 
   };
 }
 export function unloadUser() {
   return {
-    type: UNLOAD_USER
+    type: USER_UNLOAD
   };
 }

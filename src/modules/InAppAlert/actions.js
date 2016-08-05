@@ -13,7 +13,11 @@ export const showInAppAlert = (data) => {
 };
 
 export const clearInAppAlert = () => {
-  return {
-    type: CLEAR_IN_APP_ALERT,
+  return (dispatch, getState) => {
+    if(getState().inAppAlert.get('show')) {
+      dispatch({
+        type: CLEAR_IN_APP_ALERT,
+      });
+    }
   };
 };

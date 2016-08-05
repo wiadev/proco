@@ -10,9 +10,7 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
-  },
-  linearGradient: {
+    backgroundColor: '#7A36AD',
     opacity: 1,
     justifyContent: 'space-between',
     alignItems: 'center',

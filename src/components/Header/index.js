@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 0,
-    transform: [{ scale: 0.6 }],
     alignSelf: 'center',
+    height: 25
   },
 });
 
-class HeaderComp extends Component {
+class Header extends Component {
 
   static propTypes = {
     leftIcon: React.PropTypes.string,
@@ -109,4 +109,4 @@ class HeaderComp extends Component {
   }
 }
 
-export default HeaderComp;
+export default Header;

@@ -21,20 +21,17 @@ export default function serverActionMiddleware() {
   return ({ getState }) => {
 
     return next => action => {
-      console.log(action);
 
       if (action.type === 'SERVER_ACTION' || action.type === 'SERVER_PROMISED_ACTION' ) {
-        const { payload, type, after } = action.payload;
+        const {payload, type, after} = action.payload;
 
-        const ref = getReferenceForAction(action, 'tasks').push();
-
-        const { auth } = getState();
+        const ref = getReferenceForAction(action.payload.type, 'tasks').push();
 
         let data = {
-          action,
+          action: action.payload.type,
           payload: Object.assign(payload, {
             key: ref.key,
-            uid: auth.get('uid')
+            uid: getState().auth.get('uid')
           }),
         };
 
@@ -42,26 +39,27 @@ export default function serverActionMiddleware() {
           return data;
         });
 
-        if (action.type === 'SERVER_PROMISED_ACTION') {
-            results = results.then((data) => {
-              const ref = getReferenceForAction(data.action, 'results').child(data.payload.key);
+        if (after) {
+          if (action.type === 'SERVER_PROMISED_ACTION') {
+          results = results.then((data) => {
+            const ref = getReferenceForAction(data.action, 'results').child(data.payload.key);
 
-              return new Promise((resolve, reject) => {
-                ref.on('value', (snap) => {
-                  const result = snap.val();
-                  if (result !== null) {
-                    resolve(Object.assign(data, {
-                      result
-                    }));
-                    ref.off();
-                    ref.remove();
-                  }
-                });
+            return new Promise((resolve, reject) => {
+              ref.on('value', (snap) => {
+                const result = snap.val();
+                if (result !== null) {
+                  resolve(Object.assign(data, {
+                    result
+                  }));
+                  ref.off();
+                  ref.remove();
+                }
               });
             });
+          });
         }
-
-        results.then(data => after(data));
+          results.then(data => after(data));
+        }
 
         return results;
 

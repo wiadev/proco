@@ -1,33 +1,23 @@
 import React, { Component } from 'react';
-import DropdownAlert from 'react-native-dropdownalert'
+import { AlertIOS } from 'react-native'
 
 class InAppAlert extends Component {
 
-  componentDidMount() {
-    this.showAlert();
-  }
-
-  componentWillReceiveProps(props) {
-    this.showAlert(props);
-  }
-
-  showAlert(props = this.props) {
-    const { show, type, title, message } = props;
-    if (show) this.refs.dropdown.alert(type, title, message);
+  componentDidUpdate() {
+    this.props.clear();
   }
 
   render() {
-    const { show, closeInterval, imageUri = 'https://facebook.github.io/react/img/logo_og.png'} = this.props;
-    if (!show) {
-      return null;
+    const { show, title = null, text = null, clear } = this.props;
+
+    if (show) {
+      AlertIOS.alert(
+        title,
+        text
+      );
     }
 
-    return (
-      <DropdownAlert ref={'dropdown'}
-                     imageUri={imageUri}
-                     closeInterval={closeInterval}
-      />
-    );
+    return null;
   }
 }
 

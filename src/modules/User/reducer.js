@@ -2,37 +2,38 @@ import { Map } from 'immutable';
 import { AsyncStorage } from 'react-native';
 
 import {
-  STARTED,
-  LOADED,
-  LOGGED_IN_TO_FACEBOOK,
-  LOGGED_IN_TO_FIREBASE,
-  LOGGED_OUT,
+  USER_STARTED_LOADING,
+  USER_UPDATED,
+  USER_UNLOAD,
 } from './actionTypes';
 
 export const initialState = Map({
+  hasStartedLoading: false,
   isLoaded: false,
-  isInProgress: false,
   isLoggedIn: false,
-  facebookToken: null,
-  uid: null,
+  fid: null,
+  gender: null,
+  first_name: null,
+  birthday: null,
+  network_email: null,
+  network_is_verified: false,
 });
 
 export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
     default: return state;
-    case STARTED:
-      return state.set('isLoaded', false).set('isInProgress', true);
-    case LOADED:
-      return state.set('isLoaded', true).set('isInProgress', false);
-    case LOGGED_IN_TO_FACEBOOK:
-      return state.set('facebookToken', action.payload.facebookToken);
-    case LOGGED_IN_TO_FIREBASE:
+    case USER_STARTED_LOADING:
+      return initialState.set('hasStartedLoading', true);
+    case USER_UPDATED:
       return state.set('isLoaded', true)
-                  .set('isInProgress', false)
-                  .set('isLoggedIn', true)
-                  .set('uid', action.payload.uid);
-    case LOGGED_OUT:
+                  .set('fid', action.payload.fid)
+                  .set('gender', action.payload.gender)
+                  .set('first_name', action.payload.first_name)
+                  .set('birthday', action.payload.birthday)
+                  .set('network_email', action.payload.network_email)
+                  .set('network_is_verified', action.payload.network_is_verified);
+    case USER_UNLOAD:
       return initialState;
   }
 }

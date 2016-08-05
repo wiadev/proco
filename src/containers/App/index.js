@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { AppState, View } from 'react-native';
+import { AppState, View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { loadAuth } from '../../modules/Authentication/actions';
+import { clearInAppAlert } from '../../modules/InAppAlert/actions';
 import InAppAlert  from '../../components/InAppAlert';
 
 import Routes from './Routes';
@@ -16,6 +17,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +31,7 @@ class App extends Component {
 
   handleAppStateChange(appState) {
     if (appState == 'active') {
+      console.log("active")
       this.props.dispatch(loadAuth());
     }
   }
@@ -38,24 +41,21 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.props.auth.toJS())
-    if(this.props.auth.get('isLoaded')) {
-      const inAppAlert = this.props.inAppAlert;
-      return (
-        <View>
-          <InAppAlert
-            show={inAppAlert.get('show')}
-            type={inAppAlert.get('type')}
-            title={inAppAlert.get('title')}
-            text={inAppAlert.get('text')}
-            closeInterval={inAppAlert.get('closeInterval')}
-          />
-          <Routes/>
-        </View>
-      );
-    } else {
-      return null;
-    }
+    const inAppAlert = this.props.inAppAlert;
+    return (
+      <View>
+        <InAppAlert
+          show={inAppAlert.get('show')}
+          title={inAppAlert.get('title')}
+          text={inAppAlert.get('text')}
+          clear={() => this.props.dispatch(clearInAppAlert())}
+        />
+        <StatusBar
+          barStyle="light-content"
+        />
+        <Routes/>
+      </View>
+    );
   }
 }
 

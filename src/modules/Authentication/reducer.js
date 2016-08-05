@@ -2,14 +2,14 @@ import { Map } from 'immutable';
 
 import {
   STARTED,
-  LOGGED_IN,
-  LOGGED_OUT,
+  LOADED,
+  SET,
+  UNLOAD,
 } from './actionTypes';
 
 export const initialState = Map({
   isLoaded: false,
   isInProgress: false,
-  isLoggedIn: false,
   uid: null,
   facebookToken: null,
 });
@@ -21,14 +21,16 @@ export default function reducer(state = initialState, action = {}) {
     case STARTED:
       return state.set('isLoaded', false)
                   .set('isInProgress', true);
-    case LOGGED_IN:
+    case LOADED:
+      return state.set('isLoaded', true)
+                  .set('isInProgress', false);
+    case SET:
       return state.set('isLoaded', true)
                   .set('isInProgress', false)
-                  .set('isLoggedIn', true)
                   .set('uid', action.payload.uid)
                   .set('facebookToken', action.payload.facebookToken);
-    case LOGGED_OUT:
-      return initialState.set('isLoaded', true);
+    case UNLOAD:
+      return initialState;
   }
 
 }

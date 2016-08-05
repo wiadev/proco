@@ -3,8 +3,8 @@ import { Router, Scene } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import Login from './../../scenes/Login';
-import RegisterForm from './../../components/registerForm/registerForm';
-import MainScreen from './../../components/mainScreen/mainScreen';
+import RegisterForm from '../../scenes/RegisterForm';
+/*import MainScreen from './../../components/mainScreen/mainScreen';
 import updateYourQuestionScreen from './../../components/updateYourQuestionScreen/updateYourQuestionScreen';
 import shootNewProfileScreen from './../../components/shootNewProfileScreen/shootNewProfileScreen';
 import discoverySettingsScreen from './../../components/discoverySettingsScreen/discoverySettingsScreen';
@@ -16,9 +16,12 @@ import askQuestionPermissionScreen from './../../components/askQuestionPermissio
 import notificationPermissionScreen from './../../components/notificationPermissionScreen/notificationPermissionScreen';
 import shootLoopPermissionScreen from './../../components/shootLoopPermissionScreen/shootLoopPermissionScreen';
 import updateYourSchoolScreen from './../../components/updateYourSchoolScreen/updateYourSchoolScreen';
-
+*/
 @connect(
-  state => ({ auth: state.auth }),
+  state => ({
+    auth: state.auth,
+    user: state.user,
+  }),
 )
 class Routes extends Component {
 
@@ -26,20 +29,20 @@ class Routes extends Component {
     super(props);
   }
 
-  isActiveUser(auth = this.props.auth) {
-    return (auth.get('isLoggedIn') && auth.get('isBoarded'));
+  isActiveUser(props = this.props) {
+    return (props.auth.get('isLoggedIn') && props.user.get('network_email_is_verified'));
   }
 
   shouldComponentUpdate(nextProps)  {
-    return (this.isActiveUser() !== this.isActiveUser(nextProps.auth));
+    return (this.isActiveUser() !== this.isActiveUser(nextProps));
   }
 
   render() {
 
     const newUserScenes = () => (
       <Scene key="root">
-        <Scene key="login" component={Login} hideNavBar={true} initial={false} />
-        <Scene key="registerForm" component={RegisterForm} hideNavBar={true} initial={false} />
+        <Scene key="Login" component={Login} hideNavBar={true} initial={false} />
+        <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} initial={false} />
       </Scene>
     );
 
