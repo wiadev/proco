@@ -63,25 +63,22 @@ const getAuth = () =>{
 
 export const loadAuth = (uid, facebookToken) => {
   return (dispatch, getState) => {
+    const { auth } = getState();
 
-    if (!uid || !facebookToken) {
-      const { auth } = getState();
-      if(!uid) uid = auth.get('uid');
-      if(!facebookToken) facebookToken = auth.get('facebookToken');
-    }
-
-    if (!uid || !facebookToken) {
-      dispatch(getAuth());
-      return;
-    }
-
-    dispatch({
-      type: SET,
-      payload: {
-        uid,
-        facebookToken,
+    if (!(auth.get('uid') && auth.get('facebookToken'))) {
+      if (!uid && !facebookToken) {
+        dispatch(getAuth());
+        return;
       }
-    });
+
+      dispatch({
+        type: SET,
+        payload: {
+          uid,
+          facebookToken,
+        }
+      });
+    }
 
     dispatch(loadUser());
 

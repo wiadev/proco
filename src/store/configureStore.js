@@ -6,7 +6,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import devTools from 'remote-redux-devtools';
 import middleware from './../middleware/middlewareConfig';
 import reducer from './configureReducers';
-import immutableTransform from 'redux-persist-transform-immutable'
+import immutableTransform from './immutableTransform';
 
 export const configureStore = (onCompletion = () => {}) => {
 

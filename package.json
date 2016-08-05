@@ -39,7 +39,6 @@
     "redux-logger": "2.6.1",
     "redux-loop": "2.2.2",
     "redux-persist": "^3.2.2",
-    "redux-persist-transform-immutable": "^3.1.0",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.1.0",
     "rnpm": "1.9.0"
