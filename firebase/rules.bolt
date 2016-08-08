@@ -1,0 +1,26 @@
+isCurrentUser(uid) { auth != null && auth.uid == uid }
+isAdmin(uid) { prior(root.admins[auth.uid] }
+isVerified(uid) { auth != null && auth.uid == uid }
+
+isCurrentUser(uid) { isSignedIn() && auth.uid == uid }
+isSignedIn() { auth != null }
+createOnly(value) { prior(value) == null && value != null }
+belongsToUser(value) { value.uid.val(== null && value != null }
+
+type CurrentTimestamp extends Number {
+  validate() { this == now }
+}
+
+path /queues/$action/results/$resultId {
+	read() { true }
+	write() { createOnly(this) && auth.uid === data.child('uid').val() }
+}
+
+path /queues/$action/tasks/$taskId {
+	write() { createOnly(this) && auth.uid === newData.child('payload').child('uid').val() }
+	index() { ['_state'] }
+}
+
+path /users/$uid/info {
+	read() { isCurrentUser($uid) }
+}
