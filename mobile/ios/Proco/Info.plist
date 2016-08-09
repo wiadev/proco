@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.2</string>
+	<string>1.0.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,22 +29,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
-	<key>CodePushDeploymentKey</key>
-	<string>exddagaa6deaahf5Jtqj64fCgScDEJKHCtHifg</string>
-	<key>Fabric</key>
-	<dict>
-		<key>APIKey</key>
-		<string>514ca2fb43966faff63b02a1fe51358d8b02d904</string>
-		<key>Kits</key>
-		<array>
-			<dict>
-				<key>KitInfo</key>
-				<dict/>
-				<key>KitName</key>
-				<string>Crashlytics</string>
-			</dict>
-		</array>
-	</dict>
 	<key>FacebookAppID</key>
 	<string>1169837529717559</string>
 	<key>FacebookDisplayName</key>
@@ -73,11 +57,6 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Montserrat-Regular.ttf</string>
-		<string>Montserrat-Thin.ttf</string>
-		<string>Montserrat-Light.ttf</string>
-		<string>Montserrat-Bold.ttf</string>
-		<string>Montserrat-Black.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>FontAwesome.ttf</string>
@@ -86,6 +65,12 @@
 		<string>MaterialIcons.ttf</string>
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

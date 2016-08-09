@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Scene } from 'react-native-router-flux';
+import { Actions, Router, Scene } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import Login from './../../scenes/Login';
@@ -17,6 +17,89 @@ import notificationPermissionScreen from './../../components/notificationPermiss
 import shootLoopPermissionScreen from './../../components/shootLoopPermissionScreen/shootLoopPermissionScreen';
 import updateYourSchoolScreen from './../../components/updateYourSchoolScreen/updateYourSchoolScreen';
 */
+
+const newUserScenes = Actions.create(
+  <Scene key="root">
+    <Scene key="Login" component={Login} hideNavBar={true} initial={false} />
+    <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} initial={false} />
+  </Scene>
+);
+
+const activeUserScenes = Actions.create(
+  <Scene key="activeUserRoot">
+    <Scene key="mainScreen" component={MainScreen} hideNavBar={true} initial={true} />
+    <Scene
+      key="updateYourQuestionScreen"
+      component={updateYourQuestionScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="shootNewProfileScreen"
+      component={shootNewProfileScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="discoverySettingsScreen"
+      component={discoverySettingsScreen}
+      hideNavBar={true}
+      direction="vertical"
+      initial={false}
+    />
+    <Scene
+      key="moreSettingsScreen"
+      component={moreSettingsScreen}
+      hideNavBar={true}
+      direction="vertical"
+      initial={false}
+    />
+    <Scene
+      key="messagesListScreen"
+      component={messagesListScreen}
+      hideNavBar={true}
+      direction="vertical"
+      initial={false}
+    />
+    <Scene
+      key="talkScreen"
+      component={talkScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="cameraPermissionScreen"
+      component={cameraPermissionScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="askQuestionPermissionScreen"
+      component={askQuestionPermissionScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="notificationPermissionScreen"
+      component={notificationPermissionScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="shootLoopPermissionScreen"
+      component={shootLoopPermissionScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+    <Scene
+      key="updateYourSchoolScreen"
+      component={updateYourSchoolScreen}
+      hideNavBar={true}
+      initial={false}
+    />
+  </Scene>
+);
+
 @connect(
   state => ({
     auth: state.auth,
@@ -38,88 +121,6 @@ class Routes extends Component {
   }
 
   render() {
-
-    const newUserScenes = () => (
-      <Scene key="root">
-        <Scene key="Login" component={Login} hideNavBar={true} initial={false} />
-        <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} initial={false} />
-      </Scene>
-    );
-
-    const activeUserScenes = () => (
-      <Scene key="activeUserRoot">
-        <Scene key="mainScreen" component={MainScreen} hideNavBar={true} initial={true} />
-        <Scene
-          key="updateYourQuestionScreen"
-          component={updateYourQuestionScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="shootNewProfileScreen"
-          component={shootNewProfileScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="discoverySettingsScreen"
-          component={discoverySettingsScreen}
-          hideNavBar={true}
-          direction="vertical"
-          initial={false}
-        />
-        <Scene
-          key="moreSettingsScreen"
-          component={moreSettingsScreen}
-          hideNavBar={true}
-          direction="vertical"
-          initial={false}
-        />
-        <Scene
-          key="messagesListScreen"
-          component={messagesListScreen}
-          hideNavBar={true}
-          direction="vertical"
-          initial={false}
-        />
-        <Scene
-          key="talkScreen"
-          component={talkScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="cameraPermissionScreen"
-          component={cameraPermissionScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="askQuestionPermissionScreen"
-          component={askQuestionPermissionScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="notificationPermissionScreen"
-          component={notificationPermissionScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="shootLoopPermissionScreen"
-          component={shootLoopPermissionScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-        <Scene
-          key="updateYourSchoolScreen"
-          component={updateYourSchoolScreen}
-          hideNavBar={true}
-          initial={false}
-        />
-      </Scene>
-    );
 
     return (
       <Router>
