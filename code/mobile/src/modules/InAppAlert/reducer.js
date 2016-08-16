@@ -1,30 +1,85 @@
 import { Map } from 'immutable';
+import _ from 'lodash';
 
 import {
-  SHOW_IN_APP_ALERT,
-  CLEAR_IN_APP_ALERT,
+    CREATE_ALERT,
+    DELETE_ALERT
 } from './actionTypes';
 
+/*
+alert props:
+    id: string or null
+    type: string['danger'|'warning'|'success'|'info']
+    duration: int
+    title: string
+    context: string
+*/
+
 export const initialState = new Map({
-  show: false,
-  type: null,
-  title: null,
-  text: null,
-  closeInterval: 4000
+    alerts: [
+        {
+            id: null,
+            type: 'danger',
+            duration: 4000,
+            title: "Test Alert",
+            context: "You got test alerted."
+        },
+        {
+            id: null,
+            type: 'warning',
+            duration: 4000,
+            title: "Test Alert",
+            context: "You got test alerted."
+        },
+        {
+            id: null,
+            type: 'success',
+            duration: 4000,
+            title: "Test Alert",
+            context: "You got test alerted."
+        },
+        {
+            id: null,
+            type: 'info',
+            duration: 4000,
+            title: "Test Alert",
+            context: "You got test alerted."
+        }
+    ]
 });
 
-export default function reducer(state = initialState, action = {}) {
+const defaultAlertProps = {
+    id: null,
+    type: 'info',
+    duration: 4000,
+    title: "",
+    context: ""
+};
 
-  switch (action.type) {
-    default: return state;
-    case SHOW_IN_APP_ALERT:
-      return state.set('show', true)
-                  .set('type', action.payload.type)
-                  .set('title', action.payload.title)
-                  .set('text', action.payload.text)
-                  .set('closeInterval', action.payload.closeInterval);
-    case CLEAR_IN_APP_ALERT:
-      return initialState;
-  }
+export default function reducer(state = initialState, action) {
+    let alerts = state.get('alerts');
 
+    switch (action.type) {
+        case CREATE_ALERT:
+            alerts.push({
+                ...defaultAlertProps,
+                ...action.payload
+            });
+
+            return state.set('alerts', alerts);
+        case DELETE_ALERT:
+            if (typeof(action.payload) === 'object') {
+                _.remove(alerts, alert => {
+                    return _.isEqual(alert, action.payload);
+                });
+            } else {
+                _.remove(alerts, alert => {
+                    return alert.id === action.payload;
+                });
+            }
+
+            return state.set('alerts', alerts);
+        default:
+            return state;
+    }
 }

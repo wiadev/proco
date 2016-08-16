@@ -1,24 +1,39 @@
-import React, { Component } from 'react';
-import { AlertIOS } from 'react-native'
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+    View,
+    StatusBar
+} from 'react-native';
 
-class InAppAlert extends Component {
+import Alert from './Alert';
+import { deleteAlert } from '../../modules/InAppAlert/actions';
 
-  componentDidUpdate() {
-    this.props.clear();
-  }
+class InAppAlert extends React.Component {
+    render() {
+        const hideStatusBar = this.props.inAppAlerts.get('alerts').length > 0;
 
-  render() {
-    const { show, title = null, text = null, clear } = this.props;
+        console.log(this.props.inAppAlerts.toJS());
 
-    if (show) {
-      AlertIOS.alert(
-        title,
-        text
-      );
+        return (
+            <View>
+                <StatusBar hidden={hideStatusBar} />
+
+                {this.props.inAppAlerts.get('alerts').map((alert, key) => {
+                    return (
+                        <Alert key={key} alert={alert} onComplete={() => this._onAlertComplete(alert)} />
+                    );
+                })}
+            </View>
+        );
     }
 
-    return null;
-  }
+    _onAlertComplete(alert) {
+        this.props.dispatch(deleteAlert(alert));
+    }
 }
 
-export default InAppAlert;
+export default connect(state => {
+    return {
+        inAppAlerts: state.inAppAlerts
+    };
+})(InAppAlert);
