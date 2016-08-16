@@ -1,0 +1,17 @@
+platform :ios, '9.0'
+
+target 'Proco' do
+
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+
+  target 'ProcoTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+

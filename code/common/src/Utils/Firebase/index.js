@@ -1,0 +1,1 @@
+export const getDataFromRef = (ref) => ref.once('value').then(snap => snap.val());

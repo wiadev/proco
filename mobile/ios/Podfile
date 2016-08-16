@@ -1,7 +1,0 @@
-platform :ios, '9.0'
-
-target 'Proco' do
-    pod 'Firebase'
-    pod 'Fabric'
-	pod 'Crashlytics'
-end
