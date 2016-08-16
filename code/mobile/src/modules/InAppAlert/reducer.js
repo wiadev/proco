@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { fromJS } from 'immutable';
 import _ from 'lodash';
 
 import {
@@ -15,7 +15,7 @@ alert props:
     context: string
 */
 
-export const initialState = new Map({
+export const initialState = fromJS({
     alerts: [
         {
             id: null,
@@ -27,7 +27,7 @@ export const initialState = new Map({
         {
             id: null,
             type: 'warning',
-            duration: 4000,
+            duration: 9000,
             title: "Test Alert",
             context: "You got test alerted."
         },
@@ -41,7 +41,7 @@ export const initialState = new Map({
         {
             id: null,
             type: 'info',
-            duration: 4000,
+            duration: 9000,
             title: "Test Alert",
             context: "You got test alerted."
         }
@@ -57,7 +57,7 @@ const defaultAlertProps = {
 };
 
 export default function reducer(state = initialState, action) {
-    let alerts = state.get('alerts');
+    let alerts = state.toJS().alerts;
 
     switch (action.type) {
         case CREATE_ALERT:
@@ -78,7 +78,7 @@ export default function reducer(state = initialState, action) {
                 });
             }
 
-            return state.set('alerts', alerts);
+            return state.set('alerts', fromJS(alerts));
         default:
             return state;
     }

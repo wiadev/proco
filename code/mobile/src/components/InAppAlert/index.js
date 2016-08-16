@@ -10,25 +10,25 @@ import { deleteAlert } from '../../modules/InAppAlert/actions';
 
 class InAppAlert extends React.Component {
     render() {
-        const hideStatusBar = this.props.inAppAlerts.get('alerts').length > 0;
-
-        console.log(this.props.inAppAlerts.toJS());
+        const alerts = this.props.inAppAlerts.get('alerts').toJS();
+        const hasAlert = alerts.length > 0;
 
         return (
             <View>
-                <StatusBar hidden={hideStatusBar} />
+                <StatusBar hidden={hasAlert} />
 
-                {this.props.inAppAlerts.get('alerts').map((alert, key) => {
+                {hasAlert ? alerts.map((alert, key) => {
                     return (
                         <Alert key={key} alert={alert} onComplete={() => this._onAlertComplete(alert)} />
                     );
-                })}
+        }) : null}
             </View>
         );
     }
 
     _onAlertComplete(alert) {
         this.props.dispatch(deleteAlert(alert));
+        
     }
 }
 
