@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, saveDiscoverySettings } from './redux';
-import store from '../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Picker from 'react-native-picker';
@@ -34,7 +33,11 @@ setTheme({
   },
 });
 
-
+@connect(
+  state => ({
+    discoverySettingsScreenReducer: state.discoverySettingsScreenReducer,
+  }),
+)
 class DiscoverySettingsScreen extends Component {
   static getStyles() {
     return styles;
@@ -44,13 +47,13 @@ class DiscoverySettingsScreen extends Component {
     super(props);
     this.styles = styles;
     this.groupRdSchool = new MKRadioButton.Group();
-    this.state = store.getState().discoverySettingsScreenReducer.toJS();
+    this.state = this.props.discoverySettingsScreenReducer.toJS();
   }
 
   state = {};
 
   componentDidMount() {
-    store.dispatch(loadPage());
+    this.props.dispatch(loadPage());
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -62,7 +65,7 @@ class DiscoverySettingsScreen extends Component {
   }
 
   onSave() {
-    store.dispatch(saveDiscoverySettings(this.state));
+    this.props.dispatch(saveDiscoverySettings(this.state));
     Actions.pop();
   }
 
@@ -193,4 +196,4 @@ class DiscoverySettingsScreen extends Component {
   }
 }
 
-export default connect(() => defaultState.toJS())(DiscoverySettingsScreen);
+export default DiscoverySettingsScreen;

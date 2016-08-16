@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, saveMoreSettings } from './redux';
-import store from '../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconM from 'react-native-vector-icons/MaterialIcons';
@@ -497,4 +496,4 @@ class MoreSettingsScreen extends Component {
   }
 }
 
-export default connect(() => defaultState.toJS())(MoreSettingsScreen);
+export default MoreSettingsScreen;
