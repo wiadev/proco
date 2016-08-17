@@ -11,7 +11,8 @@ export const initialState = Map({
   isLoaded: false,
   isInProgress: false,
   uid: null,
-  facebookToken: null,
+  firebase_token: null,
+  facebook_token: null,
 });
 
 export default function reducer(state = initialState, action = {}) {
@@ -28,7 +29,8 @@ export default function reducer(state = initialState, action = {}) {
       return state.set('isLoaded', true)
                   .set('isInProgress', false)
                   .set('uid', action.payload.uid)
-                  .set('facebookToken', action.payload.facebookToken);
+                  .set('firebase_token', action.payload.firebase_token)
+                  .set('facebook_token', action.payload.facebook_token);
     case UNLOAD:
       return initialState;
   }

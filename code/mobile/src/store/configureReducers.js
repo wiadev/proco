@@ -5,13 +5,15 @@ import { Map } from 'immutable';
 
 import inAppAlertReducer from '../modules/InAppAlert/reducer';
 import authReducer from '../modules/Authentication/reducer';
-import userReducer from '../modules/User/reducer';
-
+import {
+  Main as userReducer,
+  Settings as settingsReducer,
+  DiscoveryFilters as discoveryFiltersReducer,
+} from '../modules/User/reducers';
 import mainScreenReducer from '../components/MainScreen/redux';
 import updateYourQuestionScreenReducer from '../components/UpdateYourQuestionScreen/redux';
 import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/redux';
 import discoverySettingsScreenReducer from '../components/DiscoverySettingsScreen/redux';
-import moreSettingsScreenReducer from '../components/MoreSettingsScreen/redux';
 import messagesListScreenReducer from '../components/MessagesListScreen/redux';
 import talkScreenReducer from '../components/TalkScreen/redux';
 import updateYourSchoolScreenReducer from '../components/UpdateYourSchoolScreen/redux';
@@ -20,11 +22,12 @@ const reducers = {
   inAppAlert: inAppAlertReducer,
   auth: authReducer,
   user: userReducer,
+  settings: settingsReducer,
+  discoveryFilters: discoveryFiltersReducer,
   mainScreenReducer,
   updateYourQuestionScreenReducer,
   shootNewProfileScreenReducer,
   discoverySettingsScreenReducer,
-  moreSettingsScreenReducer,
   messagesListScreenReducer,
   talkScreenReducer,
   updateYourSchoolScreenReducer,

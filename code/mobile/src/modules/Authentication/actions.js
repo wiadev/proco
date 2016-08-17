@@ -14,7 +14,7 @@ import {
 
 import {
   loadUser,
-  unloadUser,
+  updateUser,
 } from '../User/actions';
 
 import {
@@ -43,16 +43,13 @@ const getAuth = () =>{
       unsubscribe();
 
       getFacebookAccessToken()
-        .then(facebookToken => {
-          if (user) {
-            dispatch(loadAuth(user.uid, facebookToken));
-          } else {
-            firebase.auth().signInWithCredential(
-              firebase.auth.FacebookAuthProvider.credential(facebookToken)
-            ).then((user) => {
-              dispatch(loadAuth(user.uid, facebookToken));
-            });
-          }
+        .then(facebook_token => {
+          if (user) dispatch(loadAuth(user, facebook_token));
+          return firebase.auth().signInWithCredential(
+            firebase.auth.FacebookAuthProvider.credential(facebook_token)
+          ).then(user => {
+            dispatch(loadAuth(user, facebook_token))
+          });
         })
         .catch(() => dispatch(logout()));
 
@@ -61,29 +58,39 @@ const getAuth = () =>{
 };
 
 
-export const loadAuth = (uid, facebookToken) => {
+export const loadAuth = (user, facebook_token) => {
   return (dispatch, getState) => {
     const { auth } = getState();
 
-    if (!(auth.get('uid') && auth.get('facebookToken'))) {
-      if (!uid && !facebookToken) {
+    if (!(auth.get('uid') && auth.get('facebook_token'))) {
+      if (!uid && !facebook_token) {
         dispatch(getAuth());
         return;
       }
+      
+      const { uid, token } = user;
 
       dispatch({
         type: SET,
         payload: {
           uid,
-          facebookToken,
+          firebase_token: token,
+          facebook_token,
         }
       });
+
+      dispatch(updateUser('tokens', {
+        facebook_token,
+      }));
     }
 
-    dispatch(loadUser());
+    dispatch(loadUser('info'));
 
     dispatch(serverAction({
-      type: 'USER_PING'
+      type: 'USER_PING',
+      payload: {
+        event: 'LOGGED_IN'
+      }
     }));
 
   }

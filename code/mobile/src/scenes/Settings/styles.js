@@ -5,13 +5,10 @@ import {
   Dimensions,
   StatusBar,
   ScrollView,
-  Image,
 } from 'react-native';
-
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
 
 const styles = StyleSheet.create({
   preview: {
@@ -20,44 +17,8 @@ const styles = StyleSheet.create({
     width,
     backgroundColor: '#f6f6f6',
   },
-  topMenu: {
-    paddingTop: 20,
-    height: 65,
-    width,
-    backgroundColor: 'white',
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    shadowColor: '#000000',
-    shadowOpacity: 0.35,
-    shadowRadius: 0.5,
-    shadowOffset: {
-      height: 0.5,
-      width: 0,
-    },
-  },
-  topMenuLeft: {
-    flex: 0,
-    width: width * 25 / 100,
-    position: 'relative',
-    backgroundColor: 'transparent',
-    alignItems: 'flex-start',
-    paddingLeft: 12,
-  },
-  topMenuRight: {
-    flex: 0,
-    width: width * 25 / 100,
-    position: 'relative',
-    backgroundColor: 'transparent',
-    alignItems: 'flex-end',
-    paddingRight: 12,
-  },
-  btnSave: {
-    color: 'rgb(71,71,71)',
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 13,
-    textAlign: 'center',
+  container: {
+    paddingTop: 65,
   },
   topMenuMid: {
     flex: 0,

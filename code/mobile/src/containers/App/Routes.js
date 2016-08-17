@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 
 import Login from '../../scenes/Login';
 import RegisterForm from '../../scenes/RegisterForm';
+import Settings from '../../scenes/Settings';
+import WebViewModal from '../../scenes/WebViewModal';
 import MainScreen from '../../components/MainScreen';
 import UpdateYourQuestionScreen from '../../components/UpdateYourQuestionScreen';
 import ShootNewProfileScreen from '../../components/ShootNewProfileScreen';
 import DiscoverySettingsScreen from '../../components/DiscoverySettingsScreen';
-import MoreSettingsScreen from '../../components/MoreSettingsScreen';
 import MessagesListScreen from '../../components/MessagesListScreen';
 import TalkScreen from '../../components/TalkScreen';
 import CameraPermissionScreen from '../../components/CameraPermissionScreen';
@@ -21,7 +22,16 @@ const scenes = Actions.create(
   <Scene key="root">
     <Scene key="Login" component={Login} hideNavBar={true} initial={false} />
     <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} initial={false} />
-    <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={true} />
+    <Scene
+      key="Settings"
+      component={Settings}
+      hideNavBar={false}
+      direction="vertical"
+      initial={true}
+      title="Settings"
+    />
+    <Scene key="WebViewModal" direction="vertical" hideNavBar={false}  component={WebViewModal}  />
+    <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={false} />
     <Scene
       key="UpdateYourQuestionScreen"
       component={UpdateYourQuestionScreen}
@@ -37,13 +47,6 @@ const scenes = Actions.create(
     <Scene
       key="DiscoverySettingsScreen"
       component={DiscoverySettingsScreen}
-      hideNavBar={true}
-      direction="vertical"
-      initial={false}
-    />
-    <Scene
-      key="MoreSettingsScreen"
-      component={MoreSettingsScreen}
       hideNavBar={true}
       direction="vertical"
       initial={false}
@@ -113,6 +116,8 @@ class Routes extends Component {
   shouldComponentUpdate(nextProps)  {
     return (this.isActiveUser() !== this.isActiveUser(nextProps));
   }
+
+  componentDidMount
 
   render() {
     return <Router scenes={scenes} />;

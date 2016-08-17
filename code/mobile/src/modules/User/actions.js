@@ -1,5 +1,7 @@
 import { database } from '../../core/Api';
 
+export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
+
 import {
   serverPromisedAction,
   serverAction
@@ -11,47 +13,41 @@ import {
   USER_UNLOAD,
 } from './actionTypes';
 
-function updateUserLocally(data) {
+export function updateUserLocally(type, data) {
   return {
-    type: USER_UPDATED,
+    type: `USER_UPDATED_${type}`,
     payload: {
       ...data
     }
   };
 }
 
-export function updateUser(data) {
+export function updateUser(type, data = {}, after = () => {}) {
   return (dispatch, getState) => {
-    dispatch(updateUserLocally(data));
-    dispatch(serverAction({
-      type: 'USER_UPDATE',
-      payload: {
-        ...data
-      }
-    }));
+    const { auth } = getState();
+    getUserRef(auth.get('uid'), type).update(data).then(() => {
+      dispatch(updateUserLocally(type, data));
+      dispatch(serverAction({
+        type: `USER_UPDATED_${type}`,
+        payload: {
+          ...data
+        }
+      }));
+
+      after();
+
+    });
   };
 }
 
-export function loadUser() {
+export function loadUser(type) {
   return (dispatch, getState) => {
-    const { auth, user} = getState();
+    const { auth, user } = getState();
 
     if (!auth.get('uid')) return;
-    if (user.get('hasStartedLoading')) return;
-
-    dispatch({
-      type: USER_STARTED_LOADING
-    });
-
-    const ref = database().ref(`users/${auth.get('uid')}/info`);
-
-    ref.on('value', (snap) => {
-      const info = snap.val();
-      if (info) {
-        dispatch(updateUserLocally(info));
-      }
-    });
-
+    getUserRef(auth.get('uid'), type).once('value',
+      (snap) => dispatch(updateUserLocally(type, snap.val()))
+    );
   };
 }
 export function unloadUser() {

@@ -5,7 +5,7 @@ import {
   USER_STARTED_LOADING,
   USER_UPDATED,
   USER_UNLOAD,
-} from './actionTypes';
+} from '../actionTypes';
 
 export const initialState = Map({
   hasStartedLoading: false,
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action = {}) {
     default: return state;
     case USER_STARTED_LOADING:
       return initialState.set('hasStartedLoading', true);
-    case USER_UPDATED:
+    case 'USER_UPDATED_INFO':
       return state.set('isLoaded', true)
                   .set('fid', action.payload.fid)
                   .set('gender', action.payload.gender)
