@@ -4,6 +4,7 @@ import {
   ActivityIndicator,
   View,
   Image,
+  TouchableHighlight,
   Alert,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
@@ -11,6 +12,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { login } from '../../modules/Authentication/actions';
 import { connect } from 'react-redux';
+import { PRIVACY_PAGE, TERMS_PAGE } from '../../core/StaticPages';
+
 import styles from './styles';
 
 @connect(
@@ -54,9 +57,19 @@ class Login extends Component {
             Login with Facebook
           </Text>
         </View>
-        <Text style={this.styles.footerText}>
-          By continuing you agree to our terms and privacy policy
-        </Text>
+        <TouchableHighlight onPress={() => Alert.alert(
+          'Which one do you want to see?',
+          null,
+          [
+            {text: 'Terms of Use', onPress: () =>  Actions.WebViewModal(TERMS_PAGE)},
+            {text: 'Privacy Policy', onPress: () => Actions.WebViewModal(PRIVACY_PAGE)},
+            {text: 'Cancel', onPress: () => {}},
+          ]
+        )}>
+          <Text style={this.styles.footerText}>
+            By continuing you agree to our terms and privacy policy
+          </Text>
+        </TouchableHighlight>
       </View>
     );
   }

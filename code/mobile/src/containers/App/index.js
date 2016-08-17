@@ -39,7 +39,6 @@ class App extends Component {
   shouldComponentUpdate(nextProps)  {
     return (this.props.auth.get('isLoaded') !== nextProps.auth.get('isLoaded'));
   }
-
   render() {
     const inAppAlert = this.props.inAppAlert;
     return (
@@ -53,7 +52,7 @@ class App extends Component {
         <StatusBar
           barStyle="light-content"
         />
-        <Routes/>
+        <Routes />
       </View>
     );
   }

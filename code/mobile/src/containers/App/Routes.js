@@ -6,6 +6,8 @@ import Login from '../../scenes/Login';
 import RegisterForm from '../../scenes/RegisterForm';
 import Settings from '../../scenes/Settings';
 import WebViewModal from '../../scenes/WebViewModal';
+import Card from '../../scenes/Card';
+import Test from '../../scenes/Test';
 import MainScreen from '../../components/MainScreen';
 import UpdateYourQuestionScreen from '../../components/UpdateYourQuestionScreen';
 import ShootNewProfileScreen from '../../components/ShootNewProfileScreen';
@@ -14,23 +16,26 @@ import MessagesListScreen from '../../components/MessagesListScreen';
 import TalkScreen from '../../components/TalkScreen';
 import CameraPermissionScreen from '../../components/CameraPermissionScreen';
 import AskQuestionPermissionScreen from '../../components/AskQuestionPermissionScreen';
-import NotificationPermissionScreen from '../../components/NotificationPermissionScreen';
 import ShootLoopPermissionScreen from '../../components/ShootLoopPermissionScreen';
 import UpdateYourSchoolScreen from '../../components/UpdateYourSchoolScreen';
 
 const scenes = Actions.create(
   <Scene key="root">
-    <Scene key="Login" component={Login} hideNavBar={true} initial={false} />
-    <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} initial={false} />
+    <Scene key="Login" hideNavBar={true} initial={false}>
+      <Scene key="LoginPage" component={Login} />
+      <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} />
+    </Scene>
     <Scene
       key="Settings"
       component={Settings}
       hideNavBar={false}
       direction="vertical"
-      initial={true}
+      initial={false}
       title="Settings"
     />
     <Scene key="WebViewModal" direction="vertical" hideNavBar={false}  component={WebViewModal}  />
+    <Scene key="Card" direction="vertical" hideNavBar={true} initial={false} component={Card}  />
+    <Scene key="Test" direction="vertical" hideNavBar={true} initial={false} component={Test}  />
     <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={false} />
     <Scene
       key="UpdateYourQuestionScreen"
@@ -77,12 +82,6 @@ const scenes = Actions.create(
       initial={false}
     />
     <Scene
-      key="NotificationPermissionScreen"
-      component={NotificationPermissionScreen}
-      hideNavBar={true}
-      initial={false}
-    />
-    <Scene
       key="ShootLoopPermissionScreen"
       component={ShootLoopPermissionScreen}
       hideNavBar={true}
@@ -97,27 +96,12 @@ const scenes = Actions.create(
   </Scene>
 );
 
-@connect(
-  state => ({
-    auth: state.auth,
-    user: state.user,
-  }),
-)
+
 class Routes extends Component {
 
   constructor(props) {
     super(props);
   }
-
-  isActiveUser(props = this.props) {
-    return (props.auth.get('isLoggedIn') && props.user.get('network_email_is_verified'));
-  }
-
-  shouldComponentUpdate(nextProps)  {
-    return (this.isActiveUser() !== this.isActiveUser(nextProps));
-  }
-
-  componentDidMount
 
   render() {
     return <Router scenes={scenes} />;

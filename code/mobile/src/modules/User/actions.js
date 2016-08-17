@@ -14,6 +14,7 @@ import {
 } from './actionTypes';
 
 export function updateUserLocally(type, data) {
+  console.log("user update", type, data);
   return {
     type: `USER_UPDATED_${type}`,
     payload: {
@@ -42,11 +43,18 @@ export function updateUser(type, data = {}, after = () => {}) {
 
 export function loadUser(type) {
   return (dispatch, getState) => {
-    const { auth, user } = getState();
-
+    const { auth } = getState();
     if (!auth.get('uid')) return;
+
+    console.log("user load", type)
     getUserRef(auth.get('uid'), type).once('value',
-      (snap) => dispatch(updateUserLocally(type, snap.val()))
+      (snap) => {
+        console.log("snap", snap, snap.vol())
+        dispatch(updateUserLocally(type, snap.val()))
+      },
+      (err) => {
+        console.log("error", err);
+      }
     );
   };
 }

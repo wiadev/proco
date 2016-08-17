@@ -4,20 +4,11 @@
   "description": "Firebase configs, landing site and panel for Proco",
   "main": "lib/index.js",
   "scripts": {
-    "prestart": "npm run clean && npm run build",
-    "start": "node ./lib/index.js",
-    "build": "babel src --out-dir lib",
-    "clean": "rimraf lib",
-    "lint": "eslint src"
+    "predeploy": "firebase-bolt rules.bolt",
+    "deploy": "firebase deploy"
   },
   "author": "Batuhan Icoz <batuhanicoz@gmail.com>",
   "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
-    "babel-eslint": "^6.1.2",
-    "babel-plugin-rewire": "^1.0.0-rc-4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "eslint": "^3.1.0"
+    "firebase-bolt": "^0.8.1"
   }
 }

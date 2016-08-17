@@ -9,7 +9,6 @@ import {
   PixelRatio,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { loadPage, defaultState, saveDiscoverySettings } from './redux';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Picker from 'react-native-picker';
@@ -35,29 +34,21 @@ setTheme({
 
 @connect(
   state => ({
-    discoverySettingsScreenReducer: state.discoverySettingsScreenReducer,
+    discoveryFilters: state.discoveryFilters,
   }),
 )
-class DiscoverySettingsScreen extends Component {
-  static getStyles() {
-    return styles;
-  }
+class DiscoveryFilters extends Component {
 
   constructor(props) {
     super(props);
-    this.styles = styles;
     this.groupRdSchool = new MKRadioButton.Group();
-    this.state = this.props.discoverySettingsScreenReducer.toJS();
+    this.state = this.props.discoveryFilters.toJS();
   }
 
   state = {};
 
   componentDidMount() {
-    this.props.dispatch(loadPage());
-  }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return (nextState.showFriendsInDiscovery !== this.state.showFriendsInDiscovery);
   }
 
   onPressBottomLeft() {
@@ -71,25 +62,16 @@ class DiscoverySettingsScreen extends Component {
 
   render() {
     return (
-      <View style={this.styles.preview}>
+      <View style={styles.preview}>
         <StatusBar barStyle="default" />
-        <View style={this.styles.topMenu}>
-          <View style={this.styles.topMenuLeft} />
-          <View style={this.styles.topMenuMid}>
-            <Text style={this.styles.menuTitle}>Discovery Filters</Text>
-          </View>
-          <View style={this.styles.topMenuRight}>
-            <Text style={this.styles.btnSave} onPress={::this.onSave}>Done</Text>
-          </View>
-        </View>
-        <ScrollView>
-          <View style={this.styles.inputBox}>
-            <View style={this.styles.inputBoxLeft}>
-              <Text style={this.styles.pinkText}>Show these genders</Text>
+        <ScrollView style={styles.container}>
+          <View style={styles.inputBox}>
+            <View style={styles.inputBoxLeft}>
+              <Text style={styles.pinkText}>Show these genders</Text>
             </View>
-            <View style={this.styles.inputBoxRight}>
+            <View style={styles.inputBoxRight}>
               <Text
-                style={[this.styles.blackText, { marginRight: 10, marginRight: 40 }]}
+                style={[styles.blackText, { marginRight: 10, marginRight: 40 }]}
                 onPress={() => { this.picker.toggle(); }}
               >{this.state.gender}</Text>
               <Icon
@@ -102,7 +84,7 @@ class DiscoverySettingsScreen extends Component {
               />
             </View>
           </View>
-          <View style={[this.styles.inputBox, {
+          <View style={[styles.inputBox, {
             flexDirection: 'column',
           }]}>
             <View style={{
@@ -110,11 +92,11 @@ class DiscoverySettingsScreen extends Component {
               width: width - 28,
               flexDirection: 'row',
             }}>
-              <View style={this.styles.inputBoxLeft}>
-                <Text style={[this.styles.pinkText, { marginBottom: 10 }]}>Age Limit</Text>
+              <View style={styles.inputBoxLeft}>
+                <Text style={[styles.pinkText, { marginBottom: 10 }]}>Age Limit</Text>
               </View>
-              <View style={this.styles.inputBoxRight}>
-                <Text style={[this.styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{this.state.ageMin} - {this.state.ageMax}</Text>
+              <View style={styles.inputBoxRight}>
+                <Text style={[styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{this.state.ageMin} - {this.state.ageMax}</Text>
               </View>
             </View>
             <View style={{
@@ -132,16 +114,16 @@ class DiscoverySettingsScreen extends Component {
                 onChange={(curValue) => this.setState({
                   ageMin: round(curValue.min),
                   ageMax: round(curValue.max),
-                  })
+                })
                 }
               />
             </View>
           </View>
-          <View style={[this.styles.inputBox, {
+          <View style={[styles.inputBox, {
             flexDirection: 'column',
             alignItems: 'flex-start',
           }]}>
-            <Text style={[this.styles.pinkText, { marginBottom: 10 }]}>School</Text>
+            <Text style={[styles.pinkText, { marginBottom: 10 }]}>School</Text>
             <View style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -150,7 +132,7 @@ class DiscoverySettingsScreen extends Component {
                 checked={this.state.onlyFromSchool}
                 group={this.groupRdSchool}
               />
-              <Text style={[this.styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
+              <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({
                   onlyFromSchool: true,
                 });
@@ -164,7 +146,7 @@ class DiscoverySettingsScreen extends Component {
                 checked={!this.state.onlyFromSchool}
                 group={this.groupRdSchool}
               />
-              <Text style={[this.styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
+              <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({
                   onlyFromSchool: false,
                 });
@@ -196,4 +178,4 @@ class DiscoverySettingsScreen extends Component {
   }
 }
 
-export default DiscoverySettingsScreen;
+export default DiscoveryFilters;

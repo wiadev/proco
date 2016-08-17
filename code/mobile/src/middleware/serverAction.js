@@ -36,7 +36,6 @@ export default function serverActionMiddleware() {
           payload: Object.assign(payload, {
             key: ref.key,
             uid: auth.get('uid'),
-            facebookToken: auth.get('facebookToken'),
           }),
         };
 
