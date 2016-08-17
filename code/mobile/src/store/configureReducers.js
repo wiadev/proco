@@ -6,10 +6,11 @@ import { Map } from 'immutable';
 import inAppAlertReducer from '../modules/InAppAlert/reducer';
 import authReducer from '../modules/Authentication/reducer';
 import {
-  Main as userReducer,
-  Settings as settingsReducer,
-  DiscoveryFilters as discoveryFiltersReducer,
+Main as userReducer,
+Settings as settingsReducer,
+DiscoveryFilters as discoveryFiltersReducer,
 } from '../modules/User/reducers';
+import permissionsReducer from '../modules/Permissions/reducer';
 import mainScreenReducer from '../components/MainScreen/redux';
 import updateYourQuestionScreenReducer from '../components/UpdateYourQuestionScreen/redux';
 import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/redux';
@@ -23,6 +24,7 @@ const reducers = {
   user: userReducer,
   settings: settingsReducer,
   discoveryFilters: discoveryFiltersReducer,
+  permissions: permissionsReducer,
   mainScreenReducer,
   updateYourQuestionScreenReducer,
   shootNewProfileScreenReducer,

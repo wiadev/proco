@@ -7,12 +7,28 @@ const typemap = {
 
 export function syncPermissions() {
   return (dispatch) => {
-    Permissions.getPermissionStatus(['camera', 'notification', 'location', 'backgroundRefresh'])
+    Permissions.checkMultiplePermissions(['camera', 'notification', 'location', 'backgroundRefresh'])
       .then(payload => {
         dispatch({
           type: `PERMISSION_STATUS_CHANGED`,
           payload
         });
+      })
+      .catch(e => {
+        console.log("permission error", e)
       });
   }
+}
+
+
+export function requestCameraPermissions() {
+
+}
+
+export function requestNotificationsPermissions() {
+
+}
+
+export function requestLocationPermissions() {
+
 }

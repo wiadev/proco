@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height,
     width,
+    backgroundColor: 'rgba(120,55,175, 0.8)'
   },
   backgroundImage: {
     position: 'absolute',

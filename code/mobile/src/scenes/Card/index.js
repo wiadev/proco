@@ -1,17 +1,35 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
   Image,
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
+
+const {BlurView, VibrancyView} = require('react-native-blur');
+
 import LinearGradient from 'react-native-linear-gradient';
-import { Actions } from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import styles from './styles';
 const photo = require('../../assets/images/cameraPermission.png');
 class Card extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {modalVisible: false};
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
+  componentDidMount() {
+    this.setState({modalVisible: true})
+  }
+
+  componentWillUnmount() {
+    this.setState({modalVisible: false})
   }
 
   renderButtons(buttons = []) {
@@ -35,18 +53,19 @@ class Card extends Component {
       />
     );
   }
+
   render() {
-    const { icon, title, text, buttons, renderThis } = this.props;
+    const {icon, title, text, buttons, renderThis} = this.props;
     return (
-      <View style={styles.preview}>
-        <Image
-          style={styles.backgroundImage}
-          source={photo}
-        />
-        <LinearGradient
-          colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']}
-          style={styles.preview}
-        >
+      <Modal
+        animationType={"fade"}
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert("Modal has been closed.")
+        }}
+      >
+        <View style={styles.preview}>
           <View style={styles.permissionArea}>
             {this.renderIcon(icon)}
 
@@ -62,8 +81,8 @@ class Card extends Component {
 
             {this.renderButtons(buttons)}
           </View>
-        </LinearGradient>
-      </View>
+        </View>
+      </Modal>
     );
   }
 }
