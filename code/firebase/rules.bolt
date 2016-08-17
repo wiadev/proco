@@ -37,6 +37,12 @@ path /users/{$uid}/info/first_name {
 	write() { createOnly(this) && isCurrentUser($uid) }
 }
 
+
+path /users/{$uid}/info/last_name {
+	read() { true }
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
 path /users/{$uid}/info/birthday {
 	write() { createOnly(this) && isCurrentUser($uid) }
 }

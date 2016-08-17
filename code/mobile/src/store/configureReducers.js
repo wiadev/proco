@@ -13,7 +13,6 @@ import {
 import mainScreenReducer from '../components/MainScreen/redux';
 import updateYourQuestionScreenReducer from '../components/UpdateYourQuestionScreen/redux';
 import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/redux';
-import discoverySettingsScreenReducer from '../components/DiscoverySettingsScreen/redux';
 import messagesListScreenReducer from '../components/MessagesListScreen/redux';
 import talkScreenReducer from '../components/TalkScreen/redux';
 import updateYourSchoolScreenReducer from '../components/UpdateYourSchoolScreen/redux';
@@ -27,7 +26,6 @@ const reducers = {
   mainScreenReducer,
   updateYourQuestionScreenReducer,
   shootNewProfileScreenReducer,
-  discoverySettingsScreenReducer,
   messagesListScreenReducer,
   talkScreenReducer,
   updateYourSchoolScreenReducer,

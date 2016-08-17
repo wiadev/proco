@@ -7,7 +7,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import styles from './styles';
-
+const photo = require('../../assets/images/cameraPermission.png');
 class Card extends Component {
 
   constructor(props) {
@@ -15,9 +15,9 @@ class Card extends Component {
   }
 
   renderButtons(buttons = []) {
-    return buttons.map(button => {
+    return buttons.map((button, i) => {
       return (
-        <View style={styles.button} pointerEvents={'box-none'}>
+        <View key={i} style={styles.button} pointerEvents={'box-none'}>
           <Text style={styles.buttonText} onPress={button.onPress}>
             {button.text}
           </Text>
@@ -31,17 +31,17 @@ class Card extends Component {
     return (
       <Image
         style={styles.permissionImage}
-        source={require(icon)}
+        source={photo}
       />
     );
   }
   render() {
-    const { icon, title, text, buttons } = this.props;
+    const { icon, title, text, buttons, renderThis } = this.props;
     return (
       <View style={styles.preview}>
         <Image
           style={styles.backgroundImage}
-          source={require(this.props.icon)}
+          source={photo}
         />
         <LinearGradient
           colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']}
@@ -57,6 +57,8 @@ class Card extends Component {
             {text ? <Text style={styles.permissionText}>
               {text}
             </Text> : null}
+
+            {renderThis ? renderThis() : null}
 
             {this.renderButtons(buttons)}
           </View>

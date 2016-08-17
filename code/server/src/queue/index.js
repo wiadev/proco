@@ -1,13 +1,15 @@
 import FirebaseQueue from 'firebase-queue';
-import Tasks from './tasks';
-import * as firebase from'firebase';
-const serviceAccount = require('../../../config/FirebaseCredentials.json');
+import * as firebase from 'firebase';
+const serviceAccount = require('../../../../config/FirebaseCredentials.json');
 
 firebase.initializeApp({
   serviceAccount,
   databaseURL: 'https://hello-4c376.firebaseio.com'
 });
 
+const Tasks = [
+    require('./tasks/USER_FIRST_LOGIN')
+];
 const database = firebase.database();
 
 const worker = (task) => {
@@ -27,8 +29,8 @@ const worker = (task) => {
 
 };
 
-const taskList = process.env.TASKS ? process.env.TASKS.split(',') : Object.keys(Tasks);
+console.log(Tasks)
 
-taskList.forEach(task => {
-    worker(Tasks[task]);
+Tasks.forEach(task => {
+    worker(task);
 });

@@ -1,4 +1,4 @@
-import { database } from '../../core/Api';
+import {database} from '../../core/Api';
 
 export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
 
@@ -13,23 +13,34 @@ import {
   USER_UNLOAD,
 } from './actionTypes';
 
+const typeMap = {
+  info: 'INFO',
+  settings: 'SETTINGS',
+  tokens: 'TOKENS'
+};
+
+const getUserUpdatedActionTypeFor = (type) => {
+  return `USER_UPDATED_${typeMap[type]}`;
+};
+
 export function updateUserLocally(type, data) {
   console.log("user update", type, data);
   return {
-    type: `USER_UPDATED_${type}`,
+    type: getUserUpdatedActionTypeFor(type),
     payload: {
       ...data
     }
   };
 }
 
-export function updateUser(type, data = {}, after = () => {}) {
+export function updateUser(type, data = {}, after = () => {
+}) {
   return (dispatch, getState) => {
-    const { auth } = getState();
+    const {auth} = getState();
     getUserRef(auth.get('uid'), type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
-        type: `USER_UPDATED_${type}`,
+        type: getUserUpdatedActionTypeFor(type),
         payload: {
           ...data
         }
@@ -43,14 +54,22 @@ export function updateUser(type, data = {}, after = () => {}) {
 
 export function loadUser(type) {
   return (dispatch, getState) => {
-    const { auth } = getState();
+    const {auth} = getState();
     if (!auth.get('uid')) return;
 
-    console.log("user load", type)
-    getUserRef(auth.get('uid'), type).once('value',
+    const unsubs = getUserRef(auth.get('uid'), type).on('value',
       (snap) => {
-        console.log("snap", snap, snap.vol())
-        dispatch(updateUserLocally(type, snap.val()))
+        if (snap) {
+          const data = snap.val();
+          if (data) {
+            unsubs();
+            dispatch(updateUserLocally(type, data));
+          } else {
+            dispatch(serverAction({
+              type: 'USER_FIRST_LOGIN'
+            }));
+          }
+        }
       },
       (err) => {
         console.log("error", err);

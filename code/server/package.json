@@ -2,10 +2,10 @@
   "name": "proco-server",
   "version": "0.0.1",
   "description": "Manages everything related to Proco",
-  "main": "lib/index.js",
+  "main": "lib/queue/index.js",
   "scripts": {
     "prestart": "npm run build",
-    "start": "node ./lib/index.js",
+    "start": "node ./lib/queue/index.js",
     "prebuild": "npm run clean",
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",

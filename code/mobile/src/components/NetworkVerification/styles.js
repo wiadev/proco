@@ -4,7 +4,7 @@ import {
   PixelRatio,
 } from 'react-native';
 
-import { getCorrectFontSizeForScreen } from '../../../core/functions';
+import { getCorrectFontSizeForScreen } from '../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -12,6 +12,16 @@ const popupWidth = width * 80 / 100;
 const popupHeight = height * 80 / 100;
 
 const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    top:0,
+    bottom:0,
+    left:0,
+    right:0,
+    backgroundColor:"transparent",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   popup: {
     position: 'absolute',
     width,
@@ -28,11 +38,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   popupInside: {
-    backgroundColor: 'white',
     flex: 0,
-    width: popupWidth,
-    height: popupHeight,
-    borderRadius: 11,
     padding: 10,
     paddingTop: 5,
     alignItems: 'center',
@@ -122,3 +128,5 @@ const styles = StyleSheet.create({
     height: height * 0.3,
   },
 });
+
+export default styles;

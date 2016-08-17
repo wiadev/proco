@@ -19,3 +19,8 @@ export const LICENSES_PAGE = {
   url: `${BASE_URL}/pages/licenses.html`,
   title: 'Licenses'
 };
+
+export const WHY_SCHOOL_EMAIL_PAGE = {
+  url: `${BASE_URL}/pages/why-school-email.html`,
+  title: 'About School Emails'
+};
