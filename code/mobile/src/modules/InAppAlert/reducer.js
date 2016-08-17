@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import _ from 'lodash';
 
 import {
@@ -15,7 +15,7 @@ alert props:
     context: string
 */
 
-export const initialState = fromJS({
+export const initialState = new Map({
     alerts: [
         {
             id: null,
@@ -27,21 +27,21 @@ export const initialState = fromJS({
         {
             id: null,
             type: 'warning',
-            duration: 9000,
+            duration: 6000,
             title: "Test Alert",
             context: "You got test alerted."
         },
         {
             id: null,
             type: 'success',
-            duration: 4000,
+            duration: 8000,
             title: "Test Alert",
             context: "You got test alerted."
         },
         {
             id: null,
             type: 'info',
-            duration: 9000,
+            duration: 10000,
             title: "Test Alert",
             context: "You got test alerted."
         }
@@ -51,7 +51,7 @@ export const initialState = fromJS({
 const defaultAlertProps = {
     id: null,
     type: 'info',
-    duration: 4000,
+    duration: 0,
     title: "",
     context: ""
 };
@@ -61,12 +61,18 @@ export default function reducer(state = initialState, action) {
 
     switch (action.type) {
         case CREATE_ALERT:
-            alerts.push({
+            const newAlert = {
                 ...defaultAlertProps,
                 ...action.payload
-            });
+            };
 
-            return state.set('alerts', alerts);
+            if (newAlert.duration === 0 && newAlert.id === null) {
+                throw `You need to set at least one of duration or id properties for an alert.`;
+            }
+
+            alerts.push(newAlert);
+
+            return state.set('alerts', fromJS(alerts));
         case DELETE_ALERT:
             if (typeof(action.payload) === 'object') {
                 _.remove(alerts, alert => {
