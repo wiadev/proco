@@ -17,7 +17,7 @@ import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/re
 import updateYourSchoolScreenReducer from '../components/UpdateYourSchoolScreen/redux';
 
 const reducers = {
-  inAppAlert: inAppAlertReducer,
+  inAppAlerts: inAppAlertReducer,
   auth: authReducer,
   user: userReducer,
   settings: settingsReducer,

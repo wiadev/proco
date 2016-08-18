@@ -1,23 +1,18 @@
 import {
-  SHOW_IN_APP_ALERT,
-  CLEAR_IN_APP_ALERT
+  CREATE_ALERT,
+  DELETE_ALERT
 } from './actionTypes';
 
-export const showInAppAlert = (data) => {
+export function createAlert(alertParams) {
   return {
-    type: SHOW_IN_APP_ALERT,
-    payload: {
-      ...data
-    }
+    type: CREATE_ALERT,
+    payload: alertParams
   };
-};
+}
 
-export const clearInAppAlert = () => {
-  return (dispatch, getState) => {
-    if(getState().inAppAlert.get('show')) {
-      dispatch({
-        type: CLEAR_IN_APP_ALERT,
-      });
-    }
-  };
-};
+export function deleteAlert(alertOrAlertId) {
+    return {
+        type: DELETE_ALERT,
+        payload: alertOrAlertId
+    };
+}

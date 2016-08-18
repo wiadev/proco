@@ -1,2 +1,2 @@
-export const SHOW_IN_APP_ALERT = 'proco/alert/SHOW';
-export const CLEAR_IN_APP_ALERT = 'proco/alert/CLEAR';
+export const CREATE_ALERT = 'proco/alert/CREATE_ALERT';
+export const DELETE_ALERT = 'proco/alert/DELETE_ALERT';

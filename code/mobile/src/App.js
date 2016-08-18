@@ -1,35 +1,46 @@
 import React, { Component } from 'react';
 import { AppState, View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import InAppAlert  from './components/InAppAlert';
 import { loadAuth } from './modules/Authentication/actions';
 import { syncPermissions } from './modules/Permissions/actions';
 import { clearInAppAlert } from './modules/InAppAlert/actions';
-import InAppAlert  from './components/InAppAlert';
 
 import Routes from './core/Routes';
 
 @connect(
   state => ({
     auth: state.auth,
-    inAppAlert: state.inAppAlert,
+    inAppAlerts: state.inAppAlerts,
     statusbar: state.statusbar,
   }),
 )
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
-  }
+    constructor(props) {
+        super(props);
+        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    }
 
-  componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-    this.handleAppStateChange('active');
-  }
+    componentDidMount() {
+        AppState.addEventListener('change', this.handleAppStateChange);
+        this.handleAppStateChange('active');
+    }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
+    }
+
+    handleAppStateChange(appState) {
+        if (appState == 'active') {
+            console.log("active")
+            this.props.dispatch(loadAuth());
+        }
+    }
+
+    shouldComponentUpdate(nextProps)  {
+        return (this.props.auth.get('isLoaded') !== nextProps.auth.get('isLoaded'));
+    }
 
   handleAppStateChange(appState) {
     if (appState == 'active') {
@@ -50,15 +61,7 @@ class App extends Component {
           showHideTransition="slide"
           {...this.props.statusbar}
         />
-        <InAppAlert
-          show={inAppAlert.get('show')}
-          title={inAppAlert.get('title')}
-          text={inAppAlert.get('text')}
-          clear={() => this.props.dispatch(clearInAppAlert())}
-        />
-        <StatusBar
-          barStyle="light-content"
-        />
+        <InAppAlert />
         <Routes />
       </View>
     );
