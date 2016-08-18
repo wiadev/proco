@@ -4,32 +4,38 @@ import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 20,
     width: 230,
     marginTop: 40,
+    padding: 12,
+    backgroundColor: colors.primaryAlt,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.primary1,
   },
   buttonDanger: {
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
+    borderColor: colors.danger
   },
   buttonWarning: {
-    backgroundColor: colors.warning
+    backgroundColor: colors.warning,
+    borderColor: colors.warning
   },
   buttonSuccess: {
-    backgroundColor: colors.success
+    backgroundColor: colors.success,
+    borderColor: colors.success
   },
   buttonInfo: {
-    backgroundColor: colors.info
+    backgroundColor: colors.info,
+    borderColor: colors.info
   },
   buttonText: {
-    color: 'rgb(249, 54, 95)',
+    color: colors.primary1,
     fontFamily: 'Montserrat-Regular',
     fontSize: 16,
     textAlign: 'center',
   },
   buttonTextWhite: {
-    color: '#fff'
+    color: colors.primaryAlt
   }
 });
 
