@@ -9,7 +9,8 @@ import reduxPersistImmutable from 'redux-persist-immutable';
 
 export const configureStore = (onCompletion = () => {}) => {
 
-  const store = autoRehydrate()(createStore)(reducer, applyMiddleware(...middleware));
+  const store = (createStore)(reducer, applyMiddleware(...middleware));
+  // const store = autoRehydrate()(createStore)(reducer, applyMiddleware(...middleware));
 
   persistStore(store, {
     storage: AsyncStorage,
