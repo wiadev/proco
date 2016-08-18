@@ -1,4 +1,6 @@
-import { database } from '../../core/Api';
+import {database} from '../../core/Api';
+
+export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
 
 import {
   serverPromisedAction,
@@ -11,49 +13,71 @@ import {
   USER_UNLOAD,
 } from './actionTypes';
 
-function updateUserLocally(data) {
+const typeMap = {
+  info: 'INFO',
+  settings: 'SETTINGS',
+  tokens: 'TOKENS'
+};
+
+const getUserUpdatedActionTypeFor = (type) => {
+  return `USER_UPDATED_${typeMap[type]}`;
+};
+
+export function updateUserLocally(type, data) {
+  console.log("user update", type, data);
   return {
-    type: USER_UPDATED,
+    type: getUserUpdatedActionTypeFor(type),
     payload: {
       ...data
     }
   };
 }
 
-export function updateUser(data) {
+export function updateUser(type, data = {}, after = () => {
+}) {
   return (dispatch, getState) => {
-    dispatch(updateUserLocally(data));
-    dispatch(serverAction({
-      type: 'USER_UPDATE',
-      payload: {
-        ...data
-      }
-    }));
+    const {auth} = getState();
+    getUserRef(auth.get('uid'), type).update(data).then(() => {
+      dispatch(updateUserLocally(type, data));
+      dispatch(serverAction({
+        type: getUserUpdatedActionTypeFor(type),
+        payload: {
+          ...data
+        }
+      }));
+
+      after();
+
+    });
   };
 }
 
-export function loadUser() {
+export function loadUser(type) {
   return (dispatch, getState) => {
-    const { auth, user} = getState();
-
+    const {auth} = getState();
     if (!auth.get('uid')) return;
-    if (user.get('hasStartedLoading')) return;
 
-    dispatch({
-      type: USER_STARTED_LOADING
-    });
-
-    const ref = database().ref(`users/${auth.get('uid')}/info`);
-
-    ref.on('value', (snap) => {
-      const info = snap.val();
-      if (info) {
-        dispatch(updateUserLocally(info));
+    const unsubs = getUserRef(auth.get('uid'), type).on('value',
+      (snap) => {
+        if (snap) {
+          const data = snap.val();
+          if (data) {
+            unsubs();
+            dispatch(updateUserLocally(type, data));
+          } else {
+            dispatch(serverAction({
+              type: 'USER_FIRST_LOGIN'
+            }));
+          }
+        }
+      },
+      (err) => {
+        console.log("error", err);
       }
-    });
-
+    );
   };
 }
+
 export function unloadUser() {
   return {
     type: USER_UNLOAD

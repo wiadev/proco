@@ -6,7 +6,6 @@ import {
 import Camera from 'react-native-camera';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, photoSelected, photoTaken } from './redux';
-import store from '../../store/configureStore';
 import { connect } from 'react-redux';
 import Header from '../Header';
 import MessageCountIcon from '../MessageCountIcon';
@@ -14,6 +13,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 import styles from './styles';
 
+@connect(
+  state => ({
+    mainScreenReducer: state.mainScreenReducer,
+  }),
+)
 class ShootNewProfileScreen extends Component {
   static getStyles() {
     return styles;
@@ -25,7 +29,7 @@ class ShootNewProfileScreen extends Component {
   }
 
   componentDidMount() {
-    store.dispatch(loadPage());
+    this.props.dispatch(loadPage());
   }
 
   onPressBottomLeft() {
@@ -35,7 +39,7 @@ class ShootNewProfileScreen extends Component {
   onPressTakePhoto() {
     this.camera.capture()
       .then((data) => {
-        store.dispatch(photoTaken(data.path));
+        this.props.dispatch(photoTaken(data.path));
         Actions.pop();
       })
       .catch(err => console.error(err));
@@ -66,14 +70,14 @@ class ShootNewProfileScreen extends Component {
           source = { uri: response.uri, isStatic: true };
         }
 
-        store.dispatch(photoSelected(source));
+        this.props.dispatch(photoSelected(source));
         Actions.pop();
       }
     });
   }
 
   render() {
-    const states = store.getState().mainScreenReducer;
+    const states = this.props.mainScreenReducer;
 
     let rightContainerHeader = null;
     if (states.get('messageCount') > 0) {
@@ -133,4 +137,4 @@ class ShootNewProfileScreen extends Component {
   }
 }
 
-export default connect(() => defaultState.toJS())(ShootNewProfileScreen);
+export default ShootNewProfileScreen;

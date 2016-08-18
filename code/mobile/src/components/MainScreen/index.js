@@ -67,11 +67,6 @@ class MainScreen extends Component {
 
     return (
       <View style={this.styles.container}>
-        <StatusBar
-          hidden={this.state.hideStatusBar}
-          showHideTransition="slide"
-          barStyle="light-content"
-        />
         <Swiper
           horizontal={false}
           loop={false}
@@ -103,12 +98,12 @@ class MainScreen extends Component {
                   </Text>
                 </View>
                 <View style={this.styles.menuItem}>
-                  <Text style={this.styles.menuItemText} onPress={Actions.DiscoverySettingsScreen}>
+                  <Text style={this.styles.menuItemText} onPress={Actions.DiscoveryFilters}>
                     Discovery Filters
                   </Text>
                 </View>
                 <View style={this.styles.menuItem}>
-                  <Text style={this.styles.menuItemText} onPress={Actions.MoreSettingsScreen}>
+                  <Text style={this.styles.menuItemText} onPress={Actions.Settings}>
                     Settings
                   </Text>
                 </View>

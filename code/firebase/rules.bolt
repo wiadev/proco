@@ -1,26 +1,70 @@
-isCurrentUser(uid) { auth != null && auth.uid == uid }
-isAdmin(uid) { prior(root.admins[auth.uid] }
+isAdmin(uid) { prior(root.admins[auth.uid]) }
 isVerified(uid) { auth != null && auth.uid == uid }
-
-isCurrentUser(uid) { isSignedIn() && auth.uid == uid }
 isSignedIn() { auth != null }
+isCurrentUser(uid) { isSignedIn() && auth.uid == uid }
 createOnly(value) { prior(value) == null && value != null }
-belongsToUser(value) { value.uid.val(== null && value != null }
+belongsToUser(value) { value.uid.val()== null && value != null }
 
 type CurrentTimestamp extends Number {
   validate() { this == now }
 }
 
-path /queues/$action/results/$resultId {
+path /queues/{$action}/results/{$resultId} {
 	read() { true }
 	write() { createOnly(this) && auth.uid === data.child('uid').val() }
 }
 
-path /queues/$action/tasks/$taskId {
+path /queues/{$action}/tasks/{$taskId} {
 	write() { createOnly(this) && auth.uid === newData.child('payload').child('uid').val() }
 	index() { ['_state'] }
 }
 
-path /users/$uid/info {
+path /users/{$uid}/info {
 	read() { isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/fid {
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/gender {
+	read() { true }
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/first_name {
+	read() { true }
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+
+path /users/{$uid}/info/last_name {
+	read() { true }
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/birthday {
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/network_email {
+	write() { createOnly(this) && isCurrentUser($uid) }
+}
+
+path /users/{$uid}/info/network_is_verified {
+	write() { false }
+}
+
+path /users/{$uid}/tokens {
+	write() { isCurrentUser($uid) }
+}
+
+path /users/{$uid}/settings {
+	read() { isCurrentUser($uid) }
+	write() { isCurrentUser($uid) }
+}
+
+path /users/{$uid}/filters {
+	read() { isCurrentUser($uid) }
+	write() { isCurrentUser($uid) }
 }

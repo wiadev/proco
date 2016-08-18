@@ -1,4 +1,4 @@
-import { NetworkEmail, PhoneNumber } from '../../../Validations';
+const { NetworkEmailValidation, PhoneNumberValidation } = require('proco-common').Validations;
 import axios from 'axios';
 
 const email = {
@@ -6,16 +6,17 @@ const email = {
         return new Promise((resolve, reject) => {
 
         // verify email here
-        emailPieces = email.split('@');
-        extension = emailPieces[1].split('.').join('-');
+            emailPieces = email.split('@');
+            extension = emailPieces[1].split('.').join('-');
 
-        const networkExtensionsRef = utils.getDatabase().ref('network-extensions');
-        return utils.getDataFromRef(networkExtensionsRef.child(extension)).then(network => {
-            if (network) {
-                resolve(code);
-            }
+            const networkExtensionsRef = utils.getDatabase().ref('network-extensions');
+            return utils.getDataFromRef(networkExtensionsRef.child(extension)).then(network => {
+                if (network) {
+                    resolve(code);
+                }
 
-            reject('INVALID_EMAIL');
+                reject('INVALID_EMAIL');
+            });
         });
     },
     sender: (number, code) => {

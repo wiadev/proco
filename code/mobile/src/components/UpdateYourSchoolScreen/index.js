@@ -30,11 +30,12 @@ class UpdateYourSchoolScreen extends Component {
   state = {};
 
   componentWillMount() {
-    StatusBar.setHidden(true);
+    this.props.dispatch(hideStatusBar());
   }
 
   componentDidMount() {
     store.dispatch(loadPage());
+    this.props.dispatch(showStatusBar());
   }
 
   onPressBottomLeft() {
@@ -49,11 +50,6 @@ class UpdateYourSchoolScreen extends Component {
   render() {
     return (
       <View style={this.styles.preview}>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="default"
-          hidden={false}
-        />
         <View style={this.styles.topMenu}>
           <View style={this.styles.topMenuLeft}>
             <Ionicons

@@ -1,0 +1,57 @@
+{
+  "rules": {
+    "queues": {
+      "$action": {
+        "results": {
+          "$resultId": {
+            ".read": "true",
+            ".write": "data.val() == null && newData.val() != null && auth.uid == data.child('uid').val()"
+          }
+        },
+        "tasks": {
+          "$taskId": {
+            ".write": "data.val() == null && newData.val() != null && auth.uid == newData.child('payload').child('uid').val()",
+            ".indexOn": [
+              "_state"
+            ]
+          }
+        }
+      }
+    },
+    "users": {
+      "$uid": {
+        "info": {
+          ".read": "auth != null && auth.uid == $uid",
+          "fid": {
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          },
+          "gender": {
+            ".read": "true",
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          },
+          "first_name": {
+            ".read": "true",
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          },
+          "birthday": {
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          },
+          "network_email": {
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          }
+        },
+        "tokens": {
+          ".write": "auth != null && auth.uid == $uid"
+        },
+        "settings": {
+          ".read": "auth != null && auth.uid == $uid",
+          ".write": "auth != null && auth.uid == $uid"
+        },
+        "filters": {
+          ".read": "auth != null && auth.uid == $uid",
+          ".write": "auth != null && auth.uid == $uid"
+        }
+      }
+    }
+  }
+}
