@@ -2,23 +2,20 @@ import React, {Component} from 'react';
 import {Actions, Router, Scene, Modal} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
-import Login from '../../scenes/Login';
-import RegisterForm from '../../scenes/RegisterForm';
-import Settings from '../../scenes/Settings';
-import DiscoveryFilters from '../../scenes/DiscoveryFilters';
-import WebViewModal from '../../scenes/WebViewModal';
-import Card from '../../scenes/Card';
-import NetworkVerification from '../../scenes/NetworkVerification';
-import Test from '../../scenes/Test';
-import MainScreen from '../../components/MainScreen';
-import UpdateYourQuestionScreen from '../../components/UpdateYourQuestionScreen';
-import ShootNewProfileScreen from '../../components/ShootNewProfileScreen';
-import MessagesListScreen from '../../components/MessagesListScreen';
-import TalkScreen from '../../components/TalkScreen';
-import CameraPermissionScreen from '../../components/CameraPermissionScreen';
-import AskQuestionPermissionScreen from '../../components/AskQuestionPermissionScreen';
-import ShootLoopPermissionScreen from '../../components/ShootLoopPermissionScreen';
-import UpdateYourSchoolScreen from '../../components/UpdateYourSchoolScreen';
+import Login from '../scenes/Authentication/Login';
+import RegisterForm from '../scenes/Authentication/RegisterForm';
+import Settings from '../scenes/Settings';
+import DiscoveryFilters from '../scenes/DiscoveryFilters';
+import WebViewModal from '../scenes/WebViewModal';
+import Card from '../scenes/Card';
+import Test from '../scenes/Test';
+import MainScreen from '../components/MainScreen';
+import UpdateYourQuestionScreen from '../components/UpdateYourQuestionScreen';
+import ShootNewProfileScreen from '../components/ShootNewProfileScreen';
+import CameraPermissionScreen from '../components/CameraPermissionScreen';
+import AskQuestionPermissionScreen from '../components/AskQuestionPermissionScreen';
+import ShootLoopPermissionScreen from '../components/ShootLoopPermissionScreen';
+import UpdateYourSchoolScreen from '../components/UpdateYourSchoolScreen';
 
 const scenes = Actions.create(
   <Scene key="modal" component={Modal}>
@@ -57,19 +54,6 @@ const scenes = Actions.create(
       <Scene
         key="ShootNewProfileScreen"
         component={ShootNewProfileScreen}
-        hideNavBar={true}
-        initial={false}
-      />
-      <Scene
-        key="MessagesListScreen"
-        component={MessagesListScreen}
-        hideNavBar={true}
-        direction="vertical"
-        initial={false}
-      />
-      <Scene
-        key="TalkScreen"
-        component={TalkScreen}
         hideNavBar={true}
         initial={false}
       />

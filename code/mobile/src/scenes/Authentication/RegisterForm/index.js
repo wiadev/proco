@@ -14,13 +14,13 @@ import {
   MKTextField,
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
-import {logout} from '../../modules/Authentication/actions';
-import {updateUser} from '../../modules/User/actions';
+import {logout} from '../../../modules/Authentication/actions';
+import {updateUser} from '../../../modules/User/actions';
 import {connect} from 'react-redux';
-import { WHY_SCHOOL_EMAIL_PAGE } from '../../core/StaticPages';
+import { WHY_SCHOOL_EMAIL_PAGE } from '../../../core/StaticPages';
 import {Actions} from 'react-native-router-flux';
 
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 import Picker from 'react-native-picker';
 
 import {styles, dpCustom} from './styles';

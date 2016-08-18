@@ -17,8 +17,8 @@ import Camera from 'react-native-camera';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
 import Header from '../Header';
-import MessageCountIcon from '../MessageCountIcon';
-import MessageBox from '../MessageBox';
+import MessageCountIcon from '../Messages/CountIcon';
+import MessageBox from '../Messages/MessageBox';
 import { getCorrectFontSizeForScreen } from '../../core/functions';
 import styles from './styles';
 

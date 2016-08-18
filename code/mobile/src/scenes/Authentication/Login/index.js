@@ -10,9 +10,9 @@ import {
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
-import { login } from '../../modules/Authentication/actions';
+import { login } from '../../../modules/Authentication/actions';
 import { connect } from 'react-redux';
-import { PRIVACY_PAGE, TERMS_PAGE } from '../../core/StaticPages';
+import { PRIVACY_PAGE, TERMS_PAGE } from '../../../core/StaticPages';
 
 import styles from './styles';
 
@@ -84,7 +84,7 @@ class Login extends Component {
   render() {
     return (
       <View style={this.styles.container}>
-          <Image style={this.styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
+          <Image style={this.styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')} />
           <Swiper
             style={this.styles.swiper}
             height={231}
@@ -94,15 +94,15 @@ class Login extends Component {
             paginationStyle={this.styles.swiperPagination}
           >
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
               <Text style={this.styles.text}>Answer people's questions</Text>
             </View>
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
               <Text style={this.styles.text}>Second Text</Text>
             </View>
             <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../assets/images/group.png')} />
+              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
               <Text style={this.styles.text}>And third Text</Text>
             </View>
           </Swiper>

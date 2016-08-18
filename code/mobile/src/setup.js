@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { configureStore } from './store/configureStore';
-import App from './containers/App';
+import App from './App';
 import * as firebase from 'firebase';
 
 const setup = () => {
 
-  console.log("running setup")
+  console.log("running setup");
   firebase.initializeApp({
     apiKey: 'AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc',
     authDomain: 'hello-4c376.firebaseapp.com',
