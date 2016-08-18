@@ -24,7 +24,7 @@ const scenes = Actions.create(
   <Scene key="modal" component={Modal}>
 
     <Scene key="root">
-      <Scene key="Login" hideNavBar={true} initial={false}>
+      <Scene key="Authentication" hideNavBar={true} initial={false}>
         <Scene key="LoginPage" component={Login}/>
         <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true}/>
       </Scene>
@@ -46,8 +46,8 @@ const scenes = Actions.create(
       />
       <Scene key="WebViewModal" direction="vertical" hideNavBar={false} component={WebViewModal}/>
       <Scene key="Card" direction="vertical" hideNavBar={true} initial={false} component={Card}/>
-      <Scene key="Test" direction="vertical" hideNavBar={true} initial={true} component={Test}/>
-      <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={false}/>
+      <Scene key="Test" direction="vertical" hideNavBar={true} initial={false} component={Test}/>
+      <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={true}/>
       <Scene
         key="UpdateYourQuestionScreen"
         component={UpdateYourQuestionScreen}

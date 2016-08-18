@@ -17,6 +17,9 @@ import {
   MKRadioButton,
   setTheme,
 } from 'react-native-material-kit';
+
+import { setStatusBarStyle } from '../../modules/StatusBar/actions';
+
 import { round } from 'lodash';
 import { getCorrectFontSizeForScreen } from '../../core/functions';
 import styles from './styles';
@@ -47,6 +50,9 @@ class DiscoveryFilters extends Component {
 
   state = {};
 
+  componentWillMount() {
+    this.props.dispatch(setStatusBarStyle('default'));
+  }
   componentDidMount() {
 
   }
@@ -63,7 +69,6 @@ class DiscoveryFilters extends Component {
   render() {
     return (
       <View style={styles.preview}>
-        <StatusBar barStyle="default" />
         <ScrollView style={styles.container}>
           <View style={styles.inputBox}>
             <View style={styles.inputBoxLeft}>

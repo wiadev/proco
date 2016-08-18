@@ -133,11 +133,8 @@ export function login() {
 export function logout() {
   return dispatch => {
     Promise.all([AsyncStorage.clear(), firebase.auth().signOut()]).then(() => {
-      dispatch({ type: 'USER_LOGOUT' });
-      dispatch({ type: LOADED });
+      dispatch({ type: 'UNLOAD' });
       Actions.Login();
-
-      // go back to login
     });
   }
 }

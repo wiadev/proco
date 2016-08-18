@@ -7,8 +7,6 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-const {BlurView, VibrancyView} = require('react-native-blur');
-
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';

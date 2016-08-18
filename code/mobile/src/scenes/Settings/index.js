@@ -14,7 +14,7 @@ import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {loadUser, updateUser} from '../../modules/User/actions';
 import styles from './styles';
-import {LICENSES_PAGE, TERMS_PAGE, PRIVACY_PAGE} from '../../core/StaticPages';
+import { LICENSES_PAGE, TERMS_PAGE, PRIVACY_PAGE} from '../../core/StaticPages';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconM from 'react-native-vector-icons/MaterialIcons';
@@ -136,7 +136,7 @@ class Settings extends Component {
               <MKSwitch
                 style={styles.mkSwitch2}
                 onCheckedChange={(e) => {
-                  this.props.dispatch(updateUserSettings({
+                  this.props.dispatch(updateUser('settings', {
                     suspendDiscovery: e.checked,
                   }));
                 }}
@@ -178,7 +178,7 @@ class Settings extends Component {
                 <MKSwitch
                   style={styles.mkSwitch}
                   onCheckedChange={(e) => {
-                    this.props.dispatch(updateUserSettings({
+                    this.props.dispatch(updateUser('settings', {
                       newMessagesFromMatches: e.checked,
                     }));
                   }}

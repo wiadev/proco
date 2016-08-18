@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { AppState, View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import { loadAuth } from '../../modules/Authentication/actions';
-import { syncPermissions } from '../../modules/Permissions/actions';
-import { clearInAppAlert } from '../../modules/InAppAlert/actions';
-import InAppAlert  from '../../components/InAppAlert';
+import { loadAuth } from './modules/Authentication/actions';
+import { syncPermissions } from './modules/Permissions/actions';
+import { clearInAppAlert } from './modules/InAppAlert/actions';
+import InAppAlert  from './components/InAppAlert';
 
-import Routes from './Routes';
+import Routes from './core/Routes';
 
 @connect(
   state => ({
     auth: state.auth,
-    inAppAlert: state.inAppAlert
+    inAppAlert: state.inAppAlert,
+    statusbar: state.statusbar,
   }),
 )
 class App extends Component {
@@ -45,6 +46,10 @@ class App extends Component {
     const inAppAlert = this.props.inAppAlert;
     return (
       <View>
+        <StatusBar
+          showHideTransition="slide"
+          {...this.props.statusbar}
+        />
         <InAppAlert
           show={inAppAlert.get('show')}
           title={inAppAlert.get('title')}

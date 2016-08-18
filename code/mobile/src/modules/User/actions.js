@@ -77,6 +77,7 @@ export function loadUser(type) {
     );
   };
 }
+
 export function unloadUser() {
   return {
     type: USER_UNLOAD
