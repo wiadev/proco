@@ -17,34 +17,6 @@ alert props:
 
 export const initialState = new Map({
     alerts: [
-        {
-            id: null,
-            type: 'danger',
-            duration: 4000,
-            title: "Test Alert",
-            context: "You got test alerted."
-        },
-        {
-            id: null,
-            type: 'warning',
-            duration: 6000,
-            title: "Test Alert",
-            context: "You got test alerted."
-        },
-        {
-            id: null,
-            type: 'success',
-            duration: 8000,
-            title: "Test Alert",
-            context: "You got test alerted."
-        },
-        {
-            id: null,
-            type: 'info',
-            duration: 10000,
-            title: "Test Alert",
-            context: "You got test alerted."
-        }
     ]
 });
 

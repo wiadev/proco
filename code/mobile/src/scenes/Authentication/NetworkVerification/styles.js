@@ -4,7 +4,7 @@ import {
   PixelRatio,
 } from 'react-native';
 
-import { getCorrectFontSizeForScreen } from '../../core/functions';
+import { getCorrectFontSizeForScreen } from '../../../core/functions';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -81,15 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
   },
-  buttonList: {
-    flex: 0,
-    width: popupWidth * 80 / 100,
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    height: 0,
-    opacity: 0,
-  },
+
   backBtn: {
     flex: 1,
     borderRadius: 50,

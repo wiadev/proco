@@ -12,7 +12,7 @@ import { loadPage, defaultState, questionChanged } from './redux';
 import store from '../../store/configureStore';
 import { connect } from 'react-redux';
 import Header from '../Header';
-import MessageBox from '../MessageBox';
+import MessageBox from '../Messages/Box';
 import {
   MKTextField,
 } from 'react-native-material-kit';

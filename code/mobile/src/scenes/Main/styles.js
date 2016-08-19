@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height,
     width,
+    flex: 1,
   },
   answerButton: {
     width: 50,

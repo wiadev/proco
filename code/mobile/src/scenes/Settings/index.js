@@ -115,7 +115,7 @@ class Settings extends Component {
             <View style={styles.inputBoxRight}>
               <Text
                 style={[styles.blackText]}
-              >{this.props.user.birthday}</Text>
+              >{this.props.user.get('birthday')}</Text>
             </View>
           </View>
           <View style={styles.inputBox}>
@@ -125,7 +125,7 @@ class Settings extends Component {
             <View style={styles.inputBoxRight}>
               <Text
                 style={[styles.blackText]}
-              >{this.props.user.network_name}</Text>
+              >{this.props.user.get('network_name')}</Text>
             </View>
           </View>
           <View style={styles.inputBox}>

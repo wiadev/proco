@@ -9,7 +9,7 @@ import {
 
 export const initialState = {
   hidden: false,
-  barStyle: 'default',
+  barStyle: 'light-content',
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -27,9 +27,8 @@ export default function reducer(state = initialState, action = {}) {
     case SET_STYLE:
       return assign(state, {
         barStyle: action.payload.style,
+        hidden: false, // If you are setting the style, you want to show it
       });
-    case RESET:
-      return initialState;
   }
 
 }

@@ -15,8 +15,6 @@ class InAppAlert extends React.Component {
 
         return (
             <View>
-                <StatusBar hidden={hasAlert} />
-
                 {hasAlert ? alerts.map((alert, key) => {
                     return (
                         <Alert key={key} alert={alert} onComplete={completedAlert => this._onAlertComplete(completedAlert)} />

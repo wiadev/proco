@@ -1,52 +1,42 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  Image,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { Actions } from 'react-native-router-flux';
-import styles from './styles';
+import React, {Component} from 'react';
+import { NetInfo } from 'react-native';
+import {connect} from 'react-redux';
+import {setStatusBarStyle} from '../../modules/StatusBar';
+import { CardModal } from '../Card';
 
-class CameraPermissionScreen extends Component {
-  static getStyles() {
-    return styles;
-  }
-
+@connect()
+export default class NoInternetModal extends Component {
   constructor(props) {
     super(props);
-    this.styles = styles;
+  }
+
+  state = {
+    isConnected: true,
+  };
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount () {
+
   }
 
   render() {
     return (
-      <View style={this.styles.preview}>
-        <Image
-          style={this.styles.backgroundImage}
-          source={require('../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}
-        />
-        <LinearGradient
-          colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']}
-          style={this.styles.preview}
-        >
-          <View style={this.styles.permissionArea}>
-            <Image style={this.styles.permissionImage} source={require('../../assets/images/cameraPermission.png')} />
-            <Text style={this.styles.permissionLabel}>
-              Camera permission is required
-            </Text>
-            <Text style={this.styles.permissionText}>
-              To give camera access, you can...
-            </Text>
-            <View style={this.styles.button} pointerEvents={'box-none'}>
-              <Text style={this.styles.buttonText} onPress={Actions.moreSettingsScreen}>
-                Go to Settings
-              </Text>
-            </View>
-          </View>
-        </LinearGradient>
-      </View>
+      <CardModal
+        show={true}
+        title="We need yoru location"
+        text="Proco requires your location access to function"
+        buttons={[
+          {
+            text: "Yes, go ahead",
+            onPress: () => {
+
+            }
+          }
+        ]}
+      />
     );
   }
 }
-
-export default CameraPermissionScreen;

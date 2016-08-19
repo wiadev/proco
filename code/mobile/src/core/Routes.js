@@ -2,14 +2,15 @@ import React, {Component} from 'react';
 import {Actions, Router, Scene, Modal} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 
+import Loading from '../scenes/Loading';
 import Login from '../scenes/Authentication/Login';
 import RegisterForm from '../scenes/Authentication/RegisterForm';
 import Settings from '../scenes/Settings';
 import DiscoveryFilters from '../scenes/DiscoveryFilters';
 import WebViewModal from '../scenes/WebViewModal';
-import Card from '../scenes/Card';
+import { Card, CardModal } from '../components/Card';
 import Test from '../scenes/Test';
-import MainScreen from '../components/MainScreen';
+import MainScreen from '../scenes/Main';
 import UpdateYourQuestionScreen from '../components/UpdateYourQuestionScreen';
 import ShootNewProfileScreen from '../components/ShootNewProfileScreen';
 import CameraPermissionScreen from '../components/CameraPermissionScreen';
@@ -21,10 +22,14 @@ const scenes = Actions.create(
   <Scene key="modal" component={Modal}>
 
     <Scene key="root">
-      <Scene key="Authentication" hideNavBar={true} initial={false}>
-        <Scene key="LoginPage" component={Login}/>
-        <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true}/>
-      </Scene>
+      <Scene key="CardModal" hideNavBar={true} direction="vertical" component={CardModal}/>
+      <Scene key="Card" hideNavBar={true} direction="vertical" component={Card}/>
+      <Scene key="WebViewModal" direction="vertical" hideNavBar={false} component={WebViewModal}/>
+
+      <Scene key="LoginPage" component={Login} initial={true} hideNavBar={true} />
+      <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} />
+
+      <Scene key="MainScreen" hideNavBar={true} component={MainScreen} initial={true} />
       <Scene
         key="Settings"
         component={Settings}
@@ -41,10 +46,9 @@ const scenes = Actions.create(
         initial={false}
         title="Discovery Filters"
       />
-      <Scene key="WebViewModal" direction="vertical" hideNavBar={false} component={WebViewModal}/>
-      <Scene key="Card" direction="vertical" hideNavBar={true} initial={false} component={Card}/>
+
+
       <Scene key="Test" direction="vertical" hideNavBar={true} initial={false} component={Test}/>
-      <Scene key="MainScreen" component={MainScreen} hideNavBar={true} initial={true}/>
       <Scene
         key="UpdateYourQuestionScreen"
         component={UpdateYourQuestionScreen}
@@ -82,7 +86,6 @@ const scenes = Actions.create(
         initial={false}
       />
     </Scene>
-    <Scene key="CardModal" hideNavBar={true} direction="vertical" component={Card}/>
 
   </Scene>
 );

@@ -11,7 +11,8 @@ Settings as settingsReducer,
 DiscoveryFilters as discoveryFiltersReducer,
 } from '../modules/User/reducers';
 import permissionsReducer from '../modules/Permissions/reducer';
-import mainScreenReducer from '../components/MainScreen/redux';
+import statusBarReducer from '../modules/StatusBar/reducer';
+import mainScreenReducer from '../scenes/Main/redux';
 import updateYourQuestionScreenReducer from '../components/UpdateYourQuestionScreen/redux';
 import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/redux';
 import updateYourSchoolScreenReducer from '../components/UpdateYourSchoolScreen/redux';
@@ -23,6 +24,7 @@ const reducers = {
   settings: settingsReducer,
   discoveryFilters: discoveryFiltersReducer,
   permissions: permissionsReducer,
+  statusbar: statusBarReducer,
   mainScreenReducer,
   updateYourQuestionScreenReducer,
   shootNewProfileScreenReducer,
@@ -42,7 +44,7 @@ const namespacedReducer = combineReducers(
 );
 
 export default function mainReducer(state, action) {
-  if (action.type === 'USER_LOGOUT') {
+  if (action.type === 'RESET') {
     state = undefined;
   }
   return namespacedReducer(state || void 0, action);

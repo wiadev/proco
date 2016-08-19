@@ -1,6 +1,7 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { hideStatusBar, showStatusBar } from '../StatusBar/actions';
 
 import {
   STARTED,
@@ -10,7 +11,7 @@ import {
 } from './actionTypes';
 
 import {
-  showInAppAlert,
+  createAlert,
 } from '../InAppAlert/actions';
 
 import {
@@ -109,15 +110,18 @@ export function login() {
   return (dispatch) => {
 
     dispatch({ type: STARTED });
+    dispatch(hideStatusBar());
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
     ).then((result) => {
+      dispatch(showStatusBar());
+
       if (result.isCancelled) {
 
-        dispatch(showInAppAlert({
-          type: 'error',
-          title: 'Login was cancelled',
-          message: 'You\'ve cancelled the login flow'
+        dispatch(createAlert({
+          type: 'info',
+          title: 'Login was cancelled by you',
+          duration: 900
         }));
 
         dispatch(logout());
@@ -133,8 +137,8 @@ export function login() {
 export function logout() {
   return dispatch => {
     Promise.all([AsyncStorage.clear(), firebase.auth().signOut()]).then(() => {
-      dispatch({ type: 'UNLOAD' });
-      Actions.Login();
+      dispatch({ type: 'RESET' });
+      Actions.LoginPage();
     });
   }
 }

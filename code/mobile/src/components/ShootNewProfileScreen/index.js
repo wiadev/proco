@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, photoSelected, photoTaken } from './redux';
 import { connect } from 'react-redux';
 import Header from '../Header';
-import MessageCountIcon from '../MessageCountIcon';
+import MessageCountIcon from '../Messages/CountIcon';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 import styles from './styles';

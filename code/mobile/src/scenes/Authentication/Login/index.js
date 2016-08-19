@@ -11,6 +11,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Actions } from 'react-native-router-flux';
 import { login } from '../../../modules/Authentication/actions';
+import { setStatusBarStyle } from '../../../modules/StatusBar/actions';
 import { connect } from 'react-redux';
 import { PRIVACY_PAGE, TERMS_PAGE } from '../../../core/StaticPages';
 
@@ -31,6 +32,7 @@ class Login extends Component {
 
   componentWillMount() {
     this.checkAuthAndRedirect();
+    this.props.dispatch(setStatusBarStyle('light-content'));
   }
 
   componentWillReceiveProps(props) {

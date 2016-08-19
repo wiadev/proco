@@ -38,7 +38,6 @@ class MessagesListScreen extends Component {
   state = {};
 
   componentWillMount() {
-    StatusBar.setHidden(true);
   }
 
   componentDidMount() {
@@ -87,11 +86,6 @@ class MessagesListScreen extends Component {
   render() {
     return (
       <View style={this.styles.preview}>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
-          hidden={false}
-        />
         <View style={this.styles.topMenu}>
           <View style={this.styles.topMenuLeft}>
             <Icon

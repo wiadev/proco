@@ -24,3 +24,27 @@ export const WHY_SCHOOL_EMAIL_PAGE = {
   url: `${BASE_URL}/pages/why-school-email.html`,
   title: 'About School Emails'
 };
+
+export const NOTIFICATION_PERMISSIONS_DETAILS = {
+  url: `${BASE_URL}/pages/notification-permission-details.html`,
+  title: 'About Notifications'
+};
+
+export const LOCATION_PERMISSIONS_DETAILS = {
+  url: `${BASE_URL}/pages/location-permission-details.html`,
+  title: 'About Your Location'
+};
+
+export const LOCATION_PERMISSIONS_DETAILS_MORE = {
+  url: `${BASE_URL}/pages/location-permission-details-more.html`,
+  title: 'Learn more about locations'
+};
+
+export const CAMERA_PERMISSIONS_DETAILS = {
+  url: `${BASE_URL}/pages/camera-permission-details.html`,
+  title: 'About Camera Permissions'
+};
+export const CAMERA_PERMISSIONS_DETAILS_MORE = {
+  url: `${BASE_URL}/pages/camera-permission-details-more.html`,
+  title: 'Learn more about Camera Permissions'
+};

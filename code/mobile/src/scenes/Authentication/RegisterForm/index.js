@@ -19,7 +19,7 @@ import {updateUser} from '../../../modules/User/actions';
 import {connect} from 'react-redux';
 import { WHY_SCHOOL_EMAIL_PAGE } from '../../../core/StaticPages';
 import {Actions} from 'react-native-router-flux';
-
+import NetworkVerification from '../NetworkVerification';
 import Header from '../../../components/Header';
 import Picker from 'react-native-picker';
 
@@ -60,8 +60,12 @@ class RegisterForm extends Component {
   };
 
   onRightClick() {
-    Actions.NetworkVerification();
     this.props.dispatch(updateUser('info', this.state));
+    Actions.CardModal({
+      title: 'We\'ll need to verify your school e-mail.',
+      text: 'You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved.',
+      renderThis: () => { return <NetworkVerification />; }
+    });
   }
 
   onClickBack() {

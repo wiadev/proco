@@ -4,8 +4,8 @@ import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   button: {
-    width: 230,
-    marginTop: 40,
+    alignSelf: 'stretch',
+    marginTop: 5,
     padding: 12,
     backgroundColor: colors.primaryAlt,
     borderRadius: 20,

@@ -1,60 +1,47 @@
-import React, { Component } from 'react';
-import { AppState, View, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {AppState, NetInfo, View, StatusBar} from 'react-native';
+import {connect} from 'react-redux';
 import InAppAlert  from './components/InAppAlert';
-import { loadAuth } from './modules/Authentication/actions';
-import { syncPermissions } from './modules/Permissions/actions';
-import { clearInAppAlert } from './modules/InAppAlert/actions';
+import {loadAuth} from './modules/Authentication/actions';
+import {syncPermissions} from './modules/Permissions/actions';
+import {clearInAppAlert} from './modules/InAppAlert/actions';
+import NoInternetModal from './components/NoInternetModal';
 
 import Routes from './core/Routes';
 
 @connect(
   state => ({
     auth: state.auth,
-    inAppAlerts: state.inAppAlerts,
     statusbar: state.statusbar,
   }),
 )
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    }
-
-    componentDidMount() {
-        AppState.addEventListener('change', this.handleAppStateChange);
-        this.handleAppStateChange('active');
-    }
-
-    componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
-    }
-
-    handleAppStateChange(appState) {
-        if (appState == 'active') {
-            console.log("active")
-            this.props.dispatch(loadAuth());
-        }
-    }
-
-    shouldComponentUpdate(nextProps)  {
-        return (this.props.auth.get('isLoaded') !== nextProps.auth.get('isLoaded'));
-    }
-
-  handleAppStateChange(appState) {
-    if (appState == 'active') {
-      this.props.dispatch(loadAuth());
-      this.props.dispatch(syncPermissions());
-    }
+  constructor(props) {
+    super(props);
+    this.handleAppStateChange = this.handleAppStateChange.bind(this);
   }
 
-  shouldComponentUpdate(nextProps)  {
-    return (this.props.auth.get('isLoaded') !== nextProps.auth.get('isLoaded'));
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+    this.handleAppStateChange('active'); // First time
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener(
+      'change',
+      this.handleAppStateChange
+    );
+  }
+
+  handleAppStateChange(appState) {
+    this.props.dispatch(syncPermissions());
+    if (appState == 'active') {
+      this.props.dispatch(loadAuth());
+    }
   }
 
   render() {
-    const inAppAlert = this.props.inAppAlert;
     return (
       <View>
         <StatusBar
@@ -62,6 +49,7 @@ class App extends Component {
           {...this.props.statusbar}
         />
         <InAppAlert />
+        <NoInternetModal />
         <Routes />
       </View>
     );

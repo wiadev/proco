@@ -20,15 +20,23 @@ export function syncPermissions() {
   }
 }
 
-
-export function requestCameraPermissions() {
-
+export function requestPermission(type) {
+  return (dispatch) => {
+    Permissions.requestPermission(type)
+      .then(response => {
+        let toDispatch = {
+          type: `PERMISSION_STATUS_CHANGED`,
+          payload: {}
+        };
+        toDispatch.payload[type] = response;
+        dispatch(toDispatch);
+      })
+      .catch(e => {
+        console.log("permission error", e)
+      });
+  }
 }
 
-export function requestNotificationsPermissions() {
-
-}
-
-export function requestLocationPermissions() {
-
+export function openSettings() {
+  Permissions.openSettings();
 }

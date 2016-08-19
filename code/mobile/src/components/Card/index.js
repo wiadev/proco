@@ -7,37 +7,21 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
+import Button from '../Button';
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';
 const photo = require('../../assets/images/cameraPermission.png');
-class Card extends Component {
+export class Card extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {modalVisible: false};
-  }
-
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
-
-  componentDidMount() {
-    this.setState({modalVisible: true})
-  }
-
-  componentWillUnmount() {
-    this.setState({modalVisible: false})
   }
 
   renderButtons(buttons = []) {
     return buttons.map((button, i) => {
       return (
-        <View key={i} style={styles.button} pointerEvents={'box-none'}>
-          <Text style={styles.buttonText} onPress={button.onPress}>
-            {button.text}
-          </Text>
-        </View>
+        <Button key={i} text={button.text} onPress={button.onPress} />
       );
     });
   }
@@ -53,22 +37,15 @@ class Card extends Component {
   }
 
   render() {
-    const {icon, title, text, buttons, renderThis} = this.props;
+    const {icon, head, text, buttons, renderThis} = this.props;
+
     return (
-      <Modal
-        animationType={"fade"}
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert("Modal has been closed.")
-        }}
-      >
-        <View style={styles.preview}>
+        <View style={styles.container}>
           <View style={styles.permissionArea}>
             {this.renderIcon(icon)}
 
-            {title ? <Text style={styles.permissionLabel}>
-              {title}
+            {head ? <Text style={styles.permissionLabel}>
+              {head}
             </Text> : null}
 
             {text ? <Text style={styles.permissionText}>
@@ -76,10 +53,25 @@ class Card extends Component {
             </Text> : null}
 
             {renderThis ? renderThis() : null}
+            {buttons ? <View style={styles.buttonList}>{this.renderButtons(buttons)}</View> : null}
 
-            {this.renderButtons(buttons)}
           </View>
         </View>
+    );
+  }
+}
+export class CardModal extends Component {
+  render() {
+    return (
+      <Modal
+        animationType={"fade"}
+        transparent={true}
+        visible={this.props.show}
+        onRequestClose={() => {
+          console.log("Modal has been closed.")
+        }}
+      >
+        <Card {...this.props} />
       </Modal>
     );
   }

@@ -5,13 +5,17 @@ import {
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
+const cardWidth = width * 80 / 100;
 
 const styles = StyleSheet.create({
-  preview: {
+  container: {
     position: 'relative',
     height,
     width,
-    backgroundColor: 'rgba(120,55,175, 0.8)'
+    backgroundColor: 'rgba(120,55,175, 0.8)',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backgroundImage: {
     position: 'absolute',
@@ -19,9 +23,7 @@ const styles = StyleSheet.create({
     width,
   },
   permissionArea: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: cardWidth,
   },
   permissionImage: {
     marginBottom: 25,
@@ -41,18 +43,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  button: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 20,
-    width: 230,
-    marginTop: 40,
-  },
-  buttonText: {
-    color: 'rgb(249,54,95)',
-    fontFamily: 'Montserrat-Regular',
-    fontSize: 16,
-    textAlign: 'center',
+  buttonList: {
+    marginTop: 35,
   },
 });
 
