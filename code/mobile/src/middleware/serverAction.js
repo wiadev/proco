@@ -35,7 +35,7 @@ export default function serverActionMiddleware() {
           action: type,
           payload: Object.assign(payload, {
             key: ref.key,
-            uid: auth.get('uid'),
+            uid: auth.uid,
           }),
         };
 

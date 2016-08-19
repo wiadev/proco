@@ -51,7 +51,7 @@ class MainScreen extends Component {
             (e, state) => this.props.dispatch(hideStatusBar())
           }
         >
-          <UpperMenu fid={this.props.user.get('fid')} />
+          <UpperMenu fid={this.props.user.fid} />
           <Pool />
         </Swiper>
       </View>

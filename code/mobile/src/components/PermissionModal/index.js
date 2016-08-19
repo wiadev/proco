@@ -24,6 +24,7 @@ export default class PermissionModal extends Component {
   }
 
   render() {
+    return null;
     const type = this.props.type;
     const status = this.props.permissions[type];
 

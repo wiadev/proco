@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { assign } from '../../../core/utils';
 import { AsyncStorage } from 'react-native';
 
 import {
@@ -7,7 +7,7 @@ import {
   USER_UNLOAD,
 } from '../actionTypes';
 
-export const initialState = Map({
+export const initialState = {
   hasStartedLoading: false,
   isLoaded: false,
   isLoggedIn: false,
@@ -17,22 +17,20 @@ export const initialState = Map({
   birthday: null,
   network_email: null,
   network_is_verified: false,
-});
+};
 
 export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
     default: return state;
     case USER_STARTED_LOADING:
-      return initialState.set('hasStartedLoading', true);
+      return assign(initialState, {
+        hasStartedLoading: true,
+      };
     case 'USER_UPDATED_INFO':
-      return state.set('isLoaded', true)
-                  .set('fid', action.payload.fid)
-                  .set('gender', action.payload.gender)
-                  .set('first_name', action.payload.first_name)
-                  .set('birthday', action.payload.birthday)
-                  .set('network_email', action.payload.network_email)
-                  .set('network_is_verified', action.payload.network_is_verified);
+      return assign(state, {
+        isLoaded: true,
+      }, action.payload);
     case USER_UNLOAD:
       return initialState;
   }

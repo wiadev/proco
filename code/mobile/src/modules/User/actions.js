@@ -37,7 +37,7 @@ export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
     const {auth} = getState();
-    getUserRef(auth.get('uid'), type).update(data).then(() => {
+    getUserRef(auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
         type: getUserUpdatedActionTypeFor(type),
@@ -55,9 +55,9 @@ export function updateUser(type, data = {}, after = () => {
 export function loadUser(type) {
   return (dispatch, getState) => {
     const {auth} = getState();
-    if (!auth.get('uid')) return;
+    if (!auth.uid) return;
 
-    const unsubs = getUserRef(auth.get('uid'), type).on('value',
+    const unsubs = getUserRef(auth.uid, type).on('value',
       (snap) => {
         if (snap) {
           const data = snap.val();
@@ -75,11 +75,5 @@ export function loadUser(type) {
         console.log("error", err);
       }
     );
-  };
-}
-
-export function unloadUser() {
-  return {
-    type: USER_UNLOAD
   };
 }

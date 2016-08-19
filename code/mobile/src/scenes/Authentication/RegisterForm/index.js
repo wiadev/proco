@@ -61,7 +61,7 @@ class RegisterForm extends Component {
 
   onRightClick() {
     this.props.dispatch(updateUser('info', this.state));
-    Actions.CardModal({
+    Actions.Card({
       title: 'We\'ll need to verify your school e-mail.',
       text: 'You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved.',
       renderThis: () => { return <NetworkVerification />; }
@@ -85,12 +85,6 @@ class RegisterForm extends Component {
 
   }
 
-  onClickVerify() {
-
-    /*
-     verification
-     */
-  }
 
   render() {
 
@@ -121,7 +115,7 @@ class RegisterForm extends Component {
           </View>
           <View style={this.styles.rightBox}>
             <Text style={this.styles.rightBoxText}>
-              Hello {this.props.user.get('first_name')}.
+              Hello {this.props.user.first_name}.
             </Text>
             <Text style={this.styles.rightBoxText2}>
               to continue, we need you to complete this short form.
@@ -140,14 +134,14 @@ class RegisterForm extends Component {
             cancelBtnText="Cancel"
             iconSource={null}
             customStyles={dpCustom}
-            date={user.get('birthday')}
+            date={user.birthday}
             onDateChange={(date) => {
               this.setState({date});
             }}
           />
         </View>
 
-        { user.get('gender') ? null : (
+        { user.gender ? null : (
           <View style={this.styles.emailBox}>
             <Text style={this.styles.emailLabel}>
               YOUR GENDER
@@ -183,7 +177,7 @@ class RegisterForm extends Component {
             style={this.styles.email}
             underlineEnabled={false}
             placeholderTextColor={'white'}
-            defaultValue={this.props.auth.get('first_name') + '@proco.edu.tr'}
+            defaultValue={this.props.user.first_name + '@proco.edu.tr'}
             onTextChange={(email) => {
               this.setState({email});
             }}

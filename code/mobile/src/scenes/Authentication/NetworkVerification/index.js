@@ -9,6 +9,7 @@ import {
   MKTextField,
 } from 'react-native-material-kit';
 import styles from './styles';
+import { Actions } from 'react-native-router-flux';
 
 class NetworkVerification extends Component {
 
@@ -64,7 +65,9 @@ class NetworkVerification extends Component {
                   style={[styles.verifyButtonTxt, {
                     color: '#fa3f6a',
                   }]}
-                  onPress={this.props.onVerifyClick}
+                  onPress={() => {
+                    Actions.pop();
+                  }}
                 >Back</Text>
               </View>
               <View

@@ -71,7 +71,7 @@ export const loadAuth = (user, facebook_token) => {
   return (dispatch, getState) => {
     const { auth } = getState();
 
-    if (!(auth.get('uid') && auth.get('facebook_token'))) {
+    if (!(auth.uid && auth.facebook_token)) {
       if (!user && !facebook_token) {
         dispatch(getAuth());
         return;

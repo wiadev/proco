@@ -40,7 +40,7 @@ class Login extends Component {
   }
 
   checkAuthAndRedirect(props = this.props) {
-    if(props.user.get('isLoaded')) {
+    if(props.user.isLoaded) {
       Actions.RegisterForm();
     }
   }
@@ -110,7 +110,7 @@ class Login extends Component {
           </Swiper>
 
           {
-            (!this.props.auth.get('isInProgress') && !this.props.auth.get('uid')) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
+            (!this.props.auth.isInProgress && !this.props.auth.uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
           }
 
       </View>

@@ -13,8 +13,9 @@ import {
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {loadUser, updateUser} from '../../modules/User/actions';
+import {logout} from '../../modules/Authentication/actions';
 import styles from './styles';
-import { LICENSES_PAGE, TERMS_PAGE, PRIVACY_PAGE} from '../../core/StaticPages';
+import {LICENSES_PAGE, TERMS_PAGE, PRIVACY_PAGE} from '../../core/StaticPages';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconM from 'react-native-vector-icons/MaterialIcons';
@@ -115,7 +116,7 @@ class Settings extends Component {
             <View style={styles.inputBoxRight}>
               <Text
                 style={[styles.blackText]}
-              >{this.props.user.get('birthday')}</Text>
+              >{this.props.user.birthday}</Text>
             </View>
           </View>
           <View style={styles.inputBox}>
@@ -125,7 +126,7 @@ class Settings extends Component {
             <View style={styles.inputBoxRight}>
               <Text
                 style={[styles.blackText]}
-              >{this.props.user.get('network_name')}</Text>
+              >{this.props.user.network_name}</Text>
             </View>
           </View>
           <View style={styles.inputBox}>
@@ -179,7 +180,7 @@ class Settings extends Component {
                   style={styles.mkSwitch}
                   onCheckedChange={(e) => {
                     this.props.dispatch(updateUser('settings', {
-                      newMessagesFromMatches: e.checked,
+                      notifyNewMessagesFromMatches: e.checked,
                     }));
                   }}
                   onColor={'#43da5e'}
@@ -204,8 +205,8 @@ class Settings extends Component {
                 <MKSwitch
                   style={styles.mkSwitch}
                   onCheckedChange={(e) => {
-                    this.props.dispatch(updateUserSettings({
-                      newMessages: e.checked,
+                    this.props.dispatch(updateUser('settings', {
+                      notifyNewMessages: e.checked,
                     }));
                   }}
                   onColor={'#43da5e'}
@@ -243,8 +244,8 @@ class Settings extends Component {
                           {
                             text: 'No problem!',
                             onPress: () => {
-                              this.props.dispatch(updateUserSettings({
-                                newAnswers: e.checked,
+                              this.props.dispatch(updateUser('settings', {
+                                notifyNewAnswers: e.checked,
                               }));
                             }
                           },
@@ -274,8 +275,8 @@ class Settings extends Component {
                 <MKSwitch
                   style={styles.mkSwitch}
                   onCheckedChange={(e) => {
-                    this.props.dispatch(updateUserSettings({
-                      announcements: e.checked,
+                    this.props.dispatch(updateUser('settings', {
+                      notifyAnnouncements: e.checked,
                     }));
                   }}
                   onColor={'#43da5e'}
@@ -419,18 +420,22 @@ class Settings extends Component {
           <View style={styles.appLogoBottom}>
             <Image source={require('../../assets/images/logo.png')}/>
           </View>
-          <View style={styles.inputBox}>
-            <View style={styles.inputBoxLeft}>
-              <Text style={[styles.blackText, {fontSize: 14}]}>Logout</Text>
+          <TouchableHighlight onPress={() => {
+            this.props.dispatch(logout());
+          }}>
+            <View style={styles.inputBox}>
+              <View style={styles.inputBoxLeft}>
+                <Text style={[styles.blackText, {fontSize: 14}]}>Logout</Text>
+              </View>
+              <View style={styles.inputBoxRight}>
+                <Icon
+                  name="angle-right"
+                  size={30}
+                  color="#c2c2c2"
+                />
+              </View>
             </View>
-            <View style={styles.inputBoxRight}>
-              <Icon
-                name="angle-right"
-                size={30}
-                color="#c2c2c2"
-              />
-            </View>
-          </View>
+          </TouchableHighlight>
           <Text style={styles.underMessage}>
             No longer enjoying Proco? You can suspend discovery at the top of this page and no one will be able to see
             your questions but you'll be able to chat with your current matches.

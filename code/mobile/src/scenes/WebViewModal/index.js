@@ -19,7 +19,7 @@ class WebViewModal extends Component {
   render() {
 
     let uri = this.props.url;
-    const firebase_token = this.props.auth.get('firebase_token');
+    const firebase_token = this.props.auth.firebase_token;
     if (firebase_token) {
       uri = `${uri}#firebase_token=${firebase_token}`;
     }
