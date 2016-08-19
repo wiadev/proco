@@ -14,6 +14,7 @@ import styles from '../../styles';
 import PoolItem from '../../../../components/PoolItem';
 import PermissionModal from '../../../../components/PermissionModal';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../../../modules/StatusBar/actions';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 
 @connect(
   state => ({
@@ -32,10 +33,9 @@ export default class Pool extends Component {
   }
 
   render() {
-    const items = [1,2,3];
+    const items = [1];
     return (
       <View>
-
         <Swiper
           horizontal={true}
           loop={false}
@@ -44,8 +44,21 @@ export default class Pool extends Component {
           {(this.props.permissions.location === 'authorized') ?
             this.renderPoolItems(items) : <PermissionModal type="location" />
           }
-          <PermissionModal type="notification" />
         </Swiper>
+        <IconM
+          name="expand-less"
+          size={44}
+          color="white"
+          style={{ opacity: 0.5,
+            backgroundColor: 'transparent',
+            textAlign: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 10,
+          }}
+        />
       </View>
     );
   }

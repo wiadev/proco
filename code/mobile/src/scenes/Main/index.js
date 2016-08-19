@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
+import GodMode from './containers/GodMode';
 
 import styles from './styles';
 
@@ -39,7 +40,7 @@ class MainScreen extends Component {
           horizontal={false}
           loop={false}
           showsPagination={false}
-          index={1}
+          index={2}
           onMomentumScrollEnd={
             (e, state) => {
               this.props.dispatch(showStatusBar());
@@ -49,6 +50,7 @@ class MainScreen extends Component {
             (e, state) => this.props.dispatch(hideStatusBar())
           }
         >
+          <GodMode />
           <UpperMenu fid={this.props.user.fid} />
           <Pool />
         </Swiper>

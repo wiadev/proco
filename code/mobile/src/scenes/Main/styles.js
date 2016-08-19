@@ -11,6 +11,8 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width,
+    height,
   },
   view: {
     flex: 1,

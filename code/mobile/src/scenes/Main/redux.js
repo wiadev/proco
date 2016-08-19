@@ -20,6 +20,7 @@ export default function reducer(state = defState, action = {}) {
     case ADDEDMESSAGE:
       const updatedList = state.get('messageList').push({
         text: action.values.text,
+        position: action.values.position,
       });
       return state.set('messageList', updatedList);
     case GETMESSAGECOUNT:
@@ -36,8 +37,8 @@ export function getMessageCount(count = 0) {
   return { type: GETMESSAGECOUNT, values: { messageCount: count } };
 }
 
-export function addMessage(text = '') {
-  return { type: ADDEDMESSAGE, values: { text } };
+export function addMessage(text = '', position = 'left') {
+  return { type: ADDEDMESSAGE, values: { text, position } };
 }
 
 export {

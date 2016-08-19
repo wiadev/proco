@@ -7,7 +7,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Actions } from 'react-native-router-flux';
 import styles from './styles';
-const icon = '../../assets/images/cameraPermission.png';
+const icon = '../../../../assets/images/cameraPermission.png';
 import Permissions from 'react-native-permissions';
 import {
   CAMERA_PERMISSIONS_DETAILS,
@@ -15,7 +15,7 @@ import {
   LOCATION_PERMISSIONS_DETAILS,
   LOCATION_PERMISSIONS_DETAILS_MORE,
   NOTIFICATION_PERMISSIONS_DETAILS,
-} from '../../core/StaticPages';
+} from '../../../../core/StaticPages';
 
 class Test extends Component {
 
@@ -30,16 +30,22 @@ class Test extends Component {
       <Text onPress={() => {
         Actions.CardModal({
           icon,
-          title: 'You need to provide camera permission',
-          text: 'Give permission',
+          head: 'Sadly, your school hasnt been invited to Proco yet',
+          text: 'If you want, we can send an SMS when we are at your school',
           buttons: [{
             onPress: () => {
 
             },
-            text: 'Test'
-          }]
+            text: 'Leave number'
+          },
+            {
+              text: 'contact Proco',
+              onPress: () => {
+
+              }
+            }]
         });
-      }}>TEst</Text>
+      }}>school not in</Text>
 
           <Text onPress={() => {
             Actions.CardModal({

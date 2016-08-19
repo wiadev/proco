@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import styles from './styles';
+import { primary1 } from '../../../core/style/colors';
 
 const width = Dimensions.get('window').width;
 
@@ -24,7 +25,7 @@ class MessageBox extends Component {
 
   static defaultProps = {
     color: 'white',
-    backgroundColor: '#F9365F',
+    backgroundColor: '#7837Af',
     position: 'left',
     style: {},
     type: 'default',
@@ -45,7 +46,19 @@ class MessageBox extends Component {
 
     let color = this.props.backgroundColor;
     if (this.props.type === 'chatScreen' && this.props.position === 'right') {
-      color = 'rgb(86,54,234)';
+      color = 'white';
+    }
+
+    const viewStyle = {
+      opacity: 0.8,
+    };
+    let boxStyle = {};
+    if (this.props.position === 'right') {
+
+      boxStyle = {
+        backgroundColor: 'white',
+        color: '#7837Af'
+      };
     }
 
     return (
@@ -54,16 +67,9 @@ class MessageBox extends Component {
         this.props.style,
         this.styles[this.props.position],
         this.styles[this.props.type + 'Box'],
+        viewStyle
       ]}>
-        <IconM
-          name="reply"
-          size={44}
-          color={color}
-          style={[
-            this.styles.messagePrefixIcon,
-            this.styles[this.props.position + 'icon'],
-          ]}
-        />
+
         { (this.props.children) ? (
           <View style={[this.styles.messageBoxArea, {
             backgroundColor: this.props.backgroundColor,
@@ -76,7 +82,7 @@ class MessageBox extends Component {
           }, {
             backgroundColor: this.props.backgroundColor,
           }, this.styles[messageCount],
-          this.styles[this.props.type + this.props.position + 'Box']]}>
+          this.styles[this.props.type + this.props.position + 'Box'], boxStyle]}>
             {this.props.text}
           </Text>
         )}

@@ -9,7 +9,6 @@ import Settings from '../scenes/Settings';
 import DiscoveryFilters from '../scenes/DiscoveryFilters';
 import WebViewModal from '../scenes/WebViewModal';
 import { Card, CardModal } from '../components/Card';
-import Test from '../scenes/Test';
 import MainScreen from '../scenes/Main';
 import UpdateYourQuestionScreen from '../components/UpdateYourQuestionScreen';
 import ShootNewProfileScreen from '../components/ShootNewProfileScreen';
@@ -46,9 +45,6 @@ const scenes = Actions.create(
         initial={false}
         title="Discovery Filters"
       />
-
-
-      <Scene key="Test" direction="vertical" hideNavBar={true} initial={false} component={Test}/>
       <Scene
         key="UpdateYourQuestionScreen"
         component={UpdateYourQuestionScreen}

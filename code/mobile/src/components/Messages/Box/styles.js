@@ -8,8 +8,8 @@ const width = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   messageBox: {
-    marginLeft: 20,
-    marginTop: 5,
+    marginLeft: 10,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignSelf: 'stretch',
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   right: {
     justifyContent: 'flex-end',
     marginLeft: 0,
-    marginRight: 20,
+    marginRight: 10,
   },
   chatScreenBox: {
     marginLeft: 0,

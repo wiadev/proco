@@ -9,7 +9,7 @@ import * as firebase from 'firebase';
 
 const setup = () => {
 
-  console.log("running setup");
+  console.disableYellowBox = true;
   firebase.initializeApp({
     apiKey: 'AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc',
     authDomain: 'hello-4c376.firebaseapp.com',

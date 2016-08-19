@@ -17,6 +17,7 @@ export const initialState = {
   birthday: null,
   network_email: null,
   network_is_verified: false,
+  is_god: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
