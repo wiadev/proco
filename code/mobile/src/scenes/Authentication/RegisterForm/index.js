@@ -21,7 +21,9 @@ import { WHY_SCHOOL_EMAIL_PAGE } from '../../../core/StaticPages';
 import {Actions} from 'react-native-router-flux';
 import NetworkVerification from '../NetworkVerification';
 import Header from '../../../components/Header';
+import {CardModal} from '../../../components/Card';
 import Picker from 'react-native-picker';
+import { serverAction } from '../../../core/Api/actions';
 
 import {styles, dpCustom} from './styles';
 
@@ -34,9 +36,6 @@ const width = Dimensions.get('window').width;
   }),
 )
 class RegisterForm extends Component {
-  static getStyles() {
-    return styles;
-  }
 
   static onRenderBackButton() {
     return (<Icon
@@ -50,22 +49,26 @@ class RegisterForm extends Component {
 
   constructor(props) {
     super(props);
-    this.styles = styles;
   }
 
   state = {
     email: '',
-    gender: null,
     showVerify: false,
   };
 
+  componentWillMount() {
+    this.setState({email: this.props.user.first_name + '@proco.edu.tr'});
+  }
   onRightClick() {
     this.props.dispatch(updateUser('info', this.state));
-    Actions.Card({
-      title: 'We\'ll need to verify your school e-mail.',
-      text: 'You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved.',
-      renderThis: () => { return <NetworkVerification />; }
-    });
+    this.props.dispatch(serverAction({
+      type: 'USER_VERIFICATION',
+      payload: {
+        type: 'email',
+        to: this.state.email,
+      }
+    }));
+    this.setState({showVerify: true});
   }
 
   onClickBack() {
@@ -91,44 +94,44 @@ class RegisterForm extends Component {
     const {user} = this.props;
 
     return (
-      <View style={this.styles.container}>
+      <View style={styles.container}>
         <Header
           leftContainer={
             <Icon
               name="angle-left"
               size={42}
               color="#FFFFFF"
-              style={this.styles.leftButtonTextStyle}
+              style={styles.leftButtonTextStyle}
               onPress={::this.onClickBack}
             />
           }
           rightContainer={
-            <Text style={this.styles.btnNext} onPress={::this.onRightClick}>
+            <Text style={styles.btnNext} onPress={::this.onRightClick}>
               Next
             </Text>
           }
         />
 
-        <View style={this.styles.infoBox}>
-          <View style={this.styles.leftBox}>
+        <View style={styles.infoBox}>
+          <View style={styles.leftBox}>
             <IconM name="info-outline" size={42} color="#FFFFFF"/>
           </View>
-          <View style={this.styles.rightBox}>
-            <Text style={this.styles.rightBoxText}>
+          <View style={styles.rightBox}>
+            <Text style={styles.rightBoxText}>
               Hello {this.props.user.first_name}.
             </Text>
-            <Text style={this.styles.rightBoxText2}>
+            <Text style={styles.rightBoxText2}>
               to continue, we need you to complete this short form.
             </Text>
           </View>
         </View>
 
-        <View style={this.styles.bornBox}>
-          <Text style={this.styles.emailLabel}>
+        <View style={styles.bornBox}>
+          <Text style={styles.emailLabel}>
             VERIFY WHEN YOU WERE BORN
           </Text>
           <DatePicker
-            style={this.styles.datepicker}
+            style={styles.datepicker}
             format="DD/MM/YYYY"
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
@@ -142,13 +145,13 @@ class RegisterForm extends Component {
         </View>
 
         { user.gender ? null : (
-          <View style={this.styles.emailBox}>
-            <Text style={this.styles.emailLabel}>
+          <View style={styles.emailBox}>
+            <Text style={styles.emailLabel}>
               YOUR GENDER
             </Text>
-            <View style={this.styles.genderView}>
+            <View style={styles.genderView}>
               <Text
-                style={this.styles.genderText}
+                style={styles.genderText}
                 onPress={() => {
                   this.picker.toggle();
                 }}
@@ -157,27 +160,27 @@ class RegisterForm extends Component {
                 name="angle-right"
                 size={32}
                 color="rgba(255, 255, 255, 0.7)"
-                style={this.styles.genderIcon}
+                style={styles.genderIcon}
               />
             </View>
           </View>
         ) }
 
 
-        <View style={this.styles.emailBox}>
-          <Text style={this.styles.emailLabel}>
+        <View style={styles.emailBox}>
+          <Text style={styles.emailLabel}>
             WHAT IS YOUR SCHOOL E-MAIL?
           </Text>
 
           <MKTextField
             autoCapitalize={'none'}
             tintColor={'transparent'}
-            textInputStyle={this.styles.emailTxt}
+            textInputStyle={styles.emailTxt}
             placeholder="Please enter here"
-            style={this.styles.email}
+            style={styles.email}
             underlineEnabled={false}
             placeholderTextColor={'white'}
-            defaultValue={this.props.user.first_name + '@proco.edu.tr'}
+            defaultValue={this.state.email}
             onTextChange={(email) => {
               this.setState({email});
             }}
@@ -185,8 +188,8 @@ class RegisterForm extends Component {
         </View>
 
         <TouchableHighlight onPress={() => Actions.WebViewModal(WHY_SCHOOL_EMAIL_PAGE)}>
-          <View style={this.styles.footer}>
-            <Text style={this.styles.footerText}>
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
               Why does Proco need my school e-mail?
             </Text>
           </View>
@@ -210,9 +213,16 @@ class RegisterForm extends Component {
             });
           }}
         />
-        {this.state.showVerify ? (
-           <MailVerifyModalComp onVerifyClick={this.onClickVerify}/>
-        ) : null}
+          <CardModal
+            show={this.state.showVerify}
+            head="We'll need to verify your school e-mail."
+            text="You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved."
+            renderThis={() =>
+              <NetworkVerification
+                closer={() => this.setState({showVerify: false})}
+                verify={(code) => console.log(code)}
+              /> }
+          />
       </View>
     );
   }

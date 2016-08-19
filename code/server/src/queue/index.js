@@ -8,7 +8,8 @@ firebase.initializeApp({
 });
 
 const Tasks = [
-    require('./tasks/USER_FIRST_LOGIN')
+    require('./tasks/USER_FIRST_LOGIN'),
+    require('./tasks/USER_VERIFICATION'),
 ];
 const database = firebase.database();
 

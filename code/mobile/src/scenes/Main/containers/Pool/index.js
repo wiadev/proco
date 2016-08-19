@@ -9,24 +9,15 @@ import {
   StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Actions } from 'react-native-router-flux';
-import { loadPage, getMessageCount, defaultState, addMessage } from '../../redux';
-import Camera from 'react-native-camera';
-import IconM from 'react-native-vector-icons/MaterialIcons';
 import { connect } from 'react-redux';
-import Header from '../../../../components/Header';
-import MessageCountIcon from '../../../../components/Messages/CountIcon';
-import MessageBox from '../../../../components/Messages/Box';
-import {getCorrectFontSizeForScreen} from '../../../../core/functions';
 import styles from '../../styles';
 import PoolItem from '../../../../components/PoolItem';
+import PermissionModal from '../../../../components/PermissionModal';
+import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../../../modules/StatusBar/actions';
 
 @connect(
   state => ({
     permissions: state.permissions,
-    mainScreenReducer: state.mainScreenReducer,
   }),
 )
 export default class Pool extends Component {
@@ -50,7 +41,10 @@ export default class Pool extends Component {
           loop={false}
           showsPagination={false}
         >
-          {this.renderPoolItems(items)}
+          {(this.props.permissions.location === 'authorized') ?
+            this.renderPoolItems(items) : <PermissionModal type="location" />
+          }
+          <PermissionModal type="notification" />
         </Swiper>
       </View>
     );

@@ -19,7 +19,7 @@ firebase.initializeApp({
     databaseURL: 'https://hello-4c376.firebaseio.com'
 });
 
-var Tasks = [require('./tasks/USER_FIRST_LOGIN')];
+var Tasks = [require('./tasks/USER_FIRST_LOGIN'), require('./tasks/USER_VERIFICATION')];
 var database = firebase.database();
 
 var worker = function worker(task) {

@@ -2,8 +2,13 @@ import React, {Component} from 'react';
 import {NetInfo} from 'react-native';
 import {connect} from 'react-redux';
 import {requestPermission, openSettings} from '../../modules/Permissions/actions';
-import {CardModal} from '../Card';
+import {Card} from '../Card';
 import { Actions } from 'react-native-router-flux';
+import {
+  LOCATION_PERMISSIONS_DETAILS_MORE, LOCATION_PERMISSIONS_DETAILS,
+  NOTIFICATION_PERMISSIONS_DETAILS,
+  CAMERA_PERMISSIONS_DETAILS_MORE, CAMERA_PERMISSIONS_DETAILS,
+} from '../../core/StaticPages';
 
 @connect(
   state => ({
@@ -24,7 +29,6 @@ export default class PermissionModal extends Component {
   }
 
   render() {
-    return null;
     const type = this.props.type;
     const status = this.props.permissions[type];
 
@@ -32,17 +36,17 @@ export default class PermissionModal extends Component {
     if (status === 'authorized') return null;
     //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
 
-    let modalProps = {
+    let screenProps = {
       show: true,
       head: 'bla bla',
       text: type
     };
 
     if (this.state.isInProgres) {
-      modalProps.renderThis = () => (<ActivityIndicator size="large" color="#ffffff"/>);
+      screenProps.renderThis = () => (<ActivityIndicator size="large" color="#ffffff"/>);
     } else {
       if (status === 'denied') {
-        modalProps.buttons = [
+        screenProps.buttons = [
           {
             text: "Open Settings",
             onPress: () => {
@@ -52,12 +56,12 @@ export default class PermissionModal extends Component {
           {
             text: "Learn more",
             onPress: () => {
-              Actions.WebViewModal()
+              Actions.WebViewModal(LOCATION_PERMISSIONS_DETAILS_MORE)
             }
           }
         ];
       } else {
-        modalProps.buttons = [
+        screenProps.buttons = [
           {
             text: "Ok, go ahead",
             onPress: () => {
@@ -77,6 +81,6 @@ export default class PermissionModal extends Component {
 
     }
 
-    return (<CardModal {...modalProps} />);
+    return (<Card {...screenProps} />);
   }
 };

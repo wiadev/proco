@@ -55,7 +55,6 @@ images.forEach(image => Image.prefetch(image.uri));
 export default class PoolItem extends Component {
   constructor(props) {
     super(props);
-    //this._onMomentumScrollEnd = this._onMomentumScrollEnd.bind(this);
   }
 
   state = {

@@ -29,6 +29,7 @@ class NetworkVerification extends Component {
     email: null,
   };
 
+
   render() {
     return (
           <View style={styles.popupInside}>
@@ -43,7 +44,7 @@ class NetworkVerification extends Component {
                 style={styles.password}
                 underlineEnabled={false}
                 placeholderTextColor={'rgb(180, 180, 190)'}
-                onTextChange={(email) => { setState({ email }); }}
+                onTextChange={(code) => { this.setState({ code }); }}
                 maxHeight={6}
               />
             </View>
@@ -53,7 +54,9 @@ class NetworkVerification extends Component {
             >
               <Text
                 style={styles.verifyButtonTxt}
-                onPress={this.props.onVerifyClick}
+                onPress={() => {
+                  this.props.verify(this.state.code);
+                }}
               >Verify School E-mail</Text>
             </View>
             <View style={styles.buttonList}>
@@ -66,20 +69,9 @@ class NetworkVerification extends Component {
                     color: '#fa3f6a',
                   }]}
                   onPress={() => {
-                    Actions.pop();
+                    this.props.closer();
                   }}
                 >Back</Text>
-              </View>
-              <View
-                style={styles.resendBtn}
-                pointerEvents={'box-none'}
-              >
-                <Text
-                  style={[styles.verifyButtonTxt, {
-                    color: '#ffffff',
-                  }]}
-                  onPress={this.props.onVerifyClick}
-                >Re-send</Text>
               </View>
             </View>
             <Text style={styles.error}>*Wrong Code, please try again in a minute</Text>

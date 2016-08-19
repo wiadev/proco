@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.sms = exports.email = undefined;
 
 var _axios = require('axios');
 
@@ -10,36 +11,30 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _require$Validations = require('proco-common').Validations;
-
-var NetworkEmailValidation = _require$Validations.NetworkEmailValidation;
-var PhoneNumberValidation = _require$Validations.PhoneNumberValidation;
-
-
-var email = {
+var email = exports.email = {
     verifier: function verifier(email) {
         return new Promise(function (resolve, reject) {
 
+            return resolve(email);
+            /*
             // verify email here
             emailPieces = email.split('@');
             extension = emailPieces[1].split('.').join('-');
-
-            var networkExtensionsRef = utils.getDatabase().ref('network-extensions');
-            return utils.getDataFromRef(networkExtensionsRef.child(extension)).then(function (network) {
+             const networkExtensionsRef = utils.getDatabase().ref('network-extensions');
+            return utils.getDataFromRef(networkExtensionsRef.child(extension)).then(network => {
                 if (network) {
                     resolve(code);
                 }
-
-                reject('INVALID_EMAIL');
-            });
+                 reject('INVALID_EMAIL');
+            });*/
         });
     },
-    sender: function sender(number, code) {
+    sender: function sender(to, code) {
         return (0, _axios2.default)({
             method: 'post',
             url: 'https://api.mailgun.net/v3/services.procoapp.com/messages',
             data: {
-                to: number,
+                to: to,
                 from: 'Proco Verification <verification@services.procoapp.com>',
                 subject: 'Use ' + code + ' to verify your e-mail - Proco App',
                 text: 'This is going to be an HTML template with the code  ' + code + ' '
@@ -52,7 +47,7 @@ var email = {
     }
 };
 
-var sms = {
+var sms = exports.sms = {
     verifier: function verifier(number, code) {
         return new Promise(function (resolve, reject) {
             resolve(number);
@@ -73,9 +68,4 @@ var sms = {
             }
         });
     }
-};
-
-exports.default = typeUtils = {
-    email: email,
-    sms: sms
 };

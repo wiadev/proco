@@ -136,9 +136,9 @@ export function login() {
 
 export function logout() {
   return dispatch => {
-    Promise.all([AsyncStorage.clear(), firebase.auth().signOut()]).then(() => {
+    Promise.all([AsyncStorage.clear(), firebase.auth().signOut(), LoginManager.logOut()]).then(() => {
       dispatch({ type: 'RESET' });
-      Actions.LoginPage();
+      Actions.LoginPage({type: 'reset'});
     });
   }
 }

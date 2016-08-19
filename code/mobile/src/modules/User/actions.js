@@ -38,7 +38,12 @@ export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
     const {auth} = getState();
-    console.log(auth);
+    if (!auth.uid) {
+      setTimeout(() => { // Poor way to defer requests
+        dispatch(updateUser(type, data, after));
+      }, 250);
+      return;
+    }
     getUserRef(auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({

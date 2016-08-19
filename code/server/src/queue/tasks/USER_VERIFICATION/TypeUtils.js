@@ -1,10 +1,11 @@
-const { NetworkEmailValidation, PhoneNumberValidation } = require('proco-common').Validations;
 import axios from 'axios';
 
-const email = {
+export const email = {
     verifier: (email) => {
         return new Promise((resolve, reject) => {
 
+            return resolve(email);
+            /*
         // verify email here
             emailPieces = email.split('@');
             extension = emailPieces[1].split('.').join('-');
@@ -16,15 +17,15 @@ const email = {
                 }
 
                 reject('INVALID_EMAIL');
-            });
+            });*/
         });
     },
-    sender: (number, code) => {
+    sender: (to, code) => {
         return axios({
             method: 'post',
             url: 'https://api.mailgun.net/v3/services.procoapp.com/messages',
             data: {
-                to: number,
+                to,
                 from: 'Proco Verification <verification@services.procoapp.com>',
                 subject: `Use ${code} to verify your e-mail - Proco App`,
                 text: `This is going to be an HTML template with the code  ${code} `
@@ -37,7 +38,7 @@ const email = {
     }
 }
 
-const sms = {
+export const sms = {
     verifier: (number, code) => {
         return new Promise((resolve, reject) => {
             resolve(number);
@@ -59,8 +60,3 @@ const sms = {
         });
     }
 } 
-
-export default typeUtils = {
-    email,
-    sms
-};

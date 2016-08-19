@@ -12,7 +12,6 @@ import Swiper from 'react-native-swiper';
 import { connect } from 'react-redux';
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
-import PermissionModal from '../../components/PermissionModal';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
 
 import styles from './styles';
@@ -36,7 +35,6 @@ class MainScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <PermissionModal type="location" />
         <Swiper
           horizontal={false}
           loop={false}
