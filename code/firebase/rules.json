@@ -33,6 +33,10 @@
             ".read": "true",
             ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
           },
+          "last_name": {
+            ".read": "true",
+            ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
+          },
           "birthday": {
             ".write": "data.val() == null && newData.val() != null && (auth != null && auth.uid == $uid)"
           },

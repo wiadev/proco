@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     width,
     backgroundColor: '#f6f6f6',
   },
+  container: {
+    paddingTop: 65,
+  },
   topMenu: {
     paddingTop: 20,
     height: 65,

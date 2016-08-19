@@ -48,7 +48,7 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      settings: this.props.settings.toJS(),
+      settings: this.props.settings,
       modal: {
         isVisible: false
       }
@@ -57,7 +57,7 @@ class Settings extends Component {
 
   state = {};
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.dispatch(loadUser('settings'));
   }
 

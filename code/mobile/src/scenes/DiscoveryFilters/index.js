@@ -19,6 +19,7 @@ import {
 } from 'react-native-material-kit';
 
 import { setStatusBarStyle } from '../../modules/StatusBar/actions';
+import { updateUser, loadUser } from '../../modules/User/actions';
 
 import { round } from 'lodash';
 import { getCorrectFontSizeForScreen } from '../../core/functions';
@@ -45,28 +46,22 @@ class DiscoveryFilters extends Component {
   constructor(props) {
     super(props);
     this.groupRdSchool = new MKRadioButton.Group();
-    this.state = this.props.discoveryFilters.toJS();
   }
 
   state = {};
 
   componentWillMount() {
     this.props.dispatch(setStatusBarStyle('default'));
-  }
-  componentDidMount() {
-
+    this.props.dispatch(loadUser('filters'));
   }
 
-  onPressBottomLeft() {
-    Actions.pop();
-  }
 
   onSave() {
-    this.props.dispatch(saveDiscoverySettings(this.state));
     Actions.pop();
   }
 
   render() {
+    const filters = this.props.discoveryFilters;
     return (
       <View style={styles.preview}>
         <ScrollView style={styles.container}>
@@ -78,7 +73,7 @@ class DiscoveryFilters extends Component {
               <Text
                 style={[styles.blackText, { marginRight: 10, marginRight: 40 }]}
                 onPress={() => { this.picker.toggle(); }}
-              >{this.state.gender}</Text>
+              >{filters.gender}</Text>
               <Icon
                 name="angle-right"
                 size={32}
@@ -101,7 +96,7 @@ class DiscoveryFilters extends Component {
                 <Text style={[styles.pinkText, { marginBottom: 10 }]}>Age Limit</Text>
               </View>
               <View style={styles.inputBoxRight}>
-                <Text style={[styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{this.state.ageMin} - {this.state.ageMax}</Text>
+                <Text style={[styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{filters.ageMin} - {filters.ageMax}</Text>
               </View>
             </View>
             <View style={{
@@ -112,14 +107,14 @@ class DiscoveryFilters extends Component {
                 ref="sliderWithRange"
                 min={16}
                 max={80}
-                minValue={this.state.ageMin}
-                maxValue={this.state.ageMax}
+                minValue={filters.ageMin}
+                maxValue={filters.ageMax}
                 step={1}
                 lowerTrackColor={'rgb(249,59,95)'}
-                onChange={(curValue) => this.setState({
+                onChange={(curValue) => this.props.dispatch(updateUser('filters',{
                   ageMin: round(curValue.min),
                   ageMax: round(curValue.max),
-                })
+                }))
                 }
               />
             </View>
@@ -134,13 +129,15 @@ class DiscoveryFilters extends Component {
               alignItems: 'center',
             }}>
               <MKRadioButton
-                checked={this.state.onlyFromSchool}
+                checked={filters.onlyFromSchool}
                 group={this.groupRdSchool}
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
-                this.setState({
+
+                this.props.dispatch(updateUser('filters', {
                   onlyFromSchool: true,
-                });
+                }));
+
               }}>Only show people from my university</Text>
             </View>
             <View style={{
@@ -148,13 +145,15 @@ class DiscoveryFilters extends Component {
               alignItems: 'center',
             }}>
               <MKRadioButton
-                checked={!this.state.onlyFromSchool}
+                checked={!filters.onlyFromSchool}
                 group={this.groupRdSchool}
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
-                this.setState({
+
+                this.props.dispatch(updateUser('filters', {
                   onlyFromSchool: false,
-                });
+                }));
+
               }}>Show people from other universites too</Text>
             </View>
           </View>
@@ -170,12 +169,12 @@ class DiscoveryFilters extends Component {
           }}
           showDuration={200}
           showMask={true}
-          pickerData={['Male', 'Female']}
-          selectedValue={'Male'}
+          pickerData={['Male', 'Female', 'Both']}
+          selectedValue={'Both'}
           onPickerDone={(e) => {
-            this.setState({
+            this.props.dispatch(updateUser('filters', {
               gender: e[0],
-            });
+            }));
           }}
         />
       </View>

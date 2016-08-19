@@ -16,7 +16,8 @@ import {
 const typeMap = {
   info: 'INFO',
   settings: 'SETTINGS',
-  tokens: 'TOKENS'
+  tokens: 'TOKENS',
+  filters: 'DISCOVERY_FILTERS',
 };
 
 const getUserUpdatedActionTypeFor = (type) => {
@@ -37,6 +38,7 @@ export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
     const {auth} = getState();
+    console.log(auth);
     getUserRef(auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
@@ -62,8 +64,8 @@ export function loadUser(type) {
         if (snap) {
           const data = snap.val();
           if (data) {
-            unsubs();
             dispatch(updateUserLocally(type, data));
+            if(unsubs) unsubs();
           } else {
             dispatch(serverAction({
               type: 'USER_FIRST_LOGIN'

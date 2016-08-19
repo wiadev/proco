@@ -26,7 +26,7 @@ export default function reducer(state = initialState, action = {}) {
     case USER_STARTED_LOADING:
       return assign(initialState, {
         hasStartedLoading: true,
-      };
+      });
     case 'USER_UPDATED_INFO':
       return assign(state, {
         isLoaded: true,
