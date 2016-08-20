@@ -10,7 +10,7 @@ const height = Dimensions.get('window').height - 65;
     auth: state.auth,
   }),
 )
-class WebViewModal extends Component {
+export default class WebView extends Component {
 
   constructor(props) {
     super(props);
@@ -33,5 +33,3 @@ class WebViewModal extends Component {
     );
   }
 }
-
-export default WebViewModal;

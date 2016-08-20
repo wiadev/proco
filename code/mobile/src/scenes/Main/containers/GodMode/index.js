@@ -16,8 +16,8 @@ import {
   LOCATION_PERMISSIONS_DETAILS_MORE,
   NOTIFICATION_PERMISSIONS_DETAILS,
 } from '../../../../core/StaticPages';
-
-class Test extends Component {
+import Settings from '../../../Settings';
+class GodMode extends Component {
 
   constructor(props) {
     super(props);
@@ -48,10 +48,8 @@ class Test extends Component {
       }}>school not in</Text>
 
           <Text onPress={() => {
-            Actions.CardModal({
-              title: 'We\'ll need to verify your school e-mail.',
-              text: 'You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved.',
-              renderThis: () => { return <NetworkVerification />; }
+            Actions.ProcoModal({
+              component: <Settings />
             });
           }}>Çıldırın</Text>
 
@@ -109,4 +107,4 @@ class Test extends Component {
   }
 }
 
-export default Test;
+export default GodMode;

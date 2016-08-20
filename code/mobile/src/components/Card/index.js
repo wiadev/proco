@@ -64,8 +64,8 @@ export class CardModal extends Component {
   render() {
     return (
       <Modal
-        animationType={"fade"}
-        transparent={true}
+        animationType={"slide"}
+        transparent={false}
         visible={this.props.show}
         onRequestClose={() => {
           console.log("Modal has been closed.")

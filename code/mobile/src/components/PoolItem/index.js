@@ -94,7 +94,6 @@ export default class PoolItem extends Component {
           startFrameIndex={0}
           framesPerSecond={16}
           style={styles.backgroundImage}/>
-        <KeyboardAwareScrollView>
           <View style={styles.preview}>
             {(this.state.text == null) ? <View style={styles.answerButton}>
                <Icon
@@ -123,7 +122,6 @@ export default class PoolItem extends Component {
                 <MessageBox text={this.state.text} position="right" /> : null}
             </View>
           </View>
-        </KeyboardAwareScrollView>
       </View>
     );
   }

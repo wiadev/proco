@@ -6,7 +6,7 @@ import { Map } from 'immutable';
 import inAppAlertReducer from '../modules/InAppAlert/reducer';
 import authReducer from '../modules/Authentication/reducer';
 import {
-Main as userReducer,
+Info as userReducer,
 Settings as settingsReducer,
 DiscoveryFilters as discoveryFiltersReducer,
 } from '../modules/User/reducers';

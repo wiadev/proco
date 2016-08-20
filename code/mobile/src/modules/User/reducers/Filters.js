@@ -12,7 +12,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     default: return state;
-    case 'USER_UPDATED_DISCOVERY_FILTERS':
+    case 'USER_UPDATED_FILTERS':
       return assign(state, action.payload);
   }
 }

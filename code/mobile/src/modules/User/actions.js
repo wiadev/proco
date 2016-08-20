@@ -3,21 +3,14 @@ import {database} from '../../core/Api';
 export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
 
 import {
-  serverPromisedAction,
-  serverAction
+  serverAction,
 } from '../../core/Api/actions';
-
-import {
-  USER_STARTED_LOADING,
-  USER_UPDATED,
-  USER_UNLOAD,
-} from './actionTypes';
 
 const typeMap = {
   info: 'INFO',
   settings: 'SETTINGS',
   tokens: 'TOKENS',
-  filters: 'DISCOVERY_FILTERS',
+  filters: 'FILTERS',
 };
 
 const getUserUpdatedActionTypeFor = (type) => {
@@ -25,7 +18,6 @@ const getUserUpdatedActionTypeFor = (type) => {
 };
 
 export function updateUserLocally(type, data) {
-  console.log("user update", type, data);
   return {
     type: getUserUpdatedActionTypeFor(type),
     payload: {

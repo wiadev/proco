@@ -6,45 +6,24 @@ import Loading from '../scenes/Loading';
 import Login from '../scenes/Authentication/Login';
 import RegisterForm from '../scenes/Authentication/RegisterForm';
 import Settings from '../scenes/Settings';
-import DiscoveryFilters from '../scenes/DiscoveryFilters';
-import WebViewModal from '../scenes/WebViewModal';
-import { Card, CardModal } from '../components/Card';
+import Filters from '../scenes/Filters';
+import ProcoModal from '../components/ProcoModal';
 import MainScreen from '../scenes/Main';
 import UpdateYourQuestionScreen from '../components/UpdateYourQuestionScreen';
 import ShootNewProfileScreen from '../components/ShootNewProfileScreen';
-import CameraPermissionScreen from '../components/CameraPermissionScreen';
-import AskQuestionPermissionScreen from '../components/AskQuestionPermissionScreen';
-import ShootLoopPermissionScreen from '../components/ShootLoopPermissionScreen';
-import UpdateYourSchoolScreen from '../components/UpdateYourSchoolScreen';
 
 const scenes = Actions.create(
   <Scene key="modal" component={Modal}>
 
     <Scene key="root">
-      <Scene key="CardModal" hideNavBar={true} direction="vertical" component={CardModal}/>
-      <Scene key="Card" hideNavBar={true} direction="vertical" component={Card}/>
-      <Scene key="WebViewModal" direction="vertical" hideNavBar={false} component={WebViewModal}/>
 
-      <Scene key="LoginPage" component={Login} initial={true} hideNavBar={true} />
+
+      <Scene key="LoginPage" component={Login} initial={false} hideNavBar={true} />
       <Scene key="RegisterForm" component={RegisterForm} hideNavBar={true} />
 
       <Scene key="MainScreen" hideNavBar={true} component={MainScreen} initial={true} />
-      <Scene
-        key="Settings"
-        component={Settings}
-        hideNavBar={false}
-        direction="vertical"
-        initial={false}
-        title="Settings"
-      />
-      <Scene
-        key="DiscoveryFilters"
-        component={DiscoveryFilters}
-        hideNavBar={false}
-        direction="vertical"
-        initial={false}
-        title="Discovery Filters"
-      />
+
+
       <Scene
         key="UpdateYourQuestionScreen"
         component={UpdateYourQuestionScreen}
@@ -82,7 +61,7 @@ const scenes = Actions.create(
         initial={false}
       />
     </Scene>
-
+    <Scene key="ProcoModal" component={ProcoModal} />
   </Scene>
 );
 

@@ -53,7 +53,9 @@ class App extends Component {
       this.props.dispatch(loadAuth());
       this.refreshUnsubscribe = FCM.on('refreshToken',
         (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
-      FCM.getFCMToken().then(fcm_token => this.props.dispatch(updateNotificationToken(fcm_token)));
+      FCM.getFCMToken().then(fcm_token =>
+        this.props.dispatch(updateNotificationToken(fcm_token))
+      );
     }
   }
 

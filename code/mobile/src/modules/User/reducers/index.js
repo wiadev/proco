@@ -1,3 +1,3 @@
-export Main from './Main';
-export DiscoveryFilters from './DiscoveryFilters';
+export Info from './Info';
+export Filters from './Filters';
 export Settings from './Settings';
