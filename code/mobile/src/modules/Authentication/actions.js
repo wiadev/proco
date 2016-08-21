@@ -66,7 +66,6 @@ const getAuth = (isFacebookReturn = false) =>{
   };
 };
 
-
 export const loadAuth = (user, facebook_token) => {
   return (dispatch, getState) => {
     const { auth } = getState();
@@ -134,11 +133,20 @@ export function login() {
   };
 }
 
+export function setAppAccess(canAccessApp = false) {
+  return {
+    type: SET,
+    payload: {
+      canAccessApp
+    }
+  }
+}
+
 export function logout() {
   return dispatch => {
     Promise.all([AsyncStorage.clear(), firebase.auth().signOut(), LoginManager.logOut()]).then(() => {
       dispatch({ type: 'RESET' });
-      Actions.LoginPage({type: 'reset'});
+      Actions.root({type: 'reset'});
     });
   }
 }

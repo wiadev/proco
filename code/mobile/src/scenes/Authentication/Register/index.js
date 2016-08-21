@@ -5,7 +5,7 @@ import {
   View,
   Dimensions,
   Alert,
-  TouchableHighlight,
+  TouchableOpacity,
   TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,13 +17,13 @@ import DatePicker from 'react-native-datepicker';
 import {logout} from '../../../modules/Authentication/actions';
 import {updateUser} from '../../../modules/User/actions';
 import {connect} from 'react-redux';
-import { WHY_SCHOOL_EMAIL_PAGE } from '../../../core/StaticPages';
 import {Actions} from 'react-native-router-flux';
 import NetworkVerification from '../NetworkVerification';
 import Header from '../../../components/Header';
-import {CardModal} from '../../../components/Card';
+import Card from '../../../components/Card';
 import Picker from 'react-native-picker';
 import { serverAction } from '../../../core/Api/actions';
+import { NetworkEmailValidation } from '../../../core/common/Validations';
 
 import {styles, dpCustom} from './styles';
 
@@ -35,7 +35,7 @@ const width = Dimensions.get('window').width;
     user: state.user,
   }),
 )
-class RegisterForm extends Component {
+export default class Register extends Component {
 
   static onRenderBackButton() {
     return (<Icon
@@ -60,6 +60,55 @@ class RegisterForm extends Component {
     this.setState({email: this.props.user.first_name + '@proco.edu.tr'});
   }
   onRightClick() {
+
+    let buttons = [{
+      text: "Learn more",
+      onPress: Actions.AboutSchoolEmails,
+    }];
+
+    if (!this.state.email) {
+      Actions.Card({
+        label: "Your school email is missing",
+        text: "Proco needs your school email to verify your school.",
+        buttons
+      });
+      return;
+    }
+
+    NetworkEmailValidation(this.state.email)
+      .then((email) => {
+
+        console.log("email", email);
+      })
+      .catch(e => {
+        console.log("error", e);
+        let label, text;
+        switch (e) {
+          case 'CHECK_EMAIL':
+          case 'INVALID_EMAIL':
+            label = "Something seems to be wrong with your email address";
+            text = "It doesn't appear to be a valid school address.";
+            buttons = [];
+            break;
+          case 'NETWORK_NOT_SUPPORTED':
+            label = "Your school is not yet supported by Proco";
+            text = "You can get in to the waiting list so we can let you know when you can use Proco at your school.";
+            break;
+          case 'COMMON_PROVIDER':
+            label = "You have to give your school provided email addresses";
+            text = "The one you've gave seems like personal one";
+            break;
+        }
+
+        Actions.Card({
+          label,
+          text,
+          buttons,
+        });
+
+      });
+
+    return;
     this.props.dispatch(updateUser('info', this.state));
     this.props.dispatch(serverAction({
       type: 'USER_VERIFICATION',
@@ -97,13 +146,9 @@ class RegisterForm extends Component {
       <View style={styles.container}>
         <Header
           leftContainer={
-            <Icon
-              name="angle-left"
-              size={42}
-              color="#FFFFFF"
-              style={styles.leftButtonTextStyle}
-              onPress={::this.onClickBack}
-            />
+            <Text style={styles.btnNext} onPress={::this.onRightClick}>
+              Logout
+            </Text>
           }
           rightContainer={
             <Text style={styles.btnNext} onPress={::this.onRightClick}>
@@ -187,13 +232,13 @@ class RegisterForm extends Component {
           />
         </View>
 
-        <TouchableHighlight onPress={() => Actions.WebViewModal(WHY_SCHOOL_EMAIL_PAGE)}>
+        <TouchableOpacity onPress={() => {}}>
           <View style={styles.footer}>
             <Text style={styles.footerText}>
-              Why does Proco need my school e-mail?
+              Why do you need my school e-mail?
             </Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
         <Picker
           ref={picker => this.picker = picker}
           style={{
@@ -213,19 +258,8 @@ class RegisterForm extends Component {
             });
           }}
         />
-          <CardModal
-            show={this.state.showVerify}
-            head="We'll need to verify your school e-mail."
-            text="You can easily do that by either entering the code we\'ve just sent you by clicking the link in the e-mail you\'ve recieved."
-            renderThis={() =>
-              <NetworkVerification
-                closer={() => this.setState({showVerify: false})}
-                verify={(code) => console.log(code)}
-              /> }
-          />
+
       </View>
     );
   }
 }
-
-export default RegisterForm;

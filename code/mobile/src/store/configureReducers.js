@@ -8,27 +8,23 @@ import authReducer from '../modules/Authentication/reducer';
 import {
 Info as userReducer,
 Settings as settingsReducer,
-DiscoveryFilters as discoveryFiltersReducer,
+Filters as filtersReducer,
+Is as isReducer,
 } from '../modules/User/reducers';
 import permissionsReducer from '../modules/Permissions/reducer';
 import statusBarReducer from '../modules/StatusBar/reducer';
 import mainScreenReducer from '../scenes/Main/redux';
-import updateYourQuestionScreenReducer from '../components/UpdateYourQuestionScreen/redux';
-import shootNewProfileScreenReducer from '../components/ShootNewProfileScreen/redux';
-import updateYourSchoolScreenReducer from '../components/UpdateYourSchoolScreen/redux';
 
 const reducers = {
   inAppAlerts: inAppAlertReducer,
   auth: authReducer,
   user: userReducer,
   settings: settingsReducer,
-  discoveryFilters: discoveryFiltersReducer,
+  filters: filtersReducer,
+  is: isReducer,
   permissions: permissionsReducer,
   statusbar: statusBarReducer,
   mainScreenReducer,
-  updateYourQuestionScreenReducer,
-  shootNewProfileScreenReducer,
-  updateYourSchoolScreenReducer,
 };
 
 const immutableStateContainer = Map();

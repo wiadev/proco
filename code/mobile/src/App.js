@@ -55,20 +55,22 @@ class App extends Component {
         (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
       FCM.getFCMToken().then(fcm_token =>
         this.props.dispatch(updateNotificationToken(fcm_token))
-      );
+      ).catch(() => {
+        console.log("get fcm token error")
+      })
     }
   }
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <StatusBar
           showHideTransition="slide"
           {...this.props.statusbar}
         />
         <InAppAlert />
         <NoInternetModal />
-        <Routes />
+        <Routes auth={this.props.auth} />
       </View>
     );
   }

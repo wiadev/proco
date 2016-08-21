@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { NetInfo } from 'react-native';
+import { NetInfo, Modal } from 'react-native';
 import {connect} from 'react-redux';
 import {setStatusBarStyle} from '../../modules/StatusBar';
-import { CardModal } from '../Card';
+import Card  from '../Card';
 
 @connect()
 export default class NoInternetModal extends Component {
@@ -47,9 +47,13 @@ export default class NoInternetModal extends Component {
 
   render() {
     return (
-      <CardModal
-        //show={!this.state.isConnected}
-        show={false} // there is bug in the simulator @todo
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        //visible={!this.state.isConnected}
+        visible={false} // there is bug in the simulator @todo
+      >
+      <Card
         title="You need the Internet" text="Proco requires Internet access to function"
         buttons={[
           {
@@ -60,6 +64,7 @@ export default class NoInternetModal extends Component {
           }
         ]}
       />
+        </Modal>
     );
   }
 }

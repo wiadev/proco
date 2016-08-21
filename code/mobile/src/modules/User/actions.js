@@ -11,6 +11,7 @@ const typeMap = {
   settings: 'SETTINGS',
   tokens: 'TOKENS',
   filters: 'FILTERS',
+  is: 'IS',
 };
 
 const getUserUpdatedActionTypeFor = (type) => {

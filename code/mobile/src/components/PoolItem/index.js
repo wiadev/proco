@@ -24,31 +24,6 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
 import MessageCountIcon from '../Messages/CountIcon';
 import MessageBox from '../Messages/Box';
-const images = [
-  {uri: 'https://files.icoz.co/uploads/procolooptest01.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest02.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest03.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest04.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest05.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest06.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest07.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest08.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest09.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest10.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest11.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest12.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest13.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest14.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest15.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest16.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest17.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest18.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest19.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest20.jpg'},
-  {uri: 'https://files.icoz.co/uploads/procolooptest21.jpg'},
-];
-images.forEach(image => Image.prefetch(image.uri));
-const reversedImages = images.slice().reverse();
 
 @connect(
   state => ({
@@ -89,11 +64,6 @@ export default class PoolItem extends Component {
 
     return (
       <View>
-        <ImageSequence
-          images={images.concat(reversedImages)}
-          startFrameIndex={0}
-          framesPerSecond={16}
-          style={styles.backgroundImage}/>
           <View style={styles.preview}>
             {(this.state.text == null) ? <View style={styles.answerButton}>
                <Icon

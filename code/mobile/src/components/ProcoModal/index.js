@@ -6,28 +6,34 @@ import {
   Modal,
   TouchableHighlight,
 } from 'react-native';
-/*
+
 import Button from '../Button';
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';
 
 export default class ProcoModal extends Component {
+  state = {
+    show: false,
+  };
+  componentWillMount() {
+    this.setState({ show: true });
+  }
+  componentWillUnmount() {
+    this.setState({ show: false });
+  }
   render() {
     return (
       <Modal
         animationType={"slide"}
         transparent={false}
-        visible={this.props.show}
-        onRequestClose={() => {
-          console.log("Modal has been closed.")
-        }}
+        visible={this.state.show}
       >
-        <Text>Test</Text>
+        {this.props.render(...this.props)}
       </Modal>
     );
   }
-}*/
+}
 
 export default class ProcoModal extends Component {
 

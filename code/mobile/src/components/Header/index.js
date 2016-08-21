@@ -32,33 +32,32 @@ class Header extends Component {
 
   constructor(props) {
     super(props);
-    this.styles = styles;
   }
 
   render() {
     return (
-      <View style={this.styles.header}>
-        <View style={this.styles.headerLeft}>
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
           {!this.props.hideLeft ? (
             this.props.leftContainer ? this.props.leftContainer : (
               <IconM
                 name={this.props.leftIcon}
                 size={34}
                 color="rgba(255,255,255,0.8)"
-                style={this.styles.leftButtonTextStyle}
+                style={this.leftButtonTextStyle}
                 onPress={this.props.leftAction}
               />
             )
           ) : null}
         </View>
-        <View style={this.styles.headerMid}>
+        <View style={styles.headerMid}>
           {!this.props.hideMid ? (
             this.props.midContainer ? this.props.midContainer : (
-              <Image style={this.styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
+              <Image style={styles.logo} resizeMode="contain" source={require('../../assets/images/logomini.png')} />
             )
           ) : null}
         </View>
-        <View style={this.styles.headerRight}>
+        <View style={styles.headerRight}>
           {!this.props.hideRight ? (
             this.props.rightContainer ? this.props.rightContainer : null
           ) : null}

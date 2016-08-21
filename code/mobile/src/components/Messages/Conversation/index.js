@@ -50,13 +50,11 @@ class TalkScreen extends Component {
   showActionSheet() {
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
-        'Mute Notifications',
-        'Delete Conversation',
-        'Unmatch',
-        'Report & Block User',
+        'Report',
+        'Block',
         'Cancel',
       ],
-      cancelButtonIndex: 4,
+      cancelButtonIndex: 2,
     },
     (buttonIndex) => {
       switch (buttonIndex) {
@@ -64,8 +62,6 @@ class TalkScreen extends Component {
         case 1:
         case 2:
         case 3:
-          console.log('buttonIndex ' + buttonIndex);
-          break;
       }
     });
   }

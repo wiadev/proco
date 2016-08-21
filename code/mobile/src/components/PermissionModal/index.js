@@ -4,11 +4,6 @@ import {connect} from 'react-redux';
 import {requestPermission, openSettings} from '../../modules/Permissions/actions';
 import {Card} from '../Card';
 import { Actions } from 'react-native-router-flux';
-import {
-  LOCATION_PERMISSIONS_DETAILS_MORE, LOCATION_PERMISSIONS_DETAILS,
-  NOTIFICATION_PERMISSIONS_DETAILS,
-  CAMERA_PERMISSIONS_DETAILS_MORE, CAMERA_PERMISSIONS_DETAILS,
-} from '../../core/StaticPages';
 
 @connect(
   state => ({
@@ -56,7 +51,7 @@ export default class PermissionModal extends Component {
           {
             text: "Learn more",
             onPress: () => {
-              Actions.WebViewModal(LOCATION_PERMISSIONS_DETAILS_MORE)
+              Actions.WebViewModal({})
             }
           }
         ];

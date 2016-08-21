@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';
 const photo = require('../../assets/images/cameraPermission.png');
-export class Card extends Component {
+export default class Card extends Component {
 
   constructor(props) {
     super(props);
@@ -37,44 +37,29 @@ export class Card extends Component {
   }
 
   render() {
-    const {icon, head, text, buttons, renderThis} = this.props;
+    const {icon, label, text, renderThis, noClose = false} = this.props;
+    let { buttons = [] } = this.props;
+
+    if (!noClose) {
+      buttons.push({
+        text: "Close",
+        onPress: Actions.pop
+      });
+    }
 
     return (
-        <View style={styles.container}>
-          <View style={styles.permissionArea}>
-            {this.renderIcon(icon)}
+      <View style={styles.container}>
+        <View style={styles.innner}>
+          {this.renderIcon(icon)}
 
-            {head ? <Text style={styles.permissionLabel}>
-              {head}
-            </Text> : null}
+          {label && <Text style={styles.label}>{label}</Text>}
+          {text && <Text style={styles.text}>{text}</Text>}
 
-            {text ? <Text style={styles.permissionText}>
-              {text}
-            </Text> : null}
+          {renderThis && renderThis()}
+          {buttons && <View style={styles.buttonList}>{this.renderButtons(buttons)}</View>}
 
-            {renderThis ? renderThis() : null}
-            {buttons ? <View style={styles.buttonList}>{this.renderButtons(buttons)}</View> : null}
-
-          </View>
         </View>
+      </View>
     );
   }
 }
-export class CardModal extends Component {
-  render() {
-    return (
-      <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={this.props.show}
-        onRequestClose={() => {
-          console.log("Modal has been closed.")
-        }}
-      >
-        <Card {...this.props} />
-      </Modal>
-    );
-  }
-}
-
-export default Card;

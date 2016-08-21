@@ -1,35 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 
-import { WebView, Dimensions, Text, TouchableHighlight, View } from 'react-native';
+import {Dimensions, View, WebView} from 'react-native';
+const height = Dimensions.get('window').height;
 
-const height = Dimensions.get('window').height - 65;
-
-@connect(
-  state => ({
-    auth: state.auth,
-  }),
-)
-export default class WebView extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-
-    let uri = this.props.url;
-    const firebase_token = this.props.auth.firebase_token;
-    if (firebase_token) {
-      uri = `${uri}#firebase_token=${firebase_token}`;
-    }
-    return (
-          <View style={{flex: 1, paddingTop: 65}}>
-               <WebView
-                source={{uri}}
-                style={{height}}
-              />
-          </View>
-    );
-  }
+export default function (props) {
+  return (
+    <View style={{flex: 1}}>
+      <WebView
+        source={{uri: props.uri}}
+        style={{height}}
+      />
+    </View>
+  );
 }

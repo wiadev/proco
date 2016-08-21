@@ -12,6 +12,7 @@ export const initialState = {
   uid: null,
   firebase_token: null,
   facebook_token: null,
+  canAccessApp: false,
 };
 
 export default function reducer(state = initialState, action = {}) {

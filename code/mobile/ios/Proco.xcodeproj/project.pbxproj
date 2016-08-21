@@ -286,6 +286,7 @@
 		62DC75511CA7FD52E4C4B311 /* Pods-ProcoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProcoTests/Pods-ProcoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6AF7AE9261B747459DF10601 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		6CCB16B117274F11AC8315A2 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		7424EF671D69ADD000044091 /* Proco.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Proco.entitlements; path = Proco/Proco.entitlements; sourceTree = "<group>"; };
 		7452C75D1D592B7F00AAACD7 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../src/assets/images/logo.png; sourceTree = "<group>"; };
 		7452C75E1D592B7F00AAACD7 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "../src/assets/images/logo@2x.png"; sourceTree = "<group>"; };
 		7452C75F1D592B7F00AAACD7 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "../src/assets/images/logo@3x.png"; sourceTree = "<group>"; };
@@ -452,6 +453,7 @@
 		13B07FAE1A68108700A75B9A /* Proco */ = {
 			isa = PBXGroup;
 			children = (
+				7424EF671D69ADD000044091 /* Proco.entitlements */,
 				7476A30B1D66D8B500B5F4CE /* RNBackgroundFetch+AppDelegate.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -770,6 +772,9 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
 								enabled = 1;
 							};
 						};
@@ -1336,6 +1341,7 @@
 			baseConfigurationReference = 83D53C97D9F28E937C7AC93A /* Pods-Proco.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Proco/Proco.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1386,6 +1392,7 @@
 			baseConfigurationReference = A42BC03738BF19CCB7A6D7AF /* Pods-Proco.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Proco/Proco.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
