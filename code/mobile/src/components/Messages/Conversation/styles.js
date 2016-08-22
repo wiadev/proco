@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   btnSave: {
     color: 'rgb(71,71,71)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 13,
     textAlign: 'center',
   },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     color: 'rgb(249,54,95)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 17,
     textAlign: 'center',
   },
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
   rowItemUsername: {
     fontSize: 16,
     color: 'rgb(249,54,95)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
   },
   rowItemUserTitle: {
     fontSize: 12,
     color: 'rgb(139,139,139)',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
   },
   rowItemSecond: {
     marginLeft: 10,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 export const messengerStyle = {
   sendButton: {
     fontSize: 11,
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     color: 'white',
     backgroundColor: 'rgb(86,54,234)',
     paddingLeft: 20,
@@ -135,12 +135,12 @@ export const messengerStyle = {
   },
   textLeft: {
     fontSize: 15,
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'white',
   },
   textRight: {
     fontSize: 15,
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'white',
   },
 };

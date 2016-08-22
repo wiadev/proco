@@ -10,8 +10,6 @@ export const initialState = {
   isLoaded: false,
   isInProgress: false,
   uid: null,
-  firebase_token: null,
-  facebook_token: null,
 };
 
 export default function reducer(state = initialState, action = {}) {

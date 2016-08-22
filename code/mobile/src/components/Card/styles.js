@@ -22,24 +22,24 @@ const styles = StyleSheet.create({
     height,
     width,
   },
-  permissionArea: {
+  innner: {
     width: cardWidth,
   },
   permissionImage: {
     marginBottom: 25,
   },
-  permissionLabel: {
+  label: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 28,
     textAlign: 'center',
   },
-  permissionText: {
+  text: {
     marginTop: 10,
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 16,
     textAlign: 'center',
   },

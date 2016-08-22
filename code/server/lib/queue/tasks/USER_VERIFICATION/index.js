@@ -32,10 +32,10 @@ var worker = function worker(data, progress, resolve, reject) {
 
     verifier(data.payload.to).then(function (to) {
         var code = getCode();
-        return userRef.child('verifications/' + data.payload.type + '/' + code).set({
+        userRef.child('verifications/' + data.payload.type + '/' + code).set({
             time: Date.now()
         }).then(function () {
-            return sender(to, code).then(function (data) {
+            sender(to, code).then(function (data) {
                 console.log("data", data);
                 resolve();
             }).catch(function (e) {

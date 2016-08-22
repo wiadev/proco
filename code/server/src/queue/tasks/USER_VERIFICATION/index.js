@@ -14,13 +14,13 @@ const worker = (data, progress, resolve, reject) => {
 
     verifier(data.payload.to).then((to) => {
         const code = getCode();
-        return userRef
+        userRef
                 .child(`verifications/${data.payload.type}/${code}`)
                 .set({
                     time: Date.now()
                 })
                 .then(() => {
-                    return sender(to, code).then((data) => {
+                    sender(to, code).then((data) => {
                         console.log("data", data)
                         resolve();
                     }).catch(e => console.log(e))

@@ -7,7 +7,7 @@ const worker = (data, progress, resolve, reject) => {
 
   const userRef = getUserRef(data.payload.uid);
 
-  const tokenRef = userRef.child('tokens/facebook_token');
+  const tokenRef = userRef.child('tokens/facebook');
   const infoRef = userRef.child('info');
   tokenRef.once('value', snap => {
 

@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   logo: {
     flex: 0,
     alignSelf: 'center',
-    height: 50
+    height: 40
   },
 });
 

@@ -4,8 +4,8 @@ import {
   ActivityIndicator,
   View,
   Image,
-  TouchableHighlight,
-  Alert,
+  TouchableOpacity,
+  ActionSheetIOS,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -13,7 +13,6 @@ import { Actions } from 'react-native-router-flux';
 import { login } from '../../../modules/Authentication/actions';
 import { setStatusBarStyle } from '../../../modules/StatusBar/actions';
 import { connect } from 'react-redux';
-import { PRIVACY_PAGE, TERMS_PAGE } from '../../../core/StaticPages';
 
 import styles from './styles';
 
@@ -21,13 +20,13 @@ import styles from './styles';
   state => ({
     auth: state.auth,
     user: state.user,
+    isUser: state.isUser,
   }),
 )
 class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.styles = styles;
   }
 
   componentWillMount() {
@@ -39,39 +38,60 @@ class Login extends Component {
     this.checkAuthAndRedirect(props);
   }
 
+  shouldComponentUpdate(props) {
+    return (
+      !(props.user.isLoaded === this.props.user.isLoaded) ||
+      !(props.auth.isInProgress === this.props.auth.isInProgress) ||
+      !(props.auth.uid === this.props.auth.uid)
+    );
+  }
+
   checkAuthAndRedirect(props = this.props) {
-    if(props.user.isLoaded) {
-      Actions.RegisterForm();
+    if (props.isUser.verified) {
+      Actions.Main();
+    } else if(props.auth.uid && props.user.isLoaded) {
+      Actions.Register();
     }
+  }
+
+  showOptions() {
+    ActionSheetIOS.showActionSheetWithOptions({
+        options: [
+          'Terms of Use',
+          'Privacy Policy',
+          'Support',
+          'Cancel',
+        ],
+        cancelButtonIndex: 3,
+      },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 0: Actions.TermsOfUsage(); break;
+          case 1: Actions.PrivacyPolicy(); break;
+          case 2: Actions.Support(); break;
+        }
+      });
   }
 
   renderLoginButton() {
     return (
       <View>
-        <View style={this.styles.fbLoginView}>
+        <View style={styles.fbLoginView}>
           <Icon
             name="facebook-official"
             size={26}
             color="#3B5998"
-            style={this.styles.fbLoginIcon}
+            style={styles.fbLoginIcon}
           />
-          <Text style={this.styles.fbLoginText} onPress={() => this.props.dispatch(login())}>
+          <Text style={styles.fbLoginText} onPress={() => this.props.dispatch(login())}>
             Login with Facebook
           </Text>
         </View>
-        <TouchableHighlight onPress={() => Alert.alert(
-          'Which one do you want to see?',
-          null,
-          [
-            {text: 'Terms of Use', onPress: () =>  Actions.WebViewModal(TERMS_PAGE)},
-            {text: 'Privacy Policy', onPress: () => Actions.WebViewModal(PRIVACY_PAGE)},
-            {text: 'Cancel', onPress: () => {}},
-          ]
-        )}>
-          <Text style={this.styles.footerText}>
+        <TouchableOpacity onPress={::this.showOptions}>
+          <Text style={styles.footerText}>
             By continuing you agree to our terms and privacy policy
           </Text>
-        </TouchableHighlight>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -85,33 +105,33 @@ class Login extends Component {
   }
   render() {
     return (
-      <View style={this.styles.container}>
-          <Image style={this.styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')} />
-          <Swiper
-            style={this.styles.swiper}
-            height={231}
-            loop={false}
-            dot={<View style={this.styles.swiperDot} />}
-            activeDot={<View style={this.styles.swiperActiveDot}><View style={this.styles.swiperActiveDotChild} /></View>}
-            paginationStyle={this.styles.swiperPagination}
-          >
-            <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
-              <Text style={this.styles.text}>Answer people's questions</Text>
-            </View>
-            <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
-              <Text style={this.styles.text}>Second Text</Text>
-            </View>
-            <View style={this.styles.swiperText}>
-              <Image style={this.styles.swiperIcon} source={require('../../../assets/images/group.png')} />
-              <Text style={this.styles.text}>And third Text</Text>
-            </View>
-          </Swiper>
+      <View style={styles.container}>
+        <Image style={styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')} />
+        <Swiper
+          style={styles.swiper}
+          height={231}
+          loop={false}
+          dot={<View style={styles.swiperDot} />}
+          activeDot={<View style={styles.swiperActiveDot}><View style={styles.swiperActiveDotChild} /></View>}
+          paginationStyle={styles.swiperPagination}
+        >
+          <View style={styles.swiperText}>
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Text style={styles.text}>Answer people's questions</Text>
+          </View>
+          <View style={styles.swiperText}>
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Text style={styles.text}>Second Text</Text>
+          </View>
+          <View style={styles.swiperText}>
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Text style={styles.text}>And third Text</Text>
+          </View>
+        </Swiper>
 
-          {
-            (!this.props.auth.isInProgress && !this.props.auth.uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
-          }
+        {
+          (!this.props.auth.isInProgress && !this.props.auth.uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
+        }
 
       </View>
     );

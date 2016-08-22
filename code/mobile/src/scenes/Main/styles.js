@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   menuItemText: {
     color: 'white',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 20),
     textAlign: 'center',
   },
