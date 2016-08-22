@@ -21,6 +21,7 @@ export default class PoolItem extends React.Component {
   static propTypes = {
     sequenceImages: React.PropTypes.array.isRequired,
     messages: React.PropTypes.array.isRequired,
+    onComplete: React.PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -49,13 +50,16 @@ export default class PoolItem extends React.Component {
       {
         text: "En sevdiğin Pokémon?"
       },
-      // {
-      //   text: "Gengar"
-      // }
-    ]
+      {
+        text: "Gengar"
+      }
+    ],
+    onComplete: (eventType, params) => {
+      // eventType: ['answer' | 'start-conversation']
+      console.log(eventType, params);
+    }
     // TODO: Should be reset to this:
-    // sequenceImages: [undefined],
-    // messages: []
+    // sequenceImages: [undefined]
   };
 
   constructor() {
@@ -99,7 +103,9 @@ export default class PoolItem extends React.Component {
               ref='answerInput'
               placeholder="Answer"
               returnKeyType="send"
-              onSubmitEditing={() => console.log("sdf")}
+              onSubmitEditing={() => this.props.onComplete('answer', {
+                text: this.state.answer
+              })}
               onChangeText={text => this.setState({
                 answer: text
               })}
@@ -212,6 +218,8 @@ export default class PoolItem extends React.Component {
       this.setState({
         answerInputVisible: true
       });
+    } else {
+      this.props.onComplete('start-conversation');
     }
   }
 }
