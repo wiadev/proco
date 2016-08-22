@@ -9,7 +9,8 @@
     "prebuild": "npm run clean",
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "task:sync-school-list": "node ./lib/tasks/sync-school-list.js"
   },
   "repository": {
     "type": "git",
@@ -27,9 +28,10 @@
   "homepage": "https://github.com/barbar/proco#readme",
   "dependencies": {
     "axios": "^0.13.1",
+    "code-push-cli": "^1.12.1-beta",
     "firebase-queue": "^1.4.0",
     "mailgun-js": "^0.7.11",
-    "code-push-cli": "^1.12.1-beta"
+    "university-domains-list": "git+https://github.com/hipo/university-domains-list.git"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

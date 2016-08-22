@@ -15,7 +15,6 @@ export const initialState = {
   first_name: null,
   birthday: null,
   network_email: null,
-  unread_messages: 0,
 };
 
 export default function reducer(state = initialState, action = {}) {

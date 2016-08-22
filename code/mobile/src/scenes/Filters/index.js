@@ -20,9 +20,11 @@ import {
 
 import { setStatusBarStyle } from '../../modules/StatusBar/actions';
 import { updateUser, loadUser } from '../../modules/User/actions';
+import Header from '../../components/Header';
 
 import { round } from 'lodash';
 import { getCorrectFontSizeForScreen } from '../../core/functions';
+import appStyles from '../../core/style';
 import styles from './styles';
 
 const width = Dimensions.get('window').width;
@@ -63,7 +65,9 @@ class DiscoveryFilters extends Component {
   render() {
     const filters = this.props.filters;
     return (
-      <View style={styles.preview}>
+      <View style={appStyles.container}>
+        <Header
+        />
         <ScrollView style={styles.container}>
           <View style={styles.inputBox}>
             <View style={styles.inputBoxLeft}>
@@ -105,8 +109,8 @@ class DiscoveryFilters extends Component {
             }}>
               <MKRangeSlider
                 ref="sliderWithRange"
-                min={16}
-                max={80}
+                min={18}
+                max={40}
                 minValue={filters.ageMin}
                 maxValue={filters.ageMax}
                 step={1}

@@ -22,8 +22,13 @@ const Validate = (email) => {
     return new Promise((resolve, reject) => {
       // Check other things
 
-      if (InArray(AllowedNetworks, email.split('@')[1])) {
-        resolve(email);
+      const domain = email.split('@')[1];
+      if (InArray(AllowedNetworks, domain)) {
+        resolve({
+          email,
+          network: AllowedNetworks[domain],
+          supported: true
+        });
       } else {
 
         const otherTests = AllowedNetworks.map(network => {
@@ -33,7 +38,7 @@ const Validate = (email) => {
         if (IsAnyTrue(otherTests)) {
           reject('ONLY_STUDENT');
         } else if (email.includes('.edu')) {
-          reject('NETWORK_NOT_SUPPORTED');
+          resolve('NETWORK_NOT_SUPPORTED');
         } else {
           reject('CHECK_EMAIL');
         }

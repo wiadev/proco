@@ -17,7 +17,7 @@ import MessageBox from '../MessageBox';
 
 import { styles, messengerStyle } from './styles';
 
-class TalkScreen extends Component {
+class Conversation extends Component {
   static getStyles() {
     return styles;
   }
@@ -123,4 +123,4 @@ class TalkScreen extends Component {
   }
 }
 
-export default connect(() => defaultState.toJS())(TalkScreen);
+export default Conversation;

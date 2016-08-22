@@ -104,7 +104,6 @@ export default class Register extends Component {
         });
       })
       .catch(e => {
-        console.log("e", e)
         let label, text;
         switch (e) {
           case 'CHECK_EMAIL':
@@ -119,6 +118,15 @@ export default class Register extends Component {
           case 'NETWORK_NOT_SUPPORTED':
             label = "Your university is not yet supported by Proco";
             text = "You can get in to the waiting list so we can let you know when you can use Proco at your school.";
+            buttons = [{
+              text: "Sounds good!",
+              onPress: () => {
+                Actions.pop();
+                setImmediate(() => {
+                  this.focusToEmail();
+                });
+              }
+            }]
             break;
           case 'COMMON_PROVIDER':
             label = "You have to give your university provided email addresses";

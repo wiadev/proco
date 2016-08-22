@@ -14,6 +14,8 @@ import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
 import GodMode from './containers/GodMode';
+import MessageCountIcon from '../../components/Messages/CountIcon';
+import IconM from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './styles';
 
@@ -44,7 +46,7 @@ class MainScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{flex: 1, backgroundColor: 'black'}}>
         <Swiper
           horizontal={false}
           loop={false}
@@ -64,6 +66,12 @@ class MainScreen extends Component {
             <Pool />
           ])}
         </Swiper>
+        <View style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+        }}><MessageCountIcon messageCount={5} /></View>
+
       </View>
     );
   }

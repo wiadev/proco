@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import styles from './styles';
+import { Actions } from 'react-native-router-flux';
 
 class Header extends Component {
 
@@ -27,6 +28,7 @@ class Header extends Component {
     hideLeft: false,
     hideMid: false,
     hideRight: false,
+    leftAction: () => Actions.pop
   };
 
   constructor(props) {
