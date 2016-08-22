@@ -10,7 +10,7 @@ import { deleteAlert } from '../../modules/InAppAlert/actions';
 
 class InAppAlert extends React.Component {
     render() {
-        const alerts = this.props.inAppAlerts.toJS().alerts;
+        const alerts = this.props.inAppAlerts.alerts;
         const hasAlert = alerts.length > 0;
 
         return (

@@ -31,6 +31,8 @@ export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
     const state = getState();
+    console.log("state", state);
+    console.log("update user", type, data, after)
     if (!state.auth.uid) {
       setTimeout(() => { // Poor way to defer requests
         dispatch(updateUser(type, data, after));
@@ -38,16 +40,6 @@ export function updateUser(type, data = {}, after = () => {
       return;
     }
 
-    let stateType = type;
-    if (type === 'info') {
-      stateType = 'user';
-    }
-
-    const keysToUpdate = Object.keys(data).filter(key => {
-      console.log(data, key, state, stateType);
-      return (state[stateType][key] == data[key]);
-    });
-    console.log("ordata", data, "keys", keysToUpdate, "state", state);
     getUserRef(state.auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
@@ -63,7 +55,7 @@ export function updateUser(type, data = {}, after = () => {
   };
 }
 
-export function loadUser(type) {
+export function loadUser(type, realtime = false) {
   return (dispatch, getState) => {
     const {auth} = getState();
     if (!auth.uid) return;
@@ -74,10 +66,13 @@ export function loadUser(type) {
           const data = snap.val();
           if (data) {
             dispatch(updateUserLocally(type, data));
-            if(unsubs) unsubs();
+            if(unsubs && !realtime) unsubs();
           } else {
             dispatch(serverAction({
-              type: 'USER_FIRST_LOGIN'
+              type: 'USER_GENERATE_DATA',
+              payload: {
+                type
+              }
             }));
           }
         }

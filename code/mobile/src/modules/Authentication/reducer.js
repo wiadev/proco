@@ -10,7 +10,6 @@ export const initialState = {
   isLoaded: false,
   isInProgress: false,
   uid: null,
-  canAccessApp: false,
 };
 
 export default function reducer(state = initialState, action = {}) {

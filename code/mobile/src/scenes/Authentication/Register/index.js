@@ -19,11 +19,9 @@ import {logout} from '../../../modules/Authentication/actions';
 import {updateUser} from '../../../modules/User/actions';
 import {connect} from 'react-redux';
 import {Actions,ActionConst} from 'react-native-router-flux';
-import NetworkVerification from '../NetworkVerification';
 import Header from '../../../components/Header';
 import Card from '../../../components/Card';
 import Picker from 'react-native-picker';
-import {serverAction} from '../../../core/Api/actions';
 import {NetworkEmailValidation} from '../../../core/common/Validations';
 const charMap = {ç:'c',ö:'o',ş:'s',ı:'i',ü:'u',ğ:'g'};
 const clearTurkishChars = (str) => {
@@ -31,6 +29,7 @@ const clearTurkishChars = (str) => {
 };
 
 import {styles, dpCustom} from './styles';
+import appStyles from '../../../core/style';
 
 const width = Dimensions.get('window').width;
 
@@ -59,12 +58,7 @@ export default class Register extends Component {
 
   state = {
     email: '',
-    showVerify: false,
   };
-
-  componentDidMount() {
-
-  }
 
   focusToEmail() {
     this.refs.emailfield.focus();
@@ -101,8 +95,13 @@ export default class Register extends Component {
 
     NetworkEmailValidation(this.state.email)
       .then((email) => {
-
-        console.log("email", email);
+        this.props.dispatch(updateUser('info', {
+          network_email: email,
+        }));
+        Actions.Verification({
+          verify: 'email',
+          to: email
+        });
       })
       .catch(e => {
         console.log("e", e)
@@ -114,7 +113,7 @@ export default class Register extends Component {
             text = "It doesn't appear to be a valid school address.";
             break;
           case 'ONLY_STUDENT':
-            label = "Only student e-mails are supported.";
+            label = "Only student e-mails are accepted.";
             text = "Your university is a part of Proco but the e-mail you gave appears to be a staff address. Only students can use Proco for now.";
             break;
           case 'NETWORK_NOT_SUPPORTED':
@@ -136,16 +135,6 @@ export default class Register extends Component {
 
       });
 
-    return;
-    this.props.dispatch(updateUser('info', this.state));
-    this.props.dispatch(serverAction({
-      type: 'USER_VERIFICATION',
-      payload: {
-        type: 'email',
-        to: this.state.email,
-      }
-    }));
-    this.setState({showVerify: true});
   }
 
   onClickBack() {
@@ -172,13 +161,16 @@ export default class Register extends Component {
 
   }
 
+  componentWillMount() {
+    this.setState({email: this.props.user.network_email});
+  }
 
   render() {
 
     const {user} = this.props;
 
     return (
-      <View style={styles.container}>
+      <View style={appStyles.container}>
         <Header
           leftIcon={'chevron-left'}
           leftAction={::this.onClickBack}
@@ -261,6 +253,7 @@ export default class Register extends Component {
                 style={styles.email}
                 underlineEnabled={false}
                 ref="emailfield"
+                defaultValue={this.state.email}
                 onTextChange={(email) => {
                   this.setState({email});
                 }}

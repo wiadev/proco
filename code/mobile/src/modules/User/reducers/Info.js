@@ -10,13 +10,11 @@ import {
 export const initialState = {
   hasStartedLoading: false,
   isLoaded: false,
-  isLoggedIn: false,
   fid: null,
   gender: null,
   first_name: null,
   birthday: null,
   network_email: null,
-  network_is_verified: false,
   is_god: false,
 };
 

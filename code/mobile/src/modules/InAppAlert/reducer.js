@@ -1,5 +1,5 @@
-import { Map, fromJS } from 'immutable';
 import _ from 'lodash';
+import { assign } from '../../core/utils';
 
 import {
     CREATE_ALERT,
@@ -15,10 +15,10 @@ alert props:
     context: string
 */
 
-export const initialState = new Map({
+export const initialState = {
     alerts: [
     ]
-});
+};
 
 const defaultAlertProps = {
     id: null,
@@ -29,7 +29,7 @@ const defaultAlertProps = {
 };
 
 export default function reducer(state = initialState, action) {
-    let alerts = state.toJS().alerts;
+    let alerts = state.alerts;
 
     switch (action.type) {
         case CREATE_ALERT:
@@ -44,7 +44,9 @@ export default function reducer(state = initialState, action) {
 
             alerts.push(newAlert);
 
-            return state.set('alerts', fromJS(alerts));
+            return assign(state, {
+              alerts
+            });
         case DELETE_ALERT:
             if (typeof(action.payload) === 'object') {
                 _.remove(alerts, alert => {
@@ -56,7 +58,9 @@ export default function reducer(state = initialState, action) {
                 });
             }
 
-            return state.set('alerts', fromJS(alerts));
+          return assign(state, {
+            alerts
+          });
         default:
             return state;
     }

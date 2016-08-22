@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {AppState, NetInfo, View, StatusBar} from 'react-native';
+import {AppState, NetInfo, View, StatusBar, Linking} from 'react-native';
 import {connect} from 'react-redux';
 import InAppAlert  from './components/InAppAlert';
-import {loadAuth} from './modules/Authentication/actions';
+import {loadAuth,logout} from './modules/Authentication/actions';
 import {syncPermissions, updateNotificationToken} from './modules/Permissions/actions';
 import {clearInAppAlert,createAlert} from './modules/InAppAlert/actions';
 import NoInternetModal from './components/NoInternetModal';
+import BlockedUserModal from './components/BlockedUserModal';
 import FCM from 'react-native-fcm';
 
 import Routes from './core/Routes';
@@ -13,7 +14,9 @@ import Routes from './core/Routes';
 @connect(
   state => ({
     auth: state.auth,
+    user: state.user,
     statusbar: state.statusbar,
+    isUser: state.isUser,
   }),
 )
 class App extends Component {
@@ -73,7 +76,13 @@ class App extends Component {
         />
         <InAppAlert />
         <NoInternetModal />
-        <Routes auth={this.props.auth} />
+        <BlockedUserModal
+          visible={(this.props.isUser.blocked === true) || false}
+          logout={() => this.props.dispatch(logout())}
+          contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
+          name={this.props.user.first_name}
+        />
+        {!(this.props.isUser.blocked === true) && <Routes uid={this.props.auth.uid} isVerified={this.props.isUser.verified} /> }
       </View>
     );
   }

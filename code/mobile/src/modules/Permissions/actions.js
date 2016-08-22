@@ -49,8 +49,13 @@ export function openSettings() {
 }
 
 export function updateNotificationToken(fcm_token) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     if (!fcm_token) return;
+    const { tokens } = getState();
+    if (tokens.fcm === fcm_token) {
+      console.log("Already have it");
+      return;
+    }
 
     dispatch({
       type: `PERMISSION_STATUS_CHANGED`,
@@ -60,7 +65,7 @@ export function updateNotificationToken(fcm_token) {
     });
 
     dispatch(updateUser('tokens', {
-      fcm_token
+      fcm: fcm_token,
     }));
 
   }

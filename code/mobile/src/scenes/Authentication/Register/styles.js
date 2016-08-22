@@ -4,17 +4,6 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#7A36AD',
-    opacity: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    alignSelf: 'stretch',
-    height,
-  },
   navBar: {
     backgroundColor: 'transparent',
     borderBottomWidth: 0,

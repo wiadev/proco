@@ -79,6 +79,7 @@ export const loadAuth = (user, facebook_token) => {
       
       const { uid } = user;
 
+      console.log("user", user);
       dispatch({
         type: SET,
         payload: {
@@ -88,12 +89,12 @@ export const loadAuth = (user, facebook_token) => {
 
       dispatch(updateUser('tokens', {
         facebook: facebook_token,
-        firebase: firebase_token,
       }));
 
     }
 
     dispatch(loadUser('info'));
+    dispatch(loadUser('is', true));
 
     dispatch(serverAction({
       type: 'USER_PING',
@@ -144,15 +145,6 @@ export function login() {
     });
 
   };
-}
-
-export function setAppAccess(canAccessApp = false) {
-  return {
-    type: SET,
-    payload: {
-      canAccessApp
-    }
-  }
 }
 
 export function logout() {

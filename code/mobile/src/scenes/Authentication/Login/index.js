@@ -20,6 +20,7 @@ import styles from './styles';
   state => ({
     auth: state.auth,
     user: state.user,
+    isUser: state.isUser,
   }),
 )
 class Login extends Component {
@@ -37,9 +38,18 @@ class Login extends Component {
     this.checkAuthAndRedirect(props);
   }
 
+  shouldComponentUpdate(props) {
+    return (
+      !(props.user.isLoaded === this.props.user.isLoaded) ||
+      !(props.auth.isInProgress === this.props.auth.isInProgress) ||
+      !(props.auth.uid === this.props.auth.uid)
+    );
+  }
+
   checkAuthAndRedirect(props = this.props) {
-    if(props.user.isLoaded) {
+    if(props.user.isLoaded !== this.props.user.isLoaded) {
       Actions.Register();
+      console.log("I sent him")
     }
   }
 

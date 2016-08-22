@@ -54,7 +54,7 @@ export default class NoInternetModal extends Component {
         visible={false} // there is bug in the simulator @todo
       >
       <Card
-        title="You need the Internet" text="Proco requires Internet access to function"
+        label="You need the Internet" text="Proco requires Internet access to function"
         buttons={[
           {
             text: "Try again",

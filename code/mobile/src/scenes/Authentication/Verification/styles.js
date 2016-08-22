@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 12,
-    opacity: 0,
+    opacity: 1,
   },
   image: {
     height: height * 0.3,
