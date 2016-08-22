@@ -2,8 +2,24 @@ import React, {Component} from 'react';
 import {NetInfo} from 'react-native';
 import {connect} from 'react-redux';
 import {requestPermission, openSettings} from '../../modules/Permissions/actions';
-import {Card} from '../Card';
+import Card from '../Card';
 import { Actions } from 'react-native-router-flux';
+
+const texts = {
+  'camera': {
+    label: `We need access your camera.`,
+    text: `We use your camera when you are shooting loops.`,
+  },
+  'location': {
+    label: 'Where are you?',
+    text: `Since Proco only works in campuses, we need to access your location to verify where you are.`,
+    noClose: true,
+  },
+  'notifications': {
+    label: 'Do you want to know when you have new matches and messages from your matches?',
+    text: 'You can turn off notifications you don\'t want easily in the Settings menu.',
+  }
+};
 
 @connect(
   state => ({
@@ -26,16 +42,15 @@ export default class PermissionModal extends Component {
   render() {
     const type = this.props.type;
     const status = this.props.permissions[type];
+    const text = texts[type];
 
     if (status === null) return null;
     if (status === 'authorized') return null;
     //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
 
-    let screenProps = {
+    let screenProps = Object.assign({
       show: true,
-      head: 'bla bla',
-      text: type
-    };
+    }, text);
 
     if (this.state.isInProgres) {
       screenProps.renderThis = () => (<ActivityIndicator size="large" color="#ffffff"/>);
@@ -58,7 +73,7 @@ export default class PermissionModal extends Component {
       } else {
         screenProps.buttons = [
           {
-            text: "Ok, go ahead",
+            text: "Allow access",
             onPress: () => {
               this.setState({isInProgress: true});
               this.props.dispatch(requestPermission(type));
