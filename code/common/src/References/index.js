@@ -1,2 +1,7 @@
-export ServerActionResults from './ServerActionResults';
-export User from './User';
+import ServerActionResults from './ServerActionResults';
+import User from './User';
+
+module.exports = {
+  ServerActionResults,
+  User
+};

@@ -2,13 +2,7 @@
   "name": "proco-common",
   "version": "0.0.1",
   "description": "",
-  "main": "lib/index.js",
-  "scripts": {
-    "prebuild": "npm run clean",
-    "build": "babel src --out-dir lib",
-    "clean": "rimraf lib",
-    "lint": "eslint src"
-  },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/barbar/proco.git"
@@ -23,18 +17,14 @@
     "url": "https://github.com/barbar/proco/issues"
   },
   "homepage": "https://github.com/barbar/proco#readme",
+  "scripts": {
+    "precopy": "echo ../mobile/src/core/common/ ../server/src/common | xargs -n 1 rimraf ../mobile/src/core/common",
+    "copy": "echo ../mobile/src/core/common/ ../server/src/common | xargs -n 1 cp -R ./src/"
+  },
   "dependencies": {
     "firebase": "^3.2.1",
     "moment": "^2.14.1",
+    "rimraf": "^2.5.4",
     "validator": "^5.5.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.10.1",
-    "babel-core": "^6.10.4",
-    "babel-eslint": "^6.1.2",
-    "babel-plugin-rewire": "^1.0.0-rc-4",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-stage-0": "^6.5.0",
-    "eslint": "^3.1.0"
   }
 }

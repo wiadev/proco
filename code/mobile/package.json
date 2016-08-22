@@ -11,9 +11,10 @@
     "url": "https://github.com/barbar/proco"
   },
   "dependencies": {
-    "firebase": "^3.2.1",
+    "firebase": "^3.3.0",
     "immutable": "3.8.1",
     "lodash": "4.14.1",
+    "moment": "^2.14.1",
     "react": "15.2.1",
     "react-mixin": "^3.0.5",
     "react-native": "0.31.0",
@@ -45,7 +46,8 @@
     "redux-persist": "^3.3.0",
     "redux-persist-immutable": "^1.0.5",
     "redux-promise": "0.5.3",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.1.0",
+    "validator": "^5.5.0"
   },
   "devDependencies": {
     "babel-eslint": "6.1.2",

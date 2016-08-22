@@ -23,20 +23,21 @@ export const email = {
     sender: (to, code) => {
         return axios({
             method: 'post',
-            url: 'https://api.mailgun.net/v3/services.procoapp.com/messages',
-            data: {
+            url: 'https://api.mailgun.net/v3/icoz.co/messages',
+            params: {
                 to,
-                from: 'Proco Verification <verification@services.procoapp.com>',
+                from: 'Proco Verification <mailgun@icoz.co>',
                 subject: `Use ${code} to verify your e-mail - Proco App`,
-                text: `This is going to be an HTML template with the code  ${code} `
+                text: `This is going to be an HTML template with the code  ${code} `,
+                'h:Reply-To': 'support@procoapp.com',
             },
             auth: {
                 username: 'api',
-                password: 'key-c31f9f2fec6c5f5d99e19868314c0323'
+                password: 'key-c31f9f2fec6c5f5d99e19868314c0323',
             }
         });
     }
-}
+};
 
 export const sms = {
     verifier: (number, code) => {

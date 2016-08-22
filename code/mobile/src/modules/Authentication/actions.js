@@ -1,7 +1,8 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import { AsyncStorage } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { AsyncStorage, Linking } from 'react-native';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { hideStatusBar, showStatusBar } from '../StatusBar/actions';
+import React from 'react';
 
 import {
   STARTED,
@@ -66,35 +67,34 @@ const getAuth = (isFacebookReturn = false) =>{
   };
 };
 
-
 export const loadAuth = (user, facebook_token) => {
   return (dispatch, getState) => {
-    const { auth } = getState();
+    const { auth, tokens } = getState();
 
-    if (!(auth.uid && auth.facebook_token)) {
+    if (!(auth.uid && tokens.facebook)) {
       if (!user && !facebook_token) {
         dispatch(getAuth());
         return;
       }
       
-      const { uid, token } = user;
+      const { uid } = user;
 
+      console.log("user", user);
       dispatch({
         type: SET,
         payload: {
-          uid,
-          firebase_token: token,
-          facebook_token,
+          uid
         }
       });
 
       dispatch(updateUser('tokens', {
-        facebook_token,
+        facebook: facebook_token,
       }));
 
     }
 
     dispatch(loadUser('info'));
+    dispatch(loadUser('is', true));
 
     dispatch(serverAction({
       type: 'USER_PING',
@@ -118,11 +118,24 @@ export function login() {
 
       if (result.isCancelled) {
 
-        dispatch(createAlert({
-          type: 'info',
-          title: 'Login was cancelled by you',
-          duration: 900
-        }));
+
+        Actions.Card({
+          label: `You've cancelled the login process`,
+          text: 'If you are having trouble logging in, please contact us. If you like to login with a different account, switch accounts on Safari.',
+          buttons: [
+            {
+              text: "Contact",
+              onPress: Actions.Contact,
+            },
+            {
+              text: "Open Safari",
+              onPress: () => {
+                Actions.pop();
+                Linking.openURL("https://m.facebook.com/");
+              },
+            }
+          ]
+        });
 
         dispatch(logout());
 
@@ -136,9 +149,10 @@ export function login() {
 
 export function logout() {
   return dispatch => {
-    Promise.all([AsyncStorage.clear(), firebase.auth().signOut(), LoginManager.logOut()]).then(() => {
+    Promise.all([AsyncStorage.clear(), firebase.auth().signOut()]).then(() => {
+      LoginManager.logOut();
       dispatch({ type: 'RESET' });
-      Actions.LoginPage({type: 'reset'});
+      Actions.Login();
     });
   }
 }

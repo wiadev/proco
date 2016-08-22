@@ -3,21 +3,15 @@ import {database} from '../../core/Api';
 export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
 
 import {
-  serverPromisedAction,
-  serverAction
+  serverAction,
 } from '../../core/Api/actions';
-
-import {
-  USER_STARTED_LOADING,
-  USER_UPDATED,
-  USER_UNLOAD,
-} from './actionTypes';
 
 const typeMap = {
   info: 'INFO',
   settings: 'SETTINGS',
   tokens: 'TOKENS',
-  filters: 'DISCOVERY_FILTERS',
+  filters: 'FILTERS',
+  is: 'IS',
 };
 
 const getUserUpdatedActionTypeFor = (type) => {
@@ -25,7 +19,6 @@ const getUserUpdatedActionTypeFor = (type) => {
 };
 
 export function updateUserLocally(type, data) {
-  console.log("user update", type, data);
   return {
     type: getUserUpdatedActionTypeFor(type),
     payload: {
@@ -37,14 +30,17 @@ export function updateUserLocally(type, data) {
 export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
-    const {auth} = getState();
-    if (!auth.uid) {
+    const state = getState();
+    console.log("state", state);
+    console.log("update user", type, data, after)
+    if (!state.auth.uid) {
       setTimeout(() => { // Poor way to defer requests
         dispatch(updateUser(type, data, after));
       }, 250);
       return;
     }
-    getUserRef(auth.uid, type).update(data).then(() => {
+
+    getUserRef(state.auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
         type: getUserUpdatedActionTypeFor(type),
@@ -59,7 +55,7 @@ export function updateUser(type, data = {}, after = () => {
   };
 }
 
-export function loadUser(type) {
+export function loadUser(type, realtime = false) {
   return (dispatch, getState) => {
     const {auth} = getState();
     if (!auth.uid) return;
@@ -70,10 +66,13 @@ export function loadUser(type) {
           const data = snap.val();
           if (data) {
             dispatch(updateUserLocally(type, data));
-            if(unsubs) unsubs();
+            if(unsubs && !realtime) unsubs();
           } else {
             dispatch(serverAction({
-              type: 'USER_FIRST_LOGIN'
+              type: 'USER_GENERATE_DATA',
+              payload: {
+                type
+              }
             }));
           }
         }

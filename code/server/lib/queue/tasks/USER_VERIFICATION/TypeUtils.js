@@ -32,12 +32,13 @@ var email = exports.email = {
     sender: function sender(to, code) {
         return (0, _axios2.default)({
             method: 'post',
-            url: 'https://api.mailgun.net/v3/services.procoapp.com/messages',
-            data: {
+            url: 'https://api.mailgun.net/v3/icoz.co/messages',
+            params: {
                 to: to,
-                from: 'Proco Verification <verification@services.procoapp.com>',
+                from: 'Proco Verification <mailgun@icoz.co>',
                 subject: 'Use ' + code + ' to verify your e-mail - Proco App',
-                text: 'This is going to be an HTML template with the code  ' + code + ' '
+                text: 'This is going to be an HTML template with the code  ' + code + ' ',
+                'h:Reply-To': 'support@procoapp.com'
             },
             auth: {
                 username: 'api',

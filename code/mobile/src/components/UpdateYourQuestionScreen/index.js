@@ -140,7 +140,7 @@ class UpdateYourQuestionScreen extends Component {
                   minWidth: 150,
                   minHeight: 25,
                   color: '#F9365F',
-                  fontFamily: 'Montserrat-Light',
+                  fontFamily: 'OpenSans-Light',
                 }}
               />
             </MessageBox>
