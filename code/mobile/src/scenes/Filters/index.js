@@ -38,7 +38,7 @@ setTheme({
 
 @connect(
   state => ({
-    discoveryFilters: state.discoveryFilters,
+    filters: state.filters,
   }),
 )
 class DiscoveryFilters extends Component {
@@ -61,7 +61,7 @@ class DiscoveryFilters extends Component {
   }
 
   render() {
-    const filters = this.props.discoveryFilters;
+    const filters = this.props.filters;
     return (
       <View style={styles.preview}>
         <ScrollView style={styles.container}>

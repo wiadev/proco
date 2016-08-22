@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {Actions, ActionConst, Router, Scene, Reducer} from 'react-native-router-flux';
 import Wrapper from './Wrapper';
-import Switch from './Switch';
 
 import { Login, Register, Verification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
+import Settings from '../../scenes/Settings';
+import Filters from '../../scenes/Filters';
 
 import WebView from '../../components/WebView';
 import Card from '../../components/Card';
 import * as StaticPages from './StaticPages';
-import {connect} from 'react-redux';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -44,7 +44,9 @@ const scenes = Actions.create(
         <Scene key="Login" component={Login}  initial />
         <Scene key="Register" component={Register} />
         <Scene key="Verification" animation="fade" component={Verification} />
-        <Scene key="Main" component={Main} />
+        <Scene key="Main" component={Main} animation="fade" />
+        <Scene key="Settings" component={Settings} direction="vertical" />
+        <Scene key="Filters" component={Filters} direction="vertical" />
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}

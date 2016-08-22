@@ -13,13 +13,13 @@ export const TERMS_OF_USAGE = {
   key: 'TermsOfUsage',
 };
 
-export const CONTACT_PAGE = {
+export const CONTACT = {
   uri: `${BASE_URL_PAGES}/contact.html`,
   title: 'Contact',
   key: 'Contact',
 };
 
-export const LICENSES_PAGE = {
+export const LICENSES = {
   uri: `${BASE_URL_PAGES}/licenses.html`,
   title: 'Licenses',
   key: 'Licenses',

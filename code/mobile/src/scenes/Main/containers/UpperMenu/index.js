@@ -43,7 +43,7 @@ export default class UpperMenu extends Component {
               </Text>
             </View>
             <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.DiscoveryFilters}>
+              <Text style={styles.menuItemText} onPress={Actions.Filters}>
                 Discovery Filters
               </Text>
             </View>

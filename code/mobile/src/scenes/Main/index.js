@@ -20,6 +20,7 @@ import styles from './styles';
 @connect(
   state => ({
     user: state.user,
+    isUser: state.isUser,
   }),
 )
 class MainScreen extends Component {
@@ -32,16 +33,23 @@ class MainScreen extends Component {
     this.props.dispatch(setStatusBarStyle('light-content'));
   }
 
-  render() {
-    console.log(this.props);
+  renderPages(arr) {
+    if (this.props.isUser.god) {
+      arr.unshift(<GodMode />);
+    }
+    return arr.map((el, i) => {
+      return <View key={i}>{el}</View>;
+    });
+  }
 
+  render() {
     return (
       <View style={styles.container}>
         <Swiper
           horizontal={false}
           loop={false}
           showsPagination={false}
-          index={2}
+          index={((this.props.isUser.god === true) ? 2 : 1)}
           onMomentumScrollEnd={
             (e, state) => {
               this.props.dispatch(showStatusBar());
@@ -51,9 +59,10 @@ class MainScreen extends Component {
             (e, state) => this.props.dispatch(hideStatusBar())
           }
         >
-          <GodMode />
-          <UpperMenu fid={this.props.user.fid} />
-          <Pool />
+          {this.renderPages([
+            <UpperMenu fid={this.props.user.fid} />,
+            <Pool />
+          ])}
         </Swiper>
       </View>
     );

@@ -15,7 +15,6 @@ import {connect} from 'react-redux';
 import {loadUser, updateUser} from '../../modules/User/actions';
 import {logout} from '../../modules/Authentication/actions';
 import styles from './styles';
-import {LICENSES_PAGE, TERMS_PAGE, PRIVACY_PAGE} from '../../core/StaticPages';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconM from 'react-native-vector-icons/MaterialIcons';
@@ -361,9 +360,7 @@ class Settings extends Component {
           }]}>
             LEGAL
           </Text>
-          <TouchableHighlight onPress={() => {
-            Actions.WebViewModal(PRIVACY_PAGE);
-          }}>
+          <TouchableHighlight onPress={Actions.PrivacyPolicy}>
             <View style={[styles.inputBox, {
               borderBottomWidth: 0,
             }]}>
@@ -380,9 +377,7 @@ class Settings extends Component {
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => {
-            Actions.WebViewModal(TERMS_PAGE);
-          }}>
+          <TouchableHighlight onPress={Actions.TermsOfUsage}>
             <View style={[styles.inputBox, {
               marginTop: 0,
               borderBottomWidth: 0,
@@ -399,9 +394,7 @@ class Settings extends Component {
               </View>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight onPress={() => {
-            Actions.WebViewModal(LICENSES_PAGE);
-          }}>
+          <TouchableHighlight onPress={Actions.Licenses}>
             <View style={[styles.inputBox, {
               marginTop: 0,
             }]}>
