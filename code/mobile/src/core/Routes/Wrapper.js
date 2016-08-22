@@ -20,7 +20,6 @@ const propTypes = {
 const Modal = (props) => <RNModal {...props}>{props.children}</RNModal>;
 
 export default function Wrapper(props) {
-  console.log("wraper", props);
   const children = props.navigationState.children;
   const state = children[0];
   return (

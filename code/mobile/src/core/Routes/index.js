@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import {Actions, ActionConst, Router, Scene, Switch, Reducer} from 'react-native-router-flux';
+import {Actions, ActionConst, Router, Scene, Reducer} from 'react-native-router-flux';
 import Wrapper from './Wrapper';
+import Switch from './Switch';
 
 import { Login, Register, Verification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 
 import WebView from '../../components/WebView';
-import BlockerActivity from '../../components/BlockerActivity';
 import Card from '../../components/Card';
 import * as StaticPages from './StaticPages';
-import Blocked from './Blocked';
 import {connect} from 'react-redux';
 
 const reducerCreate = params => {
@@ -40,22 +39,14 @@ const scenes = Actions.create(
   <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
     <Scene
       key="root"
-      component={connect(state=>({isUser:state.isUser}))(Switch)}
-      unmountScenes
-      selector={props=>props.isUser.verified ? "app" : "auth"}
+      hideNavBar
     >
-      <Scene key="auth" hideNavBar>
-        <Scene key="Login" component={Login}  />
+        <Scene key="Login" component={Login}  initial />
         <Scene key="Register" component={Register} />
         <Scene key="Verification" animation="fade" component={Verification} />
-      </Scene>
-      <Scene key="app" hideNavBar>
         <Scene key="Main" component={Main} />
-      </Scene>
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
-
-    <Scene key="Activity" isModal transparent component={BlockerActivity} animationType="fade" hideNavBar />
     {staticPageScenes()}
   </Scene>
 );

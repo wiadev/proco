@@ -51,7 +51,10 @@ export function openSettings() {
 export function updateNotificationToken(fcm_token) {
   return (dispatch, getState) => {
     if (!fcm_token) return;
-    const { tokens } = getState();
+    const { auth, tokens } = getState();
+
+    if (!auth.uid) return;
+
     if (tokens.fcm === fcm_token) {
       console.log("Already have it");
       return;
