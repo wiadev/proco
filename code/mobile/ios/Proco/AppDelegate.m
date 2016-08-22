@@ -26,6 +26,7 @@
                            didFinishLaunchingWithOptions:launchOptions];
   
   NSURL *jsCodeLocation;
+  
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 

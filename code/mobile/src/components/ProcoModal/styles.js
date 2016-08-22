@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   permissionLabel: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 28,
     textAlign: 'center',
   },
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 16,
     textAlign: 'center',
   },

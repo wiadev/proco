@@ -63,7 +63,10 @@ class App extends Component {
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View style={{
+        flex: 1,
+        backgroundColor: '#7A36AD',
+      }}>
         <StatusBar
           showHideTransition="slide"
           {...this.props.statusbar}

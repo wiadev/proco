@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   },
   btnSave: {
     color: 'rgb(71,71,71)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 13,
     textAlign: 'center',
   },
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     color: 'rgb(249,54,95)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 17,
     textAlign: 'center',
   },
@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   pinkText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 16,
     color: 'rgb(249,59,95)',
   },
   blackText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 16,
     color: 'rgb(66,66,66)',
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pinkHeadText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 13,
     color: 'white',
   },

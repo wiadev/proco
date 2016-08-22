@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   questionLabel: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     fontSize: 21,
     textAlign: 'center',
   },
@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
     bottom: 30,
   },
   textBoxInput: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
   },
   textBoxLabel: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
   },
   leftButtonTextStyle: {
     marginLeft: 10,

@@ -10,6 +10,7 @@ Info as userReducer,
 Settings as settingsReducer,
 Filters as filtersReducer,
 Is as isReducer,
+Tokens as tokensReducer,
 } from '../modules/User/reducers';
 import permissionsReducer from '../modules/Permissions/reducer';
 import statusBarReducer from '../modules/StatusBar/reducer';
@@ -21,6 +22,7 @@ const reducers = {
   user: userReducer,
   settings: settingsReducer,
   filters: filtersReducer,
+  tokens: tokensReducer,
   is: isReducer,
   permissions: permissionsReducer,
   statusbar: statusBarReducer,

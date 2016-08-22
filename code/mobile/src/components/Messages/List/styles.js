@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   btnSave: {
     color: 'rgb(71,71,71)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 13,
     textAlign: 'center',
   },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   menuTitle: {
     color: 'rgb(249,54,95)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 17,
     textAlign: 'center',
   },
@@ -121,12 +121,12 @@ const styles = StyleSheet.create({
   rowItemUsername: {
     fontSize: 18,
     color: 'rgb(22,20,23)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
   },
   rowItemUserTitle: {
     fontSize: 12,
     color: 'rgb(139,139,139)',
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
   },
 });
 

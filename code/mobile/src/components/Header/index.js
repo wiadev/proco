@@ -5,8 +5,7 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import IconM from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Entypo';
 import styles from './styles';
 
 class Header extends Component {
@@ -24,7 +23,7 @@ class Header extends Component {
   };
 
   static defaultProps = {
-    leftIcon: 'close',
+    leftIcon: 'chevron-thin-down',
     hideLeft: false,
     hideMid: false,
     hideRight: false,
@@ -40,7 +39,7 @@ class Header extends Component {
         <View style={styles.headerLeft}>
           {!this.props.hideLeft ? (
             this.props.leftContainer ? this.props.leftContainer : (
-              <IconM
+              <Icon
                 name={this.props.leftIcon}
                 size={34}
                 color="rgba(255,255,255,0.8)"

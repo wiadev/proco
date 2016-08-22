@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.primary1,
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 16,
     textAlign: 'center',
   },

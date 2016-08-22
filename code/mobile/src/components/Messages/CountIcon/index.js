@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 18,
     textShadowColor: 'rgba(0,0,0,0.5)',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 16,
   },
   messageIcon: {

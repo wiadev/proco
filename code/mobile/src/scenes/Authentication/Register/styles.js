@@ -53,12 +53,12 @@ export const styles = StyleSheet.create({
     paddingTop: 9,
   },
   rightBoxText: {
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     color: 'white',
     fontSize: 16,
   },
   rightBoxText2: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'rgba(255, 255, 255, 0.5)',
     fontSize: 13,
     paddingTop: 3,
@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
     width,
   },
   footerText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'rgba(255, 255, 255, 0.5)',
     fontSize: 11,
     backgroundColor: 'transparent',
@@ -83,11 +83,11 @@ export const styles = StyleSheet.create({
   emailLabel: {
     color: 'rgba(255, 255, 255, 0.5)',
     backgroundColor: 'transparent',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 11,
   },
   emailTxt: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'white',
     fontSize: 26,
     height: 35,
@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
   },
   btnNext: {
     color: 'white',
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     fontSize: 16,
     backgroundColor: 'transparent',
   },
@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   genderText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'white',
     fontSize: 26,
     height: 35,
@@ -157,7 +157,7 @@ export const dpCustom = StyleSheet.create({
     marginTop: 5,
   },
   dateText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'white',
     fontSize: 26,
   },

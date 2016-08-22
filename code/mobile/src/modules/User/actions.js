@@ -30,14 +30,25 @@ export function updateUserLocally(type, data) {
 export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
-    const {auth} = getState();
-    if (!auth.uid) {
+    const state = getState();
+    if (!state.auth.uid) {
       setTimeout(() => { // Poor way to defer requests
         dispatch(updateUser(type, data, after));
       }, 250);
       return;
     }
-    getUserRef(auth.uid, type).update(data).then(() => {
+
+    let stateType = type;
+    if (type === 'info') {
+      stateType = 'user';
+    }
+
+    const keysToUpdate = Object.keys(data).filter(key => {
+      console.log(data, key, state, stateType);
+      return (state[stateType][key] == data[key]);
+    });
+    console.log("ordata", data, "keys", keysToUpdate, "state", state);
+    getUserRef(state.auth.uid, type).update(data).then(() => {
       dispatch(updateUserLocally(type, data));
       dispatch(serverAction({
         type: getUserUpdatedActionTypeFor(type),

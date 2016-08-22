@@ -37,14 +37,16 @@ export default class Card extends Component {
   }
 
   render() {
+    console.log("propscard", this.props);
+
     const {icon, label, text, renderThis, noClose = false} = this.props;
     let { buttons = [] } = this.props;
 
-    if (!noClose) {
-      buttons.push({
+    if (noClose === false) {
+      buttons = buttons.concat([{
         text: "Close",
         onPress: Actions.pop
-      });
+      }]);
     }
 
     return (

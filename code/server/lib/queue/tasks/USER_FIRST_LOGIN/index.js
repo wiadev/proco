@@ -28,7 +28,7 @@ var worker = function worker(data, progress, resolve, reject) {
 
   var userRef = getUserRef(data.payload.uid);
 
-  var tokenRef = userRef.child('tokens/facebook_token');
+  var tokenRef = userRef.child('tokens/facebook');
   var infoRef = userRef.child('info');
   tokenRef.once('value', function (snap) {
 

@@ -156,7 +156,7 @@ class Settings extends Component {
           <Text style={[styles.underMessage, {
             marginTop: 10,
             color: 'black',
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'OpenSans',
           }]}>
             NOTIFICATIONS
           </Text>
@@ -290,7 +290,7 @@ class Settings extends Component {
           <Text style={[styles.underMessage, {
             marginTop: 10,
             color: 'black',
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'OpenSans',
           }]}>
             PROCO
           </Text>
@@ -357,7 +357,7 @@ class Settings extends Component {
           <Text style={[styles.underMessage, {
             marginTop: 10,
             color: 'black',
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'OpenSans',
           }]}>
             LEGAL
           </Text>

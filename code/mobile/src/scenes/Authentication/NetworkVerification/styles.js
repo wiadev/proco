@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   passwordArea: {},
   passwordTxt: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'rgb(5,5,6)',
     fontSize: 26,
     marginTop: 15,
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headText: {
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     color: 'rgb(51,205,153)',
     fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 18),
     marginTop: 5,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   descriptionText: {
-    fontFamily: 'Montserrat-Light',
+    fontFamily: 'OpenSans-Light',
     color: 'rgb(82,93,103)',
     fontSize: 14,
     marginTop: 15,
@@ -104,13 +104,13 @@ const styles = StyleSheet.create({
     alignSelf: 'auto',
   },
   verifyButtonTxt: {
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     color: 'white',
     textAlign: 'center',
     fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 16),
   },
   error: {
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'OpenSans',
     color: 'red',
     textAlign: 'center',
     fontSize: 12,
