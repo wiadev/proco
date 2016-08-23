@@ -48,7 +48,7 @@ export default class Pool extends Component {
   }
 
   state = {
-    people: []
+    people: [1,2,3]
   };
 
   componentDidMount() {
@@ -60,11 +60,7 @@ export default class Pool extends Component {
       return (<Card label="No one seems to be nearby" noClose={true} />);
     }
     return items.map((item, key) => {
-      item = Object.assign(item, {
-        sequenceImages,
-        onComplete
-      });
-      return (<PoolItem {...item} key={key} />);
+      return (<PoolItem key={key} />);
     });
   }
   render() {

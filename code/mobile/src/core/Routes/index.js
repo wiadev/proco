@@ -6,9 +6,6 @@ import { Login, Register, Verification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
 import Filters from '../../scenes/Filters';
-
-import Conversation from '../../components/Messages/Conversation';
-import List from '../../components/Messages/List';
 import WebView from '../../components/WebView';
 import Card from '../../components/Card';
 import * as StaticPages from './StaticPages';
@@ -49,8 +46,6 @@ const scenes = Actions.create(
         <Scene key="Main" component={Main} animation="fade" />
         <Scene key="Settings" component={Settings} direction="vertical" />
         <Scene key="Filters" component={Filters} direction="vertical" />
-        <Scene key="MessageList" component={List} />
-        <Scene key="Conversation" component={Conversation} />
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}

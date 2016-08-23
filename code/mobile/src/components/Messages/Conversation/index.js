@@ -9,11 +9,10 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { loadPage, defaultState, receivedMessage, sentMessage } from './redux';
-import store from '../../store/configureStore';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ChatComponent from 'react-native-gifted-messenger';
-import MessageBox from '../MessageBox';
+import MessageBox from '../Box';
 
 import { styles, messengerStyle } from './styles';
 

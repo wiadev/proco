@@ -83,6 +83,7 @@ export default class Register extends Component {
       }
     }];
 
+    console.log(this.state.email);
     if (!this.state.email) {
       Actions.Card({
         label: "Your school email is missing",
@@ -95,15 +96,13 @@ export default class Register extends Component {
 
     NetworkEmailValidation(this.state.email)
       .then((email) => {
-        this.props.dispatch(updateUser('info', {
-          network_email: email,
-        }));
         Actions.Verification({
           verify: 'email',
-          to: email
+          to: email.email,
         });
       })
       .catch(e => {
+        console.log("catch", e)
         let label, text;
         switch (e) {
           case 'CHECK_EMAIL':
@@ -222,6 +221,26 @@ export default class Register extends Component {
               />
             </View>
 
+              <View style={styles.emailBox}>
+                <Text style={styles.emailLabel}>
+                  SELECT YOUR UNIVERSITY
+                </Text>
+                <View style={styles.genderView}>
+                  <Text
+                    style={styles.genderText}
+                    onPress={() => {
+                      this.unipicker.toggle();
+                    }}
+                  >{this.state.uni || 'Please Select'}</Text>
+                  <Icon
+                    name="angle-right"
+                    size={32}
+                    color="rgba(255, 255, 255, 0.7)"
+                    style={styles.genderIcon}
+                  />
+                </View>
+              </View>
+
             { user.gender ? null : (
               <View style={styles.emailBox}>
                 <Text style={styles.emailLabel}>
@@ -261,7 +280,6 @@ export default class Register extends Component {
                 style={styles.email}
                 underlineEnabled={false}
                 ref="emailfield"
-                defaultValue={this.state.email}
                 onTextChange={(email) => {
                   this.setState({email});
                 }}
@@ -294,6 +312,25 @@ export default class Register extends Component {
           onPickerDone={(e) => {
             this.setState({
               gender: e[0],
+            });
+          }}
+        />
+        <Picker
+          ref={unipicker => this.unipicker = unipicker}
+          style={{
+            height: 250,
+            width,
+            left: 0,
+            position: 'absolute',
+            bottom: 0,
+          }}
+          showDuration={200}
+          showMask={true}
+          pickerData={['Bahcesehir University', 'Koc University']}
+          selectedValue={'Bahcesehir University'}
+          onPickerDone={(e) => {
+            this.setState({
+              uni: e[0],
             });
           }}
         />

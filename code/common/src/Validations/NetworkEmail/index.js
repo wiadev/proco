@@ -38,7 +38,7 @@ const Validate = (email) => {
         if (IsAnyTrue(otherTests)) {
           reject('ONLY_STUDENT');
         } else if (email.includes('.edu')) {
-          resolve('NETWORK_NOT_SUPPORTED');
+          reject('NETWORK_NOT_SUPPORTED');
         } else {
           reject('CHECK_EMAIL');
         }

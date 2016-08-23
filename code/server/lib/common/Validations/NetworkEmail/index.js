@@ -25,8 +25,13 @@ var Validate = function Validate(email) {
   return new Promise(function (resolve, reject) {
     // Check other things
 
-    if ((0, _Utils.InArray)(AllowedNetworks, email.split('@')[1])) {
-      resolve(email);
+    var domain = email.split('@')[1];
+    if ((0, _Utils.InArray)(AllowedNetworks, domain)) {
+      resolve({
+        email: email,
+        network: AllowedNetworks[domain],
+        supported: true
+      });
     } else {
 
       var otherTests = AllowedNetworks.map(function (network) {

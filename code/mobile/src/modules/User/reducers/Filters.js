@@ -3,7 +3,7 @@ import { assign } from '../../../core/utils';
 const initialState = {
   isLoaded: false,
   ageMin: 18,
-  ageMax: 70,
+  ageMax: 40,
   onlyFromSchool: false,
   showFriendsInDiscovery: true,
   gender: 'Male',

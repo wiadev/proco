@@ -69,6 +69,10 @@ export function loadUser(type, realtime = false) {
             if(unsubs && !realtime) unsubs();
           } else {
             dispatch(serverAction({
+              type: 'USER_FIRST_LOGIN',
+              payload: {}
+            }));
+            dispatch(serverAction({
               type: 'USER_GENERATE_DATA',
               payload: {
                 type

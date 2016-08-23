@@ -25,6 +25,7 @@ var getUserRef = exports.getUserRef = function getUserRef(uid) {
 };
 
 var worker = function worker(data, progress, resolve, reject) {
+  console.log("here");
 
   var userRef = getUserRef(data.payload.uid);
 
@@ -33,10 +34,13 @@ var worker = function worker(data, progress, resolve, reject) {
   tokenRef.once('value', function (snap) {
 
     var access_token = snap.val();
+    console.log("access_token");
 
     if (!access_token) {
-      return reject();
+      return reject("got no token");
     }
+
+    console.log("here2");
 
     _axios2.default.get('https://graph.facebook.com/v2.7/me', {
       params: {

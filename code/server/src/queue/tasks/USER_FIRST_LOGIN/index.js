@@ -4,6 +4,7 @@ export const database = () => firebase.database();
 export const getUserRef = (uid) => database().ref(`users/${uid}`);
 
 const worker = (data, progress, resolve, reject) => {
+  console.log("here")
 
   const userRef = getUserRef(data.payload.uid);
 
@@ -12,10 +13,13 @@ const worker = (data, progress, resolve, reject) => {
   tokenRef.once('value', snap => {
 
     const access_token = snap.val();
+    console.log("access_token")
 
     if (!access_token) {
-      return reject(); 
+      return reject("got no token");
     }
+
+    console.log("here2")
 
     axios.get('https://graph.facebook.com/v2.7/me', {
       params: {

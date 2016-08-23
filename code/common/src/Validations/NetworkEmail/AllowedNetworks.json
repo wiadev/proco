@@ -1,5 +1,6 @@
 {
-  "std.yeditepe.edu.tr": "YEDITEPE",
-  "stu.bahcesehir.edu.tr": "BAU",
-  "barbar.com.tr": "BARBAR"
+  "std.yeditepe.edu.tr": true,
+  "stu.bahcesehir.edu.tr": true,
+  "barbar.com.tr": true,
+  "th0th.me": true
 }
