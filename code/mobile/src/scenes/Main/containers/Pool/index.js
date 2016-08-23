@@ -48,7 +48,8 @@ export default class Pool extends Component {
   }
 
   state = {
-    people: [1,2,3]
+    people: [1,2,3],
+    index: 0
   };
 
   componentDidMount() {
@@ -60,7 +61,7 @@ export default class Pool extends Component {
       return (<Card label="No one seems to be nearby" noClose={true} />);
     }
     return items.map((item, key) => {
-      return (<PoolItem key={key} />);
+      return (<PoolItem key={key} isMounted={key === this.state.index} />);
     });
   }
   render() {
@@ -71,7 +72,11 @@ export default class Pool extends Component {
           horizontal={true}
           loop={false}
           showsPagination={false}
-          onMomentumScrollEnd={function(e, state, context){
+          onMomentumScrollEnd={(e, state, context) => {
+            this.setState({
+              index: state.index
+            });
+
             console.log('index:', state.index);
           }}
         >

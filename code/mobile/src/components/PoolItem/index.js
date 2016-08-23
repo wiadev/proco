@@ -1,31 +1,31 @@
 import React from 'react';
 import {
   View,
-  Image,
   TextInput,
   TouchableWithoutFeedback,
   TouchableHighlight,
   KeyboardAvoidingView
 } from 'react-native';
-import reactMixin from 'react-mixin';
-import reactTimerMixin from 'react-timer-mixin';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import ProfileImageSequence from '../ProfileImageSequence';
 import MessageBox from '../Messages/Box';
 
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@reactMixin.decorate(reactTimerMixin)
 export default class PoolItem extends React.Component {
   static propTypes = {
+    isMounted: React.PropTypes.bool.isRequired,
     sequenceImages: React.PropTypes.array.isRequired,
     messages: React.PropTypes.array.isRequired,
     onComplete: React.PropTypes.func.isRequired,
   };
 
+  // TODO: Should be deleted when real data is present.
   static defaultProps = {
     // mock data
+    isMounted: false,
     sequenceImages: [
       'https://files.icoz.co/uploads/procolooptest01.jpg',
       'https://files.icoz.co/uploads/procolooptest02.jpg',
@@ -58,8 +58,6 @@ export default class PoolItem extends React.Component {
       // eventType: ['answer' | 'start-conversation']
       console.log(eventType, params);
     }
-    // TODO: Should be reset to this:
-    // sequenceImages: [undefined]
   };
 
   constructor() {
@@ -82,14 +80,12 @@ export default class PoolItem extends React.Component {
         action: 'start-conversation'
       });
     }
-
-    this._runImageSequence();
   }
 
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <Image source={{uri: this.props.sequenceImages[this.state.imageSequenceCurrentFrame]}} style={styles.poolItemBackground}>
+        <ProfileImageSequence isMounted={this.props.isMounted} images={this.props.sequenceImages}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderMessages()}
@@ -113,45 +109,9 @@ export default class PoolItem extends React.Component {
               editable={true}
             />
           </KeyboardAvoidingView>
-        </Image>
+        </ProfileImageSequence>
       </View>
     );
-  }
-
-  _runImageSequence() {
-    if (!this.state.imageSequenceRunning) {
-      this.setState({
-        imageSequenceRunning: true
-      });
-
-      let imageSequence = this.setInterval(() => {
-        let newState = {};
-
-        if (this.state.imageSequenceAction === 'increase') {
-          if (this.state.imageSequenceCurrentFrame === 17) {
-            newState.imageSequenceAction = 'decrease';
-            newState.imageSequenceCurrentFrame = this.state.imageSequenceCurrentFrame - 1;
-          } else {
-            newState.imageSequenceCurrentFrame = this.state.imageSequenceCurrentFrame + 1;
-          }
-        }
-
-        if (this.state.imageSequenceAction === 'decrease') {
-          if (this.state.imageSequenceCurrentFrame === 0) {
-            // newState.imageSequenceAction = 'increase';
-            // newState.imageSequenceCurrentFrame = this.state.imageSequenceCurrentFrame + 1;
-            this.clearInterval(imageSequence);
-            this.setState({
-              imageSequenceRunning: false
-            });
-          } else {
-            newState.imageSequenceCurrentFrame = this.state.imageSequenceCurrentFrame - 1;
-          }
-        }
-
-        this.setState(newState);
-      }, 55.5);
-    }
   }
 
   _renderMessages() {
@@ -173,9 +133,9 @@ export default class PoolItem extends React.Component {
       let iconName;
 
       if (this.state.action === 'answer') {
-        iconName = 'comment';
+        iconName = 'mode-comment';
       } else {
-        iconName = 'thumbs-up';
+        iconName = 'thumb-up';
       }
 
       return (
