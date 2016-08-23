@@ -4,9 +4,11 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   TouchableHighlight,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  ActionSheetIOS
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import _ from 'lodash';
 
 import ProfileImageSequence from '../ProfileImageSequence';
 import MessageBox from '../Messages/Box';
@@ -55,7 +57,7 @@ export default class PoolItem extends React.Component {
       }
     ],
     onComplete: (eventType, params) => {
-      // eventType: ['answer' | 'start-conversation']
+      // eventType: ['ANSWER' | 'START-CONVERSATION' | 'BLOCK' | 'REPORT']
       console.log(eventType, params);
     }
   };
@@ -92,14 +94,14 @@ export default class PoolItem extends React.Component {
 
               {this._renderAnswer()}
 
-              {this._renderActionButton()}
+              {this._renderBottomButtons()}
             </View>
 
             <TextInput
               ref='answerInput'
               placeholder="Answer"
               returnKeyType="send"
-              onSubmitEditing={() => this.props.onComplete('answer', {
+              onSubmitEditing={() => this.props.onComplete('ANSWER', {
                 text: this.state.answer
               })}
               onChangeText={text => this.setState({
@@ -128,6 +130,45 @@ export default class PoolItem extends React.Component {
     }
   }
 
+  _renderBottomButtons() {
+    return (
+      <View style={styles.bottomButtons}>
+        <TouchableHighlight onPress={() => this._showReportMenu()} activeOpacity={0.9} underlayColor={colors.primaryAlt} style={styles.bottomButton}>
+          <Icon
+            name="report"
+            size={22}
+            style={styles.bottomButtonIcon}
+          />
+        </TouchableHighlight>
+
+        {this._renderActionButton()}
+      </View>
+    )
+  }
+
+  _showReportMenu() {
+    const buttons = {
+      BLOCK: 'Block',
+      REPORT: 'Report',
+      CANCEL: 'Cancel'
+    };
+
+    const cancelButtonIndex = 2;
+
+    ActionSheetIOS.showActionSheetWithOptions({
+        options: _.values(buttons),
+        cancelButtonIndex: cancelButtonIndex,
+      },
+      (buttonIndex) => {
+        if (buttonIndex !== cancelButtonIndex) {
+          const action = _.keys(buttons)[buttonIndex];
+
+          // this action is one of the keys of the buttons except 'CANCEL': ['BLOCK' | 'REPORT']
+          this.props.onComplete(action);
+        }
+      });
+  }
+
   _renderActionButton() {
     if (!this.state.answerInputVisible) {
       let iconName;
@@ -139,11 +180,11 @@ export default class PoolItem extends React.Component {
       }
 
       return (
-        <TouchableHighlight onPress={() => this._onActionButtonPress()} activeOpacity={0.9} underlayColor={colors.primaryAlt} style={styles.actionButton}>
+        <TouchableHighlight onPress={() => this._onActionButtonPress()} activeOpacity={0.9} underlayColor={colors.primaryAlt} style={styles.bottomButton}>
           <Icon
             name={iconName}
             size={22}
-            style={styles.actionButtonIcon}
+            style={styles.bottomButtonIcon}
           />
         </TouchableHighlight>
       );
@@ -179,7 +220,7 @@ export default class PoolItem extends React.Component {
         answerInputVisible: true
       });
     } else {
-      this.props.onComplete('start-conversation');
+      this.props.onComplete('START-CONVERSATION');
     }
   }
 }
