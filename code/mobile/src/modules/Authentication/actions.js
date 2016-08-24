@@ -1,14 +1,16 @@
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { AsyncStorage, Linking } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
+import { FacebookAuthProvider, signInWithCredential, addAuthStateDidChangeListener, signOut } from 'rn-firebase-bridge/auth';
+import { reauthenticateWithCredential } from 'rn-firebase-bridge/user';
+
 import { hideStatusBar, showStatusBar } from '../StatusBar/actions';
 import React from 'react';
 
 import {
   STARTED,
-  LOADED,
   SET,
-  UNLOAD,
+  LOADED,
 } from './actionTypes';
 
 import {
@@ -17,6 +19,8 @@ import {
 
 import {
   loadUser,
+  updateUserLocally,
+  syncLocalUserToDatabase,
   updateUser,
 } from '../User/actions';
 
@@ -24,87 +28,85 @@ import {
   serverAction
 } from '../../core/Api/actions';
 
-function getFacebookAccessToken() {
+export const reAuthenticate = (after) => {
+  return (dispatch, getState) => {
+    const { tokens } = getState();
 
-  return new Promise ((resolve, reject) => {
-    return AccessToken.getCurrentAccessToken().then((data) => {
-      if (data) {
-        resolve(data.accessToken.toString());
-      } else {
-        reject();
+    const credential = FacebookAuthProvider.credential(tokens.facebook);
+    reauthenticateWithCredential(credential).then(() => {
+      if (after) {
+        after(dispatch, getState);
       }
-    });
-  });
+    }).catch(e => console.log("Problem on re auth", e))
 
-}
+  };
+};
 
-const getAuth = (isFacebookReturn = false) =>{
-  return (dispatch) => {
-    const login = (user = null) => {
-      getFacebookAccessToken()
-        .then(facebook_token => {
-          if (user) dispatch(loadAuth(user, facebook_token));
-          return firebase.auth().signInWithCredential(
-            firebase.auth.FacebookAuthProvider.credential(facebook_token)
-          ).then(user => {
-            dispatch(loadAuth(user, facebook_token))
+export const startCheckingAuth = () => {
+  return (dispatch, getState) => {
+    dispatch(syncFacebookToken());
+    addAuthStateDidChangeListener(payload => {
+      const { auth, isUser, user } = getState();
+      if (payload) {
+
+        if (auth.uid === null) {
+
+          dispatch({
+            type: SET,
+            payload: {
+              uid: payload.user.uid,
+            }
           });
-        })
-        .catch((e) => {
-          dispatch(logout());
-        });
-    };
 
-    if (isFacebookReturn) {
-      login();
-      return;
-    }
+        }
 
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      unsubscribe();
-      login(user);
+        if (isUser.verified !== payload.user.emailVerified) {
+          dispatch(updateUser('is', {
+            verified: payload.user.emailVerified,
+          }));
+        }
+
+        if (user.email !== payload.user.email) {
+          dispatch(updateUser('info', {
+            email: payload.user.email,
+          }));
+        }
+
+        dispatch(loadUser('info'));
+        dispatch(loadUser('is', true));
+        dispatch(syncLocalUserToDatabase('tokens'));
+
+      } else if (auth.uid === null && !auth.isInProgress) {
+        dispatch(logout());
+      }
     });
   };
 };
 
-export const loadAuth = (user, facebook_token) => {
+function syncFacebookToken() {
   return (dispatch, getState) => {
-    const { auth, tokens } = getState();
+    const { tokens, auth } = getState();
+    AccessToken.getCurrentAccessToken()
+      .then((data) => {
+        if (data) {
+          const token = data.accessToken.toString();
 
-    if (!(auth.uid && tokens.facebook)) {
-      if (!user && !facebook_token) {
-        dispatch(getAuth());
-        return;
-      }
-      
-      const { uid } = user;
+          if (tokens.facebook !== token) {
+            dispatch(updateUserLocally('tokens', {
+              facebook: token
+            }));
+          }
 
-      console.log("user", user);
-      dispatch({
-        type: SET,
-        payload: {
-          uid
+          if (auth.uid === null) {
+            const credential = FacebookAuthProvider.credential(token);
+            signInWithCredential(credential);
+          }
+        } else {
+          console.log ("We have no Facebook token");
         }
       });
-
-      dispatch(updateUser('tokens', {
-        facebook: facebook_token,
-      }));
-
-    }
-
-    dispatch(loadUser('info'));
-    dispatch(loadUser('is', true));
-
-    dispatch(serverAction({
-      type: 'USER_PING',
-      payload: {
-        event: 'LOGGED_IN'
-      }
-    }));
-
-  }
-};
+  };
+}
 
 export function login() {
   return (dispatch) => {
@@ -115,9 +117,10 @@ export function login() {
       ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
     ).then((result) => {
       dispatch(showStatusBar());
-
+ 
       if (result.isCancelled) {
 
+        dispatch({ type: LOADED });
 
         Actions.Card({
           label: `You've cancelled the login process`,
@@ -137,10 +140,8 @@ export function login() {
           ]
         });
 
-        dispatch(logout());
-
       } else {
-        dispatch(getAuth());
+        dispatch(syncFacebookToken());
       }
     });
 
@@ -149,7 +150,7 @@ export function login() {
 
 export function logout() {
   return dispatch => {
-    Promise.all([AsyncStorage.clear(), firebase.auth().signOut()]).then(() => {
+    Promise.all([signOut(), AsyncStorage.clear()]).then(() => {
       LoginManager.logOut();
       dispatch({ type: 'RESET' });
       Actions.Login();

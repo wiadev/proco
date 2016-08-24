@@ -1,6 +1,6 @@
 import {database} from '../../core/Api';
 
-export const getUserRef = (uid, child = null) => database().ref(`users/${uid}/${child || null}`);
+export const getUserRef = (uid, child = null) => database().ref().child(`users/${uid}/${child || null}`);
 
 import {
   serverAction,
@@ -27,63 +27,99 @@ export function updateUserLocally(type, data) {
   };
 }
 
-export function updateUser(type, data = {}, after = () => {
-}) {
+export function syncLocalUserToDatabase(type) {
   return (dispatch, getState) => {
     const state = getState();
-    console.log("state", state);
-    console.log("update user", type, data, after)
+    if (!state.auth.uid) return;
+    const typeToReducer = {
+      'is': 'isUser',
+      'info': 'user',
+      'settings': 'settings',
+      'tokens': 'tokens',
+      'filters': 'filters',
+    };
+    const dontSync = ['hasStartedLoading', 'isLoaded', 'unread_messages'];
+    const data = state[typeToReducer[type]];
+    const toSync = Object.keys(data).filter((key) => {
+      return !(dontSync.indexOf(key) > -1);
+    });
+    let newData = {};
+    toSync.forEach(key => newData[key] = data[key]);
+    dispatch(updateUser(type, newData));
+  }
+}
+
+export function updateUser(type, data = {}, after = () => {
+}, immediatelyForLocal = false) {
+  return (dispatch, getState) => {
+    const state = getState();
+
     if (!state.auth.uid) {
-      setTimeout(() => { // Poor way to defer requests
-        dispatch(updateUser(type, data, after));
-      }, 250);
+      console.log("User is not logged in (trying to update)");
       return;
     }
 
-    getUserRef(state.auth.uid, type).update(data).then(() => {
+    const ref = getUserRef(state.auth.uid, type);
+    ref.update(data).then(() => {
       dispatch(updateUserLocally(type, data));
-      dispatch(serverAction({
-        type: getUserUpdatedActionTypeFor(type),
-        payload: {
-          ...data
-        }
-      }));
-
       after();
-
     });
   };
 }
 
 export function loadUser(type, realtime = false) {
   return (dispatch, getState) => {
-    const {auth} = getState();
+    const {auth,isUser} = getState();
     if (!auth.uid) return;
+    //if (type === 'is' && realtime === true && isUser.hasStartedLoading === true) return;
 
     const unsubs = getUserRef(auth.uid, type).on('value',
-      (snap) => {
-        if (snap) {
-          const data = snap.val();
-          if (data) {
-            dispatch(updateUserLocally(type, data));
-            if(unsubs && !realtime) unsubs();
-          } else {
-            dispatch(serverAction({
-              type: 'USER_FIRST_LOGIN',
-              payload: {}
-            }));
-            dispatch(serverAction({
-              type: 'USER_GENERATE_DATA',
-              payload: {
-                type
-              }
-            }));
+      async (snapshot) => {
+        const data = await snapshot.val();
+        if (data) {
+          dispatch(updateUserLocally(type, data));
+          if (unsubs && !realtime) unsubs();
+        } else {
+          dispatch(syncLocalUserToDatabase(type));
+          if(type === 'info') {
+            dispatch(generateInitialInfo());
           }
         }
-      },
-      (err) => {
-        console.log("error", err);
-      }
-    );
+      });
+  };
+}
+
+export function generateInitialInfo() {
+  return (dispatch, getState) => {
+    const { tokens } = getState();
+    if (!tokens.facebook) return;
+    const fields = ['id', 'name', 'birthday', 'gender', 'age_range', 'first_name', 'last_name'].join(',');
+    fetch(`https://graph.facebook.com/v2.7/me?access_token=${tokens.facebook}&fields=${fields}`)
+      .then((response) => response.json())
+      .then((response) => {
+        const { id, name, gender, age_range, first_name, last_name, birthday } = response;
+
+        let info = {
+          fid: id,
+          name,
+          gender,
+          age_range_on_facebook: age_range,
+          first_name,
+          last_name
+        };
+
+        if (birthday) {
+          let _birthday = birthday.split('/');
+          info.birthday = `${_birthday[1]}/${_birthday[0]}/${_birthday[2]}`;
+          info.birthyear = _birthday[2];
+        }
+
+        dispatch(updateUser('info', info));
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
   };
 }

@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
+    "prestart": "cd ../common && npm run copy && cd ../mobile",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "bugs": "https://github.com/barbar/proco/issues",
@@ -11,8 +12,6 @@
     "url": "https://github.com/barbar/proco"
   },
   "dependencies": {
-    "firebase": "^3.3.0",
-    "immutable": "3.8.1",
     "lodash": "4.14.1",
     "moment": "^2.14.1",
     "react": "15.2.1",
@@ -47,6 +46,7 @@
     "redux-persist-immutable": "^1.0.5",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.1.0",
+    "rn-firebase-bridge": "0.0.10",
     "validator": "^5.5.0"
   },
   "devDependencies": {

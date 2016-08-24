@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BE17DD1AEBD5F86BBFE28FC47186151E0D41E4E6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "BE17DD1AEBD5F86BBFE28FC47186151E0D41E4E6" : 0,
+    "A521D7639F59E6C590C5D25061045DE280AD26EC" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "83DD0281-B7C5-48CE-AD83-D9CACFCB90ED",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "BE17DD1AEBD5F86BBFE28FC47186151E0D41E4E6" : "proco\/",
+    "A521D7639F59E6C590C5D25061045DE280AD26EC" : "proco\/code\/mobile\/node_modules\/rn-firebase-bridge\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Proco",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "code\/mobile\/ios\/Proco.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:batuhan\/rn-firebase-bridge.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A521D7639F59E6C590C5D25061045DE280AD26EC"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:barbar\/proco.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BE17DD1AEBD5F86BBFE28FC47186151E0D41E4E6"
+    }
+  ]
+}

@@ -42,7 +42,8 @@ class Login extends Component {
     return (
       !(props.user.isLoaded === this.props.user.isLoaded) ||
       !(props.auth.isInProgress === this.props.auth.isInProgress) ||
-      !(props.auth.uid === this.props.auth.uid)
+      !(props.auth.uid === this.props.auth.uid) ||
+      !(props.isUser.verified === this.props.isUser.verified)
     );
   }
 

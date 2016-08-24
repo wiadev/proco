@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Actions, ActionConst, Router, Scene, Reducer} from 'react-native-router-flux';
 import Wrapper from './Wrapper';
 
-import { Login, Register, Verification } from '../../scenes/Authentication';
+import { Login, Register, EmailVerification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
 import Filters from '../../scenes/Filters';
@@ -42,7 +42,7 @@ const scenes = Actions.create(
     >
         <Scene key="Login" component={Login}  initial />
         <Scene key="Register" component={Register} />
-        <Scene key="Verification" animation="fade" component={Verification} />
+        <Scene key="EmailVerification" animation="fade" component={EmailVerification} />
         <Scene key="Main" component={Main} animation="fade" />
         <Scene key="Settings" component={Settings} direction="vertical" />
         <Scene key="Filters" component={Filters} direction="vertical" />
@@ -54,6 +54,5 @@ const scenes = Actions.create(
 
 
 export default function Routes (props) {
-  console.log(props);
   return <Router createReducer={reducerCreate} scenes={scenes} {...props} />;
 };
