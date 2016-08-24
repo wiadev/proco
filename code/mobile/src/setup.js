@@ -5,16 +5,7 @@ import { AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { configureStore } from './store/configureStore';
 import App from './App';
-import * as firebase from 'firebase';
-
 const setup = () => {
-
-  firebase.initializeApp({
-    apiKey: 'AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc',
-    authDomain: 'hello-4c376.firebaseapp.com',
-    storageBucket: 'hello-4c376.appspot.com',
-    databaseURL: 'https://hello-4c376.firebaseio.com',
-  });
 
   class Root extends Component {
 

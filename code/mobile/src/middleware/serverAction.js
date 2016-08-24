@@ -39,8 +39,7 @@ export default function serverActionMiddleware() {
           }),
         };
 
-        console.log("data", data);
-        let results = ref.set(data).then(() => {
+        let results = ref.setValue(data).then(() => {
           return data;
         });
 
@@ -50,15 +49,14 @@ export default function serverActionMiddleware() {
             const ref = getReferenceForAction(data.action, 'results').child(data.payload.key);
 
             return new Promise((resolve, reject) => {
-              ref.on('value', (snap) => {
-                const result = snap.val();
-                if (result !== null) {
-                  resolve(Object.assign(data, {
-                    result
-                  }));
-                  ref.off();
-                  ref.remove();
-                }
+              const off = ref.on('value', async (snap) => {
+                  const result = await snap.val();
+                  if (result !== null) {
+                    resolve(Object.assign(data, {
+                      result
+                    }));
+                    off();
+                  }
               });
             });
           });
