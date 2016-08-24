@@ -19,8 +19,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingBottom: 10
   },
-  actionButton: {
-    alignSelf: 'flex-end',
+  bottomButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  bottomButton: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 50,
@@ -30,9 +33,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primaryAlt,
     overflow: 'hidden',
   },
-  actionButtonIcon: {
+  bottomButtonIcon: {
     alignSelf: 'center',
-    color: '#F9365F' // TODO: This color is not in our palette. Should be added to palette or replaced.
+    color: '#F9365F' // FIXME: This color is not in our palette. Should be added to palette or replaced.
   }
 });
 
