@@ -12,7 +12,6 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
-@import Firebase;
 #import "RNFIRMessaging.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>

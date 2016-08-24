@@ -1,2 +1,2 @@
-import * as firebase from 'firebase';
-export const database = () => firebase.database();
+import Database from 'rn-firebase-bridge/database';
+export const database = () => Database;

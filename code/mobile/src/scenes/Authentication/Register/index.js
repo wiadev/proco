@@ -23,6 +23,7 @@ import Header from '../../../components/Header';
 import Card from '../../../components/Card';
 import Picker from 'react-native-picker';
 import {NetworkEmailValidation} from '../../../core/common/Validations';
+
 const charMap = {ç:'c',ö:'o',ş:'s',ı:'i',ü:'u',ğ:'g'};
 const clearTurkishChars = (str) => {
   return str.toLocaleLowerCase().split('').filter(c => (c !== ' ')).map(c => charMap[c] || c).join('');
@@ -96,13 +97,10 @@ export default class Register extends Component {
 
     NetworkEmailValidation(this.state.email)
       .then((email) => {
-        Actions.Verification({
-          verify: 'email',
-          to: email.email,
-        });
+        Actions.EmailVerification(email.email);
       })
       .catch(e => {
-        console.log("catch", e)
+
         let label, text;
         switch (e) {
           case 'CHECK_EMAIL':
@@ -169,7 +167,7 @@ export default class Register extends Component {
   }
 
   componentWillMount() {
-    this.setState({email: this.props.user.network_email});
+    this.setState({email: this.props.user.email});
   }
 
   render() {

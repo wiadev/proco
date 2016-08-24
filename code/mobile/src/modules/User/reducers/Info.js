@@ -14,7 +14,7 @@ export const initialState = {
   gender: null,
   first_name: null,
   birthday: null,
-  network_email: null,
+  email: null,
   unread_messages: 0,
 };
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {AppState, NetInfo, View, StatusBar, Linking} from 'react-native';
 import {connect} from 'react-redux';
 import InAppAlert  from './components/InAppAlert';
-import {loadAuth,logout} from './modules/Authentication/actions';
+import {startCheckingAuth,logout} from './modules/Authentication/actions';
 import {syncPermissions, updateNotificationToken} from './modules/Permissions/actions';
 import {clearInAppAlert,createAlert} from './modules/InAppAlert/actions';
 import NoInternetModal from './components/NoInternetModal';
@@ -53,7 +53,7 @@ class App extends Component {
   handleAppStateChange(appState) {
     this.props.dispatch(syncPermissions());
     if (appState == 'active') {
-      this.props.dispatch(loadAuth());
+      this.props.dispatch(startCheckingAuth());
       this.refreshUnsubscribe = FCM.on('refreshToken',
         (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
       FCM.getFCMToken().then(fcm_token =>

@@ -6,7 +6,7 @@ const initialState = {
   ageMax: 40,
   onlyFromSchool: false,
   showFriendsInDiscovery: true,
-  gender: 'Male',
+  gender: 'Both',
 };
 
 export default function reducer(state = initialState, action = {}) {

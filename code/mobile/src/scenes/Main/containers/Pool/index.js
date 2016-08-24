@@ -60,7 +60,7 @@ export default class Pool extends Component {
       return (<Card label="No one seems to be nearby" noClose={true} />);
     }
     return items.map((item, key) => {
-      return (<PoolItem key={key} />);
+      return (<PoolItem key={key} isMounted={key === this.state.index } />);
     });
   }
   render() {
