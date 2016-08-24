@@ -3,6 +3,7 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
+    "prestart": "cd ../common && npm run copy && cd ../mobile",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "bugs": "https://github.com/barbar/proco/issues",
