@@ -5,23 +5,21 @@ import {
   StatusBar,
   ScrollView,
   Image,
+  Dimensions,
   ActionSheetIOS,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import ChatComponent from 'react-native-gifted-messenger';
+import {GiftedChat} from 'react-native-gifted-chat';
 import MessageBox from '../Box';
-
 import { styles, messengerStyle } from './styles';
 
+const height = Dimensions.get('window').height;
+
 class Conversation extends Component {
-  static getStyles() {
-    return styles;
-  }
 
   constructor(props) {
     super(props);
-    this.styles = styles;
    // this.state = store.getState().talkScreenReducer.toJS();
   }
 
@@ -29,11 +27,6 @@ class Conversation extends Component {
 
   onPressBottomLeft() {
     Actions.pop();
-  }
-
-  onSend(message) {
-    this.props.handleSend(message);
-    this.refs.ChatComponent.onChangeText('');
   }
 
   showActionSheet() {
@@ -57,9 +50,9 @@ class Conversation extends Component {
 
   render() {
     return (
-      <View style={this.styles.preview}>
-        <View style={this.styles.topMenu}>
-          <View style={this.styles.topMenuLeft}>
+      <View style={styles.preview}>
+        <View style={styles.topMenu}>
+          <View style={styles.topMenuLeft}>
             <Icon
               name="angle-left"
               size={42}
@@ -69,19 +62,19 @@ class Conversation extends Component {
               }}
             />
           </View>
-          <View style={this.styles.topMenuMid}>
-            <View style={this.styles.rowItem}>
-              <View style={[this.styles.rowItemFirst]}>
-                <View style={this.styles.rowItemImage}>
-                  <Image style={this.styles.avatarImage} source={require('../../../assets/images/exampleAvatar.jpg')} />
+          <View style={styles.topMenuMid}>
+            <View style={styles.rowItem}>
+              <View style={[styles.rowItemFirst]}>
+                <View style={styles.rowItemImage}>
+                  <Image style={styles.avatarImage} source={require('../../../assets/images/exampleAvatar.jpg')} />
                 </View>
               </View>
-              <View style={[this.styles.rowItemSecond]}>
-                <Text style={this.styles.rowItemUsername}>{'Leyla'}</Text>
+              <View style={[styles.rowItemSecond]}>
+                <Text style={styles.rowItemUsername}>{'Leyla'}</Text>
               </View>
             </View>
           </View>
-          <View style={this.styles.topMenuRight}>
+          <View style={styles.topMenuRight}>
             <Icon
               name="navicon"
               size={24}
@@ -91,9 +84,9 @@ class Conversation extends Component {
           </View>
         </View>
         <ScrollView>
-          <ChatComponent
+          <GiftedChat
             autoFocus={false}
-            ref='ChatComponent'
+            ref='Chat'
             maxHeight={height - 70}
             blurOnSubmit={false}
             displayNames={false}
@@ -102,9 +95,8 @@ class Conversation extends Component {
             placeholder={'Your message?'}
             styles={messengerStyle}
             messages={this.props.messages}
-            onCustomSend={::this.onSend}
+            onSend={::this.props.onSend}
             sendButtonText={'SEND'}
-            renderCustomText={(props) => <MessageBox type={'chatScreen'} {...props} />}
           />
         </ScrollView>
       </View>

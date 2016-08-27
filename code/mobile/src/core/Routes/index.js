@@ -49,7 +49,7 @@ const scenes = Actions.create(
         <Scene key="Settings" component={Settings} direction="vertical" />
         <Scene key="Filters" component={Filters} direction="vertical" />
         <Scene key="Conversations" component={Conversations}  />
-        <Scene key="Conversation" component={Conversation}  direction="vertical"  />
+        <Scene key="Conversation" component={Conversation}  />
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}

@@ -6,7 +6,7 @@ import {
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   preview: {
     position: 'relative',
     height,
@@ -144,6 +144,3 @@ export const messengerStyle = {
     color: 'white',
   },
 };
-
-
-export default styles;

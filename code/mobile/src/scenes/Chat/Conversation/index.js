@@ -8,13 +8,14 @@ import {GiftedChat} from 'react-native-gifted-chat';
 
 const getConversationFromListRef = (uid, mid) => database().ref().child(`conversation-lists/${uid}/${mid}`);
 const getUserBasicInfo = (uid) => database().ref().child(`users/${uid}/info`); //@TODO: revert this to info index
-const getConversationsRef = (cid = null) => database().ref().child(`conversations/${cid || null}`);
+const getConversationsRef = () => database().ref().child(`conversations`);
 
 import { connect } from 'react-redux';
 
 @connect(
   state => ({
     auth: state.auth,
+    user: state.user,
   }),
 )
 export default class ConversationContainer extends Component {
@@ -22,9 +23,9 @@ export default class ConversationContainer extends Component {
     super(props);
     this.listeners = {};
     this.currentUser = {
-      name: this.props.user.first_name,
-      '_id': this.props.auth.uid,
-      avatar: getFacebookProfilePhotoUri(this.props.user.fid),
+      name: props.user.first_name,
+      '_id': props.auth.uid,
+      avatar: getFacebookProfilePhotoUri(props.user.fid),
     };
     this.conversationRef = null;
   }
@@ -54,31 +55,18 @@ export default class ConversationContainer extends Component {
 
       this.setState((previousState) => {
         return {
-          data: data,
           messages: GiftedChat.append(previousState.messages, [message]),
         };
       });
     };
 
-    const listItem = getConversationFromListRef(this.props.auth.uid, this.props.uid);
-    const listItemCIDRef = listItem.child('cid');
+    const startListeners = (cid) => {
+      self.conversationRef = getConversationsRef().child(cid);
+      this.listeners.messageAdded = self.conversationRef.on('child_added', addedOrChanged);
 
-    listItemCIDRef.child('cid').once('value', async (snapshot) => {
-      let cid = await snapshot.val();
+      this.listeners.messageChanged = self.conversationRef.on('child_changed', addedOrChanged);
 
-      if (cid === null) {
-        self.conversationRef = getConversationsRef().push();
-        cid = await conversationRef.key();
-        listItemCIDRef.set(cid);
-      } else {
-        self.conversationRef = getConversationsRef(cid);
-      }
-
-      this.listeners.messageAdded = conversationRef.on('child_added', addedOrChanged);
-
-      this.listeners.messageChanged = conversationRef.on('child_changed', addedOrChanged);
-
-      this.listeners.messageRemoved = conversationRef.on('child_removed',
+      this.listeners.messageRemoved = self.conversationRef.on('child_removed',
         async (snapshot) => {
           const key = await snapshot.key();
 
@@ -88,13 +76,33 @@ export default class ConversationContainer extends Component {
 
           this.setState({data: data, messages: generateMessages(data)});
         });
+    };
 
+    if (!this.props.cid) {
 
-    });
+      const listItem = getConversationFromListRef(this.props.auth.uid, this.props.uid);
+      const listItemCIDRef = listItem.child('cid');
 
-    this.listeners.matchedUser = getUserBasicInfo(this.props.uid).on('once', async (snapshot) => {
+      listItemCIDRef.once('value', async(snapshot) => {
+        let cid = await snapshot.val();
+
+        if (cid === null) {
+          self.conversationRef = getConversationsRef().push();
+          cid = await self.conversationRef.key();
+          listItemCIDRef.setValue(cid);
+        }
+
+        startListeners(cid);
+
+      });
+
+    } else {
+      startListeners(this.props.cid);
+    }
+
+    this.listeners.matchedUser = getUserBasicInfo(this.props.uid).once('value', async (snapshot) => {
       const user = await snapshot.val();
-      this.setState({matcheduser: user});
+      this.setState({matchedUser: user});
     });
   }
 
@@ -102,16 +110,23 @@ export default class ConversationContainer extends Component {
     this.props.dispatch(setStatusBarStyle('default'));
   }
 
-  handleSend(text) {
-    this.conversationRef.push({
-      text
+  onSend(messages) {
+    messages.forEach(message => {
+      const messageRef = this.conversationRef.push();
+      messageRef.setValue({
+        text: message.text,
+        sender: this.props.auth.uid,
+        createdAt: message.createdAt,
+      });
+
     });
   }
+
   render() {
     return (<Conversation
-      user={::this.currentUser}
+      user={this.currentUser}
       fid="123"
-      handleSend={::this.handleSend}
+      onSend={::this.onSend}
       messages={this.state.messages}
     />);
   }

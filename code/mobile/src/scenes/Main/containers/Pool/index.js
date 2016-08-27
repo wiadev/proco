@@ -48,7 +48,15 @@ export default class Pool extends Component {
   }
 
   state = {
-    people: [1,2,3],
+    people: [{
+      uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
+    },
+      {
+        uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
+      },
+      {
+        uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
+      }],
     index: 0
   };
 
@@ -61,7 +69,7 @@ export default class Pool extends Component {
       return (<Card label="No one seems to be nearby" noClose={true} />);
     }
     return items.map((item, key) => {
-      return (<PoolItem key={key} isMounted={key === this.state.index } />);
+      return (<PoolItem key={key} isMounted={key === this.state.index } {...item} />);
     });
   }
   render() {

@@ -3,7 +3,6 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
-    "prestart": "cd ../common && npm run copy && cd ../mobile",
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "bugs": "https://github.com/barbar/proco/issues",
@@ -25,7 +24,7 @@
     "react-native-fbsdk": "0.3.0",
     "react-native-fcm": "^1.0.16",
     "react-native-fs": "1.5.1",
-    "react-native-gifted-messenger": "0.1.4",
+    "react-native-gifted-chat": "0.0.10",
     "react-native-image-picker": "0.21.2",
     "react-native-image-sequence": "^0.1.3",
     "react-native-linear-gradient": "1.5.12",
@@ -46,7 +45,7 @@
     "redux-persist-immutable": "^1.0.5",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.1.0",
-    "rn-firebase-bridge": "0.0.10",
+    "rn-firebase-bridge": "batuhan/rn-firebase-bridge#feature/FIRUser",
     "validator": "^5.5.0"
   },
   "devDependencies": {

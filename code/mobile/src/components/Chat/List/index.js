@@ -33,14 +33,14 @@ class List extends Component {
     Actions.pop();
   }
 
-  onItemPress() {
-    Actions.talkScreen();
+  onItemPress(cid) {
+    Actions.Conversation({ cid });
   }
 
   renderRow(rowData) {
     return (
-      <TouchableHighlight onPress={::this.onItemPress}>
-        <View style={styles.rowItem} onPress={::this.onItemPress}>
+      <TouchableHighlight onPress={() => ::this.onItemPress(rowData.cid)}>
+        <View style={styles.rowItem} onPress={() => ::this.onItemPress(rowData.cid)}>
           <View style={[styles.rowItemLeft, {
             width: width * 20 / 100,
           }]}>

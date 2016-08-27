@@ -13,7 +13,6 @@ Tokens as tokensReducer,
 } from '../modules/User/reducers';
 import permissionsReducer from '../modules/Permissions/reducer';
 import statusBarReducer from '../modules/StatusBar/reducer';
-import chatReducer from '../modules/Chat/reducer';
 
 const reducers = {
   inAppAlerts: inAppAlertReducer,
@@ -25,7 +24,6 @@ const reducers = {
   isUser: isUserReducer,
   permissions: permissionsReducer,
   statusbar: statusBarReducer,
-  chat: chatReducer,
 };
 
 const namespacedReducer = combineReducers(
