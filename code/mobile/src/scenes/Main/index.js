@@ -14,8 +14,8 @@ import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
 import GodMode from './containers/GodMode';
-import MessageCountIcon from '../../components/Messages/CountIcon';
-import IconM from 'react-native-vector-icons/MaterialIcons';
+import MessageCountIcon from '../../components/Chat/CountIcon';
+import { Actions } from 'react-native-router-flux';
 
 import styles from './styles';
 
@@ -70,7 +70,9 @@ class MainScreen extends Component {
           position: 'absolute',
           top: 20,
           right: 20,
-        }}><MessageCountIcon messageCount={5} /></View>
+        }}>
+          <MessageCountIcon messageCount={5} onPress={Actions.ConversationList} />
+        </View>
 
       </View>
     );

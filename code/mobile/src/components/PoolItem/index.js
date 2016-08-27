@@ -9,9 +9,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
 
 import ProfileImageSequence from '../ProfileImageSequence';
-import MessageBox from '../Messages/Box';
+import MessageBox from '../Chat/Box';
 
 import styles from './styles';
 import colors from '../../core/style/colors';
@@ -57,6 +58,12 @@ export default class PoolItem extends React.Component {
       }
     ],
     onComplete: (eventType, params) => {
+
+      switch (eventType) {
+        case 'START-CONVERSATION':
+          Actions.Conversation(params);
+          break;
+      }
       // eventType: ['ANSWER' | 'START-CONVERSATION' | 'BLOCK' | 'REPORT']
       console.log(eventType, params);
     }
@@ -85,6 +92,7 @@ export default class PoolItem extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
         <ProfileImageSequence isMounted={this.props.isMounted} images={this.props.sequenceImages}>
@@ -211,6 +219,7 @@ export default class PoolItem extends React.Component {
   }
 
   _onActionButtonPress() {
+    console.log("ppp", this.props)
     // If this.state.action is 'answer', this button should enable answer input.
     // Otherwise it should initiate a chat with the user.
     if (this.state.action === 'answer') {
@@ -220,7 +229,7 @@ export default class PoolItem extends React.Component {
         answerInputVisible: true
       });
     } else {
-      this.props.onComplete('START-CONVERSATION');
+      this.props.onComplete('START-CONVERSATION', { uid: this.props.uid });
     }
   }
 }

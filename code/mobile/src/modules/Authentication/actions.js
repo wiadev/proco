@@ -2,7 +2,8 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { AsyncStorage, Linking } from 'react-native';
 import { Actions, ActionConst } from 'react-native-router-flux';
 import { FacebookAuthProvider, signInWithCredential, addAuthStateDidChangeListener, signOut } from 'rn-firebase-bridge/auth';
-import { reauthenticateWithCredential } from 'rn-firebase-bridge/user';
+import { reauthenticateWithCredential, sendEmailVerification, updateEmail } from 'rn-firebase-bridge/user';
+import {NetworkEmailValidation} from '../../core/common/Validations';
 
 import { hideStatusBar, showStatusBar } from '../StatusBar/actions';
 import React from 'react';
@@ -46,6 +47,7 @@ export const startCheckingAuth = () => {
   return (dispatch, getState) => {
     dispatch(syncFacebookToken());
     addAuthStateDidChangeListener(payload => {
+      console.log("payload", payload);
       const { auth, isUser, user } = getState();
       if (payload) {
 
@@ -146,6 +148,90 @@ export function login() {
     });
 
   };
+}
+
+export function updateNetworkEmail(email, focusToEmail = () => {}) {
+  return dispatch => {
+      let buttons = [{
+        text: "Learn more",
+        onPress: () => {
+          Actions.pop();
+          setImmediate(() => {
+            Actions.AboutSchoolEmails();
+          });
+        }
+      }, {
+        text: "Close",
+        onPress: () => {
+          Actions.pop();
+          setImmediate(() => focusToEmail());
+        }
+      }];
+
+      if (!email) {
+        Actions.Card({
+          label: "Your school email is missing",
+          text: "Proco needs your school email to verify your school.",
+          buttons,
+          noClose: true,
+        });
+        return;
+      }
+
+      NetworkEmailValidation(email)
+        .then((email) => {
+          dispatch(reAuthenticate(() => {
+            updateEmail(email.email).then(() => {
+              sendEmailVerification().then(() => {
+                console.log("oldu");
+              }).catch((e) => {
+                console.log("olmadı", e)
+              })
+            }).catch(e => {
+              console.log(e, "firebase mail dnied");
+            });
+          }));
+        })
+        .catch(e => {
+
+          let label, text;
+          switch (e) {
+            case 'CHECK_EMAIL':
+            case 'INVALID_EMAIL':
+              label = "Something seems to be wrong with your email address";
+              text = "It doesn't appear to be a valid school address.";
+              break;
+            case 'ONLY_STUDENT':
+              label = "Only student e-mails are accepted.";
+              text = "Your university is a part of Proco but the e-mail you gave appears to be a staff address. Only students can use Proco for now.";
+              break;
+            case 'NETWORK_NOT_SUPPORTED':
+              label = "Your university is not yet supported by Proco";
+              text = "You can get in to the waiting list so we can let you know when you can use Proco at your school.";
+              buttons = [{
+                text: "Sounds good!",
+                onPress: () => {
+                  Actions.pop();
+                  setImmediate(() => focusToEmail());
+                }
+              }];
+              break;
+            case 'COMMON_PROVIDER':
+              label = "You have to give your university provided email addresses";
+              text = "The one you've gave seems like personal one";
+              break;
+          }
+
+          Actions.Card({
+            label,
+            text,
+            buttons,
+            noClose: true
+          });
+
+        });
+
+  }
 }
 
 export function logout() {

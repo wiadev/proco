@@ -24,6 +24,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb1169837529717559</string>
+        <string>proco</string>
 			</array>
 		</dict>
 	</array>
