@@ -71,7 +71,7 @@ class MainScreen extends Component {
           top: 20,
           right: 20,
         }}>
-          <MessageCountIcon messageCount={5} onPress={() => Actions.Conversations()} />
+          <MessageCountIcon messageCount={5} onPress={Actions.ConversationList} />
         </View>
 
       </View>

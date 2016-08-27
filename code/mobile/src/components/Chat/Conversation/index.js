@@ -12,6 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {GiftedChat} from 'react-native-gifted-chat';
 import MessageBox from '../Box';
+import FacebookProfilePhoto from '../../FacebookProfilePhoto';
 import { styles, messengerStyle } from './styles';
 
 const height = Dimensions.get('window').height;
@@ -66,11 +67,11 @@ class Conversation extends Component {
             <View style={styles.rowItem}>
               <View style={[styles.rowItemFirst]}>
                 <View style={styles.rowItemImage}>
-                  <Image style={styles.avatarImage} source={require('../../../assets/images/exampleAvatar.jpg')} />
+                  <FacebookProfilePhoto styles={styles.avatarImage} fid={this.props.fid} />
                 </View>
               </View>
               <View style={[styles.rowItemSecond]}>
-                <Text style={styles.rowItemUsername}>{'Leyla'}</Text>
+                <Text style={styles.rowItemUsername}>{this.props.name}</Text>
               </View>
             </View>
           </View>

@@ -102,7 +102,11 @@ export default class ConversationContainer extends Component {
 
     this.listeners.matchedUser = getUserBasicInfo(this.props.uid).once('value', async (snapshot) => {
       const user = await snapshot.val();
-      this.setState({matchedUser: user});
+      this.setState({matchedUser: {
+        fid: user.fid,
+        name: user.first_name,
+        uid: this.props.uid,
+      }});
     });
   }
 
@@ -124,10 +128,9 @@ export default class ConversationContainer extends Component {
 
   render() {
     return (<Conversation
-      user={this.currentUser}
-      fid="123"
       onSend={::this.onSend}
       messages={this.state.messages}
+      {...this.state.matchedUser}
     />);
   }
 }
