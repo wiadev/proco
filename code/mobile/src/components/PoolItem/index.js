@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 
 import ProfileImageSequence from '../ProfileImageSequence';
-import MessageBox from '../Messages/Box';
+import MessageBox from '../Chat/Box';
 
 import styles from './styles';
 import colors from '../../core/style/colors';

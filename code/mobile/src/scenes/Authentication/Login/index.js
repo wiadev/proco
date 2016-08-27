@@ -48,9 +48,12 @@ class Login extends Component {
   }
 
   checkAuthAndRedirect(props = this.props) {
+    console.log("authprops", props);
     if (props.isUser.verified) {
       Actions.Main();
-    } else if(props.auth.uid && props.user.isLoaded) {
+    } else if(props.user.email) {
+      Actions.EmailVerification();
+    } else if(props.user.isLoaded) {
       Actions.Register();
     }
   }

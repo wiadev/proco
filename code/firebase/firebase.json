@@ -3,6 +3,15 @@
     "rules": "development.json"
   },
   "hosting": {
-    "public": "site/public"
+    "rewrites": [
+      {
+        "source": "/dashboard/**",
+        "destination": "/apps/dashboard/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/apps/site/index.html"
+      }
+    ]
   }
 }

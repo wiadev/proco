@@ -93,6 +93,8 @@ export function generateInitialInfo() {
   return (dispatch, getState) => {
     const { tokens } = getState();
     if (!tokens.facebook) return;
+
+    console.log("generaitng initial")
     const fields = ['id', 'name', 'birthday', 'gender', 'age_range', 'first_name', 'last_name'].join(',');
     fetch(`https://graph.facebook.com/v2.7/me?access_token=${tokens.facebook}&fields=${fields}`)
       .then((response) => response.json())

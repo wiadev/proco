@@ -30,7 +30,10 @@ export default class UpperMenu extends Component {
             hideLeft={true}
             hideRight={true}
           />
-          <FacebookProfilePhoto fid={this.props.fid} />
+          <View style={styles.avatar}>
+            <FacebookProfilePhoto styles={styles.avatarImage} fid={this.props.fid} size="large" />
+          </View>
+
           <View style={styles.menuList}>
             <View style={styles.menuItem}>
               <Text style={styles.menuItemText} onPress={Actions.UpdateYourQuestionScreen}>
