@@ -38,7 +38,7 @@ export default class UpperMenu extends Component {
               </Text>
             </View>
             <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.ShootNewProfileScreen}>
+              <Text style={styles.menuItemText} onPress={Actions.ShootNewProfileLoop}>
                 Shoot a new profile loop
               </Text>
             </View>

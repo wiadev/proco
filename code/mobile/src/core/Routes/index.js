@@ -5,6 +5,7 @@ import Wrapper from './Wrapper';
 import { Login, Register, EmailVerification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
+import ShootNewProfileLoop from '../../scenes/ShootNewProfileLoop';
 import Filters from '../../scenes/Filters';
 import WebView from '../../components/WebView';
 import Card from '../../components/Card';
@@ -36,16 +37,14 @@ const staticPageScenes = () => {
 };
 const scenes = Actions.create(
   <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
-    <Scene
-      key="root"
-      hideNavBar
-    >
-        <Scene key="Login" component={Login}  initial />
-        <Scene key="Register" component={Register} />
-        <Scene key="EmailVerification" animation="fade" component={EmailVerification} />
-        <Scene key="Main" component={Main} animation="fade" />
-        <Scene key="Settings" component={Settings} direction="vertical" />
-        <Scene key="Filters" component={Filters} direction="vertical" />
+    <Scene key="root" hideNavBar>
+      <Scene key="Login" component={Login} initial={true} />
+      <Scene key="Register" component={Register} />
+      <Scene key="EmailVerification" animation="fade" component={EmailVerification} />
+      <Scene key="Main" component={Main} animation="fade" />
+      <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop} direction="vertical" />
+      <Scene key="Settings" component={Settings} direction="vertical" />
+      <Scene key="Filters" component={Filters} direction="vertical" />
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}
