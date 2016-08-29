@@ -5,17 +5,22 @@ import {
 import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
 
+import profileLoopConfig from '../../core/config/profileLoop';
 import styles from './styles';
 
 @reactMixin.decorate(reactTimerMixin)
-export default class ProfileImageSequence extends React.Component {
+export default class ProfileLoop extends React.Component {
   static propTypes = {
     isMounted: React.PropTypes.bool.isRequired,
-    images: React.PropTypes.array.isRequired,
+    photos: React.PropTypes.array.isRequired,
+    local: React.PropTypes.bool,
+    continuous: React.PropTypes.bool,
     style: React.PropTypes.any
   };
 
   static defaultProps = {
+    local: false,
+    continuous: false,
     style: null
   };
 
@@ -47,7 +52,7 @@ export default class ProfileImageSequence extends React.Component {
 
   render() {
     return (
-      <Image source={{uri: this.props.images[this.state.currentFrame]}} style={[styles.profileImageSequence, this.props.style]}>
+      <Image source={{isStatic: this.props.local, uri: this.props.photos[this.state.currentFrame]}} style={[styles.profileLoop, this.props.style]}>
         {this.props.children}
       </Image>
     );
@@ -64,11 +69,11 @@ export default class ProfileImageSequence extends React.Component {
 
   _start() {
     if (!this._isRunning()) {
-      let imageSequence = this.setInterval(() => {
+      let photoSequence = this.setInterval(() => {
         let newState = {};
 
         if (this.state.nextFrameAction === 'increase') {
-          if (this.state.currentFrame === 17) {
+          if (this.state.currentFrame === profileLoopConfig.numberOfFrames - 1) {
             newState.nextFrameAction = 'decrease';
             newState.currentFrame = this.state.currentFrame - 1;
           } else {
@@ -78,19 +83,21 @@ export default class ProfileImageSequence extends React.Component {
 
         if (this.state.nextFrameAction === 'decrease') {
           if (this.state.currentFrame === 0) {
-            // newState.nextFrameAction = 'increase';
-            // newState.currentFrame = this.state.currentFrame + 1;
-
-            this._stop();
+            if (this.props.continuous) {
+              newState.nextFrameAction = 'increase';
+              newState.currentFrame = this.state.currentFrame + 1;
+            } else {
+              this._stop();
+            }
           } else {
             newState.currentFrame = this.state.currentFrame - 1;
           }
         }
         this.setState(newState);
-      }, 50);
+      }, profileLoopConfig.frameGap);
 
       this.setState({
-        func: imageSequence
+        func: photoSequence
       });
     }
   }

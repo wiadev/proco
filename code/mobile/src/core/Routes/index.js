@@ -5,6 +5,7 @@ import Wrapper from './Wrapper';
 import { Login, Register, EmailVerification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
+import ShootNewProfileLoop from '../../scenes/ShootNewProfileLoop';
 import Filters from '../../scenes/Filters';
 import Conversations from '../../scenes/Chat/List';
 import Conversation from '../../scenes/Chat/Conversation';
@@ -49,6 +50,7 @@ const scenes = Actions.create(
         <Scene key="Main" component={Main} animation="fade" />
         <Scene key="Settings" component={Settings} direction="vertical" />
         <Scene key="Filters" component={Filters} direction="vertical" />
+        <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop} />
         <Scene key="ConversationList" component={Conversations}  />
         <Scene key="Conversations">
           <Scene key="Conversation" component={Conversation} clone  />

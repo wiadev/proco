@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 
-import ProfileImageSequence from '../ProfileImageSequence';
+import ProfileLoop from '../ProfileLoop';
 import MessageBox from '../Chat/Box';
 
 import styles from './styles';
@@ -20,7 +20,7 @@ import colors from '../../core/style/colors';
 export default class PoolItem extends React.Component {
   static propTypes = {
     isMounted: React.PropTypes.bool.isRequired,
-    sequenceImages: React.PropTypes.array.isRequired,
+    profileLoopPhotos: React.PropTypes.array.isRequired,
     messages: React.PropTypes.array.isRequired,
     onComplete: React.PropTypes.func.isRequired,
   };
@@ -29,7 +29,7 @@ export default class PoolItem extends React.Component {
   static defaultProps = {
     // mock data
     isMounted: false,
-    sequenceImages: [
+    profileLoopPhotos: [
       'https://files.icoz.co/uploads/procolooptest01.jpg',
       'https://files.icoz.co/uploads/procolooptest02.jpg',
       'https://files.icoz.co/uploads/procolooptest03.jpg',
@@ -74,9 +74,9 @@ export default class PoolItem extends React.Component {
 
     this.state = {
       height: 0,
-      imageSequenceRunning: false,
-      imageSequenceAction: 'increase', // ['increase', 'decrease']
-      imageSequenceCurrentFrame: 0,
+      profileLoopRunning: false,
+      profileLoopAction: 'increase', // ['increase', 'decrease']
+      profileLoopCurrentFrame: 0,
       action: 'answer',
       answerInputVisible: false,
       answer: ""
@@ -95,7 +95,7 @@ export default class PoolItem extends React.Component {
     console.log(this.props)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileImageSequence isMounted={this.props.isMounted} images={this.props.sequenceImages}>
+        <ProfileLoop isMounted={this.props.isMounted} photos={this.props.profileLoopPhotos}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderMessages()}
@@ -119,7 +119,7 @@ export default class PoolItem extends React.Component {
               editable={true}
             />
           </KeyboardAvoidingView>
-        </ProfileImageSequence>
+        </ProfileLoop>
       </View>
     );
   }
