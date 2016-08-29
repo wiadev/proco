@@ -1,26 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Image,
-  View,
 } from 'react-native';
+export const getFacebookProfilePhotoUri = (fid, size = 'large') => `https://graph.facebook.com/v2.7/${fid}/picture?type=${size}`;
 
-import styles from './styles';
+const FacebookProfilePhoto = (props) => {
+  const { styles = {}, fid, size = 'large' } = props;
+  return <Image style={styles} source={{uri: getFacebookProfilePhotoUri(fid, size)}} />;
+};
 
-export default class FacebookProfilePhoto extends Component {
-
-  getPhotoURL(fid) {
-    return `https://graph.facebook.com/v2.7/${this.props.fid}/picture?type=large`;
-  }
-
-  componentWillMount() {
-    Image.prefetch(this.getPhotoURL());
-  }
-
-  render() {
-    return (
-      <View style={styles.avatar}>
-        <Image style={styles.avatarImage} source={{uri: this.getPhotoURL()}}/>
-      </View>
-    );
-  }
-}
+export default FacebookProfilePhoto;

@@ -15,14 +15,13 @@ import {
   MKTextField,
 } from 'react-native-material-kit';
 import DatePicker from 'react-native-datepicker';
-import {logout} from '../../../modules/Authentication/actions';
+import {logout,updateNetworkEmail} from '../../../modules/Authentication/actions';
 import {updateUser} from '../../../modules/User/actions';
 import {connect} from 'react-redux';
 import {Actions,ActionConst} from 'react-native-router-flux';
 import Header from '../../../components/Header';
 import Card from '../../../components/Card';
 import Picker from 'react-native-picker';
-import {NetworkEmailValidation} from '../../../core/common/Validations';
 
 const charMap = {ç:'c',ö:'o',ş:'s',ı:'i',ü:'u',ğ:'g'};
 const clearTurkishChars = (str) => {
@@ -64,82 +63,9 @@ export default class Register extends Component {
   focusToEmail() {
     this.refs.emailfield.focus();
   }
+
   onRightClick() {
-
-    let buttons = [{
-      text: "Learn more",
-      onPress: () => {
-        Actions.pop();
-        setImmediate(() => {
-          Actions.AboutSchoolEmails();
-        });
-      }
-    }, {
-      text: "Close",
-      onPress: () => {
-        Actions.pop();
-        setImmediate(() => {
-          this.focusToEmail();
-        });
-      }
-    }];
-
-    console.log(this.state.email);
-    if (!this.state.email) {
-      Actions.Card({
-        label: "Your school email is missing",
-        text: "Proco needs your school email to verify your school.",
-        buttons,
-        noClose: true,
-      });
-      return;
-    }
-
-    NetworkEmailValidation(this.state.email)
-      .then((email) => {
-        Actions.EmailVerification(email.email);
-      })
-      .catch(e => {
-
-        let label, text;
-        switch (e) {
-          case 'CHECK_EMAIL':
-          case 'INVALID_EMAIL':
-            label = "Something seems to be wrong with your email address";
-            text = "It doesn't appear to be a valid school address.";
-            break;
-          case 'ONLY_STUDENT':
-            label = "Only student e-mails are accepted.";
-            text = "Your university is a part of Proco but the e-mail you gave appears to be a staff address. Only students can use Proco for now.";
-            break;
-          case 'NETWORK_NOT_SUPPORTED':
-            label = "Your university is not yet supported by Proco";
-            text = "You can get in to the waiting list so we can let you know when you can use Proco at your school.";
-            buttons = [{
-              text: "Sounds good!",
-              onPress: () => {
-                Actions.pop();
-                setImmediate(() => {
-                  this.focusToEmail();
-                });
-              }
-            }]
-            break;
-          case 'COMMON_PROVIDER':
-            label = "You have to give your university provided email addresses";
-            text = "The one you've gave seems like personal one";
-            break;
-        }
-
-        Actions.Card({
-          label,
-          text,
-          buttons,
-          noClose: true
-        });
-
-      });
-
+    this.props.dispatch(updateNetworkEmail(this.state.email, this.focusToEmail));
   }
 
   onClickBack() {
@@ -278,7 +204,8 @@ export default class Register extends Component {
                 style={styles.email}
                 underlineEnabled={false}
                 ref="emailfield"
-                onTextChange={(email) => {
+                onChangeText={(email) => {
+                  console.log("email", email);
                   this.setState({email});
                 }}
                 onSubmitEditing={::this.onRightClick}

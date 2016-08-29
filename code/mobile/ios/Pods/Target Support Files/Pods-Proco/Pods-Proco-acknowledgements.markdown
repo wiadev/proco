@@ -113,6 +113,10 @@ Copyright 2016 Google
 
 Copyright 2016 Google
 
+## FirebaseDynamicLinks
+
+Copyright 2016 Google Inc.
+
 ## FirebaseInstanceID
 
 Copyright 2016 Google Inc.
