@@ -1,71 +1,100 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  StyleSheet,
   View,
-  Dimensions,
+  Text,
   Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import styles from './styles';
-import { Actions } from 'react-native-router-flux';
 
-class Header extends Component {
+const actorTypes = ['icon', 'text'];
 
-  static propTypes = {
-    leftIcon: React.PropTypes.string,
-    leftAction: React.PropTypes.func,
-    leftContainer: React.PropTypes.any,
-    rightAction: React.PropTypes.func,
-    rightContainer: React.PropTypes.any,
-    midContainer: React.PropTypes.any,
-    hideLeft: React.PropTypes.bool,
-    hideMid: React.PropTypes.bool,
-    hideRight: React.PropTypes.bool,
-  };
+const propTypes = {
+  title: React.PropTypes.string,
+  leftActorType: React.PropTypes.oneOf(actorTypes),
+  leftActor: React.PropTypes.string,
+  leftAction: React.PropTypes.func,
+  rightActorType: React.PropTypes.oneOf(actorTypes),
+  rightActor: React.PropTypes.string,
+  rightAction: React.PropTypes.func
+};
 
-  static defaultProps = {
-    leftIcon: 'chevron-thin-down',
-    hideLeft: false,
-    hideMid: false,
-    hideRight: false,
-    leftAction: () => Actions.pop
-  };
+const defaultProps = {
 
-  constructor(props) {
-    super(props);
-  }
+};
 
+export default class Header extends React.Component {
   render() {
     return (
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          {!this.props.hideLeft ? (
-            this.props.leftContainer ? this.props.leftContainer : (
-              <Icon
-                name={this.props.leftIcon}
-                size={34}
-                color="rgba(255,255,255,0.8)"
-                style={this.leftButtonTextStyle}
-                onPress={this.props.leftAction}
-              />
-            )
-          ) : null}
+        <View style={this._getColumnStyle('left')}>
+          {this._renderLeftActor()}
         </View>
-        <View style={styles.headerMid}>
-          {!this.props.hideMid ? (
-            this.props.midContainer ? this.props.midContainer : (
-              <Image style={styles.logo} resizeMode="contain" source={require('../../assets/images/logomini.png')} />
-            )
-          ) : null}
+
+        <View style={this._getColumnStyle('middle')}>
+          {this._renderTitle()}
         </View>
-        <View style={styles.headerRight}>
-          {!this.props.hideRight ? (
-            this.props.rightContainer ? this.props.rightContainer : null
-          ) : null}
+
+        <View style={this._getColumnStyle('right')}>
+          {this._renderRightActor()}
         </View>
       </View>
     );
   }
+
+  _renderTitle() {
+    if (this.props.title) {
+      return (
+        <Text style={styles.title}>{this.props.title}</Text>
+      );
+    }
+  }
+
+  _renderActor(actorType, actor, action) {
+    if (actorType === 'icon') {
+      return (
+        <Icon name={actor} size={24} onPress={action} />
+      )
+    }
+
+    if (actorType === 'text') {
+      return (
+        <Text onPress={action}>{actor}</Text>
+      );
+    }
+  }
+
+  _renderLeftActor() {
+    if (this.props.leftActorType && this.props.leftAction) {
+      return this._renderActor(this.props.leftActorType, this.props.leftActor, this.props.leftAction);
+    }
+  }
+
+  _renderRightActor() {
+    if (this.props.rightActorType && this.props.rightAction) {
+      return this._renderActor(this.props.rightActorType, this.props.rightActor, this.props.rightAction);
+    }
+  }
+
+  _getColumnStyle(position) {
+    let columnStyle = [styles.column];
+
+    switch (position) {
+      case 'left':
+        columnStyle.push(styles.columnLeft);
+        break;
+      case 'middle':
+        columnStyle.push(styles.columnMiddle);
+        break;
+      case 'right':
+        columnStyle.push(styles.columnRight);
+        break;
+    }
+
+    return columnStyle;
+  }
 }
 
-export default Header;
+Header.propTypes = propTypes;
+Header.defaultProps = defaultProps;

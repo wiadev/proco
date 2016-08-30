@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
   View,
   Text,
   Dimensions,
-  StatusBar,
   ScrollView,
   Image,
   Alert,
@@ -12,19 +10,19 @@ import {
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
-import {loadUser, updateUser} from '../../modules/User/actions';
-import {logout} from '../../modules/Authentication/actions';
-import styles from './styles';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconM from 'react-native-vector-icons/MaterialIcons';
 import {
-  MKRangeSlider,
-  MKRadioButton,
   MKSwitch,
   setTheme,
 } from 'react-native-material-kit';
 import {round} from 'lodash';
+
+import {loadUser, updateUser} from '../../modules/User/actions';
+import {logout} from '../../modules/Authentication/actions';
+import styles from './styles';
+
+import Header from '../../components/Header';
 
 const width = Dimensions.get('window').width;
 
@@ -43,7 +41,6 @@ setTheme({
   }),
 )
 class Settings extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -60,18 +57,11 @@ class Settings extends Component {
     this.props.dispatch(loadUser('settings'));
   }
 
-  onPressBottomLeft() {
-    Actions.pop();
-  }
-
-  onSave() {
-    this.props.dispatch(updateUser('settings', this.state.settings));
-    Actions.pop();
-  }
-
   render() {
     return (
       <View style={styles.preview}>
+        <Header title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
+
         <ScrollView style={styles.container}>
           <View style={[{
             flexDirection: 'column',
@@ -436,6 +426,11 @@ class Settings extends Component {
         </ScrollView>
       </View>
     );
+  }
+
+  _onSave() {
+    this.props.dispatch(updateUser('settings', this.state.settings));
+    Actions.pop();
   }
 }
 

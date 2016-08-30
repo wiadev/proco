@@ -1,48 +1,40 @@
 import {
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   header: {
-    flex: 0,
-    height: 50,
-    position: 'relative',
-    width,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    top: 20,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    height: 70,
+    paddingTop: 20,
+    backgroundColor: colors.primaryAlt,
+    borderBottomWidth: 1,
+    borderColor: '#dadbda'
   },
-  headerLeft: {
-    flex: 1,
-    width: width * 25 / 100,
-    position: 'relative',
-    justifyContent: 'center',
-    paddingLeft: 10,
-    backgroundColor: 'transparent',
+  column: {
+    flex: 1
   },
-  headerMid: {
+  columnLeft: {
+    alignItems: 'flex-start',
+    paddingLeft: 10
+  },
+  columnMiddle: {
     flex: 2,
-    width: width * 50 / 100,
-    position: 'relative',
+    alignItems: 'center'
   },
-  headerRight: {
-    flex: 1,
-    width: width * 25 / 100,
+  columnRight: {
     alignItems: 'flex-end',
-    paddingRight: 10,
-    position: 'relative',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+    paddingRight: 10
   },
-  logo: {
-    flex: 0,
-    alignSelf: 'center',
-    height: 40
-  },
+  title: {
+    color: colors.primary1,
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
 });
 
 export default styles;

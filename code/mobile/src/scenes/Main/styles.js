@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   menuList: {
     position: 'relative',
-    top: height * 0.45,
+    top: height * 0.52,
   },
   menuItem: {
     marginBottom: 30,

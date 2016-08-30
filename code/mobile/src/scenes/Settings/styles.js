@@ -1,11 +1,9 @@
 import {
   StyleSheet,
-  View,
-  Text,
   Dimensions,
-  StatusBar,
-  ScrollView,
 } from 'react-native';
+
+import colors from '../../core/style/colors';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -18,7 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f6f6',
   },
   container: {
-    paddingTop: 65,
   },
   topMenuMid: {
     flex: 0,
@@ -58,7 +55,7 @@ const styles = StyleSheet.create({
   pinkText: {
     fontFamily: 'OpenSans-Light',
     fontSize: 16,
-    color: 'rgb(249,59,95)',
+    color: colors.primary1,
   },
   blackText: {
     fontFamily: 'OpenSans-Light',

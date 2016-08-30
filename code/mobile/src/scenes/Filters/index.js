@@ -57,17 +57,12 @@ class DiscoveryFilters extends Component {
     this.props.dispatch(loadUser('filters'));
   }
 
-
-  onSave() {
-    Actions.pop();
-  }
-
   render() {
     const filters = this.props.filters;
     return (
       <View style={appStyles.container}>
-        <Header
-        />
+        <Header title="Discovery Filters" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
+
         <ScrollView style={styles.container}>
           <View style={styles.inputBox}>
             <View style={styles.inputBoxLeft}>
@@ -183,6 +178,10 @@ class DiscoveryFilters extends Component {
         />
       </View>
     );
+  }
+
+  _onSave() {
+    Actions.pop();
   }
 }
 

@@ -1,35 +1,24 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Dimensions,
   Image,
-  PixelRatio,
-  StatusBar,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-import {getCorrectFontSizeForScreen} from '../../../../core/functions';
 import styles from '../../styles';
 
-import Header from '../../../../components/Header';
 import FacebookProfilePhoto from '../../../../components/FacebookProfilePhoto';
 
 export default class UpperMenu extends Component {
   render() {
     return (
-
       <View style={styles.preview}>
         <Image style={styles.backgroundImage}
                source={require('../../../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}/>
         <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={styles.preview}>
-          <Header
-            hideLeft={true}
-            hideRight={true}
-          />
           <View style={styles.avatar}>
             <FacebookProfilePhoto styles={styles.avatarImage} fid={this.props.fid} size="large" />
           </View>
@@ -73,7 +62,6 @@ export default class UpperMenu extends Component {
           />
         </LinearGradient>
       </View>
-
     );
   }
 }
