@@ -10,10 +10,10 @@ const firebase = require('firebase');
 require('./style.css');
 
 firebase.initializeApp({
-  apiKey: "AIzaSyDtebbExST_vz3cMMy_YLdIrNNKohIGlNc",
-  authDomain: "hello-4c376.firebaseapp.com",
-  databaseURL: "https://hello-4c376.firebaseio.com",
-  storageBucket: "hello-4c376.appspot.com",
+	apiKey: "AIzaSyCFOGhparb6dYAwoKtgvnHZ37hh0EARsOQ",
+	authDomain: "proco-app.firebaseapp.com",
+	databaseURL: "https://proco-app.firebaseio.com",
+	storageBucket: "proco-app.appspot.com",
 });
 
 const store = configureStore(window.__INITIAL_STATE__);

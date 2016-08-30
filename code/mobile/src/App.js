@@ -65,6 +65,12 @@ class App extends Component {
   }
 
   render() {
+    const {
+      dispatch,
+      statusbar,
+      auth: { uid },
+      user: { first_name }, isUser: { blocked, verified },
+    } = this.props;
     return (
       <View style={{
         flex: 1,
@@ -72,17 +78,17 @@ class App extends Component {
       }}>
         <StatusBar
           showHideTransition="slide"
-          {...this.props.statusbar}
+          {...statusbar}
         />
         <InAppAlert />
         <NoInternetModal />
         <BlockedUserModal
-          visible={(this.props.isUser.blocked === true) || false}
-          logout={() => this.props.dispatch(logout())}
+          visible={(blocked === true) || false}
+          logout={() => dispatch(logout())}
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
-          name={this.props.user.first_name}
+          name={first_name}
         />
-        {!(this.props.isUser.blocked === true) && <Routes uid={this.props.auth.uid} isVerified={this.props.isUser.verified} /> }
+        {!(blocked === true) && <Routes uid={uid} isVerified={verified} /> }
       </View>
     );
   }

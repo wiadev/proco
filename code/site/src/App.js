@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { configureStore } from './redux/store';
+import getRoutes from './routes';
 
-import TestUsers from './components/TestUsers';
+const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
 
-function App() {
-  return (
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <Route path="testusers" component={TestUsers}/>
-        {/*<Route path="*" component={NoMatch}/>*/}
-      </Route>
+const component = (
+    <Router history={history}>
+        {getRoutes(store)}
     </Router>
-  );
-}
+);
 
-export default App;
+ReactDOM.render(
+    <Provider store={store}>
+        {component}
+    </Provider>,
+    document.getElementById('root')
+);

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { IndexRoute, Route } from 'react-router';
-import { App, Home, Error404 } from './containers';
+import { App, Home, Verifications, Error404 } from './containers';
 import TestUsers from './components/TestUsers';
 
 function getRoutes (store) {
@@ -11,12 +11,14 @@ function getRoutes (store) {
 	}
 
 	return (
-		<Route path="/dashboard" component={ App }>
+		<Route path="/" component={ App }>
 			<IndexRoute component={ Home } />
-			<Route path="testusers" component={ TestUsers } />
+			<Route path="a">
+				<Route path="verifications" component={ Verifications } />
+			</Route>
 			<Route path="*" component={ Error404 } />
 	  </Route>
 	)
-};
+}
 
 export default getRoutes;
