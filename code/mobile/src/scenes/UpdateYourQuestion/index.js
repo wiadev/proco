@@ -4,6 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   TouchableHighlight,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput
 } from 'react-native';
@@ -22,8 +23,7 @@ export default class UpdateYourQuestion extends React.Component {
     super(props);
 
     this.state = {
-      height: 0,
-      done: false,
+      verifying: false,
       question: "En sevdiğin Pokémon?"
     };
   }
@@ -39,37 +39,34 @@ export default class UpdateYourQuestion extends React.Component {
 
   render() {
     return (
-      <View style={styles.updateYourQuestion} onLayout={event => this._onUpdateYourQuestionLayout(event)}>
-        <ProfileLoop isMounted={true} style={styles.profileLoop}>
-          <KeyboardAvoidingView behavior="position">
-            <View style={[styles.wrapper, {height: this.state.height}]}>
-              <View style={styles.top}>
-                <TouchableHighlight onPress={() => this._onCancel()}>
-                  <View style={styles.closeButton}>
-                    <Icon name="close" size={32} color={colors.primaryAlt} />
-                  </View>
-                </TouchableHighlight>
-              </View>
+      <View style={styles.updateYourQuestion}>
+        <ProfileLoop photoOpacity={0.6}>
+          <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
+            {this._renderTop()}
 
-              <View style={styles.content}>
-                <TouchableWithoutFeedback onPress={() => this.refs['questionInput'].focus()}>
-                  <View>
-                    <MessageBox text={this.state.question} position="right" />
-                  </View>
-                </TouchableWithoutFeedback>
+            <View style={styles.container}>
+              <TouchableWithoutFeedback onPress={() => this.refs['questionInput'].focus()}>
+                <View>
+                  <MessageBox text={this.state.question} position="right" />
+                </View>
+              </TouchableWithoutFeedback>
 
-                <TextInput
-                  ref='questionInput'
-                  placeholder="Question"
-                  returnKeyType="send"
-                  onSubmitEditing={() => this._onComplete()}
-                  onChangeText={text => this.setState({
-                    question: text
-                  })}
-                  value={this.state.question}
-                  editable={true}
-                />
-              </View>
+              {this._renderButtons()}
+
+              <TextInput
+                ref='questionInput'
+                autoFocus={true}
+                placeholder="Question"
+                returnKeyType="done"
+                onSubmitEditing={() => this.setState({
+                  verifying: true
+                })}
+                onChangeText={text => this.setState({
+                  question: text
+                })}
+                value={this.state.question}
+                editable={true}
+              />
             </View>
           </KeyboardAvoidingView>
         </ProfileLoop>
@@ -77,17 +74,45 @@ export default class UpdateYourQuestion extends React.Component {
     );
   }
 
-  _onUpdateYourQuestionLayout(event) {
-    this.setState({
-      height: event.nativeEvent.layout.height
-    });
+  _renderTop() {
+    if (!this.state.verifying) {
+      return (
+        <View>
+          <TouchableHighlight onPress={() => this._cancel()}>
+            <View style={styles.closeButton}>
+              <Icon name="close" size={32} color={colors.primaryAlt} />
+            </View>
+          </TouchableHighlight>
+        </View>
+      );
+    }
   }
 
-  _onCancel() {
+  _renderButtons() {
+    if (this.state.verifying) {
+      return (
+        <View style={styles.buttons}>
+          <TouchableOpacity onPress={() => this._cancel()}>
+            <View style={styles.secondaryButton}>
+              <Icon name="close" size={24} style={styles.secondaryButtonIcon} />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => this._done()}>
+            <View style={styles.secondaryButton}>
+              <Icon name="check" size={24} style={styles.secondaryButtonIcon} />
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  }
+
+  _cancel() {
     Actions.pop();
   }
 
-  _onComplete() {
-    // The question is available on this.state.question.
+  _done() {
+    // Editing is complete. User's question is available on this.state.question.
   }
 }

@@ -11,16 +11,34 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   wrapper: {
-    backgroundColor: 'rgba(0, 0, 0, 0.4)'
+    flex: 1
   },
   closeButton: {
     marginLeft: 6,
     marginTop: 6
   },
-  content: {
+  container: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: 10
+    paddingBottom: 20
+  },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+    paddingHorizontal: 20
+  },
+  secondaryButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.primaryAlt
+  },
+  secondaryButtonIcon: {
+    backgroundColor: 'transparent',
+    color: colors.primary1
   }
 });
 
