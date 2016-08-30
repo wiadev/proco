@@ -8,12 +8,6 @@ const styles = StyleSheet.create({
   poolItem: {
     flex: 1
   },
-  poolItemBackground: {
-    flex: 1,
-    width: null,
-    height: null,
-    resizeMode: 'cover'
-  },
   poolItemContent: {
     flex: 0,
     justifyContent: 'flex-end',
