@@ -4,9 +4,16 @@ import {
 
 const styles = StyleSheet.create({
   profileLoop: {
-    flex: 1,
-    width: null,
-    height: null
+    position: 'relative',
+    flex: 1
+  },
+  photo: {
+    position: 'absolute',
+    top: 0,
+    left: 0
+  },
+  container: {
+    flex: 1
   }
 });
 
