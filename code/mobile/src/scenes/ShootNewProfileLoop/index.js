@@ -13,7 +13,6 @@ import ProfileLoop from '../../components/ProfileLoop';
 import profileLoopConfig from '../../core/config/profileLoop';
 import styles from './styles';
 
-
 @reactMixin.decorate(reactTimerMixin)
 export default class ShootNewProfileLoop extends React.Component {
   constructor() {
@@ -42,7 +41,7 @@ export default class ShootNewProfileLoop extends React.Component {
   _renderCameraOrProfileLoop() {
     if (this.state.status === this.statuses.done) {
       return (
-        <ProfileLoop isMounted={true} local={true} continuous={true} photos={this.state.photos} style={styles.profileLoop}>
+        <ProfileLoop isMounted={true} local={true} continuous={true} photos={this.state.photos} containerStyle={styles.profileLoop}>
           {this._renderButtons()}
         </ProfileLoop>
       );
