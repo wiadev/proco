@@ -36,7 +36,7 @@ export default class UpperMenu extends Component {
 
           <View style={styles.menuList}>
             <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.UpdateYourQuestionScreen}>
+              <Text style={styles.menuItemText} onPress={Actions.UpdateYourQuestion}>
                 Update your question
               </Text>
             </View>

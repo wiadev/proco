@@ -29,26 +29,6 @@ export default class PoolItem extends React.Component {
   static defaultProps = {
     // mock data
     isMounted: false,
-    profileLoopPhotos: [
-      'https://files.icoz.co/uploads/procolooptest01.jpg',
-      'https://files.icoz.co/uploads/procolooptest02.jpg',
-      'https://files.icoz.co/uploads/procolooptest03.jpg',
-      'https://files.icoz.co/uploads/procolooptest04.jpg',
-      'https://files.icoz.co/uploads/procolooptest05.jpg',
-      'https://files.icoz.co/uploads/procolooptest06.jpg',
-      'https://files.icoz.co/uploads/procolooptest07.jpg',
-      'https://files.icoz.co/uploads/procolooptest08.jpg',
-      'https://files.icoz.co/uploads/procolooptest09.jpg',
-      'https://files.icoz.co/uploads/procolooptest10.jpg',
-      'https://files.icoz.co/uploads/procolooptest11.jpg',
-      'https://files.icoz.co/uploads/procolooptest12.jpg',
-      'https://files.icoz.co/uploads/procolooptest13.jpg',
-      'https://files.icoz.co/uploads/procolooptest14.jpg',
-      'https://files.icoz.co/uploads/procolooptest15.jpg',
-      'https://files.icoz.co/uploads/procolooptest16.jpg',
-      'https://files.icoz.co/uploads/procolooptest17.jpg',
-      'https://files.icoz.co/uploads/procolooptest18.jpg'
-    ],
     messages: [
       {
         text: "En sevdiğin Pokémon?"
@@ -92,10 +72,9 @@ export default class PoolItem extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop isMounted={this.props.isMounted} photos={this.props.profileLoopPhotos}>
+        <ProfileLoop isMounted={this.props.isMounted}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderMessages()}
@@ -219,7 +198,6 @@ export default class PoolItem extends React.Component {
   }
 
   _onActionButtonPress() {
-    console.log("ppp", this.props)
     // If this.state.action is 'answer', this button should enable answer input.
     // Otherwise it should initiate a chat with the user.
     if (this.state.action === 'answer') {
