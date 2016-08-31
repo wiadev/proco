@@ -1,124 +1,99 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
-  Image,
+  KeyboardAvoidingView,
   Text,
-  ActivityIndicator,
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
-import {BlurView} from 'react-native-blur';
-import {
-  MKTextField,
-} from 'react-native-material-kit';
+
 import styles from './styles';
-import {serverAction} from '../../../core/Api/actions';
-import {getUserRef,updateUser} from '../../../modules/User/actions';
-import {Actions} from 'react-native-router-flux';
-import {connect} from 'react-redux';
-import Card from '../../../components/Card';
+import colors from '../../../core/style/colors';
 
-@connect(
-  state => ({
-    auth: state.auth,
-    user: state.user,
-  }),
-)
-class Verification extends Component {
-
-  static propTypes = {
-    onVerifyClick: React.PropTypes.any,
-  };
-
-  static defaultProps = {
-    onVerifyClick: null,
-  };
-
+export default class SMSVerification extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    code: null,
-    isChecking: false,
-    error: false,
-  };
-
-  componentWillMount() {
-    this.props.dispatch(serverAction({
-      type: 'USER_VERIFICATION',
-      payload: {
-        type: this.props.verify,
-        to: this.props.to,
-      }
-    }));
-  }
-
-  checkCode(code) {
-    this.setState({isChecking: true, code});
-
-    getUserRef(this.props.auth.uid, `verifications/${this.props.verify}/${code}`).once('value', snap => {
-      const data = snap.val();
-      if (!data) {
-        this.setState({isChecking: false, code, error: true});
-        return;
-      }
-
-      this.props.dispatch(updateUser('is', {
-        verified: true
-      }, () => {
-        Actions.pop();
-      }));
-
-
-
-    });
-  }
-
-  renderVerification() {
-    return (<View>
-      <MKTextField
-        autoCapitalize={'characters'}
-        autoCorrect={false}
-        autoFocus={true}
-        keyboardType={'numeric'}
-        tintColor={'transparent'}
-        placeholder="XXXXXX"
-        textInputStyle={styles.passwordTxt}
-        style={styles.password}
-        underlineEnabled={false}
-        placeholderTextColor={'rgb(180, 180, 190)'}
-        onTextChange={(code) => {
-          if (code.length === 6) {
-            this.checkCode(code);
-          }
-        }}
-        maxLength={6}
-        returnKeyTyp={'go'}
-      />
-      {this.state.error && <Text style={styles.error}>Code you've entered appears to be wrong.</Text>}
-    </View>);
+    this.state = {
+      loading: false,
+      hasError: false,
+      code: ""
+    };
   }
 
   render() {
-    const {to, verify} = this.props;
-    let destination;
-    if (verify === 'email') {
-      destination = 'university email';
-    } else if (verify === 'sms') {
-      destination = 'mobile phone';
+    return (
+      <View style={styles.SMSVerification}>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <Text style={[styles.text, styles.title]}>One last step!</Text>
+
+          <Text style={[styles.text, styles.description]}>We've just sent you a 6-digit verification code to verify your phone number.</Text>
+
+          {this._renderContentOrLoading()}
+        </KeyboardAvoidingView>
+      </View>
+    )
+  }
+
+  _renderContentOrLoading() {
+    if (this.state.loading) {
+      return (
+        <ActivityIndicator size="large" color={colors.primaryAlt} style={styles.activityIndicator} />
+      );
+    } else {
+      return (
+        <View>
+          {this._renderError()}
+
+          <TextInput
+            value={this.state.code}
+            onChangeText={code => this._setCode(code)}
+            autoFocus={true}
+            autoCorrect={false}
+            returnKeyType="done"
+            placeholder="XXXXXX"
+            placeholderTextColor={colors.dimPrimaryAlt}
+            style={styles.input}
+          />
+        </View>
+      );
     }
-    return (<Card
-        label="One last step!"
-        text={`We've just sent an 6-digit verification code to ${this.props.to} to verify your ${destination}`}
-        buttons={[]}
-        noClose={this.state.isChecking}
-        renderThis={() => this.state.isChecking ? <ActivityIndicator
-          style={styles.container}
-          size="large"
-          color="#ffffff"
-        /> : ::this.renderVerification()}
-      />
-    );
+  }
+
+  _renderError() {
+    if (this.state.hasError) {
+      return (
+        <Text style={[styles.text, styles.error]}>Ooops! Code you've entered appears to be wrong.</Text>
+      );
+    }
+  }
+
+  _setCode(code) {
+    this.setState({
+      hasError: false,
+      code: code
+    });
+
+    if (code.length === 6) {
+      this._done();
+    }
+  }
+
+  _done() {
+    // This method is triggered when code entered is 6-chars long.
+    this.setState({
+      loading: true
+    });
+
+    // TODO: Add code verification logic here.
+    // If code is wrong and somehow needs to re-entered, do this:
+    this.setState({
+      loading: false,
+      hasError: true,
+      code: ""
+    });
+
+    // Otherwise, pop some Actions, route to another scene or something.
+    // Actions.pop();
   }
 }
-
-export default Verification;

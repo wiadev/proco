@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Actions, ActionConst, Router, Scene, Reducer} from 'react-native-router-flux';
 import Wrapper from './Wrapper';
 
-import { Login, Register, EmailVerification } from '../../scenes/Authentication';
+import { Login, Register, EmailVerification, SMSVerification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
 import UpdateYourQuestion from '../../scenes/UpdateYourQuestion';
@@ -41,21 +41,19 @@ const staticPageScenes = () => {
 };
 const scenes = Actions.create(
   <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
-    <Scene
-      key="root"
-      hideNavBar
-    >
-        <Scene key="Login" component={Login}  initial />
+    <Scene key="root" hideNavBar={true}>
+        <Scene key="Login" component={Login} initial={true} />
         <Scene key="Register" component={Register} />
         <Scene key="EmailVerification" animation="fade" component={EmailVerification} />
+        <Scene key="SMSVerification" animation="fade" component={SMSVerification} />
         <Scene key="Main" component={Main} animation="fade" />
         <Scene key="Settings" component={Settings} direction="vertical" />
         <Scene key="Filters" component={Filters} direction="vertical" />
         <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical" />
         <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop} />
-        <Scene key="ConversationList" component={Conversations}  />
+        <Scene key="ConversationList" component={Conversations} />
         <Scene key="Conversations">
-          <Scene key="Conversation" component={Conversation} clone  />
+          <Scene key="Conversation" component={Conversation} clone />
         </Scene>
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />

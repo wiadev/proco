@@ -1,124 +1,49 @@
 import {
-  StyleSheet,
-  Dimensions,
-  PixelRatio,
+  StyleSheet
 } from 'react-native';
 
-import { getCorrectFontSizeForScreen } from '../../../core/functions';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-const popupWidth = width * 80 / 100;
-const popupHeight = height * 80 / 100;
+import colors from '../../../core/style/colors';
 
 const styles = StyleSheet.create({
+  SMSVerification: {
+    flex: 1,
+    backgroundColor: colors.primary1,
+    paddingHorizontal: 30
+  },
   container: {
-    position: "absolute",
-    top:0,
-    bottom:0,
-    left:0,
-    right:0,
-    backgroundColor:"transparent",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  popup: {
-    position: 'absolute',
-    width,
-    height,
-    top: 0,
-    left: 0,
-  },
-  blurView: {
-    position: 'relative',
     flex: 1,
-    width,
-    height,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
-  popupInside: {
-    flex: 0,
-    padding: 10,
-    paddingTop: 5,
-    alignItems: 'center',
-  },
-  password: {
-    borderWidth: 0,
-    width: 150,
-  },
-  passwordArea: {},
-  passwordTxt: {
-    fontFamily: 'OpenSans-Light',
-    color: 'rgb(5,5,6)',
-    fontSize: 26,
-    marginTop: 15,
-    height: 50,
-    marginBottom: 15,
+  text: {
     textAlign: 'center',
+    color: colors.primaryAlt
   },
-  headText: {
-    fontFamily: 'OpenSans',
-    color: 'rgb(51,205,153)',
-    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 18),
-    marginTop: 5,
-    alignSelf: 'center',
-    textAlign: 'center',
+  title: {
+    marginBottom: 16,
+    fontSize: 28
   },
-  descriptionText: {
-    fontFamily: 'OpenSans-Light',
-    color: 'rgb(82,93,103)',
-    fontSize: 14,
-    marginTop: 15,
-    alignSelf: 'center',
-    textAlign: 'center',
-  },
-  verifyButton: {
-    borderRadius: 50,
-    backgroundColor: 'rgb(51,205,153)',
-    width: popupWidth * 80 / 100,
-    height: 50,
-    justifyContent: 'center',
-    padding: 10,
-  },
-
-  backBtn: {
-    flex: 1,
-    borderRadius: 50,
-    backgroundColor: '#fff',
-    height: 50,
-    justifyContent: 'center',
-    padding: 10,
-    alignSelf: 'auto',
-    borderWidth: 1,
-    borderColor: '#fa3f6a',
-    marginRight: 15,
-  },
-  resendBtn: {
-    flex: 1,
-    borderRadius: 50,
-    backgroundColor: '#fa3f6a',
-    height: 50,
-    justifyContent: 'center',
-    padding: 10,
-    alignSelf: 'auto',
-  },
-  verifyButtonTxt: {
-    fontFamily: 'OpenSans',
-    color: 'white',
-    textAlign: 'center',
-    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 16),
+  description: {
+    fontSize: 16,
+    fontWeight: '100'
   },
   error: {
-    fontFamily: 'OpenSans',
-    color: 'red',
+    marginTop: 10,
+    color: colors.danger
+  },
+  input: {
+    alignSelf: 'center',
+    width: 160,
+    height: 40,
+    marginTop: 10,
     textAlign: 'center',
-    fontSize: 12,
-    opacity: 1,
+    fontSize: 24,
+    color: colors.primaryAlt,
+    fontFamily: "Menlo-Bold" // TODO: This font is available only on iOS. Need to apply a cross platform solution for android.
   },
-  image: {
-    height: height * 0.3,
-  },
+  activityIndicator: {
+    marginTop: 20
+  }
 });
 
 export default styles;
