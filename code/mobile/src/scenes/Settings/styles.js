@@ -9,13 +9,11 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
-  preview: {
+  container: {
     position: 'relative',
     height,
     width,
     backgroundColor: '#f6f6f6',
-  },
-  container: {
   },
   topMenuMid: {
     flex: 0,

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00B3477B90BE4A3D957C4468 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 527555A8256646EC89BAE1C9 /* libReactNativePermissions.a */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -44,15 +43,6 @@
 		7452C7601D592B7F00AAACD7 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75D1D592B7F00AAACD7 /* logo.png */; };
 		7452C7611D592B7F00AAACD7 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75E1D592B7F00AAACD7 /* logo@2x.png */; };
 		7452C7621D592B7F00AAACD7 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75F1D592B7F00AAACD7 /* logo@3x.png */; };
-		746E50631D6D478A00037547 /* FirebaseBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 746E505A1D6D478A00037547 /* FirebaseBridge.m */; };
-		746E50641D6D478A00037547 /* FirebaseBridgeAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E505B1D6D478A00037547 /* FirebaseBridgeAuth.swift */; };
-		746E50651D6D478A00037547 /* FirebaseBridgeCredentialCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E505C1D6D478A00037547 /* FirebaseBridgeCredentialCache.swift */; };
-		746E50661D6D478A00037547 /* FirebaseBridgeDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E505D1D6D478A00037547 /* FirebaseBridgeDatabase.swift */; };
-		746E50671D6D478A00037547 /* FirebaseBridgeFacebookAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E505E1D6D478A00037547 /* FirebaseBridgeFacebookAuthProvider.swift */; };
-		746E50681D6D478A00037547 /* FirebaseBridgeGithubAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E505F1D6D478A00037547 /* FirebaseBridgeGithubAuthProvider.swift */; };
-		746E50691D6D478A00037547 /* FirebaseBridgeGoogleAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E50601D6D478A00037547 /* FirebaseBridgeGoogleAuthProvider.swift */; };
-		746E506A1D6D478A00037547 /* FirebaseBridgeTwitterAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E50611D6D478A00037547 /* FirebaseBridgeTwitterAuthProvider.swift */; };
-		746E506D1D6D4DFE00037547 /* FirebaseBridgeUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746E506C1D6D4DFE00037547 /* FirebaseBridgeUser.swift */; };
 		7476A2FF1D66D64300B5F4CE /* libRNBackgroundGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7476A2FC1D66D61E00B5F4CE /* libRNBackgroundGeolocation.a */; };
 		7476A3011D66D66800B5F4CE /* TSLocationManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7476A3001D66D66800B5F4CE /* TSLocationManager.framework */; };
 		7476A3031D66D67600B5F4CE /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7476A3021D66D67600B5F4CE /* libsqlite3.tbd */; };
@@ -139,13 +129,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
-		};
-		74436CFD1D667992007579C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D9DE332EFDA345D5A1E1D5AB /* RCTImageSequence.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C75D3D4D1D36714700B6F44B;
-			remoteInfo = RCTImageSequence;
 		};
 		7452C7211D59298500AAACD7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -268,6 +251,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				74582FE51D764DEC00854F01 /* libFirestack.a in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,17 +309,6 @@
 		7452C75D1D592B7F00AAACD7 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../src/assets/images/logo.png; sourceTree = "<group>"; };
 		7452C75E1D592B7F00AAACD7 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "../src/assets/images/logo@2x.png"; sourceTree = "<group>"; };
 		7452C75F1D592B7F00AAACD7 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "../src/assets/images/logo@3x.png"; sourceTree = "<group>"; };
-		746E50451D6D302600037547 /* FirebaseBridge-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "FirebaseBridge-Header.h"; path = "Proco/FirebaseBridge-Header.h"; sourceTree = "<group>"; };
-		746E50591D6D478A00037547 /* FirebaseBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirebaseBridge.h; sourceTree = "<group>"; };
-		746E505A1D6D478A00037547 /* FirebaseBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirebaseBridge.m; sourceTree = "<group>"; };
-		746E505B1D6D478A00037547 /* FirebaseBridgeAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeAuth.swift; sourceTree = "<group>"; };
-		746E505C1D6D478A00037547 /* FirebaseBridgeCredentialCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeCredentialCache.swift; sourceTree = "<group>"; };
-		746E505D1D6D478A00037547 /* FirebaseBridgeDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeDatabase.swift; sourceTree = "<group>"; };
-		746E505E1D6D478A00037547 /* FirebaseBridgeFacebookAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeFacebookAuthProvider.swift; sourceTree = "<group>"; };
-		746E505F1D6D478A00037547 /* FirebaseBridgeGithubAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeGithubAuthProvider.swift; sourceTree = "<group>"; };
-		746E50601D6D478A00037547 /* FirebaseBridgeGoogleAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeGoogleAuthProvider.swift; sourceTree = "<group>"; };
-		746E50611D6D478A00037547 /* FirebaseBridgeTwitterAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeTwitterAuthProvider.swift; sourceTree = "<group>"; };
-		746E506C1D6D4DFE00037547 /* FirebaseBridgeUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseBridgeUser.swift; sourceTree = "<group>"; };
 		7476A2F61D66D61E00B5F4CE /* RNBackgroundGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundGeolocation.xcodeproj; path = "../node_modules/react-native-background-geolocation/RNBackgroundGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		7476A3001D66D66800B5F4CE /* TSLocationManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSLocationManager.framework; path = "../node_modules/react-native-background-geolocation/RNBackgroundGeolocation/TSLocationManager.framework"; sourceTree = "<group>"; };
 		7476A3021D66D67600B5F4CE /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -364,7 +337,6 @@
 		CD229D14BEF547EC8D447BDB /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		D53F1B07E45D4B83916222DB /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		D93F58627E9F4450B10479E7 /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/react-native-blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
-		D9DE332EFDA345D5A1E1D5AB /* RCTImageSequence.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageSequence.xcodeproj; path = "../node_modules/react-native-image-sequence/ios/RCTImageSequence.xcodeproj"; sourceTree = "<group>"; };
 		EC1B22F6354840E291190767 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -502,7 +474,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				746E50451D6D302600037547 /* FirebaseBridge-Header.h */,
 			);
 			name = Proco;
 			sourceTree = "<group>";
@@ -564,14 +535,6 @@
 				BAD76A96448A4CD5874F7828 /* Zocial.ttf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		74436CF41D667992007579C3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				74436CFE1D667992007579C3 /* libRCTImageSequence.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		7452C71D1D59298500AAACD7 /* Products */ = {
@@ -654,24 +617,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		746E50581D6D478A00037547 /* FirebaseBridge */ = {
-			isa = PBXGroup;
-			children = (
-				746E506C1D6D4DFE00037547 /* FirebaseBridgeUser.swift */,
-				746E50591D6D478A00037547 /* FirebaseBridge.h */,
-				746E505A1D6D478A00037547 /* FirebaseBridge.m */,
-				746E505B1D6D478A00037547 /* FirebaseBridgeAuth.swift */,
-				746E505C1D6D478A00037547 /* FirebaseBridgeCredentialCache.swift */,
-				746E505D1D6D478A00037547 /* FirebaseBridgeDatabase.swift */,
-				746E505E1D6D478A00037547 /* FirebaseBridgeFacebookAuthProvider.swift */,
-				746E505F1D6D478A00037547 /* FirebaseBridgeGithubAuthProvider.swift */,
-				746E50601D6D478A00037547 /* FirebaseBridgeGoogleAuthProvider.swift */,
-				746E50611D6D478A00037547 /* FirebaseBridgeTwitterAuthProvider.swift */,
-			);
-			name = FirebaseBridge;
-			path = "../node_modules/rn-firebase-bridge/ios";
-			sourceTree = "<group>";
-		};
 		74750A751D591A7300F907E6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -708,7 +653,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				746E50581D6D478A00037547 /* FirebaseBridge */,
 				7476A3041D66D87B00B5F4CE /* RNBackgroundFetch.xcodeproj */,
 				7476A2F61D66D61E00B5F4CE /* RNBackgroundGeolocation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -732,7 +676,6 @@
 				34B5B44FD3534BA1B90BA149 /* RNMediaPlayer.xcodeproj */,
 				41F95165DE4642B89A29FDA4 /* ReactNativePermissions.xcodeproj */,
 				6AF7AE9261B747459DF10601 /* RNVectorIcons.xcodeproj */,
-				D9DE332EFDA345D5A1E1D5AB /* RCTImageSequence.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -881,10 +824,6 @@
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 				},
 				{
-					ProductGroup = 74436CF41D667992007579C3 /* Products */;
-					ProjectRef = D9DE332EFDA345D5A1E1D5AB /* RCTImageSequence.xcodeproj */;
-				},
-				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 				},
@@ -1016,13 +955,6 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		74436CFE1D667992007579C3 /* libRCTImageSequence.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTImageSequence.a;
-			remoteRef = 74436CFD1D667992007579C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		7452C7221D59298500AAACD7 /* libRCTFBSDK.a */ = {
@@ -1300,18 +1232,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				746E506D1D6D4DFE00037547 /* FirebaseBridgeUser.swift in Sources */,
-				746E50671D6D478A00037547 /* FirebaseBridgeFacebookAuthProvider.swift in Sources */,
 				7476A30C1D66D8B500B5F4CE /* RNBackgroundFetch+AppDelegate.m in Sources */,
-				746E50631D6D478A00037547 /* FirebaseBridge.m in Sources */,
-				746E506A1D6D478A00037547 /* FirebaseBridgeTwitterAuthProvider.swift in Sources */,
-				746E50681D6D478A00037547 /* FirebaseBridgeGithubAuthProvider.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				746E50691D6D478A00037547 /* FirebaseBridgeGoogleAuthProvider.swift in Sources */,
-				746E50661D6D478A00037547 /* FirebaseBridgeDatabase.swift in Sources */,
-				746E50641D6D478A00037547 /* FirebaseBridgeAuth.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				746E50651D6D478A00037547 /* FirebaseBridgeCredentialCache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1350,7 +1273,9 @@
 				INFOPLIST_FILE = ProcoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1371,7 +1296,9 @@
 				INFOPLIST_FILE = ProcoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1431,7 +1358,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
-				SWIFT_OBJC_BRIDGING_HEADER = "Proco/FirebaseBridge-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Debug;
 		};
@@ -1482,7 +1409,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.barbar.proco.ios;
 				PRODUCT_NAME = Proco;
-				SWIFT_OBJC_BRIDGING_HEADER = "Proco/FirebaseBridge-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};

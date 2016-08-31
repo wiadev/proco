@@ -1,10 +1,12 @@
 /* @flow */
 
-import React, { Component } from 'react';
-import { AppState } from 'react-native';
-import { Provider } from 'react-redux';
-import { configureStore } from './store/configureStore';
-import App from './App';
+import React, {Component} from "react";
+import {AppState} from "react-native";
+import {Provider} from "react-redux";
+import {configureStore} from "./store/configureStore";
+import {base} from "./core/Api";
+import App from "./App";
+
 const setup = () => {
 
   class Root extends Component {
@@ -30,7 +32,7 @@ const setup = () => {
   }
 
   return Root;
-  
+
 };
 
 

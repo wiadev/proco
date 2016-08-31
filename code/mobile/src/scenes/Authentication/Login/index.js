@@ -1,37 +1,28 @@
-import React, { Component } from 'react';
-import {
-  Text,
-  ActivityIndicator,
-  View,
-  Image,
-  TouchableOpacity,
-  ActionSheetIOS,
-} from 'react-native';
-import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Actions } from 'react-native-router-flux';
-import { login } from '../../../modules/Authentication/actions';
-import { setStatusBarStyle } from '../../../modules/StatusBar/actions';
-import { connect } from 'react-redux';
-
-import styles from './styles';
+import React, {Component} from "react";
+import {Text, ActivityIndicator, View, Image, TouchableOpacity, ActionSheetIOS} from "react-native";
+import Swiper from "react-native-swiper";
+import Icon from "react-native-vector-icons/FontAwesome";
+import {Actions} from "react-native-router-flux";
+import {login} from "../../../modules/Authentication/actions";
+import {connect} from "react-redux";
+import styles from "./styles";
 
 @connect(
   state => ({
     auth: state.auth,
-    user: state.user,
-    isUser: state.isUser,
   }),
 )
 class Login extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      redirectedToRegister: false,
+    };
   }
 
   componentWillMount() {
     this.checkAuthAndRedirect();
-    this.props.dispatch(setStatusBarStyle('light-content'));
   }
 
   componentWillReceiveProps(props) {
@@ -39,21 +30,12 @@ class Login extends Component {
   }
 
   shouldComponentUpdate(props) {
-    return (
-      !(props.user.isLoaded === this.props.user.isLoaded) ||
-      !(props.auth.isInProgress === this.props.auth.isInProgress) ||
-      !(props.auth.uid === this.props.auth.uid) ||
-      !(props.isUser.verified === this.props.isUser.verified)
-    );
+    return (props.auth !== this.props.auth);
   }
 
   checkAuthAndRedirect(props = this.props) {
-    console.log("authprops", props);
-    if (props.isUser.verified) {
-      Actions.Main();
-    } else if(props.user.email) {
-      Actions.EmailVerification();
-    } else if(props.user.isLoaded) {
+    if (props.auth.uid && !this.state.redirectedToRegister) {
+      this.setState({redirectedToRegister: true});
       Actions.Register();
     }
   }
@@ -70,9 +52,15 @@ class Login extends Component {
       },
       (buttonIndex) => {
         switch (buttonIndex) {
-          case 0: Actions.TermsOfUsage(); break;
-          case 1: Actions.PrivacyPolicy(); break;
-          case 2: Actions.Support(); break;
+          case 0:
+            Actions.TermsOfUsage();
+            break;
+          case 1:
+            Actions.PrivacyPolicy();
+            break;
+          case 2:
+            Actions.Support();
+            break;
         }
       });
   }
@@ -107,34 +95,37 @@ class Login extends Component {
       color="#ffffff"
     />);
   }
+
   render() {
+    const {uid, isInProgress} = this.props.auth;
+
     return (
       <View style={styles.container}>
-        <Image style={styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')} />
+        <Image style={styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')}/>
         <Swiper
           style={styles.swiper}
           height={231}
           loop={false}
-          dot={<View style={styles.swiperDot} />}
-          activeDot={<View style={styles.swiperActiveDot}><View style={styles.swiperActiveDotChild} /></View>}
+          dot={<View style={styles.swiperDot}/>}
+          activeDot={<View style={styles.swiperActiveDot}><View style={styles.swiperActiveDotChild}/></View>}
           paginationStyle={styles.swiperPagination}
         >
           <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
             <Text style={styles.text}>Answer people's questions</Text>
           </View>
           <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
             <Text style={styles.text}>Second Text</Text>
           </View>
           <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')} />
+            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
             <Text style={styles.text}>And third Text</Text>
           </View>
         </Swiper>
 
         {
-          (!this.props.auth.isInProgress && !this.props.auth.uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
+          (!isInProgress && !uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
         }
 
       </View>

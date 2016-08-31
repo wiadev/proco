@@ -1,110 +1,58 @@
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import { AsyncStorage, Linking } from 'react-native';
-import { Actions, ActionConst } from 'react-native-router-flux';
-import { FacebookAuthProvider, signInWithCredential, addAuthStateDidChangeListener, signOut } from 'rn-firebase-bridge/auth';
-import { reauthenticateWithCredential, sendEmailVerification, updateEmail } from 'rn-firebase-bridge/user';
-import {NetworkEmailValidation} from '../../core/common/Validations';
+import {LoginManager, AccessToken} from "react-native-fbsdk";
+import {AsyncStorage, Linking} from "react-native";
+import {Actions} from "react-native-router-flux";
+import {base} from "../../core/Api";
+import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
+import React from "react";
+import {STARTED, SET, LOADED} from "./actionTypes";
+import {updateUser} from "../User/actions";
 
-import { hideStatusBar, showStatusBar } from '../StatusBar/actions';
-import React from 'react';
-
-import {
-  STARTED,
-  SET,
-  LOADED,
-} from './actionTypes';
-
-import {
-  createAlert,
-} from '../InAppAlert/actions';
-
-import {
-  loadUser,
-  updateUserLocally,
-  syncLocalUserToDatabase,
-  updateUser,
-} from '../User/actions';
-
-import {
-  serverAction
-} from '../../core/Api/actions';
-
-export const reAuthenticate = (after) => {
+export function handleAuth(data) {
+  if (!data) data = {};
+  const { uid = null } = data;
   return (dispatch, getState) => {
-    const { tokens } = getState();
 
-    const credential = FacebookAuthProvider.credential(tokens.facebook);
-    reauthenticateWithCredential(credential).then(() => {
-      if (after) {
-        after(dispatch, getState);
-      }
-    }).catch(e => console.log("Problem on re auth", e))
+    const {auth} = getState();
 
-  };
-};
+    if (uid && auth.uid !== uid) {
+      dispatch({
+        type: SET,
+        payload: {
+          uid
+        }
+      });
+    } else if (!uid && auth.uid) {
+      dispatch(logout());
+    }
 
-export const startCheckingAuth = () => {
-  return (dispatch, getState) => {
     dispatch(syncFacebookToken());
-    addAuthStateDidChangeListener(payload => {
-      console.log("payload", payload);
-      const { auth, isUser, user } = getState();
-      if (payload) {
 
-        if (auth.uid === null) {
 
-          dispatch({
-            type: SET,
-            payload: {
-              uid: payload.user.uid,
-            }
-          });
-
-        }
-
-        if (isUser.verified !== payload.user.emailVerified) {
-          dispatch(updateUser('is', {
-            verified: payload.user.emailVerified,
-          }));
-        }
-
-        if (user.email !== payload.user.email) {
-          dispatch(updateUser('info', {
-            email: payload.user.email,
-          }));
-        }
-
-        dispatch(loadUser('info'));
-        dispatch(loadUser('is', true));
-        dispatch(syncLocalUserToDatabase('tokens'));
-
-      } else if (auth.uid === null && !auth.isInProgress) {
-        dispatch(logout());
-      }
-    });
   };
-};
+}
 
-function syncFacebookToken() {
+export function syncFacebookToken() {
   return (dispatch, getState) => {
-    const { tokens, auth } = getState();
+    console.log("should be here twice");
+    const {tokens: {facebook}, auth: {uid}} = getState();
     AccessToken.getCurrentAccessToken()
       .then((data) => {
         if (data) {
           const token = data.accessToken.toString();
 
-          if (tokens.facebook !== token) {
-            dispatch(updateUserLocally('tokens', {
-              facebook: token
-            }));
+          if (!uid) {
+            var credential = base.auth.FacebookAuthProvider.credential(token);
+            base.auth().signInWithCredential(credential);
+            return;
           }
 
-          if (auth.uid === null) {
-            const credential = FacebookAuthProvider.credential(token);
-            signInWithCredential(credential);
-          }
+          dispatch(updateUser('tokens', {
+            facebook: token
+          }));
+
         } else {
-          console.log ("We have no Facebook token");
+          console.log("We have no Facebook token");
+          dispatch(logout());
         }
       });
   };
@@ -113,16 +61,16 @@ function syncFacebookToken() {
 export function login() {
   return (dispatch) => {
 
-    dispatch({ type: STARTED });
+    dispatch({type: STARTED});
     dispatch(hideStatusBar());
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
     ).then((result) => {
       dispatch(showStatusBar());
- 
+
       if (result.isCancelled) {
 
-        dispatch({ type: LOADED });
+        dispatch({type: LOADED});
 
         Actions.Card({
           label: `You've cancelled the login process`,
@@ -150,96 +98,13 @@ export function login() {
   };
 }
 
-export function updateNetworkEmail(email, focusToEmail = () => {}) {
-  return dispatch => {
-      let buttons = [{
-        text: "Learn more",
-        onPress: () => {
-          Actions.pop();
-          setImmediate(() => {
-            Actions.AboutSchoolEmails();
-          });
-        }
-      }, {
-        text: "Close",
-        onPress: () => {
-          Actions.pop();
-          setImmediate(() => focusToEmail());
-        }
-      }];
-
-      if (!email) {
-        Actions.Card({
-          label: "Your school email is missing",
-          text: "Proco needs your school email to verify your school.",
-          buttons,
-          noClose: true,
-        });
-        return;
-      }
-
-      NetworkEmailValidation(email)
-        .then((email) => {
-          dispatch(reAuthenticate(() => {
-            updateEmail(email.email).then(() => {
-              sendEmailVerification().then(() => {
-                console.log("oldu");
-              }).catch((e) => {
-                console.log("olmadı", e)
-              })
-            }).catch(e => {
-              console.log(e, "firebase mail dnied");
-            });
-          }));
-        })
-        .catch(e => {
-
-          let label, text;
-          switch (e) {
-            case 'CHECK_EMAIL':
-            case 'INVALID_EMAIL':
-              label = "Something seems to be wrong with your email address";
-              text = "It doesn't appear to be a valid school address.";
-              break;
-            case 'ONLY_STUDENT':
-              label = "Only student e-mails are accepted.";
-              text = "Your university is a part of Proco but the e-mail you gave appears to be a staff address. Only students can use Proco for now.";
-              break;
-            case 'NETWORK_NOT_SUPPORTED':
-              label = "Your university is not yet supported by Proco";
-              text = "You can get in to the waiting list so we can let you know when you can use Proco at your school.";
-              buttons = [{
-                text: "Sounds good!",
-                onPress: () => {
-                  Actions.pop();
-                  setImmediate(() => focusToEmail());
-                }
-              }];
-              break;
-            case 'COMMON_PROVIDER':
-              label = "You have to give your university provided email addresses";
-              text = "The one you've gave seems like personal one";
-              break;
-          }
-
-          Actions.Card({
-            label,
-            text,
-            buttons,
-            noClose: true
-          });
-
-        });
-
-  }
-}
-
 export function logout() {
   return dispatch => {
-    Promise.all([signOut(), AsyncStorage.clear()]).then(() => {
+    Promise.all([AsyncStorage.clear()]).then(() => {
+      base.unauth();
       LoginManager.logOut();
-      dispatch({ type: 'RESET' });
-      Actions.Login();
+      dispatch({type: 'RESET'});
+      dispatch({type: LOADED});
     });
   }
 }

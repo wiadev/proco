@@ -4,6 +4,7 @@ const initialState = {
   verified: false,
   blocked: false,
   god: false,
+  onboarded: false,
   hasStartedLoading: false,
 };
 

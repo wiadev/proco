@@ -2,10 +2,16 @@ const functions = require('firebase-functions');
 const moment = require('moment');
 const deepEqual = require('deep-equal');
 
-const generateUserSummary = (info = {}) => {
-    let summary = {};
+const handleOnboardedCheck = require('./common/handleOnboardedCheck');
 
-    const { network, gender, birthday, first_name, last_name } = info;
+const generateUserSummary = ({
+    network = null,
+    gender = null,
+    birthday = null,
+    first_name = null,
+    last_name = null,
+} = {}) => {
+    let summary = {};
 
     if (network) summary.network = network;
     if (gender) summary.gender = gender;
@@ -21,23 +27,27 @@ const generateUserSummary = (info = {}) => {
     return summary;
 };
 
-module.exports = functions.database().path('/users/info/{uid}').on('write', function(event) {
+module.exports = functions.database().path('/users/info/{uid}').on('write', function (event) {
 
     const data = event.data;
+    const uid =  event.params.uid;
 
     const previousData = data.previous.val();
+    const currentData = data.val();
 
     const previous = generateUserSummary(previousData);
-    const current = generateUserSummary(data.val());
+    const current = generateUserSummary(currentData);
 
     if (deepEqual(previous, current)) return Promise.resolve();
 
-    const summaryRef = data.adminRef.root.child('/users/summary/' + event.params.uid);
-    return summaryRef
+    const adminRootRef = data.adminRef.root;
+    const summary = adminRootRef.child('/users/summary/' + uid)
         .update(current)
         .then(() => {
             if (previousData) return Promise.resolve();
             return data.event.ref.child('register_date').set(moment().format('YYYY-MM-DD'));
         });
+
+    return Promise.all([summary, handleOnboardedCheck(adminRootRef, uid)]);
 
 });

@@ -27,43 +27,57 @@ const reducerCreate = params => {
   };
 };
 
-const staticPageScenes = () => {
-  return Object.keys(StaticPages).map(page => {
+const staticPageScenes = (pages = StaticPages) => {
+  return Object.keys(pages).map(page => {
     return <Scene
       component={WebView}
       isModal
       hasHeader
       {...Object.assign({
         animationType: 'slide',
-      }, StaticPages[page])}
+      }, pages[page])}
     />;
   });
 };
-const scenes = Actions.create(
+
+const beforeLoginScenes = Actions.create(
   <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
     <Scene
       key="root"
       hideNavBar
     >
-        <Scene key="Login" component={Login}  initial />
+        <Scene key="Login" component={Login} initial />
         <Scene key="Register" component={Register} />
-        <Scene key="EmailVerification" animation="fade" component={EmailVerification} />
-        <Scene key="Main" component={Main} animation="fade" />
-        <Scene key="Settings" component={Settings} direction="vertical" />
-        <Scene key="Filters" component={Filters} direction="vertical" />
-        <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical" />
-        <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop} />
-        <Scene key="ConversationList" component={Conversations}  />
-        <Scene key="Conversations">
-          <Scene key="Conversation" component={Conversation} clone  />
-        </Scene>
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}
   </Scene>
 );
 
+const mainScenes = Actions.create(
+  <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
+    <Scene
+      key="root"
+      hideNavBar
+    >
+      <Scene key="Main" component={Main} animation="fade" initial />
+      <Scene key="Settings" component={Settings} direction="vertical" />
+      <Scene key="Filters" component={Filters} direction="vertical" />
+      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical" />
+      <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop} />
+      <Scene key="ConversationList" component={Conversations}  />
+      <Scene key="Conversations">
+        <Scene key="Conversation" component={Conversation} clone  />
+      </Scene>
+    </Scene>
+    <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
+    {staticPageScenes()}
+  </Scene>
+);
 
-export default function Routes (props) {
-  return <Router createReducer={reducerCreate} scenes={scenes} {...props} />;
+export default function Routes ({ uid = null, isOnboarded = false}) {
+  return <Router
+    createReducer={reducerCreate}
+    scenes={(uid && isOnboarded) ? mainScenes : beforeLoginScenes}
+  />;
 };
