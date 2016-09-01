@@ -36,7 +36,7 @@ export default class Register extends React.Component {
     this.state = {
       network_email: '',
       birthday: '',
-      isLoading: true,
+      isLoading: true
     };
   }
 
@@ -199,19 +199,23 @@ export default class Register extends React.Component {
   }
 
   checkIfDidLoad(props) {
-    if (props.user.first_name || (this.props.user.first_name && this.props.isUser.onboarded)) {
+    if (props.user.first_name) {
       this.setState({
         isLoading: false
       });
     }
 
     this.setState({
-      birthday: this.props.user.birthday,
-      network_email: this.props.user.network_email
+      birthday: props.user.birthday,
+      network_email: props.user.network_email
     });
   }
 
   onNext() {
+    this.setState({
+      isLoading: true
+    });
+
     let buttons = [{
       text: "Learn more",
       onPress: () => {
@@ -239,10 +243,6 @@ export default class Register extends React.Component {
 
     Validations.NetworkEmailValidation(this.state.network_email)
       .then(network => {
-        this.setState({
-          isLoading: true
-        });
-
         this.props.dispatch(updateUser('info', {
           birthday: this.state.birthday,
           network_email: network.email,
