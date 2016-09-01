@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Actions, ActionConst, Router, Scene, Reducer} from 'react-native-router-flux';
 import Wrapper from './Wrapper';
 
-import { Login, Register, EmailVerification } from '../../scenes/Authentication';
+import { Login, Register, EmailVerification, SMSVerification } from '../../scenes/Authentication';
 import Main from '../../scenes/Main';
 import Settings from '../../scenes/Settings';
 import UpdateYourQuestion from '../../scenes/UpdateYourQuestion';
@@ -48,6 +48,7 @@ const beforeLoginScenes = Actions.create(
     >
         <Scene key="Login" component={Login} initial />
         <Scene key="Register" component={Register} />
+        <Scene key="SMSVerification" animation="fade" component={SMSVerification} />
     </Scene>
     <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
     {staticPageScenes()}
