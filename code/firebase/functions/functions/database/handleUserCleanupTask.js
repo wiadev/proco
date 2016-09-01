@@ -11,15 +11,13 @@ module.exports = functions.database().path('/tasks/user-cleanup/{uid}').on('writ
     actions.push(ref('info').set(null));
     actions.push(ref('settings').set(null));
     actions.push(ref('filters').set(null));
-    actions.push(ref('is').set(null));
     actions.push(ref('interactions').set(null));
     actions.push(ref('interaction-indexes').set(null));
     actions.push(ref('tokens').set(null));
+    actions.push(ref('photos').set(null));
     actions.push(ref('summary').set(null));
-    actions.push(ref('photos').set(null));
-    actions.push(ref('photos').set(null));
-    actions.push(data.ref.set(null));
+    actions.push(ref('is').set(null));
 
-    return Promise.all(actions);
+    return Promise.all(actions).then(() => event.data.ref.set(null));
 
 });
