@@ -15,6 +15,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: '#dadbda'
   },
+  headerDark: {
+    backgroundColor: colors.primary1,
+    borderBottomWidth: 0
+  },
+  logo: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
+  },
   column: {
     flex: 1
   },
@@ -23,8 +33,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   columnMiddle: {
-    flex: 2,
-    alignItems: 'center'
+    flex: 2
   },
   columnRight: {
     alignItems: 'flex-end',
@@ -33,7 +42,14 @@ const styles = StyleSheet.create({
   title: {
     color: colors.primary1,
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  textOnDarkTheme: {
+    color: colors.primaryAlt
+  },
+  iconOnDarkTheme: {
+    color: colors.primaryAlt
   }
 });
 

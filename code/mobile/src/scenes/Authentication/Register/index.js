@@ -1,8 +1,12 @@
-import React, {Component} from "react";
-import {StyleSheet, Text, View, Dimensions, Alert, TouchableOpacity, TextInput} from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import IconM from "react-native-vector-icons/MaterialIcons";
-import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import React from "react";
+import {
+  StatusBar,
+  View,
+  Text,
+  Dimensions,
+  KeyboardAvoidingView
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialIcons";
 import {MKTextField} from "react-native-material-kit";
 import DatePicker from "react-native-datepicker";
 import {logout} from "../../../modules/Authentication/actions";
@@ -15,7 +19,7 @@ import Header from "../../../components/Header";
 import BlockerActivity from "../../../components/BlockerActivity";
 import Picker from "react-native-picker";
 import {styles, dpCustom} from "./styles";
-import appStyles from "../../../core/style";
+import colors from '../../../core/style/colors';
 
 const charMap = {ç: 'c', ö: 'o', ş: 's', ı: 'i', ü: 'u', ğ: 'g'};
 const clearTurkishChars = (str) => {
@@ -24,53 +28,190 @@ const clearTurkishChars = (str) => {
 
 const width = Dimensions.get('window').width;
 
-@connect(
-  state => ({
-    auth: state.auth,
-    user: state.user,
-  }),
-)
-export default class Register extends Component {
-
+@connect(state => ({auth: state.auth, user: state.user, isUser: state.isUser}))
+export default class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.focusToEmail = this.focusToEmail.bind(this);
+
+    this.state = {
+      network_email: '',
+      birthday: '',
+      isLoading: true,
+    };
   }
 
-  state = {
-    network_email: '',
-    birthday: '',
-    isLoading: true,
-  };
-
   componentWillReceiveProps(props) {
-    this.checkLoaded(props);
+    this.checkIfDidLoad(props);
   }
 
   componentWillMount() {
-    this.checkLoaded(this.props);
+    this.checkIfDidLoad(this.props);
   }
 
-  checkLoaded({user: {first_name, birthday, network_email}} = this.props) {
-    console.log("cheking", first_name, network_email)
-    if (first_name) {
-      if (!network_email) {
-        this.setState({isLoading: false});
-      }
+  render() {
+    if (this.state.isLoading) {
+      return <BlockerActivity />;
     }
-    this.setState({birthday: birthday, network_email: network_email});
+
+    return (
+      <View style={styles.register}>
+        <StatusBar hidden={false} />
+
+        <Header
+          theme="dark"
+          titleType="logo"
+          leftActorType="icon"
+          leftActor="keyboard-arrow-left"
+          leftAction={() => this.onLogout()}
+          rightActorType="text"
+          rightActor="Next"
+          rightAction={() => this.onNext()}
+        />
+
+        <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+          <View style={styles.infoBox}>
+            <View style={styles.infoBoxIcon}>
+              <Icon name="info-outline" size={42} color={colors.primaryAlt} />
+            </View>
+
+            <View style={styles.infoBoxContent}>
+              <Text style={styles.infoBoxContentTitle}>
+                Hello {this.props.user.first_name}.
+              </Text>
+
+              <Text style={styles.infoBoxDescription}>
+                to continue, we need you to complete this short form.
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.form}>
+            <View style={styles.formGroup}>
+              <Text style={styles.formLabel}>VERIFY YOUR BIRTH DATE</Text>
+
+              <DatePicker
+                format="DD/MM/YYYY"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                iconSource={null}
+                customStyles={dpCustom}
+                date={moment(this.state.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY')}
+                onDateChange={birthday => this.setState({birthday: moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD')})}
+              />
+            </View>
+
+            <View style={styles.formGroup}>
+              <Text style={styles.formLabel}>SELECT YOUR UNIVERSITY</Text>
+
+              <View style={styles.genderView}>
+                <Text
+                  style={styles.genderText}
+                  onPress={() => this.university_picker.toggle()}
+                >{this.state.uni || 'Please Select'}</Text>
+
+                <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon} />
+              </View>
+            </View>
+
+            { this.props.user.gender ? null : (
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>YOUR GENDER</Text>
+
+                <View style={styles.genderView}>
+                  <Text
+                    style={styles.genderText}
+                    onPress={() => this.picker.toggle()}
+                  >{this.state.gender || 'Please Select'}</Text>
+
+                  <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon}
+                  />
+                </View>
+              </View>
+            )}
+
+            <View style={styles.formGroup}>
+              <Text style={styles.formLabel}>TYPE YOUR UNIVERSITY EMAIL</Text>
+
+              <MKTextField
+                autoCapitalize={'none'}
+                autoCorrect={false}
+                tintColor={'transparent'}
+                keyboardType={'email-address'}
+                returnKeyType={'done'}
+                textInputStyle={styles.emailTxt}
+                placeholder={clearTurkishChars(`${this.props.user.first_name}.${this.props.user.last_name}`) + `@university.edu`}
+                placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
+                style={styles.email}
+                underlineEnabled={false}
+                ref="emailfield"
+                onChangeText={(network_email) => this.setState({network_email})}
+              />
+            </View>
+          </View>
+
+          <View style={styles.footer}>
+            <Text onPress={Actions.AboutSchoolEmails} style={styles.footerText}>Why do you need my university e-mail?</Text>
+          </View>
+
+          <Picker
+            ref={picker => this.picker = picker}
+            style={{
+              height: 250,
+              width,
+              left: 0,
+              position: 'absolute',
+              bottom: 0,
+            }}
+            showDuration={200}
+            showMask={true}
+            pickerData={['Male', 'Female']}
+            selectedValue={'Male'}
+            onPickerDone={(e) => {
+              this.setState({
+                gender: e[0],
+              });
+            }}
+          />
+          <Picker
+            ref={university_picker => {
+              this.university_picker = university_picker;
+            }}
+            style={{
+              height: 250,
+              width,
+              left: 0,
+              position: 'absolute',
+              bottom: 0,
+            }}
+            showDuration={200}
+            showMask={true}
+            pickerData={['Bahcesehir University', 'Koc University']}
+            selectedValue={'Bahcesehir University'}
+            onPickerDone={(e) => {
+              this.setState({
+                uni: e[0],
+              });
+            }}
+          />
+        </KeyboardAvoidingView>
+      </View>
+    );
   }
 
-  focusToEmail() {
-    this.refs.emailfield.focus();
+  checkIfDidLoad(props) {
+    if (props.user.first_name || (this.props.user.first_name && this.props.isUser.onboarded)) {
+      this.setState({
+        isLoading: false
+      });
+    }
+
+    this.setState({
+      birthday: this.props.user.birthday,
+      network_email: this.props.user.network_email
+    });
   }
 
   onNext() {
-    console.log("register", this.state);
-
-    const {network_email, birthday, gender} = this.state;
-    const {dispatch} = this.props;
-
     let buttons = [{
       text: "Learn more",
       onPress: () => {
@@ -83,32 +224,37 @@ export default class Register extends Component {
       text: "Close",
       onPress: () => {
         Actions.pop();
-        setImmediate(() => this.focusToEmail());
       }
     }];
 
-    if (!network_email) {
+    if (!this.state.network_email) {
       Actions.Card({
         label: "Your school email is missing",
         text: "Proco needs your school email to verify your school.",
-        buttons,
+        buttons: buttons,
         noClose: true,
       });
       return;
     }
 
-    Validations.NetworkEmailValidation(network_email)
-      .then((network_email) => {
-        this.setState({isLoading: true});
-        dispatch(updateUser('info', {
-          birthday: moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-          network_email: network_email.email,
+    Validations.NetworkEmailValidation(this.state.network_email)
+      .then(network => {
+        this.setState({
+          isLoading: true
+        });
+
+        this.props.dispatch(updateUser('info', {
+          birthday: this.state.birthday,
+          network_email: network.email,
         }));
       })
-      .catch(e => {
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
 
         let label, text;
-        switch (e) {
+        switch (error) {
           case 'CHECK_EMAIL':
           case 'INVALID_EMAIL':
             label = "Something seems to be wrong with your email address";
@@ -125,7 +271,6 @@ export default class Register extends Component {
               text: "Sounds good!",
               onPress: () => {
                 Actions.pop();
-                setImmediate(() => this.focusToEmail());
               }
             }];
             break;
@@ -141,14 +286,10 @@ export default class Register extends Component {
           buttons,
           noClose: true
         });
-
       });
-
-
   }
 
   onLogout() {
-
     Actions.Card({
       label: `Are you sure you want to logout ${this.props.user.first_name}?`,
       text: 'If you are having trouble completing the form, please contact us.',
@@ -168,175 +309,5 @@ export default class Register extends Component {
         }
       ]
     });
-
-  }
-
-  render() {
-
-    const {user} = this.props;
-
-    if (this.state.isLoading) {
-      return <BlockerActivity />;
-    }
-
-    return (
-      <View style={appStyles.container}>
-        <Header
-          title=""
-          leftActorType="text"
-          leftActor="Logout"
-          leftAction={() => this.onLogout()}
-          rightActorType="text"
-          rightActor="Next"
-          rightAction={() => this.onNext()}
-        />
-
-        <View style={styles.infoBox}>
-          <View style={styles.leftBox}>
-            <IconM name="info-outline" size={42} color="#FFFFFF"/>
-          </View>
-          <View style={styles.rightBox}>
-            <Text style={styles.rightBoxText}>
-              Hello {this.props.user.first_name}.
-            </Text>
-            <Text style={styles.rightBoxText2}>
-              to continue, we need you to complete this short form.
-            </Text>
-          </View>
-        </View>
-        <KeyboardAwareScrollView>
-          <View>
-            <View style={styles.bornBox}>
-              <Text style={styles.emailLabel}>
-                VERIFY WHEN YOU WERE BORN
-              </Text>
-              <DatePicker
-                style={styles.datepicker}
-                format="DD/MM/YYYY"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                iconSource={null}
-                customStyles={dpCustom}
-                date={moment(this.state.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY')}
-                onDateChange={(birthday) => {
-                  this.setState({birthday});
-                }}
-              />
-            </View>
-
-            <View style={styles.emailBox}>
-              <Text style={styles.emailLabel}>
-                SELECT YOUR UNIVERSITY
-              </Text>
-              <View style={styles.genderView}>
-                <Text
-                  style={styles.genderText}
-                  onPress={() => {
-                    this.unipicker.toggle();
-                  }}
-                >{this.state.uni || 'Please Select'}</Text>
-                <Icon
-                  name="angle-right"
-                  size={32}
-                  color="rgba(255, 255, 255, 0.7)"
-                  style={styles.genderIcon}
-                />
-              </View>
-            </View>
-
-            { user.gender ? null : (
-              <View style={styles.emailBox}>
-                <Text style={styles.emailLabel}>
-                  YOUR GENDER
-                </Text>
-                <View style={styles.genderView}>
-                  <Text
-                    style={styles.genderText}
-                    onPress={() => {
-                      this.picker.toggle();
-                    }}
-                  >{this.state.gender || 'Please Select'}</Text>
-                  <Icon
-                    name="angle-right"
-                    size={32}
-                    color="rgba(255, 255, 255, 0.7)"
-                    style={styles.genderIcon}
-                  />
-                </View>
-              </View>
-            ) }
-
-            <View style={styles.emailBox}>
-              <Text style={styles.emailLabel}>
-                WHAT IS YOUR UNIVERSITY E-MAIL?
-              </Text>
-
-              <MKTextField
-                autoCapitalize={'none'}
-                autoCorrect={false}
-                tintColor={'transparent'}
-                keyboardType={'email-address'}
-                returnKeyType={'next'}
-                textInputStyle={styles.emailTxt}
-                placeholder={clearTurkishChars(`${user.first_name}.${user.last_name}`) + `@university.edu`}
-                placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
-                style={styles.email}
-                underlineEnabled={false}
-                ref="emailfield"
-                onChangeText={(network_email) => this.setState({network_email})}
-                onSubmitEditing={::this.onNext}
-              />
-            </View>
-
-            <TouchableOpacity onPress={Actions.AboutSchoolEmails}>
-              <View style={styles.footer}>
-                <Text style={styles.footerText}>
-                  Why do you need my university e-mail?
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAwareScrollView>
-        <Picker
-          ref={picker => this.picker = picker}
-          style={{
-            height: 250,
-            width,
-            left: 0,
-            position: 'absolute',
-            bottom: 0,
-          }}
-          showDuration={200}
-          showMask={true}
-          pickerData={['Male', 'Female']}
-          selectedValue={'Male'}
-          onPickerDone={(e) => {
-            this.setState({
-              gender: e[0],
-            });
-          }}
-        />
-        <Picker
-          ref={unipicker => this.unipicker = unipicker}
-          style={{
-            height: 250,
-            width,
-            left: 0,
-            position: 'absolute',
-            bottom: 0,
-          }}
-          showDuration={200}
-          showMask={true}
-          pickerData={['Bahcesehir University', 'Koc University']}
-          selectedValue={'Bahcesehir University'}
-          onPickerDone={(e) => {
-            this.setState({
-              uni: e[0],
-            });
-          }}
-        />
-
-      </View>
-    );
   }
 }

@@ -3,14 +3,19 @@ import {
   View,
   Text,
   Image,
+  TouchableWithoutFeedback
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import styles from './styles';
 
+const themes = ['dark', 'light'];
+const titleTypes = ['text', 'logo'];
 const actorTypes = ['icon', 'text'];
 
 const propTypes = {
+  theme: React.PropTypes.oneOf(themes).isRequired,
+  titleType: React.PropTypes.oneOf(titleTypes),
   title: React.PropTypes.string,
   leftActorType: React.PropTypes.oneOf(actorTypes),
   leftActor: React.PropTypes.string,
@@ -21,13 +26,13 @@ const propTypes = {
 };
 
 const defaultProps = {
-
+  titleType: titleTypes[0]
 };
 
 export default class Header extends React.Component {
   render() {
     return (
-      <View style={styles.header}>
+      <View style={this._getHeaderStyle()}>
         <View style={this._getColumnStyle('left')}>
           {this._renderLeftActor()}
         </View>
@@ -44,9 +49,15 @@ export default class Header extends React.Component {
   }
 
   _renderTitle() {
-    if (this.props.title) {
+    if (this.props.theme === 'dark' && this.props.titleType === 'logo') {
       return (
-        <Text style={styles.title}>{this.props.title}</Text>
+        <Image source={require('../../assets/images/logo.png')} style={styles.logo} />
+      );
+    }
+
+    if (this.props.titleType === 'text' && this.props.title) {
+      return (
+        <Text style={[styles.title, this._getTextStyle()]}>{this.props.title}</Text>
       );
     }
   }
@@ -54,13 +65,13 @@ export default class Header extends React.Component {
   _renderActor(actorType, actor, action) {
     if (actorType === 'icon') {
       return (
-        <Icon name={actor} size={24} onPress={action} />
+        <Icon name={actor} size={24} onPress={action} style={this._getIconStyle()} />
       )
     }
 
     if (actorType === 'text') {
       return (
-        <Text onPress={action}>{actor}</Text>
+        <Text onPress={action} style={this._getTextStyle()}>{actor}</Text>
       );
     }
   }
@@ -75,6 +86,17 @@ export default class Header extends React.Component {
     if (this.props.rightActorType && this.props.rightAction) {
       return this._renderActor(this.props.rightActorType, this.props.rightActor, this.props.rightAction);
     }
+  }
+
+  _getHeaderStyle() {
+    let headerStyle = [styles.header];
+
+    switch (this.props.theme) {
+      case 'dark':
+        headerStyle.push(styles.headerDark);
+    }
+
+    return headerStyle;
   }
 
   _getColumnStyle(position) {
@@ -93,6 +115,18 @@ export default class Header extends React.Component {
     }
 
     return columnStyle;
+  }
+
+  _getTextStyle() {
+    if (this.props.theme === 'dark') {
+      return styles.textOnDarkTheme;
+    }
+  }
+
+  _getIconStyle() {
+    if (this.props.theme === 'dark') {
+      return styles.iconOnDarkTheme;
+    }
   }
 }
 
