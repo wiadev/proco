@@ -33,9 +33,8 @@ const staticPageScenes = (pages = StaticPages) => {
       component={WebView}
       isModal
       hasHeader
-      {...Object.assign({
-        animationType: 'slide',
-      }, pages[page])}
+      direction="vertical"
+      {...pages[page]}
     />;
   });
 };

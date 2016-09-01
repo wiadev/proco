@@ -1,11 +1,11 @@
 import React, {
   PropTypes,
 } from 'react';
+
 import {
   View,
-  Modal as RNModal,
-  Dimensions,
 } from 'react-native';
+
 import { DefaultRenderer, Actions } from 'react-native-router-flux';
 
 import Header from '../../components/Header';
@@ -16,8 +16,6 @@ const propTypes = {
   }),
   onNavigate: PropTypes.func,
 };
-
-const Modal = (props) => <RNModal {...props}>{props.children}</RNModal>;
 
 export default function Wrapper(props) {
   const children = props.navigationState.children;
@@ -36,10 +34,13 @@ export default function Wrapper(props) {
           const comp = <Component key={el.key} {...el} />;
           if (el.isModal) {
             return (
-              <Modal {...el}>
-                {el.hasHeader && <Header hideMid leftAction={Actions.pop} />}
+              <View>
+                {el.hasHeader && <Header 
+                  rightActorType="text"
+                  rightActor={el.title} rightAction={Actions.pop}
+                  />}
                 {comp}
-              </Modal>
+              </View>
             );
           }
           return comp;
