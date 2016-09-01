@@ -31,6 +31,8 @@ $.handleUserNetworkEmailChange = require('./functions/database/handleUserNetwork
 $.handleUserNetworkEmailVerification = require('./functions/database/handleUserNetworkEmailVerification');
 $.handleUserNetworkEmailVerificationOnWeb = require('./functions/database/handleUserNetworkEmailVerificationOnWeb');
 
+$.handleUserPostedNewInteraction = require('./functions/database/handleUserPostedNewInteraction');
+
 $.handleNewLocationData = require('./functions/http/handleNewLocationData');
 
 // Internal functions

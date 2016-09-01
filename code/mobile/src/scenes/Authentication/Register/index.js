@@ -52,6 +52,7 @@ export default class Register extends Component {
   }
 
   checkLoaded({user: {first_name, birthday, network_email}} = this.props) {
+    console.log("cheking", first_name, network_email)
     if (first_name) {
       if (!network_email) {
         this.setState({isLoading: false});

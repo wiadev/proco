@@ -7,6 +7,7 @@ const typeMap = {
   tokens: 'TOKENS',
   filters: 'FILTERS',
   is: 'IS',
+  drops: 'DROPS',
 };
 
 const types = Object.keys(typeMap);

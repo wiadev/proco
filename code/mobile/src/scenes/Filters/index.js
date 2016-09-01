@@ -19,9 +19,9 @@ import {
 } from 'react-native-material-kit';
 import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
+import {base} from "../../core/Api";
 
 import { setStatusBarStyle } from '../../modules/StatusBar/actions';
-import { updateUser, loadUser } from '../../modules/User/actions';
 import Header from '../../components/Header';
 
 import { round } from 'lodash';

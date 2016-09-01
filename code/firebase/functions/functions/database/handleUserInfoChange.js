@@ -4,13 +4,14 @@ const deepEqual = require('deep-equal');
 
 const handleOnboardedCheck = require('./common/handleOnboardedCheck');
 
-const generateUserSummary = ({
-    network = null,
-    gender = null,
-    birthday = null,
-    first_name = null,
-    last_name = null,
-} = {}) => {
+const generateUserSummary = (data = {}) => {
+    const {
+        network = null,
+        gender = null,
+        birthday = null,
+        first_name = null,
+        last_name = null,
+    } = data;
     let summary = {};
 
     if (network) summary.network = network;
@@ -30,15 +31,19 @@ const generateUserSummary = ({
 module.exports = functions.database().path('/users/info/{uid}').on('write', function (event) {
 
     const data = event.data;
-    const uid =  event.params.uid;
+    const uid = event.params.uid;
 
     const previousData = data.previous.val();
     const currentData = data.val();
 
-    const previous = generateUserSummary(previousData);
     const current = generateUserSummary(currentData);
 
-    if (deepEqual(previous, current)) return Promise.resolve();
+    if ((previousData !== null) && deepEqual(
+            generateUserSummary(previousData),  // Generate it here so it won't get generated when the previous is empty
+            current
+        )) {
+        return Promise.resolve();
+    }
 
     const adminRootRef = data.adminRef.root;
     const summary = adminRootRef.child('/users/summary/' + uid)

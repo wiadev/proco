@@ -76,6 +76,7 @@ const mainScenes = Actions.create(
 );
 
 export default function Routes ({ uid = null, isOnboarded = false}) {
+  console.log("r", uid, isOnboarded)
   return <Router
     createReducer={reducerCreate}
     scenes={(uid && isOnboarded) ? mainScenes : beforeLoginScenes}

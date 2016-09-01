@@ -6,6 +6,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import IconM from "react-native-vector-icons/MaterialIcons";
 import {MKSwitch, setTheme} from "react-native-material-kit";
 import {round} from "lodash";
+import {base} from "../../core/Api";
 import {setStatusBarStyle} from "../../modules/StatusBar/actions";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
 import {logout} from "../../modules/Authentication/actions";

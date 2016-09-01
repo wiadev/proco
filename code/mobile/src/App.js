@@ -75,6 +75,7 @@ class App extends Component {
       permissions: { location }
     } = this.props;
 
+    console.log("props on ap", this.props)
     const isBlocked = !(blocked === false || blocked === null);
 
     return (

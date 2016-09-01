@@ -12,8 +12,13 @@ module.exports = function (adminRootRef, uid) {
                 .once('value')
                 .then(snap => snap.val())
                 .then(info => {
-                    const {birthday = null, gender = null, network_email = null} = info;
-                    if (birthday && gender && network_email) return onboardedRef.set(true);
+                    const {birthday = null, gender = null, network = null} = info;
+                    if (birthday && gender && network) {
+                        console.log("Boarded")
+                        return onboardedRef.set(true);
+                    } else {
+                        console.log("not boarded", info)
+                    }
                     if (onboarded !== false) return onboardedRef.set(false);
                     return Promise.resolve();
                 });
