@@ -26,6 +26,7 @@ const getUserUpdatedActionTypeFor = (type) => {
 };
 
 const hasChanged = (old, _new) => {
+  return true; // @TODO: Ther is a bug with sync
   const keysToCompare = Object.keys(_new);
   let _old = {};
   keysToCompare.forEach(key => _old[key] = (old[key] ? old[key] : null));
