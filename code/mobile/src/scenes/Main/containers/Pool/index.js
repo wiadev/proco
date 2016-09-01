@@ -1,44 +1,20 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  PixelRatio,
-  StatusBar,
-} from 'react-native';
-import Swiper from 'react-native-swiper';
-import { connect } from 'react-redux';
-import styles from '../../styles';
-import PoolItem from '../../../../components/PoolItem';
-import Card from '../../../../components/Card';
-import PermissionModal from '../../../../components/PermissionModal';
-import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../../../modules/StatusBar/actions';
-import IconM from 'react-native-vector-icons/MaterialIcons';
-const sequenceImages = ['https://files.icoz.co/uploads/procolooptest01.jpg',
-  'https://files.icoz.co/uploads/procolooptest02.jpg',
-  'https://files.icoz.co/uploads/procolooptest03.jpg',
-  'https://files.icoz.co/uploads/procolooptest04.jpg',
-  'https://files.icoz.co/uploads/procolooptest05.jpg',
-  'https://files.icoz.co/uploads/procolooptest06.jpg',
-  'https://files.icoz.co/uploads/procolooptest07.jpg',
-  'https://files.icoz.co/uploads/procolooptest08.jpg',
-  'https://files.icoz.co/uploads/procolooptest09.jpg',
-  'https://files.icoz.co/uploads/procolooptest10.jpg',
-  'https://files.icoz.co/uploads/procolooptest11.jpg',
-  'https://files.icoz.co/uploads/procolooptest12.jpg',
-  'https://files.icoz.co/uploads/procolooptest13.jpg',
-  'https://files.icoz.co/uploads/procolooptest14.jpg',
-  'https://files.icoz.co/uploads/procolooptest15.jpg',
-  'https://files.icoz.co/uploads/procolooptest16.jpg',
-  'https://files.icoz.co/uploads/procolooptest17.jpg',
-  'https://files.icoz.co/uploads/procolooptest18.jpg'];
+import React, {Component} from "react";
+import {StyleSheet, Text, View, Dimensions, Image, PixelRatio, StatusBar} from "react-native";
+import Swiper from "react-native-swiper";
+import {connect} from "react-redux";
+import PoolItem from "../../../../components/PoolItem";
+import Card from "../../../../components/Card";
+import {base} from "../../../../core/Api";
+import PermissionModal from "../../../../components/PermissionModal";
+import {setStatusBarStyle} from "../../../../modules/StatusBar/actions";
+import IconM from "react-native-vector-icons/MaterialIcons";
+import {getUserRefForTypeAsString} from "../../../../modules/User/actions";
 
 const onComplete = (eventType, params) => console.log(eventType, params);
 
 @connect(
   state => ({
+    uid: state.auth.uid,
     permissions: state.permissions,
   }),
 )
@@ -48,30 +24,34 @@ export default class Pool extends Component {
   }
 
   state = {
-    people: [{
-      uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
-    },
-      {
-        uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
-      },
-      {
-        uid: "LccxwKvV9cPcn3898zpEvJyl6z53",
-      }],
-    index: 0
+    index: 0,
+    drops: [],
   };
 
-  componentDidMount() {
+  componentWillMount() {
+    console.log("ppp", this.props)
+    this.ref = base.syncState(getUserRefForTypeAsString('drops', this.props.uid), {
+      context: this,
+      state: 'drops',
+      asArray: true,
+    });
 
+    this.props.dispatch(setStatusBarStyle('default'));
   }
 
-  renderPoolItems(items) {
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
+  }
+
+  renderPoolItems(items = this.state.drops) {
     if (items.length < 1) {
-      return (<Card label="No one seems to be nearby" noClose={true} />);
+      return (<Card label="No one seems to be nearby" noClose={true}/>);
     }
     return items.map((item, key) => {
       return (<PoolItem key={key} isMounted={key === this.state.index } {...item} />);
     });
   }
+
   render() {
 
     return (
@@ -89,14 +69,15 @@ export default class Pool extends Component {
           }}
         >
           {(this.props.permissions.location === 'authorized') ?
-            this.renderPoolItems(this.state.people) : <PermissionModal type="location" />
+            this.renderPoolItems(this.state.drops) : <PermissionModal type="location"/>
           }
         </Swiper>
         <IconM
           name="expand-less"
           size={44}
           color="white"
-          style={{ opacity: 0.5,
+          style={{
+            opacity: 0.5,
             backgroundColor: 'transparent',
             textAlign: 'center',
             alignItems: 'center',

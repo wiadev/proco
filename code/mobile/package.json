@@ -11,8 +11,10 @@
     "url": "https://github.com/barbar/proco"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "lodash": "4.14.1",
     "moment": "^2.14.1",
+    "re-base": "^2.1.0",
     "react": "15.2.1",
     "react-mixin": "^3.0.5",
     "react-native": "0.31.0",
@@ -23,11 +25,10 @@
     "react-native-device-info": "^0.9.4",
     "react-native-fbsdk": "0.3.0",
     "react-native-fcm": "^1.0.16",
-    "react-native-firestack": "^2.2.1",
     "react-native-fs": "1.5.1",
     "react-native-gifted-chat": "0.0.10",
     "react-native-image-picker": "0.21.2",
-    "react-native-image-sequence": "^0.1.3",
+    "react-native-keyboard-aware-scroll-view": "^0.2.0",
     "react-native-linear-gradient": "1.5.12",
     "react-native-material-kit": "0.3.2",
     "react-native-media-player": "0.1.7",
@@ -46,7 +47,6 @@
     "redux-persist-immutable": "^1.0.5",
     "redux-promise": "0.5.3",
     "redux-thunk": "2.1.0",
-    "rn-firebase-bridge": "batuhan/rn-firebase-bridge#feature/FIRUser",
     "validator": "^5.5.0"
   },
   "devDependencies": {

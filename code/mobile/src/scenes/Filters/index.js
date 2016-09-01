@@ -17,9 +17,11 @@ import {
   MKRadioButton,
   setTheme,
 } from 'react-native-material-kit';
+import {assign} from "../../core/utils";
+import {getUserRefForTypeAsString} from "../../modules/User/actions";
+import {base} from "../../core/Api";
 
 import { setStatusBarStyle } from '../../modules/StatusBar/actions';
-import { updateUser, loadUser } from '../../modules/User/actions';
 import Header from '../../components/Header';
 
 import { round } from 'lodash';
@@ -40,7 +42,7 @@ setTheme({
 
 @connect(
   state => ({
-    filters: state.filters,
+    auth: state.auth,
   }),
 )
 class DiscoveryFilters extends Component {
@@ -48,17 +50,27 @@ class DiscoveryFilters extends Component {
   constructor(props) {
     super(props);
     this.groupRdSchool = new MKRadioButton.Group();
+    state = {
+      _filters: {},
+    }
   }
 
-  state = {};
 
   componentWillMount() {
+    this.ref = base.syncState(getUserRefForTypeAsString('filters', this.props.auth.uid), {
+      context: this,
+      state: 'filters',
+      then: () => this.setState({_filters: assign(this.state.filters)}),
+    });
     this.props.dispatch(setStatusBarStyle('default'));
-    this.props.dispatch(loadUser('filters'));
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
   render() {
-    const filters = this.props.filters;
+    const filters = this.state._filters;
     return (
       <View style={appStyles.container}>
         <Header title="Discovery Filters" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
@@ -110,10 +122,11 @@ class DiscoveryFilters extends Component {
                 maxValue={filters.ageMax}
                 step={1}
                 lowerTrackColor={'rgb(249,59,95)'}
-                onChange={(curValue) => this.props.dispatch(updateUser('filters',{
-                  ageMin: round(curValue.min),
-                  ageMax: round(curValue.max),
-                }))
+                onChange={(curValue) =>
+                  this.setState({_filters: assign(this.state._filters, {
+                    ageMin: round(curValue.min),
+                    ageMax: round(curValue.max),
+                  })})
                 }
               />
             </View>
@@ -133,10 +146,9 @@ class DiscoveryFilters extends Component {
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
 
-                this.props.dispatch(updateUser('filters', {
+                this.setState({_filters: assign(this.state._filters, {
                   onlyFromSchool: true,
-                }));
-
+                })});
               }}>Only show people from my university</Text>
             </View>
             <View style={{
@@ -148,11 +160,9 @@ class DiscoveryFilters extends Component {
                 group={this.groupRdSchool}
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
-
-                this.props.dispatch(updateUser('filters', {
+                this.setState({_filters: assign(this.state._filters, {
                   onlyFromSchool: false,
-                }));
-
+                })});
               }}>Show people from other universites too</Text>
             </View>
           </View>
@@ -170,17 +180,16 @@ class DiscoveryFilters extends Component {
           showMask={true}
           pickerData={['Male', 'Female', 'Both']}
           selectedValue={'Both'}
-          onPickerDone={(e) => {
-            this.props.dispatch(updateUser('filters', {
-              gender: e[0],
-            }));
-          }}
+          onPickerDone={(e) => this.setState({_filters: assign(this.state._filters, {
+            gender: e[0],
+          })})}
         />
       </View>
     );
   }
 
   _onSave() {
+    this.setState({filters: this.state._filters});
     Actions.pop();
   }
 }

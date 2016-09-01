@@ -1,28 +1,19 @@
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  Dimensions,
-  ScrollView,
-  Image,
-  Alert,
-  TouchableHighlight,
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
-import {connect} from 'react-redux';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import IconM from 'react-native-vector-icons/MaterialIcons';
-import {
-  MKSwitch,
-  setTheme,
-} from 'react-native-material-kit';
-import {round} from 'lodash';
-
-import {loadUser, updateUser} from '../../modules/User/actions';
-import {logout} from '../../modules/Authentication/actions';
-import styles from './styles';
-
-import Header from '../../components/Header';
+import React, {Component} from "react";
+import {View, Text, Dimensions, ScrollView, Image, Alert, TouchableHighlight} from "react-native";
+import {Actions} from "react-native-router-flux";
+import {connect} from "react-redux";
+import Icon from "react-native-vector-icons/FontAwesome";
+import IconM from "react-native-vector-icons/MaterialIcons";
+import {MKSwitch, setTheme} from "react-native-material-kit";
+import {round} from "lodash";
+import {base} from "../../core/Api";
+import {setStatusBarStyle} from "../../modules/StatusBar/actions";
+import {getUserRefForTypeAsString} from "../../modules/User/actions";
+import {logout} from "../../modules/Authentication/actions";
+import appStyles from "../../core/style";
+import {assign} from "../../core/utils";
+import styles from "./styles";
+import Header from "../../components/Header";
 
 const width = Dimensions.get('window').width;
 
@@ -36,31 +27,31 @@ setTheme({
 
 @connect(
   state => ({
+    auth: state.auth,
     user: state.user,
-    settings: state.settings,
   }),
 )
 class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      settings: this.props.settings,
-      modal: {
-        isVisible: false
-      }
-    };
   }
 
-  state = {};
-
   componentWillMount() {
-    this.props.dispatch(loadUser('settings'));
+    this.ref = base.syncState(getUserRefForTypeAsString('settings', this.props.auth.uid), {
+      context: this,
+      state: 'settings',
+    });
+    this.props.dispatch(setStatusBarStyle('default'));
+  }
+
+  componentWillUnmount() {
+    base.removeBinding(this.ref);
   }
 
   render() {
     return (
-      <View style={styles.preview}>
-        <Header title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
+      <View style={appStyles.container}>
+        <Header title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()}/>
 
         <ScrollView style={styles.container}>
           <View style={[{
@@ -110,12 +101,12 @@ class Settings extends Component {
           </View>
           <View style={styles.inputBox}>
             <View style={styles.inputBoxLeft}>
-              <Text style={styles.pinkText}>School</Text>
+              <Text style={styles.pinkText}>University</Text>
             </View>
             <View style={styles.inputBoxRight}>
               <Text
                 style={[styles.blackText]}
-              >{this.props.user.network_name}</Text>
+              >{this.props.user.network}</Text>
             </View>
           </View>
           <View style={styles.inputBox}>
@@ -125,14 +116,12 @@ class Settings extends Component {
             <View style={styles.inputBoxRight}>
               <MKSwitch
                 style={styles.mkSwitch2}
-                onCheckedChange={(e) => {
-                  this.props.dispatch(updateUser('settings', {
-                    suspendDiscovery: e.checked,
-                  }));
-                }}
+                onCheckedChange={(e) => this.setState({settings: assign(this.state.settings, {
+                  suspendDiscovery: e.checked,
+                })})}
                 onColor={'#43da5e'}
                 thumbOnColor={'white'}
-                checked={this.props.settings.suspendDiscovery}
+                checked={this.state.settings.suspendDiscovery}
                 trackSize={32}
               />
             </View>
@@ -167,14 +156,12 @@ class Settings extends Component {
               }]}>
                 <MKSwitch
                   style={styles.mkSwitch}
-                  onCheckedChange={(e) => {
-                    this.props.dispatch(updateUser('settings', {
-                      notifyNewMessagesFromMatches: e.checked,
-                    }));
-                  }}
+                  onCheckedChange={(e) => this.setState({settings: assign(this.state.settings, {
+                    notifyNewMessagesFromMatches: e.checked,
+                  })})}
                   onColor={'#43da5e'}
                   thumbOnColor={'white'}
-                  checked={this.props.settings.notifyNewMessagesFromMatches}
+                  checked={this.state.settings.notifyNewMessagesFromMatches}
                   trackSize={32}
                 />
               </View>
@@ -193,14 +180,12 @@ class Settings extends Component {
               }]}>
                 <MKSwitch
                   style={styles.mkSwitch}
-                  onCheckedChange={(e) => {
-                    this.props.dispatch(updateUser('settings', {
-                      notifyNewMessages: e.checked,
-                    }));
-                  }}
+                  onCheckedChange={(e) => this.setState({settings: assign(this.state.settings, {
+                    notifyNewMessages: e.checked,
+                  })})}
                   onColor={'#43da5e'}
                   thumbOnColor={'white'}
-                  checked={this.props.settings.notifyNewMessages}
+                  checked={this.state.settings.notifyNewMessages}
                   trackSize={32}
                 />
               </View>
@@ -233,9 +218,11 @@ class Settings extends Component {
                           {
                             text: 'No problem!',
                             onPress: () => {
-                              this.props.dispatch(updateUser('settings', {
+
+                              this.setState({settings: assign(this.state.settings, {
                                 notifyNewAnswers: e.checked,
-                              }));
+                              })});
+
                             }
                           },
                         ]
@@ -244,7 +231,7 @@ class Settings extends Component {
                   }
                   onColor={'#43da5e'}
                   thumbOnColor={'white'}
-                  checked={this.props.settings.notifyNewAnswers}
+                  checked={this.state.settings.notifyNewAnswers}
                   trackSize={32}
                 />
               </View>
@@ -263,14 +250,12 @@ class Settings extends Component {
               }]}>
                 <MKSwitch
                   style={styles.mkSwitch}
-                  onCheckedChange={(e) => {
-                    this.props.dispatch(updateUser('settings', {
-                      notifyAnnouncements: e.checked,
-                    }));
-                  }}
+                  onCheckedChange={(e) => this.setState({settings: assign(this.state.settings, {
+                    notifyAnnouncements: e.checked,
+                  })})}
                   onColor={'#43da5e'}
                   thumbOnColor={'white'}
-                  checked={this.props.settings.notifyAnnouncements}
+                  checked={this.state.settings.notifyAnnouncements}
                   trackSize={32}
                 />
               </View>
@@ -429,7 +414,6 @@ class Settings extends Component {
   }
 
   _onSave() {
-    this.props.dispatch(updateUser('settings', this.state.settings));
     Actions.pop();
   }
 }

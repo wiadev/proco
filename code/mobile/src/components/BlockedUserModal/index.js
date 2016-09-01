@@ -8,11 +8,11 @@ export default function BlockedUserModal(props) {
     <Modal
       animationType={"slide"}
       transparent={false}
-      visible={props.visible}
+      visible={true}
     >
       <Card
         label={`Sorry ${props.name}, you are banned from Proco`}
-        text="If you believe this is a mistake, please contact us."
+        text={`If you believe this is a mistake, please contact us. ${(typeof props.blocked === 'string') && props.blocked}`}
         buttons={[
           {
             text: "Contact",

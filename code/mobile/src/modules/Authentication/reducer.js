@@ -18,19 +18,21 @@ export default function reducer(state = initialState, action = {}) {
     default: return state;
     case STARTED:
       return assign(state, {
-        isLoaded: false,
+        isLoaded: true,
         isInProgress: true,
       });
     case LOADED:
       return assign(state, {
         isLoaded: true,
         isInProgress: false,
+        uid: null,
       });
     case SET:
       return assign(state, {
         isLoaded: true,
         isInProgress: false,
-      }, action.payload);
+        uid: action.payload.uid,
+      });
   }
 
 }

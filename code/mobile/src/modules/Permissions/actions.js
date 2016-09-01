@@ -2,7 +2,7 @@ const Permissions = require('react-native-permissions');
 import FCM from 'react-native-fcm';
 import { updateUser } from '../User/actions';
 
-const typemap = {
+const typeMap = {
   'camera': 'CAMERA',
   'notification': 'NOTIFICATIONS',
   'location': 'LOCATION',
@@ -44,9 +44,7 @@ export function requestPermission(type) {
   }
 }
 
-export function openSettings() {
-  Permissions.openSettings();
-}
+export const openSettings = () => Permissions.openSettings();
 
 export function updateNotificationToken(fcm_token) {
   return (dispatch, getState) => {

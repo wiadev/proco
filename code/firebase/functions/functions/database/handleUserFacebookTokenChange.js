@@ -28,23 +28,24 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
     })
         .then(data => data.data)
         .then((data) => {
-            const {id, name, gender, age_range, first_name, last_name} = data;
+            const {id, name, gender, age_range = {}, first_name, last_name} = data;
             let birthday = data.birthday;
 
             let updates = {
                 fid: id,
                 name,
-                gender,
-                age_range_on_facebook: age_range,
+                gender: gender || null,
                 first_name,
-                last_name
+                last_name,
+                age_range_on_facebook_min: age_range.min || null,
+                age_range_on_facebook_max: age_range.max || null,
             };
 
             if (birthday) {
                 if (!(birthday.split('/').length === 3)) {
                     birthday = null;
                 } else {
-                    birthday = moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                    birthday = moment(birthday, 'MM/DD/YYYY').format('YYYY-MM-DD');
                 }
             }
 

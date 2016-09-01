@@ -6,8 +6,6 @@ import inAppAlertReducer from '../modules/InAppAlert/reducer';
 import authReducer from '../modules/Authentication/reducer';
 import {
 Info as userReducer,
-Settings as settingsReducer,
-Filters as filtersReducer,
 Is as isUserReducer,
 Tokens as tokensReducer,
 } from '../modules/User/reducers';
@@ -18,8 +16,6 @@ const reducers = {
   inAppAlerts: inAppAlertReducer,
   auth: authReducer,
   user: userReducer,
-  settings: settingsReducer,
-  filters: filtersReducer,
   tokens: tokensReducer,
   isUser: isUserReducer,
   permissions: permissionsReducer,
