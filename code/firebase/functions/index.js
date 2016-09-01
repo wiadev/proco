@@ -37,4 +37,6 @@ $.handleNewLocationData = require('./functions/http/handleNewLocationData');
 
 // Internal functions
 
+$.handleUserCleanupTask = require('./functions/database/handleUserCleanupTask');
+
 module.exports = $;
