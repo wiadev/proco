@@ -17,9 +17,6 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
     const uid = event.params.uid;
     const adminRoot = data.adminRef.root;
 
-    // @TODO: Verify the number here too.
-    // @TODO: Handle brute forcing.
-
     const fields = ['id', 'name', 'birthday', 'gender', 'age_range', 'first_name', 'last_name'].join(',');
 
     return axios({
@@ -50,7 +47,8 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
             }
 
             const adminInfoRoot = adminRoot.child(`/users/info/${uid}`);
-            return adminInfoRoot.once('value')
+            return adminInfoRoot
+                .once('value')
                 .then(snap => snap.val())
                 .then(dataOnHand => {
 
@@ -63,7 +61,23 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
                             axios.get(`https://graph.facebook.com/v2.7/${updates.fid}/picture?type=large&redirect=0`)
                                 .then(data => data.data.data.url)
                                 .then(url => adminRoot.child(`/users/photos/${uid}`).child('avatar').set(url))
-                        );
+                        )
+                        .then(() => {
+                            if (dataOnHand) return Promise.resolve();
+                            const userSettings = adminRoot.child(`/users/settings/${uid}`);
+                            return userSettings
+                                .once('value')
+                                .then(snap => snap.val())
+                                .then(currentSettings => {
+                                    if(!currentSettings) currentSettings = {};
+
+                                    return userSettings.set(Object.assign({
+                                        suspendDiscovery: false,
+                                        notifyNewMessages: true,
+                                        notifyAnnouncements: false,
+                                    }, currentSettings));
+                                });
+                        })
                 });
         })
         .catch(e => {
