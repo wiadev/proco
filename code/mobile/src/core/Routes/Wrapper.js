@@ -35,9 +35,11 @@ export default function Wrapper(props) {
           if (el.isModal) {
             return (
               <View>
-                {el.hasHeader && <Header 
+                {el.hasHeader && <Header
+                  title={el.title}
                   rightActorType="text"
-                  rightActor={el.title} rightAction={Actions.pop}
+                  rightActor="Close"
+                  rightAction={Actions.pop}
                   />}
                 {comp}
               </View>
