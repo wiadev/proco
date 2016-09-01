@@ -31,7 +31,6 @@ module.exports = functions.database().path('/users/interactions/{sid}/{rid}')
         updates.push(getIndexUpdate(adminRoot, rid, sid, interaction));
         updates.push(getIndexUpdate(adminRoot, sid, rid, interaction));
 
-
         return Promise.all(updates);
 
     });

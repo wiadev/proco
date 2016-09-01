@@ -22,14 +22,8 @@ let $ = {};
 $.handleUserFacebookTokenChange = require('./functions/database/handleUserFacebookTokenChange');
 
 $.handleUserInfoChange = require('./functions/database/handleUserInfoChange');
-$.handleUserPhotoChange = require('./functions/database/handleUserPhotoChange');
 
-$.handleUserMobileNumberChange = require('./functions/database/handleUserMobileNumberChange');
-$.handleUserMobileNumberVerification = require('./functions/database/handleUserMobileNumberVerification');
-
-$.handleUserNetworkEmailChange = require('./functions/database/handleUserNetworkEmailChange');
-$.handleUserNetworkEmailVerification = require('./functions/database/handleUserNetworkEmailVerification');
-$.handleUserNetworkEmailVerificationOnWeb = require('./functions/database/handleUserNetworkEmailVerificationOnWeb');
+$.handleUserVerifications = require('./functions/database/handleUserVerifications');
 
 $.handleUserPostedNewInteraction = require('./functions/database/handleUserPostedNewInteraction');
 

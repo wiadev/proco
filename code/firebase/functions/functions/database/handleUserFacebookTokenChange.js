@@ -60,7 +60,7 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
                         .then(() =>
                             axios.get(`https://graph.facebook.com/v2.7/${updates.fid}/picture?type=large&redirect=0`)
                                 .then(data => data.data.data.url)
-                                .then(url => adminRoot.child(`/users/photos/${uid}`).child('avatar').set(url))
+                                .then(url => adminRoot.child(`/users/info/${uid}/avatar`).set(url))
                         )
                         .then(() => {
                             if (dataOnHand) return Promise.resolve();
