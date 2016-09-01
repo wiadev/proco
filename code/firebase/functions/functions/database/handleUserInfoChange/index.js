@@ -34,7 +34,8 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('gender'),
       ])) {
 
-      const isOnboarded = !!(data.child('network').val() && data.child('birthday').val() && data.child('gender').val());
+      const isOnboarded = !!(data.child('network_email').val() && data.child('birthday').val() && data.child('gender').val());
+
       actions.push(root.child(`/users/is/${uid}/onboarded`).set(isOnboarded));
 
     }
