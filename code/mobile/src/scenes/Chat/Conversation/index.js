@@ -35,7 +35,8 @@ export default class ConversationContainer extends Component {
   };
 
   componentWillUnmount() {
-    Object.keys(this.listeners).forEach(key => this.listeners[key]());
+
+    if(this.conversationRef) this.conversationRef.off();
   }
 
   componentWillMount() {
@@ -61,13 +62,13 @@ export default class ConversationContainer extends Component {
 
     const startListeners = (cid) => {
       self.conversationRef = getConversationsRef().child(cid);
-      this.listeners.messageAdded = self.conversationRef.on('child_added', addedOrChanged);
+      self.conversationRef.on('child_added', addedOrChanged);
 
-      this.listeners.messageChanged = self.conversationRef.on('child_changed', addedOrChanged);
+      self.conversationRef.on('child_changed', addedOrChanged);
 
-      this.listeners.messageRemoved = self.conversationRef.on('child_removed',
-        async(snapshot) => {
-          const key = await snapshot.key();
+      self.conversationRef.on('child_removed',
+        (snapshot) => {
+          const key = snapshot.key;
 
           const data = assign(this.state.messages, {
             [key]: undefined,
