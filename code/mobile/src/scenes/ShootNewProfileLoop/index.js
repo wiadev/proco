@@ -3,16 +3,30 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import {connect} from 'react-redux';
 import Camera from 'react-native-camera';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
 import {Actions} from 'react-native-router-flux';
+import { base } from '../../core/Api';
+import RNFetchBlob from 'react-native-fetch-blob';
+
+// Pollyfills for firebase web sdk
+const fs = RNFetchBlob.fs;
+const Blob = RNFetchBlob.polyfill.Blob;
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob;
 
 import ProfileLoop from '../../components/ProfileLoop';
 import profileLoopConfig from '../../core/config/profileLoop';
 import styles from './styles';
 
+@connect(
+  state => ({
+    uid: state.auth.uid,
+  }),
+)
 @reactMixin.decorate(reactTimerMixin)
 export default class ShootNewProfileLoop extends React.Component {
   constructor() {
@@ -47,7 +61,15 @@ export default class ShootNewProfileLoop extends React.Component {
       );
     } else {
       return (
-        <Camera ref="camera" type="front" aspect="fill" orientation="portrait" captureTarget={Camera.constants.CaptureTarget.temp} keepAwake={true} style={styles.camera}>
+        <Camera
+          ref="camera"
+          type="front"
+          aspect="fill"
+          captureAudio={false}
+          orientation="portrait"
+          captureTarget={Camera.constants.CaptureTarget.temp}
+          keepAwake={true}
+          style={styles.camera}>
           {this._renderButtons()}
         </Camera>
       )
@@ -107,6 +129,28 @@ export default class ShootNewProfileLoop extends React.Component {
   }
 
   _done() {
+    console.log(this.state.photos, "fotoğralflar");
+
+    const loop_key = base.database.ref('/id').push().key;
+    const uploads = this.state.photos.map((photo, key) => {
+      return Blob
+        .build(RNFetchBlob.wrap(photo), { type : 'image/jpg;'})
+        .then((blob) => {
+          // upload image using Firebase SDK
+          return base.storage()
+            .ref(`users/profileloops/${this.props.uid}/${loop_key}`)
+            .child(`pl-${key}.jpg`)
+            .put(blob, { contentType : 'image/jpg' })
+            .then((snapshot) => {
+              blob.close();
+              return Promise.resolve(snapshot);
+            })
+        })
+    });
+
+
+    Promise.all(uploads).then(results => console.log(results)).catch(e => console.log("error", e));
+
     // Triggered when capturing is complete. Captured photos are available in this.state.photos.
   }
 

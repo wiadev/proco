@@ -24,7 +24,7 @@ export default class ConversationContainer extends Component {
     this.currentUser = {
       name: props.user.first_name,
       '_id': props.auth.uid,
-      avatar: getFacebookProfilePhotoUri('batuhanicoz'),
+      avatar: props.user.avatar,
     };
     this.conversationRef = null;
   }
