@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import List from '../../../components/Chat/List';
 import BlockerActivity from '../../../components/BlockerActivity';
 import {setStatusBarStyle} from '../../../modules/StatusBar/actions';
-import {base} from '../../../core/Api';
+import {base, getUserSummary} from '../../../core/Api';
 
 import { connect } from 'react-redux';
 
@@ -42,7 +42,9 @@ export default class ListContainer extends Component {
   }
 
   render() {
-    console.log(this.state)
+    getUserSummary('Sq63XnBfpgcMSccDgTtqYSqk2C12').then(data => {
+      console.log("summary", data)
+    });
     if (this.state.isLoading) return <BlockerActivity />;
     return  <List list={this.state.list} />;
   }
