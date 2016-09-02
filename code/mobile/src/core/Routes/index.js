@@ -31,8 +31,7 @@ const staticPageScenes = (pages = StaticPages) => {
   return Object.keys(pages).map(page => {
     return <Scene
       component={WebView}
-      isModal
-      hasHeader
+      hideNavBar={false}
       direction="vertical"
       {...pages[page]}
     />;
@@ -42,7 +41,6 @@ const staticPageScenes = (pages = StaticPages) => {
 const scenes = Actions.create(
   <Scene
     key="root"
-    hideNavBar
     component={connect(state=>({
       uid: state.auth.uid,
       isLoadedAuth: state.auth.isLoaded,
@@ -82,9 +80,9 @@ const scenes = Actions.create(
       <Scene key="Conversations">
         <Scene key="Conversation" component={Conversation} clone/>
       </Scene>
+      {staticPageScenes()}
+      <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
     </Scene>
-    <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
-    {staticPageScenes()}
   </Scene>
 );
 

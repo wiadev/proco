@@ -66,7 +66,7 @@ export default class PermissionModal extends Component {
           {
             text: "Learn more",
             onPress: () => {
-              Actions.WebViewModal({})
+              Actions.AboutYourLocation()
             }
           }
         ];
@@ -82,7 +82,7 @@ export default class PermissionModal extends Component {
           {
             text: "Learn more",
             onPress: () => {
-              Actions.WebViewModal()
+              Actions.AboutYourLocation()
 
             }
           }

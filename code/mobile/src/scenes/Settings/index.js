@@ -54,7 +54,7 @@ class Settings extends Component {
   render() {
     return (
       <View style={appStyles.container}>
-        <Header title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()}/>
+        <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()}/>
 
         <ScrollView style={styles.container}>
           <View style={[{
@@ -417,7 +417,7 @@ class Settings extends Component {
   }
 
   _onSave() {
-    Actions.pop();
+    Actions.Main();
   }
 }
 
