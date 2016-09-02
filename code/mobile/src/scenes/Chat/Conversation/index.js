@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import Conversation from "../../../components/Chat/Conversation";
-import {getFacebookProfilePhotoUri} from "../../../components/FacebookProfilePhoto";
-import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
-import {database} from "../../../core/Api";
-import {assign} from "../../../core/utils";
+import React from "react";
 import {GiftedChat} from "react-native-gifted-chat";
 import {connect} from "react-redux";
+
+import Conversation from "../../../components/Chat/Conversation";
+import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
+import {database, getUserSummary} from "../../../core/Api";
+import {assign} from "../../../core/utils";
 
 const getConversationFromListRef = (uid, mid) => database.ref(`conversation-lists/${uid}/${mid}`);
 const getUserBasicInfo = (uid) => database.ref(`users/${uid}/info`); //@TODO: revert this to info index
@@ -17,15 +17,16 @@ const getConversationsRef = () => database.ref(`conversations`);
     user: state.user,
   }),
 )
-export default class ConversationContainer extends Component {
+export default class ConversationContainer extends React.Component {
   constructor(props) {
     super(props);
     this.listeners = {};
     this.currentUser = {
       name: props.user.first_name,
       '_id': props.auth.uid,
-      avatar: props.user.avatar,
+      avatar: props.user.avatar
     };
+
     this.conversationRef = null;
   }
 
@@ -35,12 +36,12 @@ export default class ConversationContainer extends Component {
   };
 
   componentWillUnmount() {
-
-    if(this.conversationRef) this.conversationRef.off();
+    if (this.conversationRef) {
+      this.conversationRef.off();
+    }
   }
 
   componentWillMount() {
-
     const self = this;
     const generateMessage = (message, key) => {
       message['_id'] = key;
@@ -93,7 +94,6 @@ export default class ConversationContainer extends Component {
         }
 
         startListeners(cid);
-
       });
 
     } else {
@@ -103,6 +103,7 @@ export default class ConversationContainer extends Component {
     this.listeners.matchedUser = getUserBasicInfo(this.props.uid)
       .once('value').then(snapshot => {
         const user = snapshot.val();
+
         this.setState({
           matchedUser: {
             name: user.first_name,
@@ -116,6 +117,14 @@ export default class ConversationContainer extends Component {
     this.props.dispatch(setStatusBarStyle('default'));
   }
 
+  render() {
+    return (<Conversation
+      onSend={::this.onSend}
+      messages={this.state.messages}
+      {...this.state.matchedUser}
+    />);
+  }
+
   onSend(messages) {
     messages.forEach(message => {
       const messageRef = this.conversationRef.push({
@@ -124,13 +133,5 @@ export default class ConversationContainer extends Component {
         createdAt: message.createdAt,
       });
     });
-  }
-
-  render() {
-    return (<Conversation
-      onSend={::this.onSend}
-      messages={this.state.messages}
-      {...this.state.matchedUser}
-    />);
   }
 }
