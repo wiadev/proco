@@ -3,7 +3,6 @@ import {
   StatusBar,
   View,
   Text,
-  Dimensions,
   KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -26,7 +25,11 @@ const clearTurkishChars = (str) => {
   return str.toLocaleLowerCase().split('').filter(c => (c !== ' ')).map(c => charMap[c] || c).join('');
 };
 
-const width = Dimensions.get('window').width;
+const statuses = {
+  waiting: 'WAITING',
+  ready: 'READY',
+  submitted: 'SUBMITTED'
+};
 
 @connect(state => ({auth: state.auth, user: state.user, isUser: state.isUser}))
 export default class Register extends React.Component {
@@ -34,22 +37,22 @@ export default class Register extends React.Component {
     super(props);
 
     this.state = {
+      status: statuses.waiting,
       network_email: '',
-      birthday: '',
-      isLoading: true
+      birthday: ''
     };
   }
 
   componentWillReceiveProps(props) {
-    this.checkIfDidLoad(props);
+    this._setIsLoading(props);
   }
 
   componentWillMount() {
-    this.checkIfDidLoad(this.props);
+    this._setIsLoading(this.props);
   }
 
   render() {
-    if (this.state.isLoading) {
+    if (this.state.status !== statuses.ready) {
       return <BlockerActivity />;
     }
 
@@ -157,7 +160,6 @@ export default class Register extends React.Component {
             ref={picker => this.picker = picker}
             style={{
               height: 250,
-              width,
               left: 0,
               position: 'absolute',
               bottom: 0,
@@ -178,7 +180,6 @@ export default class Register extends React.Component {
             }}
             style={{
               height: 250,
-              width,
               left: 0,
               position: 'absolute',
               bottom: 0,
@@ -198,10 +199,15 @@ export default class Register extends React.Component {
     );
   }
 
-  checkIfDidLoad(props) {
-    if (props.user.first_name) {
+  _setIsLoading(props) {
+    // If user is onboarded, it means we don't have any business here. Route her to main screen.
+    if (props.isUser.onboarded) {
+      Actions.Main();
+    }
+
+    if (props.user.first_name && this.state.status !== statuses.submitted) {
       this.setState({
-        isLoading: false
+        status: statuses.ready
       });
     }
 
@@ -213,7 +219,7 @@ export default class Register extends React.Component {
 
   onNext() {
     this.setState({
-      isLoading: true
+      status: statuses.submitted
     });
 
     let buttons = [{
@@ -250,7 +256,7 @@ export default class Register extends React.Component {
       })
       .catch(error => {
         this.setState({
-          isLoading: false
+          status: statuses.ready
         });
 
         let label, text;
