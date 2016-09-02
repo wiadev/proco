@@ -39,28 +39,13 @@ const staticPageScenes = (pages = StaticPages) => {
   });
 };
 
-const beforeLoginScenes = Actions.create(
-  <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
-    <Scene
-      key="root"
-      hideNavBar
-    >
-        <Scene key="Login" component={Login} initial />
-        <Scene key="Register" component={Register} />
-        <Scene key="SMSVerification" animation="fade" component={SMSVerification} />
-    </Scene>
-    <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar />
-    {staticPageScenes()}
-  </Scene>
-);
-
 const mainScenes = Actions.create(
   <Scene key="wrapper" component={Wrapper} hideNavBar unmountScenes>
-    <Scene
-      key="root"
-      hideNavBar
-    >
-      <Scene key="Main" component={Main} animation="fade" initial />
+    <Scene key="root" hideNavBar>
+      <Scene key="Login" component={Login} initial />
+      <Scene key="Register" component={Register} />
+      <Scene key="SMSVerification" animation="fade" component={SMSVerification} />
+      <Scene key="Main" component={Main} animation="fade" />
       <Scene key="Settings" component={Settings} direction="vertical" />
       <Scene key="Filters" component={Filters} direction="vertical" />
       <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical" />
@@ -76,9 +61,9 @@ const mainScenes = Actions.create(
 );
 
 export default function Routes ({ uid = null, isOnboarded = false}) {
-  console.log("r", uid, isOnboarded)
+  console.log("r", uid, isOnboarded);
   return <Router
     createReducer={reducerCreate}
-    scenes={(uid && isOnboarded) ? mainScenes : beforeLoginScenes}
+    scenes={mainScenes}
   />;
 };
