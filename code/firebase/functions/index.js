@@ -27,8 +27,6 @@ $.handleUserVerifications = require('./functions/database/handleUserVerification
 
 $.handleUserPostedNewInteraction = require('./functions/database/handleUserPostedNewInteraction');
 
-$.handleNewLocationData = require('./functions/http/handleNewLocationData');
-
 // Internal functions
 
 $.handleUserCleanupTask = require('./functions/database/handleUserCleanupTask');

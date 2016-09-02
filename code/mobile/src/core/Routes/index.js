@@ -45,7 +45,7 @@ const mainScenes = Actions.create(
       <Scene key="Login" component={Login} initial />
       <Scene key="Register" component={Register} />
       <Scene key="SMSVerification" animation="fade" component={SMSVerification} />
-      <Scene key="Main" component={Main} animation="fade" />
+      <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} />
       <Scene key="Settings" component={Settings} direction="vertical" />
       <Scene key="Filters" component={Filters} direction="vertical" />
       <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical" />

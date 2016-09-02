@@ -51,6 +51,9 @@ export default class Register extends React.Component {
     this._setIsLoading(this.props);
   }
 
+  componentWillUnmount() {
+    console.log("wowwww")
+  }
   render() {
     if (this.state.status !== statuses.ready) {
       return <BlockerActivity />;

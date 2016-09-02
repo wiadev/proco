@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import Conversation from '../../../components/Chat/Conversation';
-import { getFacebookProfilePhotoUri } from '../../../components/FacebookProfilePhoto';
-import {setStatusBarStyle} from '../../../modules/StatusBar/actions';
-import {database} from '../../../core/Api';
-import {assign} from '../../../core/utils';
-import {GiftedChat} from 'react-native-gifted-chat';
+import React, {Component} from "react";
+import Conversation from "../../../components/Chat/Conversation";
+import {getFacebookProfilePhotoUri} from "../../../components/FacebookProfilePhoto";
+import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
+import {database} from "../../../core/Api";
+import {assign} from "../../../core/utils";
+import {GiftedChat} from "react-native-gifted-chat";
+import {connect} from "react-redux";
 
-const getConversationFromListRef = (uid, mid) => database().ref().child(`conversation-lists/${uid}/${mid}`);
-const getUserBasicInfo = (uid) => database().ref().child(`users/${uid}/info`); //@TODO: revert this to info index
-const getConversationsRef = () => database().ref().child(`conversations`);
-
-import { connect } from 'react-redux';
+const getConversationFromListRef = (uid, mid) => database.ref(`conversation-lists/${uid}/${mid}`);
+const getUserBasicInfo = (uid) => database.ref(`users/${uid}/info`); //@TODO: revert this to info index
+const getConversationsRef = () => database.ref(`conversations`);
 
 @connect(
   state => ({
@@ -48,9 +47,9 @@ export default class ConversationContainer extends Component {
       return message;
     };
 
-    const addedOrChanged = async (snapshot) => {
-      const key = await snapshot.key();
-      const _message = await snapshot.val();
+    const addedOrChanged = (snapshot) => {
+      const key = snapshot.key;
+      const _message = snapshot.val();
       const message = generateMessage(_message, key);
 
       this.setState((previousState) => {
@@ -67,14 +66,14 @@ export default class ConversationContainer extends Component {
       this.listeners.messageChanged = self.conversationRef.on('child_changed', addedOrChanged);
 
       this.listeners.messageRemoved = self.conversationRef.on('child_removed',
-        async (snapshot) => {
+        async(snapshot) => {
           const key = await snapshot.key();
 
           const data = assign(this.state.messages, {
             [key]: undefined,
           });
 
-          this.setState({data: data, messages: generateMessages(data)});
+          this.setState({data: data, messages: generateMessage(data)});
         });
     };
 
@@ -83,12 +82,12 @@ export default class ConversationContainer extends Component {
       const listItem = getConversationFromListRef(this.props.auth.uid, this.props.uid);
       const listItemCIDRef = listItem.child('cid');
 
-      listItemCIDRef.once('value', async(snapshot) => {
-        let cid = await snapshot.val();
+      listItemCIDRef.once('value').then(snapshot => {
+        let cid = snapshot.val();
 
         if (cid === null) {
           self.conversationRef = getConversationsRef().push();
-          cid = await self.conversationRef.key();
+          cid = self.conversationRef.key;
           listItemCIDRef.setValue(cid);
         }
 
@@ -100,14 +99,17 @@ export default class ConversationContainer extends Component {
       startListeners(this.props.cid);
     }
 
-    this.listeners.matchedUser = getUserBasicInfo(this.props.uid).once('value', async (snapshot) => {
-      const user = await snapshot.val();
-      this.setState({matchedUser: {
-        fid: user.fid,
-        name: user.first_name,
-        uid: this.props.uid,
-      }});
-    });
+    this.listeners.matchedUser = getUserBasicInfo(this.props.uid)
+      .once('value').then(snapshot => {
+        const user = snapshot.val();
+        this.setState({
+          matchedUser: {
+            fid: user.fid,
+            name: user.first_name,
+            uid: this.props.uid,
+          }
+        });
+      });
   }
 
   componentDidMount() {

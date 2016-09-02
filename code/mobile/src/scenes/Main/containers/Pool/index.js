@@ -30,17 +30,13 @@ export default class Pool extends Component {
 
   componentWillMount() {
     console.log("ppp", this.props)
-    this.ref = base.syncState(getUserRefForTypeAsString('drops', this.props.uid), {
-      context: this,
-      state: 'drops',
-      asArray: true,
-    });
+
 
     this.props.dispatch(setStatusBarStyle('default'));
   }
 
   componentWillUnmount() {
-    base.removeBinding(this.ref);
+
   }
 
   renderPoolItems(items = this.state.drops) {

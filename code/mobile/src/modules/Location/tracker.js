@@ -2,36 +2,37 @@ import React, {Component} from 'react';
 import {
 } from 'react-native';
 import {connect} from 'react-redux';
+import { database } from '../../core/Api';
 import BackgroundGeolocation from "react-native-background-geolocation";
 
-@connect()
+@connect(
+  state => ({
+    uid: state.auth.uid,
+  }),
+)
 class BackgroundLocationTracker extends Component {
 
   constructor(props) {
     super(props);
 
+    const { uid } = this.props;
+    this.refForLocationChanges = database.ref(`users/location-data/location-changes/${uid}`);
+    this.refForMotionChanges = database.ref(`users/location-data/motion-changes/${uid}`);
+    this.refForProviderChanges = database.ref(`users/location-data/provider-changes/${uid}`);
+    this.refForActivityChages = database.ref(`users/location-data/activity-changes/${uid}`);
+    this.refForGeofence = database.ref(`users/location-data/geofence/${uid}`);
+
     BackgroundGeolocation.configure({
       // Geolocation Config
       desiredAccuracy: 0,
       stationaryRadius: 25,
-      distanceFilter: 10,
+      distanceFilter: 1000,
       // Activity Recognition
       stopTimeout: 1,
       // Application config
       debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
       startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
-      // HTTP / SQLite config
-      url: 'http://posttestserver.com/post.php?dir=cordova-background-geolocation',
-      batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
-      autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
-      maxDaysToPersist: 1,    // <-- Maximum days to persist a location in plugin's SQLite database when HTTP fails
-      headers: {              // <-- Optional HTTP headers
-        "X-FOO": "bar"
-      },
-      params: {               // <-- Optional HTTP params
-        "auth_token": "maybe_your_server_authenticates_via_token_YES?"
-      }
     }, function(state) {
       console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
 
@@ -42,7 +43,8 @@ class BackgroundLocationTracker extends Component {
       }
     });
     // This handler fires whenever bgGeo receives a location update.
-    BackgroundGeolocation.on('location', function(location) {
+    BackgroundGeolocation.on('location', (location)  => {
+      this.refForLocationChanges.push(location);
       console.log('- [js]location: ', JSON.stringify(location));
     });
 
@@ -54,17 +56,20 @@ class BackgroundLocationTracker extends Component {
     });
 
     // This handler fires when movement states changes (stationary->moving; moving->stationary)
-    BackgroundGeolocation.on('motionchange', function(location) {
+    BackgroundGeolocation.on('motionchange', (location) => {
+      this.refForMotionChanges.push(location);
       console.log('- [js]motionchanged: ', JSON.stringify(location));
     });
 
     // This event fires when a chnage in motion activity is detected
-    BackgroundGeolocation.on('activitychange', function(activityName) {
+    BackgroundGeolocation.on('activitychange', (activityName) => {
+      this.refForActivityChages.push(activityName);
       console.log('- Current motion activity: ', activityName);  // eg: 'on_foot', 'still', 'in_vehicle'
     });
 
     // This event fires when the user toggles location-services
-    BackgroundGeolocation.on('providerchange', function(provider) {
+    BackgroundGeolocation.on('providerchange', (provider) => {
+      this.refForProviderChanges.push(provider);
       console.log('- Location provider changed: ', provider.enabled);
     });
   }
