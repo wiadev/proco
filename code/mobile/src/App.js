@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {AppState, NetInfo, View, StatusBar, Linking} from "react-native";
+import {Actions} from 'react-native-router-flux';
 import {connect} from "react-redux";
 import InAppAlert from "./components/InAppAlert";
 import {AuthListener, logout} from "./modules/Authentication";
@@ -72,7 +73,7 @@ class App extends Component {
       statusbar,
       auth: {uid, isLoaded},
       user: {first_name}, isUser: {blocked, onboarded},
-      permissions: { location }
+      permissions: {location}
     } = this.props;
 
     console.log("props on ap", this.props)
@@ -84,12 +85,12 @@ class App extends Component {
         backgroundColor: '#7A36AD',
       }}>
         {/*<StatusBar
-          showHideTransition="slide"
-          {...statusbar}
-        />*/}
+         showHideTransition="slide"
+         {...statusbar}
+         />*/}
         <InAppAlert />
         <NoInternetModal />
-        <AuthListener uid={uid} />
+        <AuthListener uid={uid}/>
         {uid && <UserListener type="info" uid={uid}/>}
         {uid && <UserListener type="is" uid={uid}/>}
         {(uid && location === 'authorized') && <BackgroundLocationTracker uid={uid}/>}
@@ -99,8 +100,7 @@ class App extends Component {
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
         />}
-        {!isLoaded && <BlockerActivity />}
-        {(isLoaded && !isBlocked) && <Routes uid={uid} isOnboarded={onboarded} /> }
+        <Routes />
       </View>
     );
   }

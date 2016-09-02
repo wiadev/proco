@@ -5,7 +5,7 @@ const initialState = {
   blocked: false,
   god: false,
   onboarded: false,
-  hasStartedLoading: false,
+  isLoaded: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -13,7 +13,7 @@ export default function reducer(state = initialState, action = {}) {
     default: return state;
     case 'USER_UPDATED_IS':
       return assign(state, action.payload, {
-        hasStartedLoading: true,
+        isLoaded: true,
       });
   }
 }

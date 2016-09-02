@@ -161,7 +161,7 @@ class DiscoveryFilters extends Component {
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({_filters: assign(this.state._filters, {
-                  onlyFromSchool: false,
+                  onlyFromNetwork: false,
                 })});
               }}>Show people from other universites too</Text>
             </View>

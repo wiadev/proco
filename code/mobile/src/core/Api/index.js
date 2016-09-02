@@ -10,7 +10,6 @@ export const base = Rebase.createClass({
 
 export const database = base.database();
 
-
 export const getUserSummary = uid => {
   return new Promise((resolve, reject) => {
     const key = '@Proco:Users:Summary:' + uid;

@@ -51,9 +51,6 @@ export default class Register extends React.Component {
     this._setIsLoading(this.props);
   }
 
-  componentWillUnmount() {
-    console.log("wowwww")
-  }
   render() {
     if (this.state.status !== statuses.ready) {
       return <BlockerActivity />;
@@ -203,11 +200,6 @@ export default class Register extends React.Component {
   }
 
   _setIsLoading(props) {
-    // If user is onboarded, it means we don't have any business here. Route her to main screen.
-    if (props.isUser.onboarded) {
-      Actions.Main();
-    }
-
     if (props.user.first_name && this.state.status !== statuses.submitted) {
       this.setState({
         status: statuses.ready

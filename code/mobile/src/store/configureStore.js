@@ -10,10 +10,11 @@ export const configureStore = (onCompletion = () => {}) => {
 
   const store = autoRehydrate()(createStore)(reducer, applyMiddleware(...middleware));
 
-  persistStore(store, {
-    storage: AsyncStorage,
-  }, onCompletion);
+  // persistStore(store, {
+  //   storage: AsyncStorage,
+  // }, onCompletion);
 
+  onCompletion();
   return store;
 
 };

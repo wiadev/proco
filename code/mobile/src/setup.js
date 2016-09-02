@@ -14,8 +14,8 @@ const setup = () => {
     constructor() {
       super();
       this.state = {
-        isLoading: true,
-        store: configureStore(() => this.setState({isLoading: false})),
+        isLoading: false,
+        store: configureStore(),
       };
     }
 

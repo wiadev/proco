@@ -16,28 +16,10 @@ class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      redirectedToRegister: false,
-    };
-  }
-
-  componentWillMount() {
-    this.checkAuthAndRedirect();
-  }
-
-  componentWillReceiveProps(props) {
-    this.checkAuthAndRedirect(props);
   }
 
   shouldComponentUpdate(props) {
     return (props.auth !== this.props.auth);
-  }
-
-  checkAuthAndRedirect(props = this.props) {
-    if (props.auth.uid && !this.state.redirectedToRegister) {
-      this.setState({redirectedToRegister: true});
-      Actions.Register();
-    }
   }
 
   showOptions() {

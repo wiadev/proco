@@ -71,11 +71,28 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
                                 .then(currentSettings => {
                                     if(!currentSettings) currentSettings = {};
 
-                                    return userSettings.set(Object.assign({
-                                        suspendDiscovery: false,
-                                        notifyNewMessages: true,
-                                        notifyAnnouncements: false,
-                                    }, currentSettings));
+                                    return userSettings
+                                        .set(Object.assign({
+                                            suspendDiscovery: false,
+                                            notifyNewMessages: true,
+                                            notifyAnnouncements: false,
+                                        }, currentSettings))
+                                        .then(() => {
+                                             const userFilters = adminRoot.child(`/users/filters/${uid}`);
+                                            return userFilters
+                                                .once('value')
+                                                .then(snap => snap.val())
+                                                .then(currentFilters => {
+                                                    if(!currentFilters) currentFilters = {};
+
+                                                    return userFilters.set(Object.assign({
+                                                        gender: 'Both',
+                                                        ageMin: 18,
+                                                        ageMax: 27,
+                                                        onlyFromNetwork: false,
+                                                    }, currentFilters));
+                                                });
+                                        })
                                 });
                         })
                 });
