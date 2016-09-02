@@ -27,7 +27,7 @@ export default class ListContainer extends Component {
 
 
   componentWillMount() {
-console.log("hello")
+
       this.ref = base.syncState(`users/conversation-lists/${this.props.uid}`, {
         context: this,
         state: 'list',

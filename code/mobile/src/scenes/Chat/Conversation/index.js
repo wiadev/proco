@@ -24,7 +24,7 @@ export default class ConversationContainer extends Component {
     this.currentUser = {
       name: props.user.first_name,
       '_id': props.auth.uid,
-      avatar: getFacebookProfilePhotoUri(props.user.fid),
+      avatar: getFacebookProfilePhotoUri('batuhanicoz'),
     };
     this.conversationRef = null;
   }
@@ -88,7 +88,7 @@ export default class ConversationContainer extends Component {
         if (cid === null) {
           self.conversationRef = getConversationsRef().push();
           cid = self.conversationRef.key;
-          listItemCIDRef.setValue(cid);
+          listItemCIDRef.set(cid);
         }
 
         startListeners(cid);
@@ -104,7 +104,6 @@ export default class ConversationContainer extends Component {
         const user = snapshot.val();
         this.setState({
           matchedUser: {
-            fid: user.fid,
             name: user.first_name,
             uid: this.props.uid,
           }
@@ -118,13 +117,11 @@ export default class ConversationContainer extends Component {
 
   onSend(messages) {
     messages.forEach(message => {
-      const messageRef = this.conversationRef.push();
-      messageRef.setValue({
+      const messageRef = this.conversationRef.push({
         text: message.text,
         sender: this.props.auth.uid,
         createdAt: message.createdAt,
       });
-
     });
   }
 
