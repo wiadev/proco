@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import List from '../../../components/Chat/List';
+import React from 'react';
+import List from '../../../components/Chat/ConversationList';
 import BlockerActivity from '../../../components/BlockerActivity';
 import {setStatusBarStyle} from '../../../modules/StatusBar/actions';
 import {base, getUserSummary} from '../../../core/Api';
@@ -11,30 +11,27 @@ import { connect } from 'react-redux';
     uid: state.auth.uid,
   }),
 )
-export default class ListContainer extends Component {
+export default class ConversationList extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    list: [],
-    isLoading: true,
-  };
+    this.state = {
+      list: [],
+      isLoading: true
+    };
+  }
 
   componentWillUnmount() {
     base.removeBinding(this.ref);
   }
 
-
   componentWillMount() {
-
       this.ref = base.syncState(`users/conversation-lists/${this.props.uid}`, {
         context: this,
         state: 'list',
         asArray: true,
         then: () => this.setState({isLoading: false})
       });
-
   }
 
   componentDidMount() {
@@ -42,10 +39,14 @@ export default class ListContainer extends Component {
   }
 
   render() {
-    getUserSummary('Sq63XnBfpgcMSccDgTtqYSqk2C12').then(data => {
-      console.log("summary", data)
-    });
-    if (this.state.isLoading) return <BlockerActivity />;
-    return  <List list={this.state.list} />;
+    if (this.state.isLoading) {
+      return (
+        <BlockerActivity />
+      );
+    }
+
+    return (
+      <List list={this.state.list} />
+    );
   }
 }
