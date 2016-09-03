@@ -7,5 +7,9 @@ type UserSummary {
   display_name: String | Null,
   gender: String | Null,
   network: String | Null,
-  is_online: Boolean | Null,
+  is_online: IsOnline | Null,
+}
+
+type IsOnline extends Boolean {
+  write() { isCurrentUser(uid) }
 }
