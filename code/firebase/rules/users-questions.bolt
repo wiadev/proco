@@ -2,9 +2,10 @@ path /users/questions/{qid} is UserQuestion;
 
 type UserQuestion {
   write() { createOnly(this) && isCurrentUser(this.uid) }
+  read() { !isBlocked(this.uid) }
   current: Boolean,
   question: QuestionString,
-  seen_by: Map<UserID, Boolean>,
+  seen_by: Map<UserID, Boolean> | Null,
   timestamp: CurrentTimestamp,
 }
 

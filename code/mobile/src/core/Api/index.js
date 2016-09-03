@@ -9,6 +9,7 @@ export const base = Rebase.createClass({
 });
 
 export const database = base.database();
+base.database.enableLogging(true);
 
 export const getFirebaseDataWithCache = ref => {
   return new Promise((resolve) => {

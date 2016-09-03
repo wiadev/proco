@@ -15,8 +15,12 @@ type UserInfo extends OnlyCurrentUser {
   current_question: CurrentQuestionID | Null,
 }
 
-type CurrentQuestion extends String {}
-type CurrentQuestionID extends String {}
+type WritableByCUString extends String {
+  write() { isCurrentUser(uid) }
+}
+
+type CurrentQuestion extends WritableByCUString {}
+type CurrentQuestionID extends WritableByCUString {}
 
 type ISODate extends String {
   validate() { this.test(/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/) }
