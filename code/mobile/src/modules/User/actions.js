@@ -1,5 +1,5 @@
-import {database} from '../../core/Api';
-import deepEqual from 'deep-equal';
+import {database, getFirebaseDataWithCache} from "../../core/Api";
+import deepEqual from "deep-equal";
 
 const typeMap = {
   info: 'INFO',
@@ -37,12 +37,18 @@ const validateUserDataBeforeUpdate = (type, data, state) => {
   if (!isValidType(type)) throw new Error('INVALID_TYPE');
 
   switch (type) {
-    case 'info': return hasChanged(state.user, data);
-    case 'settings': return hasChanged(state.settings, data);
-    case 'tokens': return hasChanged(state.tokens, data);
-    case 'filters': return hasChanged(state.filters, data);
-    case 'is': return hasChanged(state.isUser, data);
-    default: return true;
+    case 'info':
+      return hasChanged(state.user, data);
+    case 'settings':
+      return hasChanged(state.settings, data);
+    case 'tokens':
+      return hasChanged(state.tokens, data);
+    case 'filters':
+      return hasChanged(state.filters, data);
+    case 'is':
+      return hasChanged(state.isUser, data);
+    default:
+      return true;
   }
 };
 
@@ -57,18 +63,89 @@ export function updateUserLocally(type, data) {
   };
 }
 
+const getCUID = () => {
+  const uid = base.auth().currentUser.uid;
+  if (!uid) throw new Error('CANT_WITHOUT_CUID');
+  return uid;
+};
+
+export function postAnswer(qid, answer = null) {
+  const uid = getCUID();
+  return database.ref(`game/answers/${qid}/${uid}`).set({
+    uid,
+    answer,
+    timestamp: base.e.database.ServerValue.TIMESTAMP
+  });
+}
+
+export function postQuestion(question) {
+  const uid = getCUID();
+  return database.ref(`users/questions`).push({
+    uid,
+    question,
+    current: true,
+    timestamp: base.e.database.ServerValue.TIMESTAMP
+  });
+}
+
+export function changeBlockStatusFor(user, status = true) {
+  const uid = getCUID();
+  return database.ref(`users/blocks/${uid}/${user}`).set(status);
+}
+
+export function changeMatchStatusFor(uidToMatch, status = true) {
+  const uid = getCUID();
+  const matchUpdates = {
+    [`${uid}/${uidToMatch}`]: status,
+    [`${uidToMatch}/${uid}`]: status,
+  };
+  return database.ref('users/matches').update(matchUpdates);
+}
+
+export function changeMuteStatusFor(user, status = true) { // We mute by user, not message or thread
+  return database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);
+}
+
+export function postMessage(thread_id, message) {
+  const threadIsTo = `threads/info/${thread_id}/to`;
+  return getFirebaseDataWithCache(threadIsTo)
+    .then(data => Object.keys(data))
+    .then(to => {
+      const root = database.ref();
+      const key = root.push().key;
+      const message = Object.assign({
+        key,
+      }, message);
+      const updates = {
+        [`threads/_/${thread_id}/${key}`]: message,
+        [`threads/messages/${thread_id}/${to[0]}/${key}`]: message,
+        [`threads/messages/${thread_id}/${to[1]}/${key}`]: message,
+        [`users/inbox/${to[0]}/${to[1]}/last_message`]: message,
+        [`users/inbox/${to[1]}/${to[0]}/last_message`]: message,
+      };
+      return root.update(updates);
+    });
+}
+export function postLocation(type, data) {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    if (!uid) return;
+    database.ref(`users/location-data/${type}-changes/${uid}`).push(data);
+  }
+}
+
 export function updateUser(type, data = {}, after = () => {
 }) {
   return (dispatch, getState) => {
     const state = getState();
-    const { uid = null } = state.auth;
+    const {uid = null} = state.auth;
 
     if (!uid) {
       console.log("User is not logged in (trying to update)");
       return;
     }
 
-    if (validateUserDataBeforeUpdate(type, data, state)){
+    if (validateUserDataBeforeUpdate(type, data, state)) {
       getUserRefForType(type, uid).update(data).then(() => after());
     } else {
       console.log("We have this data already");

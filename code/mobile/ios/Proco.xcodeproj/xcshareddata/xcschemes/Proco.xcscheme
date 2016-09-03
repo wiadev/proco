@@ -88,7 +88,7 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../mapstogpx20160902_100751.gpx"
+         identifier = "../Farm_San_Francisco_Poke&#x301;mon_Go_GPX.gpx"
          referenceType = "0">
       </LocationScenarioReference>
    </LaunchAction>

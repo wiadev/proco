@@ -1,8 +1,9 @@
 {
   "database": {
-    "rules": "development.json"
+    "rules": "rules.json"
   },
   "hosting": {
+    "public": "public",
     "rewrites": [
       {
         "source": "/dashboard/**",

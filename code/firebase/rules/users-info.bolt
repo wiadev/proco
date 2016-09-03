@@ -1,0 +1,25 @@
+path /users/info/{uid} is UserInfo;
+
+type UserInfo extends OnlyCurrentUser {
+  age_range_on_facebook_min: Number | Null,
+  age_range_on_facebook_max: Number | Null,
+  avatar: String | Null,
+  birthday: ISODate | Null,
+  fid: Number,
+  first_name: String,
+  last_name: String,
+  gender: UIGender | Null,
+  network: UINetwork | Null,
+  network_email: UINetworkEmail | Null,
+}
+
+type ISODate extends String {
+  validate() { this.test(/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/) }
+}
+
+type UIGender extends String {
+  validate() { this == 'male' || this == 'female' }
+}
+
+type UINetwork extends String {}
+type UINetworkEmail extends String {}

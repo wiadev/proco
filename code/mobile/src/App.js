@@ -5,12 +5,10 @@ import {connect} from "react-redux";
 import InAppAlert from "./components/InAppAlert";
 import {AuthListener, logout} from "./modules/Authentication";
 import {UserListener} from "./modules/User";
-import BackgroundLocationTracker from "./modules/Location/tracker";
 import {syncPermissions, updateNotificationToken} from "./modules/Permissions/actions";
 import {createAlert} from "./modules/InAppAlert/actions";
 import NoInternetModal from "./components/NoInternetModal";
 import BlockedUserModal from "./components/BlockedUserModal";
-import BlockerActivity from "./components/BlockerActivity";
 import FCM from "react-native-fcm";
 import Routes from "./core/Routes";
 
@@ -91,9 +89,8 @@ class App extends Component {
         <InAppAlert />
         <NoInternetModal />
         <AuthListener uid={uid}/>
-        {uid && <UserListener type="info" uid={uid}/>}
-        {uid && <UserListener type="is" uid={uid}/>}
-        {(uid && location === 'authorized') && <BackgroundLocationTracker uid={uid}/>}
+        <UserListener type="info" uid={uid}/>
+        <UserListener type="is" uid={uid}/>
         {(uid && isBlocked) && <BlockedUserModal
           blocked={blocked}
           logout={() => dispatch(logout())}

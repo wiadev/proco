@@ -1,0 +1,30 @@
+isExcluded(cuid, type, data_id) { root.pool.exclusions[cuid][type][data_id] != null }
+
+path /pools/{uid}/{mid} is PoolItem {
+  validate() { !isExcluded(uid, 'users', mid) && !areTheyMatched(uid, mid) && isCurrentUser(uid) }
+}
+
+type PoolItem {
+  question_id: PIQuestionID,
+  summary: PISummary,
+}
+
+type PIQuestionID extends String {
+  validate() { !isExcluded(uid, 'questions', this) }
+}
+
+getFilterForCurrentUser (filter) { root.users.filters[currentUser()][filter] }
+
+type PISummary {
+  age: PISAge,
+  //network: PISNetwork,
+  gender: PISGender,
+}
+
+type PISGender extends String {
+  validate() { this == 'Both' || this == getFilterForCurrentUser('gender') }
+}
+
+type PISAge extends Number {
+  validate() { this >= getFilterForCurrentUser('ageMin') && this <= getFilterForCurrentUser('ageMax') }
+}

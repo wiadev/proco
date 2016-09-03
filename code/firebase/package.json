@@ -4,7 +4,7 @@
   "description": "Firebase configs, landing site and panel for Proco",
   "main": "lib/index.js",
   "scripts": {
-    "predeploy": "firebase-bolt rules.bolt",
+    "bolt": "firebase-bolt rules.bolt",
     "deploy": "firebase deploy"
   },
   "author": "Batuhan Icoz <batuhanicoz@gmail.com>",

@@ -1,0 +1,10 @@
+path /users/matches/{uid}/{mid} is Boolean {
+  read() { isCurrentUser(uid) }
+  write() { isCurrentUser(uid) }
+  validate() { areTheyMatched(mid, uid) }
+}
+
+areTheyMatched(uid, mid) { root.users['matches' + uid + '/' + mid] == true }
+canTheyMatch(uid, mid) {
+  didAnsweredCurrentQuestion(uid, mid) == true || didAnsweredCurrentQuestion(mid, uid) == true
+}

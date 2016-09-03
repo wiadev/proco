@@ -1,0 +1,15 @@
+isCurrentUser(id) { auth != null && auth.uid == id }
+currentUser() { auth.uid }
+isUser(uid) { auth != null && uid == currentUser() }
+
+type OnlyCurrentUser extends Object {
+  write() { isCurrentUser(uid) }
+  read() { isCurrentUser(uid) }
+}
+
+type CurrentTimestamp extends Number {
+  validate() { this == now }
+}
+
+didCurrentUserBlocked(uid) { root.users.blocks[uid][currentUser()] == true }
+createOnly(value) { prior(value) == null && value != null }

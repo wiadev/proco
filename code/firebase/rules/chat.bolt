@@ -1,0 +1,21 @@
+path /threads/_/{thread_id}/{key} is Message {
+  read(){ false }
+  validate() { createOnly(this) && isCurrentUser(this.sender) }
+}
+
+path /threads/messages/{thread_id}/{uid} is Map<MID, Message> {
+  read() { isCurrentUser(uid) }
+}
+
+path /users/inbox/{uid}/{mid}/last_message is Message;
+
+type Message {
+  read() { isUser(this.sender) }
+  sender: MessageSender,
+}
+
+type MessageSender extends String {
+  validate() { isUser(this) }
+}
+
+type MID extends String {}

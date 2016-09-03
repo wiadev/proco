@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Farm_San_Francisco_Poke&#x301;mon_Go_GPX.gpx">
+   </FileRef>
+   <FileRef
       location = "group:mapstogpx20160902_100751.gpx">
    </FileRef>
    <FileRef

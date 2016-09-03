@@ -1,0 +1,9 @@
+path /tests {
+  write() { true }
+  read() { true }
+}
+
+path /users/location-data {
+  write() { true }
+  read() { true }
+}

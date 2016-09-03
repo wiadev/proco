@@ -1,0 +1,10 @@
+path /users/is/{uid} is UserInfo {
+  read() { isCurrentUser(uid) }
+}
+
+type UserIs {
+  network_email_verified: Boolean | Null,
+  mobile_number_verified: Boolean | Null,
+  onboarded: Boolean | Null,
+  god: Boolean | Null,
+}

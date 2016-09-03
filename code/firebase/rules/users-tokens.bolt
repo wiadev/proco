@@ -1,0 +1,7 @@
+path /users/tokens/{uid} is UserTokens;
+
+type UserTokens {
+  write() { isCurrentUser(uid) }
+  fcm: String | Null,
+  facebook: String | Null,
+}

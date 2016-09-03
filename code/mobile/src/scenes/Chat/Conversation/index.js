@@ -100,17 +100,12 @@ export default class ConversationContainer extends React.Component {
       startListeners(this.props.cid);
     }
 
-    this.listeners.matchedUser = getUserBasicInfo(this.props.uid)
-      .once('value').then(snapshot => {
-        const user = snapshot.val();
-
-        this.setState({
-          matchedUser: {
-            name: user.first_name,
-            uid: this.props.uid,
-          }
-        });
-      });
+    getUserSummary(this.props.uid).then(user => {
+      console.log("got user", user)
+      this.setState({matchedUser: Object.assign({
+        uid: this.props.uid,
+      }, user)})
+    });
   }
 
   componentDidMount() {
@@ -118,6 +113,7 @@ export default class ConversationContainer extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     return (<Conversation
       onSend={::this.onSend}
       messages={this.state.messages}

@@ -10,19 +10,22 @@ export const base = Rebase.createClass({
 
 export const database = base.database();
 
-export const getUserSummary = uid => {
-  return new Promise((resolve, reject) => {
-    const key = '@Proco:Users:Summary:' + uid;
+export const getFirebaseDataWithCache = ref => {
+  return new Promise((resolve) => {
+    const key = '@Proco:FDC:' + ref;
     AsyncStorage.getItem(key).then(data => {
       if (data !== null) return resolve(JSON.parse(data));
-      database.ref(`users/summary/${uid}`)
+      database.ref(ref)
         .once('value')
         .then(snap => snap.val())
         .then(data => {
-          if (!data) return reject('NO_SUCH_USER');
+          if (!data) return resolve(null);
           AsyncStorage.setItem(key, JSON.stringify(data));
           resolve(data);
         });
     });
   });
 };
+
+export const getUserSummary = uid => getFirebaseDataWithCache(`users/summary/${uid}`);
+export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);

@@ -27,7 +27,7 @@ class Login extends Component {
         options: [
           'Terms of Use',
           'Privacy Policy',
-          'Support',
+          'Contact',
           'Cancel',
         ],
         cancelButtonIndex: 3,
@@ -35,13 +35,13 @@ class Login extends Component {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
-            Actions.TermsOfUsage();
+            Actions.TERMS_OF_USAGE();
             break;
           case 1:
-            Actions.PrivacyPolicy();
+            Actions.PRIVACY_POLICY();
             break;
           case 2:
-            Actions.Support();
+            Actions.CONTACT();
             break;
         }
       });

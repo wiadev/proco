@@ -25,7 +25,9 @@ $.handleUserInfoChange = require('./functions/database/handleUserInfoChange');
 
 $.handleUserVerifications = require('./functions/database/handleUserVerifications');
 
-$.handleUserPostedNewInteraction = require('./functions/database/handleUserPostedNewInteraction');
+$.handlePostedNewQuestion = require('./functions/database/handlePostedNewQuestion');
+$.handleNewMatch = require('./functions/database/handleNewMatch');
+$.handleUserPostedNewMessage = require('./functions/database/handleUserPostedNewMessage');
 
 // Internal functions
 

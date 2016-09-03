@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {connect} from 'react-redux';
+import {connect} from "react-redux";
 import {Actions, ActionConst, Router, Switch, Scene, Reducer} from "react-native-router-flux";
 import {Login, Register, SMSVerification} from "../../scenes/Authentication";
 import Main from "../../scenes/Main";
@@ -31,57 +31,65 @@ const staticPageScenes = (pages = StaticPages) => {
   return Object.keys(pages).map(page => {
     return <Scene
       component={WebView}
-      hideNavBar={false}
+      hideNavBar
       direction="vertical"
+      key={page}
       {...pages[page]}
     />;
   });
 };
 
 const scenes = Actions.create(
-  <Scene
-    key="root"
-    component={connect(state=>({
-      uid: state.auth.uid,
-      isLoadedAuth: state.auth.isLoaded,
-      isLoadedIs: state.isUser.isLoaded,
-      isBoarded: state.isUser.onboarded,
-    }))(Switch)}
-    tabs={true}
-    unmountScenes
-    selector={({uid, isLoadedAuth, isLoadedIs, isBoarded}) => {
-      if (!isLoadedAuth || !isLoadedIs) return 'BlockerActivity';
-      if (!uid || !isBoarded) return 'auth';
-      if (uid && isBoarded) return 'proco';
-    }}
-  >
-    <Scene hideNavBar key="BlockerActivity" component={BlockerActivity} />
+  <Scene key="root">
+    {staticPageScenes()}
     <Scene
-      key="auth"
+      key="app"
       component={connect(state=>({
         uid: state.auth.uid,
+        isLoadedAuth: state.auth.isLoaded,
+        isLoadedIs: state.isUser.isLoaded,
+        isBoarded: state.isUser.onboarded,
       }))(Switch)}
       tabs={true}
       unmountScenes
-      hideNavBar
-      selector={({uid}) => uid ? 'Register' : 'Login'}
+      initial
+      selector={({uid, isLoadedAuth, isLoadedIs, isBoarded}) => {
+        if (!isLoadedAuth || (uid && !isLoadedIs)) return 'BlockerActivity';
+        if (!uid || !isBoarded) return 'auth';
+        if (uid && isBoarded) return 'proco';
+      }}
     >
-      <Scene hideNavBar key="Login" component={Login}/>
-      <Scene hideNavBar key="Register" component={Register}/>
-      <Scene hideNavBar key="SMSVerification" animation="fade" component={SMSVerification}/>
-    </Scene>
-    <Scene key="proco" hideNavBar>
-      <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial />
-      <Scene key="Settings" component={Settings} direction="vertical"/>
-      <Scene key="Filters" component={Filters} direction="vertical"/>
-      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical"/>
-      <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
-      <Scene key="ConversationList" component={Conversations}/>
-      <Scene key="Conversations">
-        <Scene key="Conversation" component={Conversation} clone/>
+      <Scene hideNavBar key="BlockerActivity" component={BlockerActivity}/>
+      <Scene
+        key="auth"
+        component={connect(state=>({
+          uid: state.auth.uid,
+        }))(Switch)}
+        tabs={true}
+        unmountScenes
+        hideNavBar
+        selector={({uid}) => {
+          console.log("uid", uid);
+          return uid ? 'Register' : 'Login';
+        }}
+      >
+        <Scene hideNavBar key="Login" component={Login}/>
+        <Scene hideNavBar key="SelectNetwork" component={Register}/>
+        <Scene hideNavBar key="Register" component={Register}/>
+        <Scene hideNavBar key="SMSVerification" animation="fade" component={SMSVerification}/>
       </Scene>
-      {staticPageScenes()}
-      <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
+      <Scene key="proco" hideNavBar>
+        <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
+        <Scene key="Settings" component={Settings} direction="vertical"/>
+        <Scene key="Filters" component={Filters} direction="vertical"/>
+        <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical"/>
+        <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
+        <Scene key="ConversationList" component={Conversations}/>
+        <Scene key="Conversations">
+          <Scene key="Conversation" component={Conversation} clone/>
+        </Scene>
+        <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
+      </Scene>
     </Scene>
   </Scene>
 );

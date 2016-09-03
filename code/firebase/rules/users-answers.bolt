@@ -1,0 +1,17 @@
+path /users/answers/{qid}/{uid} is UserAnswer;
+
+type UserAnswer {
+  write() { isCurrentUser(uid) }
+  validate() { root.users.questions[qid] != null }
+  answer: AnswerString,
+  timestamp: CurrentTimestamp,
+}
+
+type AnswerString extends String {
+  validate() { this.length > 0 && this.length < 900 }
+}
+
+
+getCurrentQuestionIDFor(uid) { root.users.info[uid].current_question_id }
+didAnsweredQuestion(uid, qid) { root.users.answers[qid].uid != null}
+didAnsweredCurrentQuestion(uid, mid) { root.users.answers[getCurrentQuestionIDFor(mid)].uid != null}

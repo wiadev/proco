@@ -4,7 +4,8 @@ import {
   Text,
   ScrollView,
   ListView,
-  TouchableHighlight
+  TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -24,8 +25,10 @@ export default class ConversationList extends React.Component {
           leftActor="keyboard-arrow-left"
           leftAction={() => Actions.pop()}
         />
-
-        {this._renderConversationList()}
+        {this.props.isLoading ? <ActivityIndicator
+          size="large"
+          color="#ffffff"
+        /> : this._renderConversationList()}
       </View>
     );
   }
@@ -52,7 +55,7 @@ export default class ConversationList extends React.Component {
   _renderSingleConversation(conversation) {
     // TODO: Other user's avatar should go in <View style={styles.avatar}></View>
     return (
-      <TouchableHighlight onPress={() => this._goToConversation(conversation.cid)} underlayColor="rgba(0, 0, 0, 0.1)">
+      <TouchableHighlight onPress={() => this._goToConversation(conversation.uid)} underlayColor="rgba(0, 0, 0, 0.1)">
         <View style={styles.conversation}>
           <View style={styles.avatar}>
 
@@ -80,9 +83,7 @@ export default class ConversationList extends React.Component {
     );
   }
 
-  _goToConversation(cid) {
-    Actions.Conversation({
-      cid:cid
-    });
+  _goToConversation(uid) {
+    Actions.Conversation(uid);
   }
 }

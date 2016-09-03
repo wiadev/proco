@@ -1,7 +1,5 @@
 import React from 'react';
 import List from '../../../components/Chat/ConversationList';
-import BlockerActivity from '../../../components/BlockerActivity';
-import {setStatusBarStyle} from '../../../modules/StatusBar/actions';
 import {base, getUserSummary} from '../../../core/Api';
 
 import { connect } from 'react-redux';
@@ -34,19 +32,9 @@ export default class ConversationList extends React.Component {
       });
   }
 
-  componentDidMount() {
-    this.props.dispatch(setStatusBarStyle('default'));
-  }
-
   render() {
-    if (this.state.isLoading) {
-      return (
-        <BlockerActivity />
-      );
-    }
-
     return (
-      <List list={this.state.list} />
+      <List isLoading={this.state.isLoading} list={this.state.list} />
     );
   }
 }
