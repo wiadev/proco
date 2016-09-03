@@ -32,7 +32,9 @@ export const getLoopsWithCache = (uid, loop_key, count = 18) => {
     if (data !== null) return JSON.parse(data);
     const loopBaseRef = storage.ref(`users/loops/${uid}/${loop_key}`);
     let files = [];
-    for (let i = 0; i < count; i++) files.push(loopBaseRef.child(`${i}.jpg`).getDownloadURL());
+    for (var i = 0; i < count; i++) {
+      files.push(loopBaseRef.child(`${i}.jpg`).getDownloadURL());
+    }
     return Promise.all(files).then(links => {
       links.forEach(link => Image.prefetch(link));
       AsyncStorage.setItem(key, JSON.stringify(links));
@@ -42,7 +44,7 @@ export const getLoopsWithCache = (uid, loop_key, count = 18) => {
 };
 
 export const getUserLoops = (uid, loop_key = null, count = 18) => {
-  if (!loop_key) return getLoopsWithCache(uid, loop_key, count);
+  if (loop_key) return getLoopsWithCache(uid, loop_key, count);
   return database.ref(`users/summary/${uid}/loop_key`) // Don't use cache here, it may change
     .once('value')
     .then(snap => snap.val())

@@ -39,10 +39,10 @@ export default class UpdateYourQuestion extends React.Component {
       question: this.props.user.current_question
     });
 
-    getUserLoops(this.props.auth.uid)
+    getUserLoops(this.props.auth.uid, this.props.user.loop_key)
       .then(photos => this.setState({
-        profileLoopPhotos: photos
-      }));
+          profileLoopPhotos: photos
+        }));
   }
 
   componentWillUnmount() {

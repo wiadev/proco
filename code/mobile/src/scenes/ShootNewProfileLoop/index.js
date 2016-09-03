@@ -126,7 +126,6 @@ export default class ShootNewProfileLoop extends React.Component {
   }
 
   _done() {
-    console.log(this.state.photos, "fotoğralflar");
 
     const loop_key = database.ref('keyGenerator').push().key;
     const uid = this.props.uid;
@@ -136,7 +135,7 @@ export default class ShootNewProfileLoop extends React.Component {
         .then((blob) => {
           // upload image using Firebase SDK
           return base.storage()
-            .ref(`users/loops/$uid}/${loop_key}`)
+            .ref(`users/loops/${uid}/${loop_key}`)
             .child(`${key}.jpg`)
             .put(blob, {contentType: 'image/jpg'})
             .then((snapshot) => {
