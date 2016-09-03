@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {View, Text, Dimensions, ScrollView, Image, Alert, TouchableHighlight} from "react-native";
+import React from "react";
+import {View, Text, Dimensions, ScrollView, Image, TouchableHighlight} from "react-native";
 import {Actions} from "react-native-router-flux";
 import {connect} from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -25,15 +25,11 @@ setTheme({
   },
 });
 
-@connect(
-  state => ({
-    auth: state.auth,
-    user: state.user,
-  }),
-)
-class Settings extends Component {
+@connect(state => ({auth: state.auth, user: state.user}))
+class Settings extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       settings: {}
     }
@@ -150,30 +146,6 @@ class Settings extends Component {
               alignItems: 'center',
             }}>
               <View style={[styles.inputBoxLeft, {
-                width: (width - 28) * 75 / 100,
-              }]}>
-                <Text style={[styles.blackText, {fontSize: 14}]}>New messages from your matches</Text>
-              </View>
-              <View style={[styles.inputBoxRight, {
-                width: (width - 28) * 25 / 100,
-              }]}>
-                <MKSwitch
-                  style={styles.mkSwitch}
-                  onCheckedChange={(e) => this.setState({settings: assign(this.state.settings, {
-                    notifyNewMessagesFromMatches: e.checked,
-                  })})}
-                  onColor={'#43da5e'}
-                  thumbOnColor={'white'}
-                  checked={this.state.settings.notifyNewMessagesFromMatches}
-                  trackSize={32}
-                />
-              </View>
-            </View>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-              <View style={[styles.inputBoxLeft, {
                 width: (width - 28) * 60 / 100,
               }]}>
                 <Text style={[styles.blackText, {fontSize: 14}]}>New messages</Text>
@@ -189,52 +161,6 @@ class Settings extends Component {
                   onColor={'#43da5e'}
                   thumbOnColor={'white'}
                   checked={this.state.settings.notifyNewMessages}
-                  trackSize={32}
-                />
-              </View>
-            </View>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-              <View style={[styles.inputBoxLeft, {
-                width: (width - 28) * 60 / 100,
-              }]}>
-                <Text style={[styles.blackText, {fontSize: 14}]}>New answers</Text>
-              </View>
-              <View style={[styles.inputBoxRight, {
-                width: (width - 28) * 40 / 100,
-              }]}>
-                <MKSwitch
-                  style={styles.mkSwitch}
-                  onCheckedChange={
-                    (e) => {
-                      Alert.alert(
-                        'Are you sure?',
-                        'You may get too many notifications on peak hours. You can always disable this again from this menu.',
-                        [
-                          {
-                            text: 'Cancel', onPress: () => {
-
-                          }
-                          },
-                          {
-                            text: 'No problem!',
-                            onPress: () => {
-
-                              this.setState({settings: assign(this.state.settings, {
-                                notifyNewAnswers: e.checked,
-                              })});
-
-                            }
-                          },
-                        ]
-                      );
-                    }
-                  }
-                  onColor={'#43da5e'}
-                  thumbOnColor={'white'}
-                  checked={this.state.settings.notifyNewAnswers}
                   trackSize={32}
                 />
               </View>
