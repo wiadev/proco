@@ -22,3 +22,5 @@ isMatched(uid) {
 }
 
 createOnly(value) { prior(value) == null && value != null }
+
+createOrDelete(value) { prior(value) == null || value == null }

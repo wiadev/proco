@@ -16,7 +16,8 @@ path /pools/{uid}/{mid} is PoolItem {
     !isMatched(mid) &&
     !isSeenCurrentQuestion(mid) &&
     checkGenderFilterFor(mid) &&
-    checkAgeFilterFor(mid)
+    checkAgeFilterFor(mid) &&
+    createOrDelete(this)
   }
 }
 

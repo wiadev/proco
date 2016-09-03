@@ -21,6 +21,7 @@ class UserListener extends Component {
     if (type === 'is') {
       const isOnlineRef = database.ref(`users/summary/${uid}/is_online`);
       isOnlineRef.set(true).then(() => isOnlineRef.onDisconnect().set(false));
+      database.ref(`ocean/${uid}`).onDisconnect().set(null);
     }
     if (!this.ref) {
       this.ref = base.syncState(getUserRefForTypeAsString(type, uid), {

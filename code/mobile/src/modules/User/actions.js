@@ -126,6 +126,7 @@ export function postMessage(thread_id, message) {
       return root.update(updates);
     });
 }
+
 export function postLocation(type, data) {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;

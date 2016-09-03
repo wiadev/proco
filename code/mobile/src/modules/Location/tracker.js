@@ -1,6 +1,53 @@
 import React, {Component} from "react";
+import { base, database } from '../../core/Api';
 import {postLocation} from '../User';
 import BackgroundGeolocation from "react-native-background-geolocation";
+import GeoFire from 'geofire';
+
+const oceanRef = database.ref('ocean');
+const geoFire = new GeoFire(oceanRef);
+const geoRef = geoFire.ref();
+var geoQuery = geoFire.query({
+  center: [-78.537960, 31.295810],
+  radius: 1
+});
+
+let CUPool;
+var onReadyRegistration = geoQuery.on("ready", function() {
+  console.log("GeoQuery has loaded and fired all other events for initial data");
+});
+
+var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location, distance) {
+  if(CUPool) {
+    CUPool.child(key).set({
+      isProcessing: true,
+    }).catch(e => console.log("FBERROR_KEY_ENTERED", e));
+  }
+  console.log(key + " entered query at " + location + " (" + distance + " km from center)");
+});
+
+var onKeyExitedRegistration = geoQuery.on("key_exited", function(key, location, distance) {
+  if(CUPool) {
+    CUPool.child(key).set(null).catch(e => console.log("FBERROR_KEY_EXITED", e));
+  }
+  console.log(key + " exited query to " + location + " (" + distance + " km from center)");
+});
+
+const pushLocationUpdate = (location) => {
+  const uid = base.auth().currentUser.uid;
+  if (!uid) return;
+
+  if (!CUPool) CUPool = database.ref(`pools/${uid}`);
+
+  const { coords: { latitude, longitude } } = location;
+  const coordsArray = [latitude, longitude];
+
+  geoFire.set(uid, coordsArray);
+  geoQuery.updateCriteria({
+    center: coordsArray,
+  });
+
+};
 
 const startTracking = (store) => {
 
@@ -21,6 +68,7 @@ const startTracking = (store) => {
     if (!state.enabled) {
       BackgroundGeolocation.start(function () {
         console.log("- Start success");
+
       });
     }
   });
