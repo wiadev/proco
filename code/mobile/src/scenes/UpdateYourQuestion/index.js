@@ -13,29 +13,36 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../../components/ProfileLoop';
 import MessageBox from '../../components/Chat/Box';
+import { getUserLoops } from '../../core/Api';
 import { postQuestion } from '../../modules/User/actions';
 import { hideStatusBar, showStatusBar } from '../../modules/StatusBar/actions';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@connect(state => ({user: state.user}))
+@connect(state => ({auth: state.auth, user: state.user}))
 export default class UpdateYourQuestion extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      profileLoopPhotos: [],
       verifying: false,
       question: ""
     };
   }
 
   componentDidMount() {
-    // TODO: Need to hide statusbar.
+    // Need to hide statusbar.
     this.props.dispatch(hideStatusBar());
 
     this.setState({
       question: this.props.user.current_question
     });
+
+    getUserLoops(this.props.auth.uid)
+      .then(photos => this.setState({
+        profileLoopPhotos: photos
+      }));
   }
 
   componentWillUnmount() {
@@ -45,7 +52,7 @@ export default class UpdateYourQuestion extends React.Component {
   render() {
     return (
       <View style={styles.updateYourQuestion}>
-        <ProfileLoop photoOpacity={0.6}>
+        <ProfileLoop photos={this.state.profileLoopPhotos} photoOpacity={0.6}>
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
             {this._renderTop()}
 
@@ -114,6 +121,7 @@ export default class UpdateYourQuestion extends React.Component {
   }
 
   _cancel() {
+    // User cancelled, need to go to previous scene.
     Actions.pop();
   }
 
