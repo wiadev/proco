@@ -2,5 +2,4 @@ node_modules/
 public
 firebase-debug.log
 .idea
-./rules.json
-./rules.bolt
+rules.json
