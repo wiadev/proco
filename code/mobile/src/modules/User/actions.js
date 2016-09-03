@@ -80,12 +80,27 @@ export function postAnswer(qid, answer = null) {
 
 export function postQuestion(question) {
   const uid = getCUID();
-  return database.ref(`users/questions`).push({
-    uid,
-    question,
-    current: true,
-    timestamp: base.e.database.ServerValue.TIMESTAMP
-  });
+  const usersRef = database.ref('users');
+  const key = usersRef.child('questions').push().key;
+  const questionUpdates = {
+    [`info/${uid}/current_question`]: question,
+    [`info/${uid}/current_question_id`]: key,
+    [`summary/${uid}/current_question`]: question,
+    [`summary/${uid}/current_question_id`]: key,
+    [`questions/${key}`]: {
+      uid,
+      question,
+      current: true,
+      timestamp: base.e.database.ServerValue.TIMESTAMP
+    },
+  };
+  return usersRef.update(questionUpdates);
+}
+
+
+export function postQuestion(question) {
+  const uid = getCUID();
+  return database.ref(`users/questions`).push();
 }
 
 export function changeBlockStatusFor(user, status = true) {

@@ -11,7 +11,12 @@ type UserInfo extends OnlyCurrentUser {
   gender: UIGender | Null,
   network: UINetwork | Null,
   network_email: UINetworkEmail | Null,
+  current_question_id: CurrentQuestion | Null,
+  current_question: CurrentQuestionID | Null,
 }
+
+type CurrentQuestion extends String {}
+type CurrentQuestionID extends String {}
 
 type ISODate extends String {
   validate() { this.test(/^(19|20)\d\d-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/) }

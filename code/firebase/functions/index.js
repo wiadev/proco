@@ -25,7 +25,6 @@ $.handleUserInfoChange = require('./functions/database/handleUserInfoChange');
 
 $.handleUserVerifications = require('./functions/database/handleUserVerifications');
 
-$.handlePostedNewQuestion = require('./functions/database/handlePostedNewQuestion');
 $.handleNewMatch = require('./functions/database/handleNewMatch');
 $.handleUserPostedNewMessage = require('./functions/database/handleUserPostedNewMessage');
 
