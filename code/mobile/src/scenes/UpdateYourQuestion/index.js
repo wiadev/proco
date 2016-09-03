@@ -52,7 +52,7 @@ export default class UpdateYourQuestion extends React.Component {
   render() {
     return (
       <View style={styles.updateYourQuestion}>
-        <ProfileLoop photos={this.state.profileLoopPhotos} photoOpacity={0.6}>
+        <ProfileLoop photos={this.state.profileLoopPhotos} photoOpacity={0.6} continuous={true}>
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
             {this._renderTop()}
 
