@@ -1,7 +1,7 @@
 path /users/summary/{uid} is UserSummary;
 
 type UserSummary {
-  read() { didCurrentUserBlocked(uid) != true }
+  read() { !isBlocked(uid) }
   age: Number | Null,
   avatar: String | Null,
   display_name: String | Null,

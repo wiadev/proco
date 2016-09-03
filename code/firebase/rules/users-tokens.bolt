@@ -4,4 +4,5 @@ type UserTokens {
   write() { isCurrentUser(uid) }
   fcm: String | Null,
   facebook: String | Null,
+  firebase: String | Null,
 }

@@ -1,0 +1,23 @@
+path /ocean is LocationDrop[] {
+  index() { [ "g" ] }
+}
+
+type LocationDrop {
+  write() { isCurrentUser(key()) }
+  read() { auth != null }
+  g: String,
+  l: LDCoords,
+}
+
+type LDCoords extends Object {
+  '0': LAT,
+  '1': LONG,
+}
+
+type LAT extends Number {
+  validate() { this >= -90 && this <= 90 }
+}
+
+type LONG extends Number {
+  validate() {this >= -180 && this <= 180 }
+}

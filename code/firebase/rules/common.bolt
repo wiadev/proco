@@ -11,5 +11,14 @@ type CurrentTimestamp extends Number {
   validate() { this == now }
 }
 
-didCurrentUserBlocked(uid) { root.users.blocks[uid][currentUser()] == true }
+isBlocked(uid) { // This returns true even if only one of them is blocked the other.
+  root.users.blocks[uid][currentUser()] == true ||
+  root.users.blocks[currentUser()][uid] == true
+}
+
+isMatched(uid) {
+  root.users.matches[uid][currentUser()] == true ||
+  root.users.matches[currentUser()][uid] == true
+}
+
 createOnly(value) { prior(value) == null && value != null }

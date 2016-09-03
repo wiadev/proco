@@ -1,30 +1,45 @@
-isExcluded(cuid, type, data_id) { root.pool.exclusions[cuid][type][data_id] != null }
+/*
+* So, this works like this:
+*
+* App loads the nearby ids and pushes them to /pools/$uid/$key ($key is the other user here)
+* We check if that user is OK by the current user filters, blocked and matched statuses in here, on write()
+* Since write fails immediately for "unfit" profiles, we don't even need to check filters/conditions anywhere else.
+* Code here is a bit ugly but that's because we are using a hacky language (Bolt) and a hacky technique.
+* On successful writes a cloud functions triggeres and gets user loop links, question & answer.
+*/
+
 
 path /pools/{uid}/{mid} is PoolItem {
-  validate() { !isExcluded(uid, 'users', mid) && !areTheyMatched(uid, mid) && isCurrentUser(uid) }
+  write() {
+    isCurrentUser(uid) &&
+    !isBlocked(mid) &&
+    !isMatched(mid) &&
+    !isSeenCurrentQuestion(mid) &&
+    checkGenderFilterFor(mid) &&
+    checkAgeFilterFor(mid)
+  }
 }
 
-type PoolItem {
-  question_id: PIQuestionID,
-  summary: PISummary,
+getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
+getSummaryForPI(user) { root.users.summary[user] }
+
+getAgeFor(mid) { getSummaryForPI(mid).age }
+getGenderFor(mid) { getSummaryForPI(mid).gender }
+getNetworkFor(mid) { getSummaryForPI(mid).network }
+
+checkGenderFilterFor(mid) {
+  getFilterOptionForCU('gender') == 'Both' || getFilterOptionForCU('gender') == getGenderFor(mid)
 }
 
-type PIQuestionID extends String {
-  validate() { !isExcluded(uid, 'questions', this) }
+checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('ageMin') }
+checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('ageMax') }
+
+checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
+
+isSeenCurrentQuestion(mid) {
+  root.users.questions[getSummaryForPI(mid).current_question_id].seen_by[currentUser()] == true
 }
 
-getFilterForCurrentUser (filter) { root.users.filters[currentUser()][filter] }
+type PoolItem extends Object {
 
-type PISummary {
-  age: PISAge,
-  //network: PISNetwork,
-  gender: PISGender,
-}
-
-type PISGender extends String {
-  validate() { this == 'Both' || this == getFilterForCurrentUser('gender') }
-}
-
-type PISAge extends Number {
-  validate() { this >= getFilterForCurrentUser('ageMin') && this <= getFilterForCurrentUser('ageMax') }
 }

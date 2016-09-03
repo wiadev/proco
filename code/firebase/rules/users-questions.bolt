@@ -4,9 +4,14 @@ type UserQuestion {
   write() { createOnly(this) && isCurrentUser(this.uid) }
   current: Boolean,
   question: QuestionString,
+  seen_by: Map<UserID, Boolean>,
   timestamp: CurrentTimestamp,
 }
 
 type QuestionString extends String {
   validate() { this.length > 0 && this.length < 300 }
+}
+
+type UserID extends String {
+  write() { isCurrentUser(this) }
 }
