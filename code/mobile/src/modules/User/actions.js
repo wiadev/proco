@@ -91,7 +91,7 @@ export function postQuestion(question) {
       uid,
       question,
       current: true,
-      timestamp: base.e.database.ServerValue.TIMESTAMP
+      timestamp: base.database.ServerValue.TIMESTAMP
     },
   };
   return usersRef.update(questionUpdates);
@@ -120,7 +120,6 @@ export function changeMatchStatusFor(uidToMatch, status = true) {
 export function changeMuteStatusFor(user, status = true) { // We mute by user, not message or thread
   return database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);
 }
-
 
 export function postMessage(thread_id, message) {
   const threadIsTo = `threads/info/${thread_id}/to`;
@@ -151,8 +150,7 @@ export function postLocation(type, data) {
   }
 }
 
-export function updateUser(type, data = {}, after = () => {
-}) {
+export function updateUser(type, data = {}, after = () => {}) {
   return (dispatch, getState) => {
     const state = getState();
     const {uid = null} = state.auth;
