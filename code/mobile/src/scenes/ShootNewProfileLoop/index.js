@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
 import {Actions} from "react-native-router-flux";
-import {base} from "../../core/Api";
+import {base,database} from "../../core/Api";
 import RNFetchBlob from "react-native-fetch-blob";
 import ProfileLoop from "../../components/ProfileLoop";
 import profileLoopConfig from "../../core/config/profileLoop";
@@ -128,7 +128,7 @@ export default class ShootNewProfileLoop extends React.Component {
   _done() {
     console.log(this.state.photos, "fotoğralflar");
 
-    const loop_key = base.database.ref('keyGenerator').push().key;
+    const loop_key = database.ref('keyGenerator').push().key;
     const uid = this.props.uid;
     const uploads = this.state.photos.map((photo, key) => {
       return Blob
@@ -147,7 +147,7 @@ export default class ShootNewProfileLoop extends React.Component {
                 [`summary/${uid}/loop_key`]: loop_key,
                 [`loops/${uid}/${loop_key}`]: base.database.ServerValue.TIMESTAMP,
               };
-              return base.database.ref('users').update(profileLoopUpdate);
+              return database.ref('users').update(profileLoopUpdate);
             })
         })
     });
