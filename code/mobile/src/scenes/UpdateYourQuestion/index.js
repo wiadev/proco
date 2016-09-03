@@ -13,24 +13,29 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../../components/ProfileLoop';
 import MessageBox from '../../components/Chat/Box';
+import { postQuestion } from '../../modules/User/actions';
 import { hideStatusBar, showStatusBar } from '../../modules/StatusBar/actions';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@connect(state => state)
+@connect(state => ({user: state.user}))
 export default class UpdateYourQuestion extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       verifying: false,
-      question: "En sevdiğin Pokémon?"
+      question: ""
     };
   }
 
   componentDidMount() {
     // TODO: Need to hide statusbar.
     this.props.dispatch(hideStatusBar());
+
+    this.setState({
+      question: this.props.user.current_question
+    });
   }
 
   componentWillUnmount() {
@@ -114,5 +119,10 @@ export default class UpdateYourQuestion extends React.Component {
 
   _done() {
     // Editing is complete. User's question is available on this.state.question.
+    postQuestion(this.state.question);
+
+    this.setState({
+      verifying: false
+    });
   }
 }
