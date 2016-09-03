@@ -150,7 +150,8 @@ export function postLocation(type, data) {
   }
 }
 
-export function updateUser(type, data = {}, after = () => {}) {
+export function updateUser(type, data = {}, after = () => {
+}) {
   return (dispatch, getState) => {
     const state = getState();
     const {uid = null} = state.auth;

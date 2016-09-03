@@ -1,26 +1,22 @@
-import React from 'react';
-import {
-  View,
-  TouchableOpacity
-} from 'react-native';
-import {connect} from 'react-redux';
-import Camera from 'react-native-camera';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import reactMixin from 'react-mixin';
-import reactTimerMixin from 'react-timer-mixin';
-import {Actions} from 'react-native-router-flux';
-import { base } from '../../core/Api';
-import RNFetchBlob from 'react-native-fetch-blob';
+import React from "react";
+import {View, TouchableOpacity} from "react-native";
+import {connect} from "react-redux";
+import Camera from "react-native-camera";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import reactMixin from "react-mixin";
+import reactTimerMixin from "react-timer-mixin";
+import {Actions} from "react-native-router-flux";
+import {base} from "../../core/Api";
+import RNFetchBlob from "react-native-fetch-blob";
+import ProfileLoop from "../../components/ProfileLoop";
+import profileLoopConfig from "../../core/config/profileLoop";
+import styles from "./styles";
 
 // Pollyfills for firebase web sdk
 const fs = RNFetchBlob.fs;
 const Blob = RNFetchBlob.polyfill.Blob;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
 window.Blob = Blob;
-
-import ProfileLoop from '../../components/ProfileLoop';
-import profileLoopConfig from '../../core/config/profileLoop';
-import styles from './styles';
 
 @connect(
   state => ({
@@ -55,7 +51,8 @@ export default class ShootNewProfileLoop extends React.Component {
   _renderCameraOrProfileLoop() {
     if (this.state.status === this.statuses.done) {
       return (
-        <ProfileLoop isMounted={true} local={true} continuous={true} photos={this.state.photos} containerStyle={styles.profileLoop}>
+        <ProfileLoop isMounted={true} local={true} continuous={true} photos={this.state.photos}
+                     containerStyle={styles.profileLoop}>
           {this._renderButtons()}
         </ProfileLoop>
       );
@@ -83,7 +80,7 @@ export default class ShootNewProfileLoop extends React.Component {
         return (
           <TouchableOpacity onPress={() => this._capture()}>
             <View style={styles.captureButton}>
-              <View style={styles.captureButtonInner} />
+              <View style={styles.captureButtonInner}/>
             </View>
           </TouchableOpacity>
         );
@@ -96,14 +93,14 @@ export default class ShootNewProfileLoop extends React.Component {
         return (
           <TouchableOpacity onPress={() => this._done()}>
             <View style={styles.secondaryButton}>
-              <Icon name="check" size={24} style={styles.secondaryButtonIcon} />
+              <Icon name="check" size={24} style={styles.secondaryButtonIcon}/>
             </View>
           </TouchableOpacity>
         );
       } else {
         // Render an empty and transparent View at same size as secondaryButton to align other buttons correctly.
         return (
-          <View style={[styles.secondaryButton, {backgroundColor: 'transparent'}]} />
+          <View style={[styles.secondaryButton, {backgroundColor: 'transparent'}]}/>
         );
       }
     };
@@ -112,7 +109,7 @@ export default class ShootNewProfileLoop extends React.Component {
       <View style={styles.buttons}>
         <TouchableOpacity onPress={() => this._cancel()}>
           <View style={styles.secondaryButton}>
-            <Icon name="close" size={24} style={styles.secondaryButtonIcon} />
+            <Icon name="close" size={24} style={styles.secondaryButtonIcon}/>
           </View>
         </TouchableOpacity>
 
@@ -131,19 +128,26 @@ export default class ShootNewProfileLoop extends React.Component {
   _done() {
     console.log(this.state.photos, "fotoğralflar");
 
-    const loop_key = base.database.ref('/id').push().key;
+    const loop_key = base.database.ref('keyGenerator').push().key;
+    const uid = this.props.uid;
     const uploads = this.state.photos.map((photo, key) => {
       return Blob
-        .build(RNFetchBlob.wrap(photo), { type : 'image/jpg;'})
+        .build(RNFetchBlob.wrap(photo), {type: 'image/jpg;'})
         .then((blob) => {
           // upload image using Firebase SDK
           return base.storage()
-            .ref(`users/profileloops/${this.props.uid}/${loop_key}`)
-            .child(`pl-${key}.jpg`)
-            .put(blob, { contentType : 'image/jpg' })
+            .ref(`users/loops/$uid}/${loop_key}`)
+            .child(`${key}.jpg`)
+            .put(blob, {contentType: 'image/jpg'})
             .then((snapshot) => {
               blob.close();
-              return Promise.resolve(snapshot);
+              console.log("uploaded", snapshot)
+              const profileLoopUpdate = {
+                [`info/${uid}/loop_key`]: loop_key,
+                [`summary/${uid}/loop_key`]: loop_key,
+                [`loops/${uid}/${loop_key}`]: base.database.ServerValue.TIMESTAMP,
+              };
+              return base.database.ref('users').update(profileLoopUpdate);
             })
         })
     });

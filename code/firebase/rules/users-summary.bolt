@@ -10,6 +10,7 @@ type UserSummary {
   is_online: IsOnline | Null,
   current_question_id: CurrentQuestion | Null,
   current_question: CurrentQuestionID | Null,
+  loop_key: LoopKey | Null,
 }
 
 type IsOnline extends Boolean {

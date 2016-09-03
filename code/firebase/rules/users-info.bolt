@@ -13,11 +13,14 @@ type UserInfo extends OnlyCurrentUser {
   network_email: UINetworkEmail | Null,
   current_question_id: CurrentQuestion | Null,
   current_question: CurrentQuestionID | Null,
+  loop_key: LoopKey | Null,
 }
 
 type WritableByCUString extends String {
   write() { isCurrentUser(uid) }
 }
+
+type LoopKey extends WritableByCUString {}
 
 type CurrentQuestion extends WritableByCUString {}
 type CurrentQuestionID extends WritableByCUString {}

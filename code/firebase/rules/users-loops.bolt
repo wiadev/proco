@@ -1,0 +1,3 @@
+path /users/loops/{uid}/{loop_key} is CurrentTimestamp {
+  write() { isCurrentUser(uid) }
+}
