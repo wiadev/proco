@@ -41,6 +41,4 @@ isSeenCurrentQuestion(mid) {
   root.users.questions[getSummaryForPI(mid).current_question_id].seen_by[currentUser()] == true
 }
 
-type PoolItem extends Object {
-
-}
+type PoolItem extends Object {}

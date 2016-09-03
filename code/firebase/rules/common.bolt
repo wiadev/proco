@@ -17,10 +17,16 @@ isBlocked(uid) { // This returns true even if only one of them is blocked the ot
 }
 
 isMatched(uid) {
-  root.users.matches[uid][currentUser()] == true ||
-  root.users.matches[currentUser()][uid] == true
+  root.users['matches/' + uid + '/' + currentUser()] == true ||
+  root.users['matches/' + currentUser() + '/' + uid] == true
 }
 
 createOnly(value) { prior(value) == null && value != null }
 
 createOrDelete(value) { prior(value) == null || value == null }
+
+
+path /keyGenerator {
+  read() { true }
+  write() { true }
+}

@@ -81,7 +81,7 @@ export function postAnswer(qid, answer = null) {
 export function postQuestion(question) {
   const uid = getCUID();
   const usersRef = database.ref('users');
-  const key = usersRef.child('questions').push().key;
+  const key = database.ref('keyGenerator').push().key;
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
@@ -127,7 +127,7 @@ export function postMessage(thread_id, message) {
     .then(data => Object.keys(data))
     .then(to => {
       const root = database.ref();
-      const key = root.push().key;
+      const key = root.child('keyGenerator').push().key;
       const message = Object.assign({
         key,
       }, message);
