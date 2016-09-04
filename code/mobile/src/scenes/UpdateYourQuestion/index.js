@@ -40,9 +40,12 @@ export default class UpdateYourQuestion extends React.Component {
     });
 
     getUserLoops(this.props.auth.uid, this.props.user.loop_key)
-      .then(photos => this.setState({
+      .then(photos => {
+        console.log("photos", photos);
+        this.setState({
           profileLoopPhotos: photos
-        }));
+        })
+      });
   }
 
   componentWillUnmount() {

@@ -25,8 +25,12 @@ createOnly(value) { prior(value) == null && value != null }
 
 createOrDelete(value) { prior(value) == null || value == null }
 
-
 path /keyGenerator {
   read() { true }
   write() { true }
+}
+
+
+isAdmin() {
+  root.internal.acl.admin[currentUser()] == true
 }

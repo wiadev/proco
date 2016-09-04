@@ -30,6 +30,5 @@ $.handleUserPostedNewMessage = require('./functions/database/handleUserPostedNew
 
 // Internal functions
 
-$.handleUserCleanupTask = require('./functions/database/handleUserCleanupTask');
 
 module.exports = $;

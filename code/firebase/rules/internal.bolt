@@ -1,0 +1,15 @@
+isInAccessGroup(group) {
+  isAdmin() ||
+  root.internal.acl.groups[group][currentUser()] == true
+}
+
+path /internal {
+  read() { isAdmin() }
+  write() { isAdmin() }
+
+  path /playhouse {
+    read() { isInAccessGroup('playhouse_readers') }
+    write() { isInAccessGroup('playhouse_writers') }
+  }
+
+}
