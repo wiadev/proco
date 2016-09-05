@@ -7,7 +7,7 @@ import {Loader} from '../../components';
 import { adminDatabase, adminAuth, userAuth } from '../../helpers/api';
 
 
-export class TestUsersList extends React.Component {
+export class Doll extends React.Component {
 
     constructor(props) {
       super(props);
@@ -17,13 +17,13 @@ export class TestUsersList extends React.Component {
           users: [],
       };
 
-      this._loadUsers = () => adminDatabase.ref(`/internal/playhouse/test-users`).once('value').then(snap => snap.val()).then(users =>
+      this._loadDoll = () => adminDatabase.ref(`/internal/playhouse/dolls/`).child(id').once('value').then(snap => snap.val()).then(users =>
         this.setState({users: Object.keys(users).map((k) => users[k]), isLoading: false})
       );
     }
 
     componentWillMount(){
-      this._loadUsers();
+      this._loadDoll();
     }
 
     renderList() {
@@ -60,4 +60,4 @@ export class TestUsersList extends React.Component {
     }
 }
 
-export default TestUsersList;
+export default Doll;
