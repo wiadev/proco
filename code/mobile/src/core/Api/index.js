@@ -53,7 +53,12 @@ export const getUserLoops = (uid, loop_key = null, count = 18) => {
 
 export const getUserSummary = uid => getFirebaseDataWithCache(`users/summary/${uid}`);
 
-export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qid}`);
+export const getCurrentQuestionOf = uid =>
+  database.ref(`users/summary/${uid}/current_question_id`)
+    .once('value').then(snap => snap.val())
+    .then(qid => getQuestion(qid));
+
+export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qid}/question`);
 export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/text`);
 
 export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);

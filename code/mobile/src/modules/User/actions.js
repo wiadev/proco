@@ -98,10 +98,7 @@ export function postQuestion(question) {
 }
 
 
-export function markAsSeen(qid) {
-  const uid = getCUID();
-  return database.ref(`users/questions/${qid}/seen_by/${uid}`).set(true);
-}
+export const markAsSeen = qid => database.ref(`users/questions/${qid}/seen_by/${getCUID()}`).set(true);
 
 export function changeBlockStatusFor(user, status = true) {
   const uid = getCUID();
