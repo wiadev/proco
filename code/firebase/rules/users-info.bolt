@@ -35,3 +35,5 @@ type UIGender extends String {
 
 type UINetwork extends String {}
 type UINetworkEmail extends String {}
+
+getInfo(uid) { root.users.info[uid] }

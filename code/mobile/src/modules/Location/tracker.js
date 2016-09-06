@@ -6,10 +6,10 @@ const oceanRef = database.ref('ocean');
 const geoFire = new GeoFire(oceanRef);
 
 const pushLocationUpdate = (location) => {
-  const uid = base.auth().currentUser.uid;
-  if (!uid) return;
+  const currentUser = base.auth().currentUser;
+  if (!currentUser) return;
   const { coords: { latitude, longitude } } = location;
-  return geoFire.set(uid, [latitude, longitude]);
+  return geoFire.set(currentUser.uid, [latitude, longitude]);
 };
 
 const startTracking = () => {
