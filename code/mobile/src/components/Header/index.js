@@ -13,22 +13,6 @@ const themes = ['dark', 'light'];
 const titleTypes = ['text', 'logo'];
 const actorTypes = ['icon', 'text'];
 
-const propTypes = {
-  theme: React.PropTypes.oneOf(themes).isRequired,
-  titleType: React.PropTypes.oneOf(titleTypes),
-  title: React.PropTypes.string,
-  leftActorType: React.PropTypes.oneOf(actorTypes),
-  leftActor: React.PropTypes.string,
-  leftAction: React.PropTypes.func,
-  rightActorType: React.PropTypes.oneOf(actorTypes),
-  rightActor: React.PropTypes.string,
-  rightAction: React.PropTypes.func
-};
-
-const defaultProps = {
-  titleType: titleTypes[0]
-};
-
 export default class Header extends React.Component {
   render() {
     return (
@@ -130,5 +114,18 @@ export default class Header extends React.Component {
   }
 }
 
-Header.propTypes = propTypes;
-Header.defaultProps = defaultProps;
+Header.propTypes = {
+  theme: React.PropTypes.oneOf(themes).isRequired,
+  titleType: React.PropTypes.oneOf(titleTypes),
+  title: React.PropTypes.string,
+  leftActorType: React.PropTypes.oneOf(actorTypes),
+  leftActor: React.PropTypes.string,
+  leftAction: React.PropTypes.func,
+  rightActorType: React.PropTypes.oneOf(actorTypes),
+  rightActor: React.PropTypes.string,
+  rightAction: React.PropTypes.func
+};
+
+Header.defaultProps = {
+  titleType: titleTypes[0]
+};
