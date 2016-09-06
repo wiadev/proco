@@ -1,57 +1,58 @@
-import React, {Component} from "react";
-import {StyleSheet, Text, View, Dimensions, Image, PixelRatio, StatusBar} from "react-native";
-import Swiper from "react-native-swiper";
+import React from 'react';
 import {connect} from "react-redux";
+import {
+  View
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Swiper from "react-native-swiper";
+import _ from 'lodash';
+
+import {database} from '../../../../core/Api';
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
-import {base} from "../../../../core/Api";
 import PermissionModal from "../../../../components/PermissionModal";
-import {setStatusBarStyle} from "../../../../modules/StatusBar/actions";
-import IconM from "react-native-vector-icons/MaterialIcons";
-import {getUserRefForTypeAsString} from "../../../../modules/User/actions";
+import styles from './styles';
 
-const onComplete = (eventType, params) => console.log(eventType, params);
-
-@connect(
-  state => ({
-    uid: state.auth.uid,
-    permissions: state.permissions,
-  }),
-)
-export default class Pool extends Component {
+@connect(state => ({auth: state.auth, permissions: state.permissions}))
+class Pool extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    index: 0,
-    drops: [],
-  };
+    this.ref = database.ref(`pools/${this.props.auth.uid}`).limitToFirst(5);
+
+    this.state = {
+      index: null,
+      poolItems: []
+    };
+  }
 
   componentWillMount() {
-    console.log("ppp", this.props)
-
-
-    this.props.dispatch(setStatusBarStyle('default'));
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  renderPoolItems(items = this.state.drops) {
-    if (items.length < 1) {
-      return (<Card label="No one seems to be nearby" noClose={true}/>);
-    }
-    return items.map((item, key) => {
-      return (<PoolItem key={key} isMounted={key === this.state.index } {...item} />);
+    this.ref.on('child_added', newPoolItem => {
+      this.setState({
+        poolItems: this.state.poolItems.concat([{userId: newPoolItem.key}])
+      });
     });
+
+    this.ref.on('child_removed', deletedPoolItem => {
+      this.setState({
+        poolItems: _.filter(this.state.poolItems, singlePoolItem => {
+          return singlePoolItem.userId === deletedPoolItem.key;
+        })
+      });
+    });
+
+    // TODO: Update poolItem on child_changed event.
   }
 
   render() {
+    if (this.props.permissions.location !== 'authorized') {
+      return (
+        <PermissionModal type="location" />
+      );
+    }
 
     return (
-      <View>
+      <View style={styles.pool}>
         <Swiper
           horizontal={true}
           loop={false}
@@ -64,26 +65,26 @@ export default class Pool extends Component {
             console.log('index:', state.index);
           }}
         >
-          {(this.props.permissions.location === 'authorized') ?
-            this.renderPoolItems(this.state.drops) : <PermissionModal type="location"/>
-          }
+          {this._renderPoolItems()}
         </Swiper>
-        <IconM
-          name="expand-less"
-          size={44}
-          color="white"
-          style={{
-            opacity: 0.5,
-            backgroundColor: 'transparent',
-            textAlign: 'center',
-            alignItems: 'center',
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 10,
-          }}
-        />
+
+        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon} />
       </View>
     );
   }
+
+  _renderPoolItems() {
+    if (this.state.poolItems.length < 1) {
+      return (
+        <Card label="No one seems to be nearby" noClose={true}/>
+      );
+    }
+    return this.state.poolItems.map((item, key) => {
+      return (
+        <PoolItem key={key} isMounted={key === this.state.index} userId={item.userId} />
+      );
+    });
+  }
 }
+
+export default Pool;

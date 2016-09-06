@@ -13,16 +13,17 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../ProfileLoop';
 import MessageBox from '../Chat/Box';
-
+import {getPoolData} from '../../core/Api';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
 export default class PoolItem extends React.Component {
   static propTypes = {
     isMounted: React.PropTypes.bool.isRequired,
-    profileLoopPhotos: React.PropTypes.array.isRequired,
-    messages: React.PropTypes.array.isRequired,
-    onComplete: React.PropTypes.func.isRequired,
+    userId: React.PropTypes.string.isRequired,
+    profileLoopPhotos: React.PropTypes.array,
+    messages: React.PropTypes.array,
+    onComplete: React.PropTypes.func,
   };
 
   // TODO: Should be deleted when real data is present.
@@ -38,19 +39,18 @@ export default class PoolItem extends React.Component {
       }
     ],
     onComplete: (eventType, params) => {
-
       switch (eventType) {
         case 'START-CONVERSATION':
           Actions.Conversation(params);
           break;
       }
       // eventType: ['ANSWER' | 'START-CONVERSATION' | 'BLOCK' | 'REPORT']
-      console.log(eventType, params);
+      // console.log(eventType, params);
     }
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       height: 0,
@@ -61,6 +61,10 @@ export default class PoolItem extends React.Component {
       answerInputVisible: false,
       answer: ""
     };
+  }
+
+  componentWillMount() {
+    getPoolData(this.props.userId).then(data => console.log(data)).catch(error => console.log(error));
   }
 
   componentDidMount() {
