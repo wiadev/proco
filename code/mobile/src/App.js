@@ -29,6 +29,7 @@ class App extends Component {
     this._locationTracking = this._locationTracking.bind(this);
     this.state = {
       didStartedLocationTracking: false,
+      isActive: false,
     }
   }
 
@@ -61,6 +62,7 @@ class App extends Component {
   handleAppStateChange(appState) {
     this.props.dispatch(syncPermissions());
     if (appState == 'active') {
+      this.setState({isActive: true});
       this.refreshUnsubscribe = FCM.on('refreshToken',
         (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
       FCM.getFCMToken().then(fcm_token =>
@@ -68,6 +70,8 @@ class App extends Component {
       ).catch(() => {
         console.log("get fcm token error")
       })
+    } else {
+      this.setState({isActive: false});
     }
   }
 
@@ -107,7 +111,7 @@ class App extends Component {
         <NoInternetModal />
         <AuthListener uid={uid}/>
         <UserListener type="info" uid={uid}/>
-        <UserListener type="is" uid={uid}/>
+        <UserListener type="is" uid={uid} isActive={this.state.isActive} />
         {(uid && isBlocked) && <BlockedUserModal
           blocked={blocked}
           logout={() => dispatch(logout())}
