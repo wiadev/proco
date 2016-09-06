@@ -27,11 +27,16 @@ export const getFirebaseDataWithCache = ref => {
   });
 };
 
-export const getLoopsWithCache = (uid, loop_key, count = 18) => {
+export const getLoopsWithCache = (uid, loop_key = 0, count = 18) => {
   const key = `@Proco:FSC:PLP:${uid}:${loop_key}`;
   return AsyncStorage.getItem(key).then(data => {
     if (data !== null) return JSON.parse(data);
-    const loopBaseRef = storage.ref(`users/loops/${uid}/${loop_key}`);
+    let loopBaseRef;
+    if (loop_key === 0) {
+      loopBaseRef = storage.ref(`users/loops/0/0`);
+    } else {
+      loopBaseRef = storage.ref(`users/loops/${uid}/${loop_key}`);
+    }
     let files = [];
     for (var i = 0; i < count; i++) {
       files.push(loopBaseRef.child(`${i}.jpg`).getDownloadURL());
