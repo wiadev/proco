@@ -7,7 +7,7 @@ const getCleanNetworkDomain = (email) => email.split('@')[1].replace(/\./g, '-')
 
 module.exports = (uid, network_email, previous_network_email, root) => {
 
-  const getFID = root.child(`/users/info/${uid}/fid`).once('value').then(snap => snap.va());
+  const getFID = root.child(`/users/info/${uid}/fid`).once('value').then(snap => snap.val());
 
   return getFID.then(fid => {
     if (fid === 0) return Promise.resolve(); // User is either a system user, admin or a doll.
