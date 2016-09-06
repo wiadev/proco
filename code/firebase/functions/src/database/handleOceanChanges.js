@@ -39,6 +39,7 @@ module.exports = functions.database().path('/ocean/{key}')
         } else {
           geoQuery.cancel();
           const pool = event.data.ref.root.child(`users/pools/${event.params.key}`);
+          const pool = event.data.ref.root.child(`pools/${event.params.key}`);
 
           if (dropKeys.length === 0) {
             return pool.set(null);

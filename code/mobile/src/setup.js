@@ -4,7 +4,6 @@ import React, {Component} from "react";
 import {AppState, View} from "react-native";
 import {Provider} from "react-redux";
 import {configureStore} from "./store/configureStore";
-import startLocationTracking from "./modules/Location/tracker";
 import App from "./App";
 
 const setup = () => {
@@ -17,7 +16,6 @@ const setup = () => {
         isLoading: false,
         store: configureStore(),
       };
-      startLocationTracking(this.state.store);
     }
 
     render() {
