@@ -47,6 +47,19 @@ export default function Commands(vorpal) {
       });
     });
 
+
+  vorpal.command('ph attach question all', 'Attaches a random question to all dolls')
+    .action(function (args, cb) {
+      const self = this;
+
+      this.log(`Starting to attach...Shouldn't take long.`);
+      return ph.attachQuestionToDolls().then((dolls) => {
+        dolls.forEach(doll => self.log(`${doll.uid} was attached with the question ${doll.question}`))
+        cb();
+      });
+    });
+
+
   vorpal.command('ph clean <uid>', 'Cleans a doll from the app')
     .action(function (args, cb) {
       const self = this;

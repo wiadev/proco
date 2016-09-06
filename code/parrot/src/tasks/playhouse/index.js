@@ -1,9 +1,11 @@
-import { firebaseAppROOT, database } from '../../utils';
+import { firebaseAppROOT, database, asArray } from '../../utils';
 import { cleanAppUser } from '../appUsers';
 import faker from 'faker/locale/tr';
 import moment from 'moment';
 import slug from 'slug';
 import GeoFire from 'geofire';
+import firebase from 'firebase';
+
 import { generateRandomPoint } from './utils';
 
 export const usersRef = database.ref('users');
@@ -117,3 +119,35 @@ export const spreadDolls = (lat = 41.042073848901005, lng = 29.027252197265625, 
     return positionDoll(doll, loc.lat, loc.lng);
   }))
 );
+
+function postQuestion(uid, question) { // this is taken directly from the app (except for the UID param) and shouldn't be tweaked.
+  const usersRef = database.ref('users');
+  const key = database.ref('keyGenerator').push().key;
+  const questionUpdates = {
+    [`info/${uid}/current_question`]: question,
+    [`info/${uid}/current_question_id`]: key,
+    [`summary/${uid}/current_question`]: question,
+    [`summary/${uid}/current_question_id`]: key,
+    [`questions/${key}`]: {
+      uid,
+      question,
+      current: true,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    },
+  };
+  return usersRef.update(questionUpdates);
+}
+
+export const attachQuestionToDolls = () => 
+  database.ref('internal/playhouse/data/questions')
+  .once('value')
+  .then(snap => snap.val())
+  .then(data => asArray(data))
+  .then(questions => 
+    dollsRef().once('value').then(snap => 
+      Promise.all(Object.keys(snap.val()).map(doll => 
+          postQuestion(doll, questions[Math.floor(Math.random() * questions.length)])
+        )
+      )
+    )
+  );
