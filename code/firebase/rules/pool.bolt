@@ -9,15 +9,15 @@
 */
 
 
-path /pools/{uid}/{mid} is PoolItem {
+//path /pools/{uid}/{mid} is PoolItem {
+path /pools/{uid}/{mid} {
   write() {
-    isCurrentUser(uid) &&
-    !isBlocked(mid) &&
-    !isMatched(mid) &&
-    !isSeenCurrentQuestion(mid) &&
-    checkGenderFilterFor(mid) &&
-    checkAgeFilterFor(mid) &&
-    createOrDelete(this)
+    isCurrentUser(uid)
+    && !isBlocked(mid)
+    && !isMatched(mid)
+    //@&& !isSeenCurrentQuestion(mid)
+    && checkGenderFilterFor(mid)
+    && checkAgeFilterFor(mid)
   }
 }
 

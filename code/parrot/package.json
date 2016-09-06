@@ -37,9 +37,12 @@
   "homepage": "https://github.com/barbar/proco",
   "dependencies": {
     "axios": "^0.14.0",
-    "faker": "^3.1.0",
+    "faker": "github:batuhan/faker.js",
     "firebase": "^3.3.0",
+    "geofire": "^4.1.1",
+    "moment": "^2.14.1",
     "open": "0.0.5",
+    "slug": "^0.9.1",
     "vorpal": "^1.11.4"
   },
   "devDependencies": {

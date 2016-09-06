@@ -19,14 +19,14 @@ const functions = require('firebase-functions');
 let $ = {};
 
 // Exposed functions
-$.handleUserFacebookTokenChange = require('./functions/database/handleUserFacebookTokenChange');
+$.handleUserFacebookTokenChange = require('./src/database/handleUserFacebookTokenChange');
 
-$.handleUserInfoChange = require('./functions/database/handleUserInfoChange');
+$.handleUserInfoChange = require('./src/database/handleUserInfoChange');
 
-$.handleUserVerifications = require('./functions/database/handleUserVerifications');
+$.handleUserVerifications = require('./src/database/handleUserVerifications');
 
-$.handleNewMatch = require('./functions/database/handleNewMatch');
-$.handleUserPostedNewMessage = require('./functions/database/handleUserPostedNewMessage');
+$.handleNewMatch = require('./src/database/handleNewMatch');
+$.handleUserPostedNewMessage = require('./src/database/handleUserPostedNewMessage');
 
 // Internal functions
 

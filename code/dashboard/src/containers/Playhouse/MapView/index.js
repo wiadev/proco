@@ -2,7 +2,7 @@ import * as React from 'react';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux';
 
-import { Loader } from '../../components'
+import { Loader } from '../../../components'
 
 function mapStateToProps(state) {
 	return {};
@@ -15,7 +15,7 @@ function mapDispatchToProps (dispatch) {
 }
 
 
-export class MapContainer extends React.Component {
+export class MapView extends React.Component {
 	constructor(props) {
      super(props);
      this.state = {isLoading: false};
@@ -35,4 +35,4 @@ export class MapContainer extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MapView);

@@ -20,6 +20,9 @@ firebasebolt:
 	cd ./firebase && npm run bolt
 	rm -rf ./firebase/rules.bolt
 
+firebaseboltdeploy: firebasebolt
+	cd ./firebase && firebase deploy --only database
+
 synccommon:
 	rm -rf ./mobile/src/core/common
 	cp -R ./common/src ./mobile/src/core/common

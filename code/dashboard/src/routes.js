@@ -2,35 +2,32 @@
 
 import * as React from 'react';
 import { IndexRoute, Route } from 'react-router';
-import { adminApp, userApp, loginWithToken } from './helpers/api';
+import { adminAuth } from './helpers/api';
 
 import { 
-	App, Home,
+  App,
+  Home,
   Error404,
-	MapContainer,
-	TestUsersList,
-	TestUserDetails,
-	Login,
+  PHLogin, PHList, PHMapView, PHDollView,
 } from './containers';
 
 function getRoutes (store) {
 
-	function requirePlayhouseAccess (nextState, replace, cb) {
-		if (!adminApp.auth().currentUser) {
-			replace('/playhouse/login?type=admin&after=' + nextState.location.pathname);
+	function requirePlayhouseAccess ({location: {pathname, search = null}}, replace, cb) {
+		if (!adminAuth.currentUser) {
+			replace('/dashboard/login/playhouse?after=' + pathname + search);
 		}
 		cb();
 	}
 
 	return (
-		<Route path="/" component={ App }>
+		<Route path="/dashboard" component={ App }>
 			<IndexRoute component={ Home } />
-			<Route path="playhouse/login" onEnter={loginWithToken}  />
+			<Route path="login/playhouse" component={ PHLogin } />
 			<Route path="playhouse" onEnter={requirePlayhouseAccess}>
-				<Route path="login" component={ Login } />
-				<Route path="map" component={ MapContainer } />
-				<Route path="dolls" component={ TestUsersList } />
-				<Route path="dolls/:uid" component={ TestUserDetails } />
+				<IndexRoute component={ PHList } />
+				<Route path="map" component={ PHMapView } />
+				<Route path="play/:uid" component={ PHDollView } />
 			</Route>
 			<Route path="*" component={ Error404 } />
 	  </Route>

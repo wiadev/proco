@@ -39,11 +39,8 @@ export default class Header extends React.Component {
           <div className="ta-right">
           {this.renderUserPartial()}
             <span className="menu">
-                  <Link to={`/test-users`}>
-                     Test Users
-                  </Link> -&nbsp;
-                <Link to={`/map`}>
-                     Map
+                  <Link to={`/dashboard/playhouse`}>
+                     Playhouse
                   </Link>
             </span>
           </div>
