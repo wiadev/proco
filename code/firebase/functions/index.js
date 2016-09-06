@@ -28,6 +28,8 @@ $.handleUserVerifications = require('./src/database/handleUserVerifications');
 $.handleNewMatch = require('./src/database/handleNewMatch');
 $.handleUserPostedNewMessage = require('./src/database/handleUserPostedNewMessage');
 
+$.handleUserBlocksUser.js = require('./src/database/handleUserBlocksUser.js');
+
 // Internal functions
 
 
