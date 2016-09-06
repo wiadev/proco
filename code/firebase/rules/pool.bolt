@@ -1,18 +1,20 @@
 /*
 * So, this works like this:
 *
-* App loads the nearby ids and pushes them to /pools/$uid/$key ($key is the other user here)
-* We check if that user is OK by the current user filters, blocked and matched statuses in here, on write()
+* When user location changes, app sets a location in the ocean. We track changes in the ocean and when there is a change,
+* we create a pool from strach everytime (it's cheap) and set it to /pools/$uid where child of this ref is $mid (a user key).
+* The key point here is we *MUST* do this with user privileges so we don't override the rules here.
+* Logic of the pool is these rules. We check if that user is OK by the current user filters, blocked and matched statuses on write()
 * Since write fails immediately for "unfit" profiles, we don't even need to check filters/conditions anywhere else.
 * Code here is a bit ugly but that's because we are using a hacky language (Bolt) and a hacky technique.
-* On successful writes a cloud functions triggeres and gets user loop links, question & answer.
+* The app caches loop keys and question keys so they don't download it everytime.
 */
 
 
-//path /pools/{uid}/{mid} is PoolItem {
 path /pools/{uid}/{mid} {
   write() {
     isCurrentUser(uid)
+    && isNotSelf(mid) // We shouldn't users themselves to their pool
     && !isBlocked(mid)
     && !isMatched(mid)
     //@&& !isSeenCurrentQuestion(mid)
