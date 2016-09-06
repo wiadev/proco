@@ -31,12 +31,8 @@ export const getLoopsWithCache = (uid, loop_key = 0, count = 18) => {
   const key = `@Proco:FSC:PLP:${uid}:${loop_key}`;
   return AsyncStorage.getItem(key).then(data => {
     if (data !== null) return JSON.parse(data);
-    let loopBaseRef;
-    if (loop_key === 0) {
-      loopBaseRef = storage.ref(`users/loops/0/0`);
-    } else {
-      loopBaseRef = storage.ref(`users/loops/${uid}/${loop_key}`);
-    }
+    if (loop_key === 0) uid = 0;
+    const loopBaseRef = storage.ref(`users/loops/${uid}/${loop_key}`);
     let files = [];
     for (var i = 0; i < count; i++) {
       files.push(loopBaseRef.child(`${i}.jpg`).getDownloadURL());
@@ -54,7 +50,7 @@ export const getUserLoops = (uid, loop_key = null, count = 18) => {
   return database.ref(`users/summary/${uid}/loop_key`) // Don't use cache here, it may change
     .once('value')
     .then(snap => snap.val())
-    .then(key => getLoopsWithCache(uid, key, count));
+    .then(key => getLoopsWithCache(uid, (key || 0), count));
 };
 
 export const getUserSummary = uid => getFirebaseDataWithCache(`users/summary/${uid}`);
