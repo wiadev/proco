@@ -16,7 +16,6 @@ function init() {
 function initMap() {
 
   var firebaseRef = firebase.database().ref('ocean');
-  var currentUserPool = firebase.database().ref(`pools/${firebase.auth().currentUser.uid}`).limitToFirst(5);
   var geoFire = new GeoFire(firebaseRef);
 
 
@@ -50,6 +49,8 @@ function initMap() {
     });
 
   });
+
+  var currentUserPool = firebase.database().ref(`pools/${firebase.auth().currentUser.uid}`).limitToFirst(5);
 
   var drops = {};
 
