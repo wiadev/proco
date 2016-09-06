@@ -63,7 +63,7 @@ export function updateUserLocally(type, data) {
   };
 }
 
-const getCUID = () => {
+export const getCUID = () => {
   const uid = base.auth().currentUser.uid;
   if (!uid) throw new Error('CANT_WITHOUT_CUID');
   return uid;

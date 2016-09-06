@@ -1,5 +1,6 @@
 import Rebase from "re-base";
 import {AsyncStorage, Image} from "react-native";
+import {getCUID} from "../../modules/User/actions";
 
 export const base = Rebase.createClass({
   apiKey: "AIzaSyCFOGhparb6dYAwoKtgvnHZ37hh0EARsOQ",
@@ -56,9 +57,27 @@ export const getUserSummary = uid => getFirebaseDataWithCache(`users/summary/${u
 export const getCurrentQuestionOf = uid =>
   database.ref(`users/summary/${uid}/current_question_id`)
     .once('value').then(snap => snap.val())
-    .then(qid => getQuestion(qid));
+    .then(qid =>
+      getQuestion(qid).then(question => ({
+        qid,
+        question
+      }))
+    );
 
 export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qid}/question`);
 export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/text`);
 
 export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);
+
+export const getPoolData = (uid, cuid = getCUID()) =>
+  getCurrentQuestionOf(uid).then(question =>
+    getAnswer(question.qid, cuid).then(answer =>
+      getUserLoops(uid).then(loops =>
+        ({
+          question,
+          answer,
+          loops
+        })
+      )
+    )
+  );
