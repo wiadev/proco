@@ -1,6 +1,9 @@
+path /ocean {
+  read() { false }
+}
+
 path /ocean/{uid} {
   write() { isCurrentUser(uid) }
-  read() { auth != null }
   index() { [ "g" ] }
   g: String,
   l: LDCoords,

@@ -1,4 +1,5 @@
 isCurrentUser(id) { auth != null && auth.uid == id }
+isNotSelf(uid) { auth.uid != uid }
 currentUser() { auth.uid }
 isUser(uid) { auth != null && uid == currentUser() }
 
