@@ -5,6 +5,9 @@ const colors = {
   primary3: '#FF9E0B', // Proco Orange
   secondary: '#91288C', // Proco Magenta
 
+  gray1: 'rgba(94, 94, 94, 0.8)',
+  gray2: 'rgba(94, 94, 94, 0.2)',
+
   dimPrimaryAlt: 'rgba(255, 255, 255, 0.2)',
 
   danger: '#EA5644',

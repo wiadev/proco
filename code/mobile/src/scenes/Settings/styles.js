@@ -9,6 +9,35 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
+  settings: {
+    flex: 1,
+    backgroundColor: '#f6f6f6'
+  },
+  infoBox: {
+    flexDirection: 'row',
+    padding: 10
+  },
+  infoBoxIcon: {
+    marginRight: 10,
+    color: colors.gray1,
+    fontSize: 40
+  },
+  infoBoxContent: {
+    flex: 1
+  },
+  infoBoxText: {
+    color: colors.gray1,
+    fontSize: 12
+  },
+  singleField: {
+    marginVertical: 8
+  },
+  sectionTitle: {
+    marginVertical: 10,
+    paddingHorizontal: 16,
+    fontSize: 12
+  },
+  // TODO: The ones below here are old. Will be deleted after polishing.
   container: {
     position: 'relative',
     height,
