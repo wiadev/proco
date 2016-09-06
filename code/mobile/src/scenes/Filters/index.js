@@ -50,7 +50,7 @@ class DiscoveryFilters extends Component {
   constructor(props) {
     super(props);
     this.groupRdSchool = new MKRadioButton.Group();
-    state = {
+    this.state = {
       _filters: {},
     }
   }
@@ -73,7 +73,7 @@ class DiscoveryFilters extends Component {
     const filters = this.state._filters;
     return (
       <View style={appStyles.container}>
-        <Header title="Discovery Filters" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
+        <Header theme="light" title="Discovery Filters" rightActorType="text" rightActor="Done" rightAction={() => this._onSave()} />
 
         <ScrollView style={styles.container}>
           <View style={styles.inputBox}>
@@ -181,7 +181,7 @@ class DiscoveryFilters extends Component {
           pickerData={['Male', 'Female', 'Both']}
           selectedValue={'Both'}
           onPickerDone={(e) => this.setState({_filters: assign(this.state._filters, {
-            gender: e[0],
+            gender: e[0].toLowerCase(),
           })})}
         />
       </View>
@@ -190,6 +190,7 @@ class DiscoveryFilters extends Component {
 
   _onSave() {
     this.setState({filters: this.state._filters});
+
     Actions.pop();
   }
 }
