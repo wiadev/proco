@@ -15,20 +15,14 @@ function init() {
 
 function initMap() {
 
-  var firebaseRef = firebase.database().ref('tests/ocean');
-  var currentUserPool = firebase.database().ref(`pools/${firebase.auth().currentUser.uid}`);
+  var firebaseRef = firebase.database().ref('ocean');
+  var currentUserPool = firebase.database().ref(`pools/${firebase.auth().currentUser.uid}`).limitToFirst(5);
   var geoFire = new GeoFire(firebaseRef);
 
-  var geoQuery = geoFire.query({
-    center: [0, 0],
-    radius: 1
-  });
-
-  var drops = {};
 
   var myLatLng = {
-    lat: 41.044092,
-    lng: 29.001667
+    lat: 41,
+    lng: 29
   };
 
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -36,69 +30,42 @@ function initMap() {
     center: myLatLng
   });
 
-  google.maps.event.addListener(map, 'click', function(event) {
-    geoQuery.updateCriteria({
-      center: [event.latLng.lat(), event.latLng.lng()]
-    });
-    try {
-      geoFire.set(firebase.auth().currentUser.uid, [event.latLng.lat(), event.latLng.lng()])
-    } catch (e) {
-      console.log(e, "user didn't fit us :)")
-    }
-  });
-
-
-
-
-
-  // Attach event callbacks to the query
-  var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location) {
-    console.log("entered", key, location);
-    drops[key] = new google.maps.Marker({
+  var marker = new google.maps.Marker({
       position: {
-        lat: location[0],
-        lng: location[1]
+        lat: 41,
+        lng: 29
       },
       map: map,
-      title: key,
-      label: key
+      title: "ME",
+      label: "ME"
     });
 
-      currentUserPool.child(key).set(true).then(() => {
-        console.log("we are loved");
-      }).catch(e => {
-        console.log("meh", e)
-      })
+
+  google.maps.event.addListener(map, 'click', function(event) {
+    geoFire.set(firebase.auth().currentUser.uid, [event.latLng.lat(), event.latLng.lng()]).catch(e => Promise.resolve());
+
+    marker.setPosition({
+      lat: event.latLng.lat(),
+      lng: event.latLng.lng()
+    });
+
   });
 
-  var onKeyExitedRegistration = geoQuery.on("key_exited", function(key, location) {
-        console.log("exited", key, location);
+  var drops = {};
 
-    drops[key].setMap(null);
-     try {
-      currentUserPool.child(key).set(null);
-    } catch (e) {
-       console.log(e, "user didn't fit us :)")
-    }
-  });
-
-  var onKeyMovedRegistration = geoQuery.on("key_moved", function(key, location) {
-        console.log("moved", key, location);
-
-    drops[key].setPosition({
-      lat: location[0],
-      lng: location[1]
-    })
-  });
-
-
-  /*************/
-  /*  HELPERS  */
-  /*************/
-  /* Logs to the page instead of the console */
-  function log(message) {
-    console.log(message);
+  function handleChildChange(data) {
+    drops[data.key] = data.val();
+    console.log("Current drops:", drops);
   }
+
+  currentUserPool.on('child_added', handleChildChange);
+
+  currentUserPool.on('child_changed', handleChildChange);
+
+  currentUserPool.on('child_removed', function(data) {
+    delete drops[data.key];
+    console.log("Current drops:", drops);
+  });
 
 
 

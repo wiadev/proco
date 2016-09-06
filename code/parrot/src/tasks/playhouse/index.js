@@ -113,7 +113,7 @@ export const addNewDolls = (count = 1) => {
 
 const positionDoll = (uid, lat, lng) => oceanRef.set(uid, [lat, lng]).then(() => {uid, lat, lng});
 
-export const spreadDolls = (lat = 41.042073848901005, lng = 29.027252197265625, radius = 3000) => dollsRef().once('value').then(snap => 
+export const spreadDolls = (lat = 41, lng = 29, radius = 10000) => dollsRef().once('value').then(snap => 
   Promise.all(Object.keys(snap.val()).map(doll => {
     const loc = generateRandomPoint({lat, lng}, radius);
     return positionDoll(doll, loc.lat, loc.lng);
