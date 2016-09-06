@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import "CodePush.h"
 
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
@@ -25,13 +26,13 @@
                            didFinishLaunchingWithOptions:launchOptions];
   
   NSURL *jsCodeLocation;
-  
 
   #ifdef DEBUG
-    jsCodeLocation = [NSURL URLWithString:@"http://rnjs.development.internal.procoapp.com:8081/index.ios.bundle?platform=ios&dev=true"];
+      jsCodeLocation = [NSURL URLWithString:@"http://rnjs.development.internal.procoapp.com:8081/index.ios.bundle?platform=ios&dev=true"];
   #else
-    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+      jsCodeLocation = [CodePush bundleURL];
   #endif
+
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Proco"
