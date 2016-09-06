@@ -34,8 +34,8 @@ checkGenderFilterFor(mid) {
   getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
 }
 
-checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('ageMin') }
-checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('ageMax') }
+checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('age_min') }
+checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('age_max') }
 
 checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
 

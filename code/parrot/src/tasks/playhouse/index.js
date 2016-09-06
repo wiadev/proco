@@ -47,23 +47,23 @@ const addNewDoll = () => {
   };
 
   const settings = {
-    suspendDiscovery: (Math.round(Math.random()) ? true : false),
-    notifyAnnouncements: false,
-    notifyNewMessages: false,
+    suspend_discovery: (Math.round(Math.random()) ? true : false),
+    notify_announcements: false,
+    notify_new_messages: false,
   };
 
   const genderFilters = ['male', 'female', 'both'];
   
   // Since we are only testing with a few hundred users and manually checking, this filter would be an overkill.
   //const randomAge = (min = 18, max = 45) => Math.floor(Math.random() * (max - min + 1) + min);
-  //const ageMin = randomAge();
-  //const ageMax = randomAge(ageMin);
+  //const age_min = randomAge();
+  //const age_max = randomAge(age_min);
 
   const filters = {
     gender: genderFilters[Math.floor(Math.random() * genderFilters.length)],
-    ageMin: 18,
-    ageMax: 45,
-    onlyFromNetwork: (Math.round(Math.random()) ? true : false),
+    age_min: 18,
+    age_max: 45,
+    only_from_network: (Math.round(Math.random()) ? true : false),
   };
 
   // We are not setting onboarded because that's handled by our handlers :)

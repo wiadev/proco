@@ -1,9 +1,10 @@
 path /users/filters/{uid} is UserFilters;
 
 type UserFilters extends OnlyCurrentUser {
-  ageMin: UFAgeMin,
-  ageMax: UFAgeMax,
+  age_min: UFAgeMin,
+  age_max: UFAgeMax,
   gender: UFGender,
+  only_from_network: Boolean,
 }
 
 type UFGender extends String {

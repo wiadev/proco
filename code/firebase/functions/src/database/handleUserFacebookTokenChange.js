@@ -73,9 +73,9 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
 
                                     return userSettings
                                         .set(Object.assign({
-                                            suspendDiscovery: false,
-                                            notifyNewMessages: true,
-                                            notifyAnnouncements: false,
+                                            suspend_discovery: false,
+                                            notify_new_messages: true,
+                                            notify_announcements: false,
                                         }, currentSettings))
                                         .then(() => {
                                              const userFilters = adminRoot.child(`/users/filters/${uid}`);
@@ -87,9 +87,9 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
 
                                                     return userFilters.set(Object.assign({
                                                         gender: 'both',
-                                                        ageMin: 18,
-                                                        ageMax: 27,
-                                                        onlyFromNetwork: false,
+                                                        age_min: 18,
+                                                        age_max: 45,
+                                                        only_from_network: false,
                                                     }, currentFilters));
                                                 });
                                         })
