@@ -1,0 +1,18 @@
+path /users/filters/{uid} is UserFilters;
+
+type UserFilters extends OnlyCurrentUser {
+  ageMin: UFAgeMin,
+  ageMax: UFAgeMax,
+  gender: UFGender,
+}
+
+type UFGender extends String {
+  validate() { this == 'male' || this == 'female' || this == 'both' }
+}
+
+type UFAge extends Number {
+  validate() { this >= 18 && this <= 45 }
+}
+
+type UFAgeMin extends UFAge {}
+type UFAgeMax extends UFAge {}

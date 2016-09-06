@@ -86,7 +86,7 @@ module.exports = functions.database().path('/users/tokens/{uid}').on('write', (e
                                                     if(!currentFilters) currentFilters = {};
 
                                                     return userFilters.set(Object.assign({
-                                                        gender: 'Both',
+                                                        gender: 'both',
                                                         ageMin: 18,
                                                         ageMax: 27,
                                                         onlyFromNetwork: false,

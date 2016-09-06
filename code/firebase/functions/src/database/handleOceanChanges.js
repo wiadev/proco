@@ -6,6 +6,9 @@ module.exports = functions.database().path('/ocean/{key}')
   .on('write', (event) => {
 
     const locationData = event.data.child('l').val();
+
+    if (!locationData) return Promise.resolve();
+
     const location = [locationData[0], locationData[1]];
 
     const previousLocationData = event.data.previous.child('l').val();

@@ -10,7 +10,7 @@ import { generateRandomPoint } from './utils';
 
 export const usersRef = database.ref('users');
 export const dollsRef = (uid) => database.ref(`internal/playhouse/dolls/${uid ? uid : ''}`);
-export const oceanRef = new GeoFire(database.ref('tests/ocean'));
+export const oceanRef = new GeoFire(database.ref('ocean'));
 
 /*
 * This function imitates what happens after a real user logins.
@@ -40,7 +40,7 @@ const addNewDoll = () => {
     first_name,
     last_name,
     birthday: birthday.format('YYYY-MM-DD'),
-    gender: (gender ? 'Female' : 'Male'),
+    gender: (gender ? 'female' : 'male'),
     avatar: faker.internet.avatar(),
     network_email: `${uid}@playhouse.procoapp.com`,
     network: `playhouse`, // Also, the network assignment normally automatic but done in the e-mail verification steps (obivously)
@@ -52,7 +52,7 @@ const addNewDoll = () => {
     notifyNewMessages: false,
   };
 
-  const genderFilters = ['Male', 'Female', 'Both'];
+  const genderFilters = ['male', 'female', 'both'];
   
   // Since we are only testing with a few hundred users and manually checking, this filter would be an overkill.
   //const randomAge = (min = 18, max = 45) => Math.floor(Math.random() * (max - min + 1) + min);
@@ -113,7 +113,7 @@ export const addNewDolls = (count = 1) => {
 
 const positionDoll = (uid, lat, lng) => oceanRef.set(uid, [lat, lng]).then(() => {uid, lat, lng});
 
-export const spreadDolls = (lat = 41.042073848901005, lng = 29.027252197265625, radius = 15000) => dollsRef().once('value').then(snap => 
+export const spreadDolls = (lat = 41.042073848901005, lng = 29.027252197265625, radius = 3000) => dollsRef().once('value').then(snap => 
   Promise.all(Object.keys(snap.val()).map(doll => {
     const loc = generateRandomPoint({lat, lng}, radius);
     return positionDoll(doll, loc.lat, loc.lng);

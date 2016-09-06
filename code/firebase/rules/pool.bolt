@@ -31,7 +31,7 @@ getGenderFor(mid) { getSummaryForPI(mid).gender }
 getNetworkFor(mid) { getSummaryForPI(mid).network }
 
 checkGenderFilterFor(mid) {
-  getFilterOptionForCU('gender') == 'Both' || getFilterOptionForCU('gender') == getGenderFor(mid)
+  getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
 }
 
 checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('ageMin') }
