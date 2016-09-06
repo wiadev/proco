@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {AppState, NetInfo, View, StatusBar, Linking} from "react-native";
-import {Actions} from 'react-native-router-flux';
+import startLocationTracking from "./modules/Location/tracker";
 import {connect} from "react-redux";
 import InAppAlert from "./components/InAppAlert";
 import {AuthListener, logout} from "./modules/Authentication";
@@ -26,6 +26,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    this._locationTracking = this._locationTracking.bind(this);
+    this.state = {
+      didStartedLocationTracking: false,
+    }
   }
 
   componentDidMount() {
@@ -41,7 +45,9 @@ class App extends Component {
       // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
     });
 
+    this._locationTracking(this.props);
   }
+
 
   componentWillUnmount() {
     AppState.removeEventListener(
@@ -62,6 +68,17 @@ class App extends Component {
       ).catch(() => {
         console.log("get fcm token error")
       })
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    this._locationTracking(props);
+  }
+
+  _locationTracking({ permissions: { location } } = this.props) {
+    if (location === 'authorized' && !this.state.didStartedLocationTracking) {
+      startLocationTracking();
+      this.setState({didStartedLocationTracking: true});
     }
   }
 

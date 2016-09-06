@@ -11,16 +11,21 @@
 */
 
 
-path /pools/{uid}/{mid} {
-  write() {
-    isCurrentUser(uid)
-    && isNotSelf(mid) // We shouldn't users themselves to their pool
-    && !isBlocked(mid)
-    && !isMatched(mid)
-    //@&& !isSeenCurrentQuestion(mid)
-    && checkGenderFilterFor(mid)
-    && checkAgeFilterFor(mid)
+path /pools/{uid} {
+  read() { isCurrentUser(uid) }
+
+  path /{mid} {
+    write() {
+      isCurrentUser(uid)
+      && isNotSelf(mid) // We shouldn't users themselves to their pool
+      && !isBlocked(mid)
+      && !isMatched(mid)
+      //@&& !isSeenCurrentQuestion(mid)
+      && checkGenderFilterFor(mid)
+      && checkAgeFilterFor(mid)
+    }
   }
+
 }
 
 getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
@@ -31,11 +36,11 @@ getGenderFor(mid) { getSummaryForPI(mid).gender }
 getNetworkFor(mid) { getSummaryForPI(mid).network }
 
 checkGenderFilterFor(mid) {
-  getFilterOptionForCU('gender') == 'Both' || getFilterOptionForCU('gender') == getGenderFor(mid)
+  getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
 }
 
-checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('ageMin') }
-checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('ageMax') }
+checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('age_min') }
+checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('age_max') }
 
 checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
 

@@ -1,7 +1,7 @@
 path /users/settings/{uid} is UserSettings;
 
 type UserSettings extends OnlyCurrentUser {
-  notifyAnnouncements: Boolean | Null,
-  notifyNewMessages: Boolean | Null,
-  suspendDiscovery: Boolean | Null,
+  notify_announcements: Boolean | Null,
+  notify_new_messages: Boolean | Null,
+  suspend_discovery: Boolean | Null,
 }

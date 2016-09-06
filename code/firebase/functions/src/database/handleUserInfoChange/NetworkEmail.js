@@ -99,6 +99,6 @@ module.exports = (uid, network_email, previous_network_email, root) => {
           })
       });
     });
-    
+
   });
 };

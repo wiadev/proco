@@ -2,7 +2,7 @@ import { database } from '../utils';
 
 export const cleanAppUser = (uid) => {
   const getRef = (type) => database.ref(`/users/${type}/${uid}`);
-  const refs = ['info', 'settings', 'questions', 'loops', 'filters', 'tokens', 'summary', 'is'];
+  const refs = ['info', 'pools', 'settings', 'questions', 'loops', 'filters', 'tokens', 'summary', 'is'];
 
   return getRef('info').child('network').once('value').then(snap => snap.val()).then(network =>
     getRef(`network-map/${network}`).set(null).then(() =>

@@ -1,12 +1,14 @@
 path /ocean {
   read() { false }
+  index() { [ "g" ] }
 }
 
 path /ocean/{uid} {
   write() { isCurrentUser(uid) }
-  index() { [ "g" ] }
-  g: String,
-  l: LDCoords,
+
+
+  //g: String,
+  //l: LDCoords,
 }
 
 type LDCoords extends Object {

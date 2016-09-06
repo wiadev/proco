@@ -30,6 +30,8 @@ $.handleUserPostedNewMessage = require('./src/database/handleUserPostedNewMessag
 
 $.handleUserBlocksUser = require('./src/database/handleUserBlocksUser');
 
+$.handleOceanChanges = require('./src/database/handleOceanChanges');
+
 // Internal functions
 
 
