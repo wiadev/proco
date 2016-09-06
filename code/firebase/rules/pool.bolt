@@ -17,6 +17,7 @@ path /pools/{uid} {
   path /{mid} {
     write() {
       isCurrentUser(uid)
+      && hasCurrentQuestion(mid)
       && isNotSelf(mid) // We shouldn't users themselves to their pool
       && !isBlocked(mid)
       && !isMatched(mid)
@@ -28,12 +29,15 @@ path /pools/{uid} {
 
 }
 
+
 getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
 getSummaryForPI(user) { root.users.summary[user] }
 
-getAgeFor(mid) { getSummaryForPI(mid).age }
-getGenderFor(mid) { getSummaryForPI(mid).gender }
-getNetworkFor(mid) { getSummaryForPI(mid).network }
+getAgeFor(uid) { getSummaryForPI(uid).age }
+getGenderFor(uid) { getSummaryForPI(uid).gender }
+getNetworkFor(uid) { getSummaryForPI(uid).network }
+
+hasCurrentQuestion(uid) { getSummaryForPI(uid).current_question_id != null }
 
 checkGenderFilterFor(mid) {
   getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
@@ -47,5 +51,6 @@ checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
 isSeenCurrentQuestion(mid) {
   root.users.questions[getSummaryForPI(mid).current_question_id].seen_by[currentUser()] == true
 }
+
 
 type PoolItem extends Object {}
