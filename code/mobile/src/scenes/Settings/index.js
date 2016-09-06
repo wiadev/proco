@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import {
   View,
   ScrollView,
-  Text
+  Text,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
 
 import {database} from "../../core/Api";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
+import {logout} from "../../modules/Authentication/actions";
 import BlockerActivity from '../../components/BlockerActivity';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
@@ -32,7 +34,7 @@ class Settings extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    // TODO: Clicking on Contact should do something.
     if (this.state.settings === null) {
       return (
         <BlockerActivity />
@@ -75,7 +77,38 @@ class Settings extends React.Component {
 
           <Field type="bool" legend="New messages" value={this.state.settings.notify_new_messages} onChange={value => this._updateSetting('notify_new_messages', value)} />
 
-          <Field type="bool" legend="Announcements & Updates" value={this.state.settings.notify_announcements} onChange={value => this._updateSetting('notify_announcements', value)} />
+          <Field type="bool" legend="Announcements & Updates" value={this.state.settings.notify_announcements} onChange={value => this._updateSetting('notify_announcements', value)} stickToPrevious={true} />
+
+          <Text style={styles.sectionTitle}>PROCO</Text>
+
+          <Field type="link" legend="Contact" onPress={() => true} />
+
+          <Text style={styles.sectionTitle}>LEGAL</Text>
+
+          <Field type="link" legend="Privacy Policy" onPress={Actions.PRIVACY_POLICY} />
+
+          <Field type="link" legend="Terms of Usage" onPress={Actions.TERMS_OF_USAGE} stickToPrevious={true} />
+
+          <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true} />
+
+          <View style={styles.procoLogoContainer}>
+            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
+          </View>
+
+          <Field type="link" legend="Logout" onPress={() => this.props.dispatch(logout())} stickToPrevious={true} />
+
+          <View style={styles.infoBox}>
+            <View style={styles.infoBoxContent}>
+              <Text style={styles.infoBoxText}>
+                No longer enjoying Proco? You can suspend discovery at the top of this page and no one will be able to
+                see your questions but you'll be able to chat with your current matches.
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.barbarLogoContainer}>
+            <Image source={require('../../assets/images/logo-barbar.png')} style={styles.logo} />
+          </View>
         </ScrollView>
       </View>
     );

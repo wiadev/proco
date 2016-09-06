@@ -14,9 +14,20 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.gray2
   },
+  stickToPrevious: {
+    position: 'relative',
+    top: -1,
+    marginBottom: -1
+  },
   text: {
     color: colors.gray1,
-    fontSize: 16
+    fontSize: 15 // I always use even numbers for this kind of stuff, but this is really the best option here. -G
+  },
+  linkIcon: {
+    marginRight: -14,
+    color: colors.gray1,
+    fontSize: 36,
+    textAlign: 'right'
   }
 });
 

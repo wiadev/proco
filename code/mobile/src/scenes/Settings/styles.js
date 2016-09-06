@@ -1,12 +1,6 @@
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import colors from '../../core/style/colors';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   settings: {
@@ -37,133 +31,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 12
   },
-  // TODO: The ones below here are old. Will be deleted after polishing.
-  container: {
-    position: 'relative',
-    height,
-    width,
-    backgroundColor: '#f6f6f6',
+  procoLogoContainer: {
+    height: 100,
+    marginHorizontal: 80
   },
-  topMenuMid: {
-    flex: 0,
-    width: width * 50 / 100,
-    position: 'relative',
-    alignItems: 'center',
+  barbarLogoContainer: {
+    height: 100,
+    marginHorizontal: 30
   },
-  menuTitle: {
-    color: 'rgb(249,54,95)',
-    fontFamily: 'OpenSans',
-    fontSize: 17,
-    textAlign: 'center',
-  },
-  inputBox: {
-    marginTop: 14,
-    padding: 14,
-    width,
-    backgroundColor: 'white',
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#dadbda',
-  },
-  inputBoxLeft: {
+  logo: {
     flex: 1,
-    alignItems: 'flex-start',
-    width: (width * 50 / 100) - 28,
-  },
-  inputBoxRight: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    width: (width * 50 / 100) - 28,
-    flexDirection: 'row',
-  },
-  pinkText: {
-    fontFamily: 'OpenSans-Light',
-    fontSize: 16,
-    color: colors.primary1,
-  },
-  blackText: {
-    fontFamily: 'OpenSans-Light',
-    fontSize: 16,
-    color: 'rgb(66,66,66)',
-  },
-  pinkHead: {
-    backgroundColor: 'rgb(249,59,95)',
-    padding: 14,
-    width,
-    flex: 0,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  pinkHeadText: {
-    fontFamily: 'OpenSans-Light',
-    fontSize: 13,
-    color: 'white',
-  },
-  mkSwitch: {
-    position: 'relative',
-    alignSelf: 'flex-end',
-    height: 55,
-    top: 15,
-    marginRight: 0,
-  },
-  mkSwitch2: {
-    alignSelf: 'flex-end',
-    height: 25,
-    top: -5,
-    marginRight: 0,
-    position: 'relative',
-  },
-  underMessage: {
-    fontFamily: 'OpenSans-Light',
-    fontSize: 12,
-    color: 'rgb(135, 129, 129)',
-    padding: 5,
-    paddingLeft: 10,
-  },
-  appLogoBottom: {
-    width,
-    justifyContent: 'center',
-    padding: 30,
-    alignItems: 'center',
-  },
-  companyLogoBottom: {
-    width,
-    justifyContent: 'center',
-    padding: 30,
-    alignItems: 'center',
-  },
-  companyLogoBottomText: {
-    color: '#2d2d2d',
-    fontSize: 18,
-    marginTop: 15,
-    marginBottom: 15,
-    textAlign: 'center',
-    fontFamily: 'OpenSans-Light',
-  },
-  scrollView: {
-    marginTop: 10,
-    width: width - 20,
-    marginBottom: 10,
-    height: 70,
-  },
-  avatar: {
-    height: 60,
-    width: 60,
-    margin: 0,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: 'white',
-    overflow: 'hidden',
-    marginLeft: 5,
-  },
-  avatarImage: {
-    width: 60,
-    height: 60,
-    margin: 0,
-  },
+    width: null,
+    height: null,
+    resizeMode: 'contain'
+  }
 });
 
 export default styles;
