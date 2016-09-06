@@ -13,6 +13,7 @@
 
 path /pools/{uid} {
   read() { isCurrentUser(uid) }
+  write() { isCurrentUser(uid) && this == null }
 
   path /{mid} {
     write() {
@@ -28,7 +29,6 @@ path /pools/{uid} {
   }
 
 }
-
 
 getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
 getSummaryForPI(user) { root.users.summary[user] }

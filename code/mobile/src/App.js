@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {AppState, NetInfo, View, StatusBar, Linking} from "react-native";
-import startLocationTracking from "./modules/Location/tracker";
+import startLocationTracking from "./modules/Location";
 import {connect} from "react-redux";
 import InAppAlert from "./components/InAppAlert";
 import {AuthListener, logout} from "./modules/Authentication";

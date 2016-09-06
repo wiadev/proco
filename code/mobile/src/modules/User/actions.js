@@ -64,9 +64,8 @@ export function updateUserLocally(type, data) {
 }
 
 export const getCUID = () => {
-  const uid = base.auth().currentUser.uid;
-  if (!uid) throw new Error('CANT_WITHOUT_CUID');
-  return uid;
+  const currentUser = base.auth().currentUser;
+  return (currentUser ? currentUser.uid : null);
 };
 
 export function postAnswer(qid, answer = null) {
