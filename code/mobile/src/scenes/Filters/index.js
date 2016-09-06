@@ -107,7 +107,7 @@ class DiscoveryFilters extends Component {
                 <Text style={[styles.pinkText, { marginBottom: 10 }]}>Age Limit</Text>
               </View>
               <View style={styles.inputBoxRight}>
-                <Text style={[styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{filters.ageMin} - {filters.ageMax}</Text>
+                <Text style={[styles.pinkText, { marginBottom: 10, marginRight: 30, }]}>{filters.age_min} - {filters.age_max}</Text>
               </View>
             </View>
             <View style={{
@@ -118,14 +118,14 @@ class DiscoveryFilters extends Component {
                 ref="sliderWithRange"
                 min={18}
                 max={40}
-                minValue={filters.ageMin}
-                maxValue={filters.ageMax}
+                minValue={filters.age_min}
+                maxValue={filters.age_max}
                 step={1}
                 lowerTrackColor={'rgb(249,59,95)'}
                 onChange={(curValue) =>
                   this.setState({_filters: assign(this.state._filters, {
-                    ageMin: round(curValue.min),
-                    ageMax: round(curValue.max),
+                    age_min: round(curValue.min),
+                    age_max: round(curValue.max),
                   })})
                 }
               />
@@ -141,13 +141,13 @@ class DiscoveryFilters extends Component {
               alignItems: 'center',
             }}>
               <MKRadioButton
-                checked={filters.onlyFromSchool}
+                checked={filters.only_from_network}
                 group={this.groupRdSchool}
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
 
                 this.setState({_filters: assign(this.state._filters, {
-                  onlyFromSchool: true,
+                  only_from_network: true,
                 })});
               }}>Only show people from my university</Text>
             </View>
@@ -156,14 +156,14 @@ class DiscoveryFilters extends Component {
               alignItems: 'center',
             }}>
               <MKRadioButton
-                checked={!filters.onlyFromSchool}
+                checked={!filters.only_from_network}
                 group={this.groupRdSchool}
               />
               <Text style={[styles.blackText, { fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 12) }]} onPress={() => {
                 this.setState({_filters: assign(this.state._filters, {
-                  onlyFromNetwork: false,
+                  only_from_network: false,
                 })});
-              }}>Show people from other universites too</Text>
+              }}>Show people from other universities too</Text>
             </View>
           </View>
         </ScrollView>
