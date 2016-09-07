@@ -9,7 +9,6 @@ import {assign} from "../../../core/utils";
 
 const getConversationFromListRef = (uid, mid) => database.ref(`conversation-lists/${uid}/${mid}`);
 const getUserBasicInfo = (uid) => database.ref(`users/${uid}/info`); //@TODO: revert this to info index
-const getConversationsRef = () => database.ref(`conversations`);
 
 @connect(
   state => ({
@@ -61,8 +60,8 @@ export default class ConversationContainer extends React.Component {
       });
     };
 
-    const startListeners = (cid) => {
-      self.conversationRef = getConversationsRef().child(cid);
+    const startListeners = (thread_id) => {
+      self.conversationRef = database.ref(`threads/messages/${thread_id}/${this.props.auth.uid}`);
       self.conversationRef.on('child_added', addedOrChanged);
 
       self.conversationRef.on('child_changed', addedOrChanged);
@@ -79,29 +78,10 @@ export default class ConversationContainer extends React.Component {
         });
     };
 
-    if (!this.props.cid) {
-
-      const listItem = getConversationFromListRef(this.props.auth.uid, this.props.uid);
-      const listItemCIDRef = listItem.child('cid');
-
-      listItemCIDRef.once('value').then(snapshot => {
-        let cid = snapshot.val();
-
-        if (cid === null) {
-          self.conversationRef = getConversationsRef().push();
-          cid = self.conversationRef.key;
-          listItemCIDRef.set(cid);
-        }
-
-        startListeners(cid);
-      });
-
-    } else {
-      startListeners(this.props.cid);
-    }
+    startListeners(this.props.thread_id);
 
     getUserSummary(this.props.uid).then(user => {
-      console.log("got user", user)
+      console.log("got user", user);
       this.setState({matchedUser: Object.assign({
         uid: this.props.uid,
       }, user)})
