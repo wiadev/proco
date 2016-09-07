@@ -1,7 +1,6 @@
 import React from "react";
 import {GiftedChat} from "react-native-gifted-chat";
 import {connect} from "react-redux";
-
 import Conversation from "../../../components/Chat/Conversation";
 import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
 import {database, getUserSummary} from "../../../core/Api";
@@ -38,7 +37,6 @@ export default class ConversationContainer extends React.Component {
   }
 
   componentWillMount() {
-    const self = this;
     const generateMessage = (message, key) => {
       message['_id'] = key;
       message['user'] = (message['sender'] === this.props.auth.uid) ? this.currentUser : this.state.matchedUser;
@@ -57,31 +55,29 @@ export default class ConversationContainer extends React.Component {
       });
     };
 
-    const startListeners = (thread_id) => {
-      self.conversationRef = database.ref(`threads/messages/${thread_id}/${this.props.auth.uid}`);
-      self.conversationRef.on('child_added', addedOrChanged);
+    this.conversationRef = database.ref(`threads/messages/${this.props.thread_id}/${this.props.auth.uid}`);
+    this.conversationRef.on('child_added', addedOrChanged);
 
-      self.conversationRef.on('child_changed', addedOrChanged);
+    this.conversationRef.on('child_changed', addedOrChanged);
 
-      self.conversationRef.on('child_removed',
-        (snapshot) => {
-          const key = snapshot.key;
+    this.conversationRef.on('child_removed',
+      (snapshot) => {
+        const key = snapshot.key;
 
-          const data = assign(this.state.messages, {
-            [key]: undefined,
-          });
-
-          this.setState({data: data, messages: generateMessage(data)});
+        const data = assign(this.state.messages, {
+          [key]: undefined,
         });
-    };
 
-    startListeners(this.props.thread_id);
+        this.setState({data: data, messages: generateMessage(data)});
+      });
 
     getUserSummary(this.props.uid).then(user => {
       console.log("got user", user);
-      this.setState({matchedUser: Object.assign({
-        uid: this.props.uid,
-      }, user)})
+      this.setState({
+        matchedUser: Object.assign({
+          uid: this.props.uid,
+        }, user)
+      })
     });
   }
 
