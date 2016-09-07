@@ -10,6 +10,7 @@ const pushLocationUpdate = (location) => {
   const uid = getCUID();
   if (!uid) return;
   const { coords: { latitude, longitude } } = location;
+  database.ref(`tests/location-tracking/${uid}`).push(location);
   return geoFire.set(uid, [latitude, longitude]);
 };
 
