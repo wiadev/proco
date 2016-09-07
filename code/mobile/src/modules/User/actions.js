@@ -95,9 +95,9 @@ export function postMessage(thread_id, message) {
     .then(to => {
       const root = database.ref();
       const key = root.child('keyGenerator').push().key;
-      const message = Object.assign({
+      message = Object.assign(message, {
         key,
-      }, message);
+      });
       const updates = {
         [`threads/_/${thread_id}/${key}`]: message,
         [`threads/messages/${thread_id}/${to[0]}/${key}`]: message,
