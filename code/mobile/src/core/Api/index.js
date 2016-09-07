@@ -117,7 +117,7 @@ export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
     .then(() => postMessage(thread.key, {
       _id: 0,
       text: `Congrats, it's a match!`,
-      createdAt: database.ServerValue.TIMESTAMP,
+      createdAt: base.database.ServerValue.TIMESTAMP,
       user: 'proco',
       type: 'matched-banner',
     }))
