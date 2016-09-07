@@ -63,7 +63,6 @@ export default class ShootNewProfileLoop extends React.Component {
           type="front"
           aspect="fill"
           captureAudio={false}
-          captureQuality={Camera.constants.CaptureQuality.low}
           orientation="portrait"
           captureTarget={Camera.constants.CaptureTarget.temp}
           keepAwake={true}
