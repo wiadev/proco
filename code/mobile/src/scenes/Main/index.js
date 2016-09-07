@@ -10,14 +10,13 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { connect } from 'react-redux';
+import { base } from '../../core/Api';
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
 import GodMode from './containers/GodMode';
 import MessageCountIcon from '../../components/Chat/CountIcon';
 import { Actions } from 'react-native-router-flux';
-
-import styles from './styles';
 
 @connect(
   state => ({
@@ -29,10 +28,6 @@ class MainScreen extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.props.dispatch(setStatusBarStyle('light-content'));
   }
 
   renderPages(arr) {
@@ -71,7 +66,7 @@ class MainScreen extends Component {
           top: 20,
           right: 20,
         }}>
-          <MessageCountIcon messageCount={5} onPress={Actions.ConversationList} />
+          <MessageCountIcon messageCount={this.props.user.message_count || 0} onPress={Actions.ConversationList} />
         </View>
 
       </View>
