@@ -1,4 +1,4 @@
-path /users/answers/{qid}/{uid} is UserAnswer;
+path /users/questions/{qid}/answers/{uid} is UserAnswer;
 
 type UserAnswer {
   write() { isCurrentUser(uid) }

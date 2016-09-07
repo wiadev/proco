@@ -84,7 +84,6 @@ export const getPoolData = async (uid) => ({
 export function postAnswer(qid, answer) {
   const uid = getCUID();
   return database.ref(`users/questions/${qid}/answers/${uid}`).set({
-    uid,
     answer,
     timestamp: base.database.ServerValue.TIMESTAMP
   });
