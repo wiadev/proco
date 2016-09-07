@@ -92,7 +92,10 @@ export function postAnswer(qid, answer) {
 }
 
 
-export const markAsSeen = qid => database.ref(`users/questions/${qid}/seen_by/${getCUID()}`).set(true);
+export const markAsSeen = (uid, qid, cuid = getCUID()) =>
+  database.ref(`users/questions/${qid}/seen_by/${cuid}`)
+    .set(true)
+    .then(() => database.ref(`pools/${cuid}/${uid}`).set(null));
 
 export const changeBlockStatusFor = (user, status = true) =>
   database.ref(`users/blocks/${getCUID()}/${user}`).set(status);
