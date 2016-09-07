@@ -7,9 +7,6 @@ import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
 import {database, getUserSummary} from "../../../core/Api";
 import {assign} from "../../../core/utils";
 
-const getConversationFromListRef = (uid, mid) => database.ref(`conversation-lists/${uid}/${mid}`);
-const getUserBasicInfo = (uid) => database.ref(`users/${uid}/info`); //@TODO: revert this to info index
-
 @connect(
   state => ({
     auth: state.auth,
