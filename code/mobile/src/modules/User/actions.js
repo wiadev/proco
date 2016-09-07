@@ -71,15 +71,6 @@ export const getCUID = () => {
   return (currentUser ? currentUser.uid : null);
 };
 
-export function postAnswer(qid, answer = null) {
-  const uid = getCUID();
-  return database.ref(`users/questions/${qid}/answers/${uid}`).set({
-    uid,
-    answer,
-    timestamp: base.database.ServerValue.TIMESTAMP
-  });
-}
-
 export function postQuestion(question) {
   const uid = getCUID();
   const usersRef = database.ref('users');
