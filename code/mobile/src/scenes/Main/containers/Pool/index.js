@@ -21,7 +21,7 @@ class Pool extends React.Component {
     this.ref = database.ref(`pools/${this.props.auth.uid}`).limitToFirst(5);
 
     this.state = {
-      index: null,
+      index: 0,
       poolItems: []
     };
   }
@@ -61,8 +61,6 @@ class Pool extends React.Component {
             this.setState({
               index: state.index
             });
-
-            console.log('index:', state.index);
           }}
         >
           {this._renderPoolItems()}
@@ -76,9 +74,10 @@ class Pool extends React.Component {
   _renderPoolItems() {
     if (this.state.poolItems.length < 1) {
       return (
-        <Card label="No one seems to be nearby" noClose={true}/>
+        <Card label="No one seems to be nearby" noClose={true} />
       );
     }
+
     return this.state.poolItems.map((item, key) => {
       return (
         <PoolItem key={key} isMounted={key === this.state.index} userId={item.userId} />

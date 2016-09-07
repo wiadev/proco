@@ -6,6 +6,7 @@ import {
 import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
 
+import BlockerActivity from '../../components/BlockerActivity';
 import profileLoopConfig from '../../core/config/profileLoop';
 import styles from './styles';
 
@@ -21,26 +22,6 @@ const propTypes = {
 
 const defaultProps = {
   // start - mock data
-  photos: [
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest01.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest02.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest03.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest04.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest05.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest06.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest07.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest08.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest09.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest10.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest11.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest12.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest13.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest14.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest15.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest16.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest17.jpg',
-    'https://storage.googleapis.com/hello-4c376.appspot.com/looptests/procolooptest18.jpg'
-  ],
   // end - mock data
   isMounted: true,
   photoOpacity: 1,
@@ -76,6 +57,12 @@ export default class ProfileLoop extends React.Component {
   }
 
   render() {
+    if (this.props.photos.length === 0) {
+      return (
+        <BlockerActivity />
+      );
+    }
+
     return (
       <View onLayout={event => this._onLayout(event)} style={[styles.profileLoop, this.props.style]}>
         <Image

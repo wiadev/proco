@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {
   View,
   TextInput,
@@ -13,40 +14,20 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../ProfileLoop';
 import MessageBox from '../Chat/Box';
-import {getPoolData} from '../../core/Api';
+import {getPoolData, postAnswer, matchTo, markAsSeen} from '../../core/Api';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
+@connect(state => ({user: state.user}))
 export default class PoolItem extends React.Component {
   static propTypes = {
     isMounted: React.PropTypes.bool.isRequired,
     userId: React.PropTypes.string.isRequired,
-    profileLoopPhotos: React.PropTypes.array,
-    messages: React.PropTypes.array,
     onComplete: React.PropTypes.func,
   };
 
-  // TODO: Should be deleted when real data is present.
   static defaultProps = {
-    // mock data
-    isMounted: false,
-    messages: [
-      {
-        text: "En sevdiğin Pokémon?"
-      },
-      {
-        text: "Gengar"
-      }
-    ],
-    onComplete: (eventType, params) => {
-      switch (eventType) {
-        case 'START-CONVERSATION':
-          Actions.Conversation(params);
-          break;
-      }
-      // eventType: ['ANSWER' | 'START-CONVERSATION' | 'BLOCK' | 'REPORT']
-      // console.log(eventType, params);
-    }
+    isMounted: true
   };
 
   constructor(props) {
@@ -54,34 +35,40 @@ export default class PoolItem extends React.Component {
 
     this.state = {
       height: 0,
-      profileLoopRunning: false,
-      profileLoopAction: 'increase', // ['increase', 'decrease']
-      profileLoopCurrentFrame: 0,
-      action: 'answer',
+      questionId: null,
+      question: "",
+      receivedAnswer: null,
+      answer: "",
       answerInputVisible: false,
-      answer: ""
+      profileLoopPhotos: []
     };
   }
 
   componentWillMount() {
-    getPoolData(this.props.userId).then(data => console.log(data)).catch(error => console.log(error));
-  }
+    getPoolData(this.props.userId)
+      .then(poolItemData => {
+        let receivedAnswer = this.state.receivedAnswer;
 
-  componentDidMount() {
-    if (this.props.messages.length > 1) {
-      this.setState({
-        action: 'start-conversation'
+        if (poolItemData.answer) {
+          receivedAnswer = poolItemData.answer;
+        }
+
+        this.setState({
+          questionId: poolItemData.question.qid,
+          question: poolItemData.question.question,
+          receivedAnswer: receivedAnswer,
+          profileLoopPhotos: poolItemData.loops
+        });
       });
-    }
   }
 
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop isMounted={this.props.isMounted}>
+        <ProfileLoop isMounted={this.props.isMounted} photos={this.state.profileLoopPhotos}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
-              {this._renderMessages()}
+              {this._renderQuestionAndAnswer()}
 
               {this._renderAnswer()}
 
@@ -90,14 +77,9 @@ export default class PoolItem extends React.Component {
 
             <TextInput
               ref='answerInput'
-              placeholder="Answer"
               returnKeyType="send"
-              onSubmitEditing={() => this.props.onComplete('ANSWER', {
-                text: this.state.answer
-              })}
-              onChangeText={text => this.setState({
-                answer: text
-              })}
+              onSubmitEditing={() => this._done('ANSWER')}
+              onChangeText={answer => this.setState({answer: answer})}
               value={this.state.text}
               editable={true}
             />
@@ -107,17 +89,21 @@ export default class PoolItem extends React.Component {
     );
   }
 
-  _renderMessages() {
-    if (this.props.messages.length === 1) {
+  _renderQuestionAndAnswer() {
+    if (this.state.receivedAnswer) {
+      // This user has answered current user's question.
       return (
-        <MessageBox text={this.props.messages[0].text} position="left" />
+        <View>
+          <MessageBox text={this.props.user.current_question} position="right" />
+
+          <MessageBox text={this.state.receivedAnswer} position="left" />
+        </View>
       );
     } else {
-      return this.props.messages.map((message, key) => {
-        return (
-          <MessageBox key={key} text={message.text} position={key % 2 === 0 ? 'right' : 'left'} />
-        );
-      });
+      // This user hasn't answered current user's question. Current user can answer now.
+      return (
+        <MessageBox text={this.state.question} position="left" />
+      );
     }
   }
 
@@ -161,10 +147,11 @@ export default class PoolItem extends React.Component {
   }
 
   _renderActionButton() {
+    // If current user is answering, the action will complete when answer is submitted.
     if (!this.state.answerInputVisible) {
       let iconName;
 
-      if (this.state.action === 'answer') {
+      if (!this.state.receivedAnswer) {
         iconName = 'mode-comment';
       } else {
         iconName = 'thumb-up';
@@ -202,16 +189,31 @@ export default class PoolItem extends React.Component {
   }
 
   _onActionButtonPress() {
-    // If this.state.action is 'answer', this button should enable answer input.
-    // Otherwise it should initiate a chat with the user.
-    if (this.state.action === 'answer') {
+    if (!this.state.receivedAnswer) {
       this.refs['answerInput'].focus();
 
       this.setState({
         answerInputVisible: true
       });
     } else {
-      this.props.onComplete('START-CONVERSATION', { uid: this.props.uid });
+      this._done('START-CONVERSATION');
+    }
+  }
+
+  _done(action) {
+    markAsSeen(this.props.userId, this.state.questionId);
+
+    switch (action) {
+      case 'START-CONVERSATION':
+        // It's a MATCH! Start conversation.
+        matchTo(this.props.userId)
+          .then(threadId => Actions.Conversation({thread_id: threadId, uid: this.props.userId}));
+        break;
+      case 'ANSWER':
+        postAnswer(this.state.questionId, this.state.answer);
+        break;
+      default:
+        // TODO: markAsSeen
     }
   }
 }
