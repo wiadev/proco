@@ -79,7 +79,7 @@ export default class Login extends React.Component {
   }
 
   _renderLoginButton() {
-    if (!this.props.auth.inInProgress) {
+    if (this.props.auth.inInProgress) {
       return (
         <ActivityIndicator size="large" color={colors.primaryAlt} />
       );
