@@ -1,3 +1,4 @@
+import {AsyncStorage} from "react-native";
 import {database, base, getFirebaseDataWithCache} from "../../core/Api";
 import deepEqual from "deep-equal";
 
@@ -54,6 +55,8 @@ const validateUserDataBeforeUpdate = (type, data, state) => {
 
 export function updateUserLocally(type, data) {
   if (!isValidType(type)) throw new Error('INVALID_TYPE');
+
+  AsyncStorage.setItem('@Proco:CU:' + typeMap[type], JSON.stringify(data));
 
   return {
     type: getUserUpdatedActionTypeFor(type),
