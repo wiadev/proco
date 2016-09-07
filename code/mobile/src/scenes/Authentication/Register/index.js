@@ -2,11 +2,12 @@ import React from "react";
 import {
   StatusBar,
   View,
+  ScrollView,
   Text,
+  TextInput,
   KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import {MKTextField} from "react-native-material-kit";
 import DatePicker from "react-native-datepicker";
 import {logout} from "../../../modules/Authentication/actions";
 import {updateUser} from "../../../modules/User/actions";
@@ -72,128 +73,93 @@ export default class Register extends React.Component {
         />
 
         <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-          <View style={styles.infoBox}>
-            <View style={styles.infoBoxIcon}>
-              <Icon name="info-outline" size={42} color={colors.primaryAlt} />
-            </View>
+          <ScrollView>
+            <View style={styles.infoBox}>
+              <View style={styles.infoBoxIcon}>
+                <Icon name="info-outline" size={42} color={colors.primaryAlt} />
+              </View>
 
-            <View style={styles.infoBoxContent}>
-              <Text style={styles.infoBoxContentTitle}>
-                Hello {this.props.user.first_name}.
-              </Text>
+              <View style={styles.infoBoxContent}>
+                <Text style={styles.infoBoxContentTitle}>
+                  Hello {this.props.user.first_name}.
+                </Text>
 
-              <Text style={styles.infoBoxDescription}>
-                to continue, we need you to complete this short form.
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.form}>
-            <View style={styles.formGroup}>
-              <Text style={styles.formLabel}>VERIFY YOUR BIRTH DATE</Text>
-
-              <DatePicker
-                format="DD/MM/YYYY"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                iconSource={null}
-                customStyles={dpCustom}
-                date={moment(this.state.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY')}
-                onDateChange={birthday => this.setState({birthday: moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD')})}
-              />
-            </View>
-
-            <View style={styles.formGroup}>
-              <Text style={styles.formLabel}>SELECT YOUR UNIVERSITY</Text>
-
-              <View style={styles.genderView}>
-                <Text
-                  style={styles.genderText}
-                  onPress={() => this.university_picker.toggle()}
-                >{this.state.uni || 'Please Select'}</Text>
-
-                <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon} />
+                <Text style={styles.infoBoxDescription}>
+                  to continue, we need you to complete this short form.
+                </Text>
               </View>
             </View>
 
-            { this.props.user.gender ? null : (
+            <View style={styles.form}>
               <View style={styles.formGroup}>
-                <Text style={styles.formLabel}>YOUR GENDER</Text>
+                <Text style={styles.formLabel}>VERIFY YOUR BIRTHDAY</Text>
 
-                <View style={styles.genderView}>
-                  <Text
-                    style={styles.genderText}
-                    onPress={() => this.picker.toggle()}
-                  >{this.state.gender || 'Please Select'}</Text>
-
-                  <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon}
-                  />
-                </View>
+                <DatePicker
+                  format="DD/MM/YYYY"
+                  confirmBtnText="Confirm"
+                  cancelBtnText="Cancel"
+                  iconSource={null}
+                  customStyles={dpCustom}
+                  date={moment(this.state.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY')}
+                  onDateChange={birthday => this.setState({birthday: moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD')})}
+                />
               </View>
-            )}
 
-            <View style={styles.formGroup}>
-              <Text style={styles.formLabel}>TYPE YOUR UNIVERSITY EMAIL</Text>
+              { this.props.user.gender ? null : (
+                <View style={styles.formGroup}>
+                  <Text style={styles.formLabel}>YOUR GENDER</Text>
 
-              <MKTextField
-                autoCapitalize={'none'}
-                autoCorrect={false}
-                tintColor={'transparent'}
-                keyboardType={'email-address'}
-                returnKeyType={'done'}
-                textInputStyle={styles.emailTxt}
-                placeholder={clearTurkishChars(`${this.props.user.first_name}.${this.props.user.last_name}`) + `@university.edu`}
-                placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
-                style={styles.email}
-                underlineEnabled={false}
-                ref="emailfield"
-                onChangeText={(network_email) => this.setState({network_email})}
-              />
+                  <View style={styles.genderView}>
+                    <Text
+                      style={styles.genderText}
+                      onPress={() => this.picker.toggle()}
+                    >{this.state.gender || 'Please Select'}</Text>
+
+                    <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon}
+                    />
+                  </View>
+                </View>
+              )}
+
+              <View style={styles.formGroup}>
+                <Text style={styles.formLabel}>TYPE YOUR UNIVERSITY EMAIL</Text>
+
+                <TextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  returnKeyType="done"
+                  keyboardType="email-address"
+                  placeholder={clearTurkishChars(`${this.props.user.first_name}.${this.props.user.last_name}`) + `@university.edu`}
+                  placeholderTextColor={'rgba(255, 255, 255, 0.5)'}
+                  onChangeText={network_email => this.setState({network_email})}
+                  style={styles.emailTxt}
+                />
+              </View>
             </View>
-          </View>
 
-          <View style={styles.footer}>
-            <Text onPress={Actions.AboutSchoolEmails} style={styles.footerText}>Why do you need my university e-mail?</Text>
-          </View>
+            <View style={styles.footer}>
+              <Text onPress={Actions.ABOUT_SCHOOL_EMAILS} style={styles.footerText}>Why do you need my university e-mail?</Text>
+            </View>
 
-          <Picker
-            ref={picker => this.picker = picker}
-            style={{
-              height: 250,
-              left: 0,
-              position: 'absolute',
-              bottom: 0,
-            }}
-            showDuration={200}
-            showMask={true}
-            pickerData={['Male', 'Female']}
-            selectedValue={'Male'}
-            onPickerDone={(e) => {
-              this.setState({
-                gender: e[0],
-              });
-            }}
-          />
-          <Picker
-            ref={university_picker => {
-              this.university_picker = university_picker;
-            }}
-            style={{
-              height: 250,
-              left: 0,
-              position: 'absolute',
-              bottom: 0,
-            }}
-            showDuration={200}
-            showMask={true}
-            pickerData={['Bahcesehir University', 'Koc University']}
-            selectedValue={'Bahcesehir University'}
-            onPickerDone={(e) => {
-              this.setState({
-                uni: e[0],
-              });
-            }}
-          />
+            <Picker
+              ref={picker => this.picker = picker}
+              style={{
+                height: 250,
+                left: 0,
+                position: 'absolute',
+                bottom: 0,
+              }}
+              showDuration={200}
+              showMask={true}
+              pickerData={['Male', 'Female']}
+              selectedValue={'Male'}
+              onPickerDone={(e) => {
+                this.setState({
+                  gender: e[0],
+                });
+              }}
+            />
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
     );
