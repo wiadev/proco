@@ -1,118 +1,84 @@
-import React, {Component} from "react";
-import {Text, ActivityIndicator, View, Image, TouchableOpacity, ActionSheetIOS} from "react-native";
-import Swiper from "react-native-swiper";
+import React from 'react';
+import {connect} from 'react-redux';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
-import {Actions} from "react-native-router-flux";
+import Swiper from "react-native-swiper";
+
 import {login} from "../../../modules/Authentication/actions";
-import {connect} from "react-redux";
-import styles from "./styles";
 
-@connect(
-  state => ({
-    auth: state.auth,
-  }),
-)
-class Login extends Component {
+import styles from './styles';
 
+@connect(state => ({auth: state.auth}))
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  shouldComponentUpdate(props) {
-    return (props.auth !== this.props.auth);
-  }
-
-  showOptions() {
-    ActionSheetIOS.showActionSheetWithOptions({
-        options: [
-          'Terms of Use',
-          'Privacy Policy',
-          'Contact',
-          'Cancel',
-        ],
-        cancelButtonIndex: 3,
-      },
-      (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            Actions.TERMS_OF_USAGE();
-            break;
-          case 1:
-            Actions.PRIVACY_POLICY();
-            break;
-          case 2:
-            Actions.CONTACT();
-            break;
-        }
-      });
-  }
-
-  renderLoginButton() {
-    return (
-      <View>
-        <View style={styles.fbLoginView}>
-          <Icon
-            name="facebook-official"
-            size={26}
-            color="#3B5998"
-            style={styles.fbLoginIcon}
-          />
-          <Text style={styles.fbLoginText} onPress={() => this.props.dispatch(login())}>
-            Login with Facebook
-          </Text>
-        </View>
-        <TouchableOpacity onPress={::this.showOptions}>
-          <Text style={styles.footerText}>
-            By continuing you agree to our terms and privacy policy
-          </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  renderAuthLoading() {
-    return (<ActivityIndicator
-      style={[styles.centering, {paddingBottom: 75}]}
-      size="large"
-      color="#ffffff"
-    />);
+    this.state = {
+      swiperHeight: 0
+    };
   }
 
   render() {
-    const {uid, isInProgress} = this.props.auth;
-
     return (
-      <View style={styles.container}>
-        <Image style={styles.logo} resizeMode="contain" source={require('../../../assets/images/logo.png')}/>
-        <Swiper
-          style={styles.swiper}
-          height={231}
-          loop={false}
-          dot={<View style={styles.swiperDot}/>}
-          activeDot={<View style={styles.swiperActiveDot}><View style={styles.swiperActiveDotChild}/></View>}
-          paginationStyle={styles.swiperPagination}
-        >
-          <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
-            <Text style={styles.text}>Answer people's questions</Text>
-          </View>
-          <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
-            <Text style={styles.text}>Second Text</Text>
-          </View>
-          <View style={styles.swiperText}>
-            <Image style={styles.swiperIcon} source={require('../../../assets/images/group.png')}/>
-            <Text style={styles.text}>And third Text</Text>
-          </View>
-        </Swiper>
+      <View style={styles.login}>
+        <View style={styles.logoRow}>
+          <Image source={require('../../../assets/images/logo.png')} style={styles.logo} />
+        </View>
 
-        {
-          (!isInProgress && !uid) ? ::this.renderLoginButton() : ::this.renderAuthLoading()
-        }
+        <View style={styles.swiperRow} onLayout={event => this.setState({swiperHeight: event.nativeEvent.layout.height})}>
+          {this._renderSwiper()}
+        </View>
 
+        <View style={styles.loginButtonRow}>
+          <TouchableOpacity onPress={() => this.props.dispatch(login())} activeOpacity={0.5}>
+            <View style={styles.loginButton}>
+              <Icon name="facebook-official" style={styles.loginButtonIcon} />
+
+              <Text style={styles.loginButtonText}>Login with Facebook</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.privacyPolicyNotice}>By continuing you agree to our terms and privacy policy</Text>
       </View>
     );
   }
-}
 
-export default Login;
+  _renderSwiper() {
+    // Each child of Swiper element is rendered as a separate slide.
+    if (this.state.swiperHeight !== 0) {
+      return (
+        <Swiper
+          height={this.state.swiperHeight}
+          loop={false}
+          dot={<View style={styles.swiperPaginationDot}/>}
+          activeDot={<View style={styles.swiperPaginationActiveDot}><View style={styles.swiperPaginationActiveDotInner}/></View>}
+          paginationStyle={styles.swiperPagination}
+        >
+          <View style={styles.swiperSlide}>
+            <Image source={require('../../../assets/images/group.png')} style={styles.swiperSlideImage}/>
+
+            <Text style={styles.swiperSlideText}>Answer people's questions</Text>
+          </View>
+
+          <View style={styles.swiperSlide}>
+            <Image source={require('../../../assets/images/group.png')} style={styles.swiperSlideImage}/>
+
+            <Text style={styles.swiperSlideText}>Answer people's questions</Text>
+          </View>
+
+          <View style={styles.swiperSlide}>
+            <Image source={require('../../../assets/images/group.png')} style={styles.swiperSlideImage}/>
+
+            <Text style={styles.swiperSlideText}>Answer people's questions</Text>
+          </View>
+        </Swiper>
+      );
+    }
+  }
+}

@@ -1,49 +1,47 @@
-import {
-  StyleSheet,
-  Dimensions,
-  PixelRatio,
-} from 'react-native';
-import { getCorrectFontSizeForScreen } from './../../../core/functions';
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
+import {StyleSheet} from 'react-native';
+
+import colors from '../../../core/style/colors';
+
+const facebookBlue = '#3B5998';
 
 const styles = StyleSheet.create({
-  container: {
+  login: {
     flex: 1,
-    backgroundColor: '#7A36AD',
-    opacity: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flexDirection: 'column',
-    flexWrap: 'nowrap',
-    alignSelf: 'stretch',
-    height,
+    backgroundColor: colors.primary1
   },
-  swiper: {
-    height: 231,
+  logoRow: {
+    flex: 1,
+    paddingTop: 50,
+    paddingBottom: 20
   },
-  swiperText: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 50,
+  logo: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
   },
-  swiperIcon: {
-    marginBottom: 28,
-    height: 107,
+  logoSideCushion: {
+    flex: 1
   },
-  swiperDot: {
-    backgroundColor: 'transparent',
+  swiperRow: {
+    flex: 3,
+    justifyContent: 'center'
+  },
+  swiperPagination: {
+    // This one is merged with the default styling of the Swiper's pagination.
+    bottom: 10
+  },
+  swiperPaginationDot: {
     width: 10,
     height: 10,
     borderRadius: 5,
     marginLeft: 10,
     marginRight: 10,
-    borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: colors.primaryAlt,
   },
-  swiperActiveDot: {
-    backgroundColor: 'transparent',
+  swiperPaginationActiveDot: {
     width: 16,
     height: 16,
     borderRadius: 8,
@@ -51,73 +49,59 @@ const styles = StyleSheet.create({
     marginRight: 7,
     alignItems: 'center',
     justifyContent: 'center',
-    borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: colors.primaryAlt,
   },
-  swiperActiveDotChild: {
-    backgroundColor: '#fff',
-    width: 5,
-    height: 5,
+  swiperPaginationActiveDotInner: {
+    backgroundColor: colors.primaryAlt,
+    width: 6,
+    height: 6,
     borderRadius: 3,
   },
-  swiperPagination: {
-    bottom: 15,
+  swiperSlide: {
+    flex: 1,
+    paddingBottom: 50
   },
-  footerText: {
-    fontSize: 10,
-    color: 'white',
-    paddingBottom: 15,
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    width: width * 0.9,
-    fontFamily: 'OpenSans-Light',
-    lineHeight: 15,
+  swiperSlideImage: {
+    flex: 1,
+    marginVertical: 20,
+    width: null,
+    height: null,
+    resizeMode: 'contain'
   },
-  text: {
-    fontFamily: 'OpenSans-Light',
+  swiperSlideText: {
     fontSize: 21,
-    color: 'white',
+    color: colors.primaryAlt,
+    textAlign: 'center'
   },
-  logo: {
-    marginBottom: 25,
-    marginTop: 75,
-    height: 100,
+  loginButtonRow: {
+    flex: 2,
+    justifyContent: 'center'
   },
-  fbLogin: {
-    opacity: 0,
-    backgroundColor: 'red',
-    width: 340,
-    height: 65,
-  },
-  fbLoginView: {
-    backgroundColor: 'white',
-    width: width * 90 / 100,
-    height: 45,
-    justifyContent: 'center',
-    borderRadius: 50,
-    paddingTop: 60,
-    bottom: 50,
-  },
-  fbLoginText: {
-    color: '#3B5998',
-    backgroundColor: 'transparent',
-    fontSize: getCorrectFontSizeForScreen(PixelRatio, width, height, 16),
-    fontFamily: 'OpenSans',
-    textAlign: 'center',
-    top: -50,
-    lineHeight: 30,
-    left: 20,
-  },
-  fbLoginIcon: {
-    backgroundColor: 'transparent',
-    top: -17,
-    left: getCorrectFontSizeForScreen(PixelRatio, width, height, 30),
-  },
-  authLoading: {
+  loginButton: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    top: -25,
+    marginHorizontal: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 30,
+    borderRadius: 40,
+    backgroundColor: colors.primaryAlt
   },
+  loginButtonIcon: {
+    color: facebookBlue,
+    fontSize: 26
+  },
+  loginButtonText: {
+    flex: 1,
+    color: facebookBlue,
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  privacyPolicyNotice: {
+    marginBottom: 6,
+    color: colors.primaryAlt,
+    fontSize: 10,
+    textAlign: 'center'
+  }
 });
 export default styles;
