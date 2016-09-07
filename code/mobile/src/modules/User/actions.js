@@ -76,7 +76,7 @@ export function postAnswer(qid, answer = null) {
   return database.ref(`users/questions/${qid}/answers/${uid}`).set({
     uid,
     answer,
-    timestamp: base.e.database.ServerValue.TIMESTAMP
+    timestamp: base.database.ServerValue.TIMESTAMP
   });
 }
 
