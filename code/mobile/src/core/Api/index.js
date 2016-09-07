@@ -66,12 +66,12 @@ export const getCurrentQuestionOf = uid =>
     );
 
 export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qid}/question`);
-export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/text`);
+export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/answer`);
 export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);
 
 export const getAnswerForCUQ = async (uid) => {
   const CUINFO = JSON.parse(await AsyncStorage.getItem('@Proco:CU:INFO'));
-  if (CUINFO.current_question_id) return await getAnswer(CUINFO.current_question_id, uid)
+  if (CUINFO.current_question_id) return await getAnswer(CUINFO.current_question_id, uid);
   return null;
 };
 

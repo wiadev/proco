@@ -73,7 +73,7 @@ export const getCUID = () => {
 
 export function postAnswer(qid, answer = null) {
   const uid = getCUID();
-  return database.ref(`game/answers/${qid}/${uid}`).set({
+  return database.ref(`users/questions/${qid}/answers/${uid}`).set({
     uid,
     answer,
     timestamp: base.e.database.ServerValue.TIMESTAMP
