@@ -4,13 +4,15 @@ import {
   View,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 
 import {login} from "../../../modules/Authentication/actions";
 
+import colors from '../../../core/style/colors';
 import styles from './styles';
 
 @connect(state => ({auth: state.auth}))
@@ -35,13 +37,7 @@ export default class Login extends React.Component {
         </View>
 
         <View style={styles.loginButtonRow}>
-          <TouchableOpacity onPress={() => this.props.dispatch(login())} activeOpacity={0.5}>
-            <View style={styles.loginButton}>
-              <Icon name="facebook-official" style={styles.loginButtonIcon} />
-
-              <Text style={styles.loginButtonText}>Login with Facebook</Text>
-            </View>
-          </TouchableOpacity>
+          {this._renderLoginButton()}
         </View>
 
         <Text style={styles.privacyPolicyNotice}>By continuing you agree to our terms and privacy policy</Text>
@@ -80,5 +76,23 @@ export default class Login extends React.Component {
         </Swiper>
       );
     }
+  }
+
+  _renderLoginButton() {
+    if (!this.props.auth.inInProgress) {
+      return (
+        <ActivityIndicator size="large" color={colors.primaryAlt} />
+      );
+    }
+
+    return (
+      <TouchableOpacity onPress={() => this.props.dispatch(login())} activeOpacity={0.5}>
+        <View style={styles.loginButton}>
+          <Icon name="facebook-official" style={styles.loginButtonIcon} />
+
+          <Text style={styles.loginButtonText}>Login with Facebook</Text>
+        </View>
+      </TouchableOpacity>
+    );
   }
 }
