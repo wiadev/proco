@@ -67,18 +67,16 @@ export const getCurrentQuestionOf = uid =>
 
 export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qid}/question`);
 export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/text`);
-
 export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);
 
-export const getPoolData = (uid, cuid = getCUID()) =>
-  getCurrentQuestionOf(uid).then(question =>
-    getAnswer(question.qid, cuid).then(answer =>
-      getUserLoops(uid).then(loops =>
-        ({
-          question,
-          answer,
-          loops
-        })
-      )
-    )
-  );
+export const getAnswerForCUQ = async (uid) => {
+  const CUINFO = JSON.parse(await AsyncStorage.getItem('@Proco:CU:INFO'));
+  if (CUINFO.current_question_id) return await getAnswer(CUINFO.current_question_id, uid)
+  return null;
+};
+
+export const getPoolData = async (uid) => ({
+  question: await getCurrentQuestionOf(uid),
+  loops: await getUserLoops(uid),
+  answer: await getAnswerForCUQ(uid),
+});
