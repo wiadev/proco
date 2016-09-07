@@ -91,8 +91,8 @@ export function postQuestion(question) {
 }
 
 export function postMessage(thread_id, message) {
-  const threadIsTo = `threads/info/${thread_id}/to`;
-  return getFirebaseDataWithCache(threadIsTo)
+  const people = `threads/info/${thread_id}/people`;
+  return getFirebaseDataWithCache(people)
     .then(data => Object.keys(data))
     .then(to => {
       const root = database.ref();

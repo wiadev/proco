@@ -111,8 +111,8 @@ export const changeMatchStatusFor = (uidToMatch, status = true) => {
 
 export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
 
-  const thread = threadsRef.child(`info`).set({
-    to: [uid, getCUID()],
+  const thread = threadsRef.child(`info`).push({
+    people: [uid, getCUID()],
     created_at: base.database.ServerValue.TIMESTAMP,
   });
 
