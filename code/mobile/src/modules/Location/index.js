@@ -58,23 +58,36 @@ const startTracking = () => {
   BackgroundGeolocation.on('error', function (error) {
     var type = error.type;
     var code = error.code;
-    alert(type + " Error: " + code);
+    const uid = getCUID();
+    if (uid) database.ref(`tests/location-tracking-error/${uid}`).push(error);
+
   });
 
   // This handler fires when movement states changes (stationary->moving; moving->stationary)
   BackgroundGeolocation.on('motionchange', (location) => {
     console.log('- [js]motionchanged: ', JSON.stringify(location));
+
+    const uid = getCUID();
+    if (uid) database.ref(`tests/location-tracking-motion/${uid}`).push(location);
+
   });
 
   // This event fires when a chnage in motion activity is detected
   BackgroundGeolocation.on('activitychange', (activityName) => {
     console.log('- Current motion activity: ', activityName);  // eg: 'on_foot', 'still', 'in_vehicle'
 
+    const uid = getCUID();
+    if (uid) database.ref(`tests/location-tracking-activity/${uid}`).push(activityName);
+
   });
 
   // This event fires when the user toggles location-services
   BackgroundGeolocation.on('providerchange', (provider) => {
     console.log('- Location provider changed: ', provider.enabled);
+
+    const uid = getCUID();
+    if (uid) database.ref(`tests/location-tracking-provider/${uid}`).push(provider);
+
   });
 
 };

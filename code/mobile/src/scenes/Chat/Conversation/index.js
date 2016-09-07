@@ -70,7 +70,7 @@ export default class ConversationContainer extends React.Component {
 
         this.setState({data: data, messages: generateMessage(data)});
       });
-    
+
     getUserSummary(this.props.uid).then(user => {
       console.log("got user", user);
       this.setState({
