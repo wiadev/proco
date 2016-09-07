@@ -16,18 +16,19 @@ path /pools/{uid} {
   write() { isCurrentUser(uid) && this == null }
 
   path /{mid} {
-    write() {
-      isCurrentUser(uid)
-      && hasCurrentQuestion(mid)
-      && isNotSelf(mid) // We shouldn't users themselves to their pool
-      && !isBlocked(mid)
-      && !isMatched(mid)
-      //@&& !isSeenCurrentQuestion(mid)
-      && checkGenderFilterFor(mid)
-      && checkAgeFilterFor(mid)
-    }
+    write() { isCurrentUser(uid) && (this == null || checkPoolFilters(uid, mid)) }
   }
 
+}
+
+checkPoolFilters(uid, mid) {
+  hasCurrentQuestion(mid)
+  && isNotSelf(mid) // We shouldn't users themselves to their pool
+  && !isBlocked(mid)
+  && !isMatched(mid)
+  //@&& !isSeenCurrentQuestion(mid)
+  && checkGenderFilterFor(mid)
+  && checkAgeFilterFor(mid)
 }
 
 getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
