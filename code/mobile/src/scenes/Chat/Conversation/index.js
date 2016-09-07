@@ -3,7 +3,7 @@ import {GiftedChat} from "react-native-gifted-chat";
 import {connect} from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
 import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
-import {database, getUserSummary} from "../../../core/Api";
+import {database, getUserSummary, getThreadPeople} from "../../../core/Api";
 import {assign} from "../../../core/utils";
 
 @connect(
@@ -70,7 +70,7 @@ export default class ConversationContainer extends React.Component {
 
         this.setState({data: data, messages: generateMessage(data)});
       });
-
+    
     getUserSummary(this.props.uid).then(user => {
       console.log("got user", user);
       this.setState({

@@ -1,5 +1,5 @@
 import {AsyncStorage} from "react-native";
-import {database, base, getFirebaseDataWithCache} from "../../core/Api";
+import {database, base, getThreadPeople} from "../../core/Api";
 import deepEqual from "deep-equal";
 
 const typeMap = {
@@ -91,9 +91,7 @@ export function postQuestion(question) {
 }
 
 export function postMessage(thread_id, message) {
-  const people = `threads/info/${thread_id}/people`;
-  return getFirebaseDataWithCache(people)
-    .then(data => Object.keys(data))
+  return getThreadPeople(thread_id)
     .then(to => {
       const root = database.ref();
       const key = root.child('keyGenerator').push().key;

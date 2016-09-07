@@ -130,3 +130,7 @@ export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
 
 export const changeMuteStatusFor = (user, status = true) =>  // We mute by user, not message or thread
   database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);
+
+export const getThreadPeople = tid =>
+  getFirebaseDataWithCache(`threads/info/${tid}/people`)
+    .then(data => Object.keys(data));
