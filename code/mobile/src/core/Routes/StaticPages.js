@@ -31,13 +31,18 @@ export const NOTIFICATION_PERMISSIONS_DETAILS = {
   title: 'About Notifications',
 };
 
+export const NOTIFICATION_PERMISSIONS_DETAILS_DENIED= {
+  uri: `${BASE_URL_PAGES}/notifications-permission-details-denied.html`,
+  title: 'Learn more about notifications',
+};
+
 export const LOCATION_PERMISSIONS_DETAILS = {
   uri: `${BASE_URL_PAGES}/location-permission-details.html`,
   title: 'About Your Location',
 };
 
-export const LOCATION_PERMISSIONS_DETAILS_MORE = {
-  uri: `${BASE_URL_PAGES}/location-permission-details-more.html`,
+export const LOCATION_PERMISSIONS_DETAILS_DENIED= {
+  uri: `${BASE_URL_PAGES}/location-permission-details-denied.html`,
   title: 'Learn more about locations',
 };
 
@@ -45,7 +50,7 @@ export const CAMERA_PERMISSIONS_DETAILS = {
   uri: `${BASE_URL_PAGES}/camera-permission-details.html`,
   title: 'About Camera Permissions',
 };
-export const CAMERA_PERMISSIONS_DETAILS_MORE = {
-  uri: `${BASE_URL_PAGES}/camera-permission-details-more.html`,
+export const CAMERA_PERMISSIONS_DETAILS_DENIED = {
+  uri: `${BASE_URL_PAGES}/camera-permission-details-denied.html`,
   title: 'Learn more about Camera Permissions',
 };
