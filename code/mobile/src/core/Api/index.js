@@ -71,13 +71,13 @@ export const getQuestion = qid => getFirebaseDataWithCache(`users/questions/${qi
 export const getAnswer = (qid, uid) => getFirebaseDataWithCache(`users/questions/${qid}/answers/${uid}/answer`);
 export const getNetworkTitle = network => getFirebaseDataWithCache(`settings/networks/list/${network}/title`);
 
-export const getAnswerForCUQ = async (uid) => {
+export const getAnswerForCUQ = async(uid) => {
   const CUINFO = JSON.parse(await AsyncStorage.getItem('@Proco:CU:INFO'));
   if (CUINFO.current_question_id) return await getAnswer(CUINFO.current_question_id, uid);
   return null;
 };
 
-export const getPoolData = async (uid) => ({
+export const getPoolData = async(uid) => ({
   question: await getCurrentQuestionOf(uid),
   loops: await getUserLoops(uid),
   answer: await getAnswerForCUQ(uid),
@@ -113,14 +113,16 @@ export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
     created_at: database.ServerValue.TIMESTAMP,
   });
 
-  return thread.then(() => postMessage(thread.key, {
-    _id: 0,
-    text: `Congrats, it's a match!`,
-    createdAt: database.ServerValue.TIMESTAMP,
-    user: 'proco',
-    type: 'matched-banner',
-  }));
-  
+  return thread
+    .then(() => postMessage(thread.key, {
+      _id: 0,
+      text: `Congrats, it's a match!`,
+      createdAt: database.ServerValue.TIMESTAMP,
+      user: 'proco',
+      type: 'matched-banner',
+    }))
+    .then(() => thread.key);
+
 });
 
 export const changeMuteStatusFor = (user, status = true) =>  // We mute by user, not message or thread
