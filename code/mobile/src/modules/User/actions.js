@@ -90,27 +90,6 @@ export function postQuestion(question) {
   return usersRef.update(questionUpdates);
 }
 
-
-export const markAsSeen = qid => database.ref(`users/questions/${qid}/seen_by/${getCUID()}`).set(true);
-
-export function changeBlockStatusFor(user, status = true) {
-  const uid = getCUID();
-  return database.ref(`users/blocks/${uid}/${user}`).set(status);
-}
-
-export function changeMatchStatusFor(uidToMatch, status = true) {
-  const uid = getCUID();
-  const matchUpdates = {
-    [`${uid}/${uidToMatch}`]: status,
-    [`${uidToMatch}/${uid}`]: status,
-  };
-  return database.ref('users/matches').update(matchUpdates);
-}
-
-export function changeMuteStatusFor(user, status = true) { // We mute by user, not message or thread
-  return database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);
-}
-
 export function postMessage(thread_id, message) {
   const threadIsTo = `threads/info/${thread_id}/to`;
   return getFirebaseDataWithCache(threadIsTo)

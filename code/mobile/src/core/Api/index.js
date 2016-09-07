@@ -1,6 +1,6 @@
 import Rebase from "re-base";
 import {AsyncStorage, Image} from "react-native";
-import {getCUID} from "../../modules/User/actions";
+import {getCUID, postMessage} from "../../modules/User/actions";
 
 export const base = Rebase.createClass({
   apiKey: "AIzaSyCFOGhparb6dYAwoKtgvnHZ37hh0EARsOQ",
@@ -11,6 +11,8 @@ export const base = Rebase.createClass({
 
 export const database = base.database();
 export const storage = base.storage();
+
+export const threadsRef = database.ref('threads');
 
 export const getFirebaseDataWithCache = ref => {
   const key = '@Proco:FDC:' + ref;
@@ -85,6 +87,41 @@ export function postAnswer(qid, answer) {
   const uid = getCUID();
   return database.ref(`users/questions/${qid}/answers/${uid}`).set({
     answer,
-    timestamp: base.database.ServerValue.TIMESTAMP
+    timestamp: base.database.ServerValue.TIMESTAMP,
   });
 }
+
+
+export const markAsSeen = qid => database.ref(`users/questions/${qid}/seen_by/${getCUID()}`).set(true);
+
+export const changeBlockStatusFor = (user, status = true) =>
+  database.ref(`users/blocks/${getCUID()}/${user}`).set(status);
+
+export const changeMatchStatusFor = (uidToMatch, status = true) => {
+  const uid = getCUID();
+  const matchUpdates = {
+    [`${uid}/${uidToMatch}`]: status,
+    [`${uidToMatch}/${uid}`]: status,
+  };
+  return database.ref('users/matches').update(matchUpdates);
+};
+
+export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
+
+  const thread = threadsRef.child(`threads/info`).set({
+    to: [uid, getCUID()],
+    created_at: database.ServerValue.TIMESTAMP,
+  });
+
+  return thread.then(() => postMessage(thread.key, {
+    _id: 0,
+    text: `Congrats, it's a match!`,
+    createdAt: database.ServerValue.TIMESTAMP,
+    user: 'proco',
+    type: 'matched-banner',
+  }));
+  
+});
+
+export const changeMuteStatusFor = (user, status = true) =>  // We mute by user, not message or thread
+  database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);

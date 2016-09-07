@@ -5,6 +5,7 @@ path /users/matches/{uid}/{mid} is Boolean {
 }
 
 areTheyMatched(uid, mid) { root.users['matches' + uid + '/' + mid] == true }
+
 canTheyMatch(uid, mid) {
   didAnsweredCurrentQuestion(uid, mid) == true || didAnsweredCurrentQuestion(mid, uid) == true
 }
