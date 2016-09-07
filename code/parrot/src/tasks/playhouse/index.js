@@ -11,6 +11,7 @@ import { generateRandomPoint } from './utils';
 export const usersRef = database.ref('users');
 export const dollsRef = (uid) => database.ref(`internal/playhouse/dolls/${uid ? uid : ''}`);
 export const oceanRef = new GeoFire(database.ref('ocean'));
+export const summaryRef = usersRef.child('summary');
 
 /*
 * This function imitates what happens after a real user logins.
@@ -138,6 +139,13 @@ function postQuestion(uid, question) { // this is taken directly from the app (e
   return usersRef.update(questionUpdates);
 }
 
+
+const getSummaryText = async (doll) => {
+  return await summaryRef.child(doll).once('value').then(snap => snap.val()).then(({display_name, age, gender}) => {
+    return `${display_name} is ${age}/${gender.charAt(0).toUpperCase()}`;
+  });
+};
+
 export const attachQuestionToDolls = () => 
   database.ref('internal/playhouse/data/questions')
   .once('value')
@@ -146,7 +154,9 @@ export const attachQuestionToDolls = () =>
   .then(questions => 
     dollsRef().once('value').then(snap => 
       Promise.all(Object.keys(snap.val()).map(doll => 
-          postQuestion(doll, questions[Math.floor(Math.random() * questions.length)])
+          getSummaryText(doll).then(summary =>
+            postQuestion(doll, `${questions[Math.floor(Math.random() * questions.length)]} (${summary})`)
+          )
         )
       )
     )
