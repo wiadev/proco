@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   Text,
-  Image
+  Image,
+  StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
@@ -43,6 +44,8 @@ class Settings extends React.Component {
 
     return (
       <View style={styles.settings}>
+        <StatusBar hidden={false} />
+
         <ScrollView>
           <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
 
