@@ -46,9 +46,9 @@ class Settings extends React.Component {
       <View style={styles.settings}>
         <StatusBar hidden={false} />
 
-        <ScrollView>
-          <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
+        <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
 
+        <ScrollView>
           <View style={styles.infoBox}>
             <Icon name="info-outline" style={styles.infoBoxIcon} />
 
