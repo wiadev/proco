@@ -1,67 +1,68 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text,
   View,
   Image,
+  TouchableOpacity
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
-import IconM from 'react-native-vector-icons/MaterialIcons';
-import styles from '../../styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import styles from './styles';
 
 import FacebookProfilePhoto from '../../../../components/FacebookProfilePhoto';
 
-export default class UpperMenu extends Component {
-  render() {
-    return (
-      <View style={styles.preview}>
-        <Image style={styles.backgroundImage}
-               source={require('../../../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')}/>
-        <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={styles.preview}>
-          <View style={styles.avatar}>
-            <FacebookProfilePhoto styles={styles.avatarImage} fid={this.props.fid} size="large" />
-          </View>
+const menuItems = [
+  {
+    title: "Update your question",
+    action: () => Actions.UpdateYourQuestion()
+  },
+  {
+    title: "Shoot a new profile loop",
+    action: () => Actions.ShootNewProfileLoop()
+  },
+  {
+    title: "Discovery filters",
+    action: () => Actions.Filters()
+  },
+  {
+    title: "Settings",
+    action: () => Actions.Settings()
+  }
+];
 
-          <View style={styles.menuList}>
-            <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.UpdateYourQuestion}>
-                Update your question
-              </Text>
+export default class UpperMenu extends React.Component {
+  render() {
+    // TODO: Colors used in LinearGradient are not in color palette. Need to replace those colors or add them to palette.
+    return (
+      <View style={styles.upperMenu}>
+        <Image source={require('../../../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} style={styles.backgroundImage}>
+          <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={styles.backgroundLinearGradient}>
+            <View style={styles.avatarRow}>
+              <FacebookProfilePhoto styles={styles.avatar} fid={this.props.fid} size="large" />
             </View>
-            <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.ShootNewProfileLoop}>
-                Shoot a new profile loop
-              </Text>
+
+            <View style={styles.menuRow}>
+              {this._renderMenuItems()}
             </View>
-            <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.Filters}>
-                Discovery Filters
-              </Text>
+
+            <View style={styles.bottomArrowRow}>
+              <Icon name="keyboard-arrow-down" style={styles.bottomArrowIcon} />
             </View>
-            <View style={styles.menuItem}>
-              <Text style={styles.menuItemText} onPress={Actions.Settings}>
-                Settings
-              </Text>
-            </View>
-          </View>
-          <IconM
-            name="expand-more"
-            size={44}
-            color="white"
-            style={{
-              opacity: 0.8,
-              backgroundColor: 'transparent',
-              textAlign: 'center',
-              alignItems: 'center',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 15,
-            }}
-          />
-        </LinearGradient>
+          </LinearGradient>
+        </Image>
       </View>
     );
+  }
+
+  _renderMenuItems() {
+    return menuItems.map((menuItem, key) => {
+      return (
+        <TouchableOpacity key={key} onPress={menuItem.action} activeOpacity={0.7} style={styles.menuItem}>
+          <Text style={styles.menuItemText}>{menuItem.title}</Text>
+        </TouchableOpacity>
+      );
+    })
   }
 }
