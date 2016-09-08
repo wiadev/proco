@@ -1,77 +1,54 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 import {
-  StyleSheet,
-  Text,
   View,
-  Dimensions,
-  Image,
-  PixelRatio,
-  StatusBar,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import { connect } from 'react-redux';
-import { base } from '../../core/Api';
+
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
-import {hideStatusBar, showStatusBar, setStatusBarStyle} from '../../modules/StatusBar/actions';
 import GodMode from './containers/GodMode';
 import MessageCountIcon from '../../components/Chat/CountIcon';
 import { Actions } from 'react-native-router-flux';
+import styles from './styles';
 
-@connect(
-  state => ({
-    user: state.user,
-    isUser: state.isUser,
-  }),
-)
-class MainScreen extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
-  renderPages(arr) {
-    if (this.props.isUser.god) {
-      arr.unshift(<GodMode />);
-    }
-    return arr.map((el, i) => {
-      return <View key={i}>{el}</View>;
-    });
-  }
-
+@connect(state => ({user: state.user, isUser: state.isUser}))
+export default class MainScreen extends React.Component {
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'black'}}>
-        <Swiper
-          horizontal={false}
-          loop={false}
-          showsPagination={false}
-          index={((this.props.isUser.god === true) ? 2 : 1)}
-          onMomentumScrollEnd={
-            (e, state) => {
-              this.props.dispatch(showStatusBar());
-            }
-          }
-          onScrollBeginDrag={
-            (e, state) => this.props.dispatch(hideStatusBar())
-          }
-        >
-          {this.renderPages([
-            <UpperMenu fid={this.props.user.fid} />,
-            <Pool />
-          ])}
-        </Swiper>
-        <View style={{
-          position: 'absolute',
-          top: 20,
-          right: 20,
-        }}>
+      <View style={styles.mainScreen}>
+        {this._renderScreenSwiper()}
+
+        <View style={styles.messageIconWrapper}>
           <MessageCountIcon messageCount={this.props.user.message_count || 0} onPress={Actions.ConversationList} />
         </View>
 
       </View>
     );
   }
-}
 
-export default MainScreen;
+  _renderScreenSwiper() {
+    let swiperSlides = [
+      <UpperMenu fid={this.props.user.fid} />,
+      <Pool />
+    ];
+
+    if (this.props.isUser.god === true) {
+      swiperSlides.unshift(<GodMode />);
+    }
+
+    let swiperIndex = swiperSlides.length - 1;
+
+    return (
+      <Swiper horizontal={false} loop={false} showsPagination={false} index={swiperIndex}>
+        {swiperSlides.map((slide, key) => {
+          return (
+            <View key={key} style={styles.swiperSlide}>
+              {slide}
+            </View>
+          );
+        })}
+      </Swiper>
+    );
+  }
+}
