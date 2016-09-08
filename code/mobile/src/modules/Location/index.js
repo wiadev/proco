@@ -25,10 +25,11 @@ const startTracking = () => {
     distanceFilter: 250,
     // Activity Recognition
     stopTimeout: 1,
+    useSignificantChangesOnly: true,
     // Application config
     debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
-    stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
-    startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
+    stopOnTerminate: true,   // <-- Allow the background-service to continue tracking when user closes the app.
+    startOnBoot: false,        // <-- Auto start tracking when device is powered-up.
   }, function (state) {
     console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
 
