@@ -1,20 +1,27 @@
-const functions = require('firebase-functions');
 const firebase = require('firebase');
 const GeoFire = require('geofire');
 
-module.exports = functions.database().path('/ocean/{key}')
-  .on('write', (event) => {
+module.exports = (event) => {
 
-    const poolAdmin = event.data.adminRef.root.child(`pools/${event.params.key}`);
+    const uid = event.params.key;
 
-    if (!event.data.child('l').val()) {
+    const oceanAdmin = event.data.adminRef.root.child(`ocean`);
+
+    const ref = event.data.ref.root.child(`ocean/${uid}`);
+    const refAdmin = oceanAdmin.child(uid);
+
+    const pool = event.data.ref.root.child(`pools/${uid}`);
+    const poolAdmin = event.data.adminRef.root.child(`pools/${uid}`);
+
+    const locationData = ref.child('l').val();
+
+    if (!locationData) {
       return poolAdmin.set(null);
     }
 
-    const locationData = event.data.child('l').val();
     const location = [locationData[0], locationData[1]];
 
-    const geoFire = new GeoFire(event.data.adminRef.parent);
+    const geoFire = new GeoFire(oceanAdmin);
 
     return new Promise((resolve, reject) => {
       const geoQuery = geoFire.query({
@@ -34,10 +41,8 @@ module.exports = functions.database().path('/ocean/{key}')
         } else {
           geoQuery.cancel();
 
-          const pool = event.data.ref.root.child(`pools/${event.params.key}`);
-
           if (dropKeys.length === 0) {
-            return poolAdmin.set(null).then(() => resolve());
+            return pool.set(null).then(() => resolve());
           }
 
           return Promise.all(dropKeys.map(key =>
@@ -54,7 +59,7 @@ module.exports = functions.database().path('/ocean/{key}')
 
 
       geoQuery.on("key_entered", (key, location, distance) => {
-        if (key !== event.params.key) {
+        if (key !== uid) {
           drops[key] = {
             added_on: firebase.database.ServerValue.TIMESTAMP,
             is_close: (distance < 0.3 ? true : false),
@@ -65,4 +70,4 @@ module.exports = functions.database().path('/ocean/{key}')
 
     });
 
-  });
+};

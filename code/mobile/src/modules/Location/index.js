@@ -14,16 +14,7 @@ const pushLocationUpdate = (location) => {
   return geoFire.set(uid, [latitude, longitude]);
 };
 
-export const resetPool = () => {
-  const uid = getCUID();
-  if (!uid) return;
-  return database.ref(`users/pools/${uid}`).set(null).then(() => {
-    BackgroundGeolocation.getCurrentPosition({}, location => {
-      pushLocationUpdate(location);
-      Promise.resolve();
-    });
-  });
-};
+export const resetPool = () => database.ref(`users/pools/${getCUID()}`).set(null);
 
 const startTracking = () => {
 
