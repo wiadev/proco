@@ -80,7 +80,7 @@ const scenes = Actions.create(
       </Scene>
       <Scene key="proco" hideNavBar>
         <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
-        <Scene key="Settings" component={Settings} direction="vertical"/>
+        <Scene key="Settings" component={Settings} animation="fade" />
         <Scene key="Filters" component={Filters} direction="vertical"/>
         <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical"/>
         <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
