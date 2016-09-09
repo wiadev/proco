@@ -1,0 +1,6 @@
+path /logs/{type} {
+  read() { false }
+  write() { isCurrentUser(this.uid) }
+  
+  timestamp: CurrentTimestamp,
+}
