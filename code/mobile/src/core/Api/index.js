@@ -1,6 +1,7 @@
 import Rebase from "re-base";
 import {AsyncStorage, Image} from "react-native";
 import {getCUID, postMessage} from "../../modules/User/actions";
+import FirebaseHelper from './firebase';
 
 export const base = Rebase.createClass({
   apiKey: "AIzaSyCFOGhparb6dYAwoKtgvnHZ37hh0EARsOQ",
@@ -77,7 +78,7 @@ export const getAnswerForCUQ = async(uid) => {
   return null;
 };
 
-export const getPoolData = async(uid) => ({
+export const getPoolData = async (uid) => ({
   question: await getCurrentQuestionOf(uid),
   loops: await getUserLoops(uid),
   answer: await getAnswerForCUQ(uid),
@@ -117,13 +118,14 @@ export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
   });
 
   return thread
-    .then(() => postMessage(thread.key, {
-      _id: 0,
-      text: `Congrats, it's a match!`,
-      createdAt: base.database.ServerValue.TIMESTAMP,
-      user: 'proco',
-      type: 'matched-banner',
-    }))
+    .then(() =>
+      postMessage(thread.key, {
+        _id: 0,
+        text: `Congrats, it's a match!`,
+        createdAt: base.database.ServerValue.TIMESTAMP,
+        user: 'proco',
+        type: 'matched-banner',
+      }))
     .then(() => thread.key);
 
 });
@@ -132,5 +134,4 @@ export const changeMuteStatusFor = (user, status = true) =>  // We mute by user,
   database.ref(`users/inbox/${getCUID()}/${user}/is_muted`).set(status);
 
 export const getThreadPeople = tid =>
-  getFirebaseDataWithCache(`threads/info/${tid}/people`)
-    .then(data => Object.keys(data));
+  getFirebaseDataWithCache(`threads/info/${tid}/people`);
