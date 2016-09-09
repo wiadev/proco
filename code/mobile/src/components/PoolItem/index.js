@@ -18,7 +18,7 @@ import {getPoolData, postAnswer, matchTo, markAsSeen} from '../../core/Api';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@connect(state => ({user: state.user}))
+@connect(state => ({current_question: state.api.data.userInfo.current_question}))
 export default class PoolItem extends React.Component {
   static propTypes = {
     isMounted: React.PropTypes.bool.isRequired,
@@ -94,7 +94,7 @@ export default class PoolItem extends React.Component {
       // This user has answered current user's question.
       return (
         <View>
-          <MessageBox text={this.props.user.current_question} position="right" />
+          <MessageBox text={this.props.current_question} position="right" />
 
           <MessageBox text={this.state.receivedAnswer} position="left" />
         </View>

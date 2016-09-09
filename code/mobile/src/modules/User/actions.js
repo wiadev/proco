@@ -1,4 +1,6 @@
 import {AsyncStorage} from "react-native";
+import { is as isReducer, info as infoReducer } from './dataReducers';
+import {startWatching, takeOnline} from "../../core/Api/firebase";
 import {database, base, getThreadPeople} from "../../core/Api";
 import deepEqual from "deep-equal";
 
@@ -133,6 +135,20 @@ export function updateUser(type, data = {}, after = () => {
     } else {
       console.log("We have this data already");
     }
+
+  };
+}
+
+export function afterLoginActions() {
+  return (dispatch, getState) => {
+    const { auth: { uid } } = getState();
+
+    dispatch(takeOnline());
+    dispatch(startWatching('userInfo', database.ref(`users/info/${uid}`), infoReducer));
+    dispatch(startWatching('userIs', database.ref(`users/is/${uid}`), isReducer));
+    dispatch(startWatching('userSettings', database.ref(`users/settings/${uid}`)));
+    dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
+    dispatch(startWatching('pool', database.ref(`pools/${uid}`)));
 
   };
 }

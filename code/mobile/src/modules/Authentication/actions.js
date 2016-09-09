@@ -2,7 +2,7 @@ import {LoginManager, AccessToken} from "react-native-fbsdk";
 import {AsyncStorage, Linking} from "react-native";
 import {Actions} from "react-native-router-flux";
 import {base, database} from "../../core/Api";
-import {startWatching, takeOnline} from "../../core/Api/firebase";
+import {afterLoginActions} from '../User/actions';
 import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
 import React from "react";
 import {STARTED, SET, LOADED} from "./actionTypes";
@@ -23,14 +23,8 @@ export function handleAuth(data) {
         }
       });
 
-      dispatch(takeOnline());
-      dispatch(startWatching('userInfo', database.ref(`users/info/${uid}`)));
-      dispatch(startWatching('userIs', database.ref(`users/is/${uid}`)));
-      dispatch(startWatching('userSettings', database.ref(`users/settings/${uid}`)));
-      dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
-      dispatch(startWatching('pool', database.ref(`pools/${uid}`)));
+      dispatch(afterLoginActions());
 
-      console.log("login")
     } else if (!uid && auth.uid) {
       dispatch(logout());
     }

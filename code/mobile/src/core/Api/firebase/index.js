@@ -1,6 +1,6 @@
 import {database} from "../index";
 
-const defaultDataReducer = (data) => data;
+const defaultDataReducer = (data) => Promise.resolve(data);
 
 export const startWatching = (key, ref, reducer = defaultDataReducer) => {
   return (dispatch, getState) => {
@@ -20,10 +20,14 @@ export const startWatching = (key, ref, reducer = defaultDataReducer) => {
     });
 
     ref.on('value', snapshot => {
-      dispatch({
-        type: 'FIREBASE_WATCH',
-        key: key,
-        data: reducer(snapshot.val()),
+      reducer(snapshot.val()).then(data => {
+        dispatch({
+          type: 'FIREBASE_WATCH',
+          payload: {
+            key,
+            data,
+          },
+        });
       });
     });
 

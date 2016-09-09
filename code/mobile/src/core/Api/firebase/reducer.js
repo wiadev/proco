@@ -13,17 +13,17 @@ const initialState = {
 };
 
 export default function reducer(state = initialState, action)  {
-console.log("st", state, action)
+
   switch (action.type) {
     case 'FIREBASE_GET':
     case 'FIREBASE_WATCH':
-      return makeFirebaseState(action, state, action.key, action.data);
+      return makeFirebaseState(action, state, action.payload.key, action.payload.data);
     case 'FIREBASE_LOGIN':
     case 'FIREBASE_LOGOUT':
     case 'FIREBASE_LOGIN_ERROR':
       return updeep({
-        authData: action.authData,
-        authError: action.error
+        authData: action.payload.authData,
+        authError: action.payload.error
       }, state);
     case 'FIREBASE_GETTER_START':
     case 'FIREBASE_WATCHER_START':
@@ -49,7 +49,7 @@ console.log("st", state, action)
 
 
 function makeFirebaseState(action, state, key, value, merge = false) {
-  value = Object.assign({
+  value = assign(state.data[key], {
     isLoaded: true,
   }, value);
   value = merge ? value : updeep.constant(value);

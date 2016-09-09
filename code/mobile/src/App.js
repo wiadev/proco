@@ -96,9 +96,6 @@ class App extends Component {
       blocked,
     } = this.props;
 
-    console.log("props on ap", this.props)
-    const isBlocked = !(blocked === false || blocked === null);
-
     return (
       <View style={{
         flex: 1,
@@ -111,7 +108,7 @@ class App extends Component {
         <InAppAlert />
         <NoInternetModal />
         <AuthListener uid={uid}/>
-        {(uid && isBlocked) && <BlockedUserModal
+        {(uid && blocked) && <BlockedUserModal
           blocked={blocked}
           logout={() => dispatch(logout())}
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
