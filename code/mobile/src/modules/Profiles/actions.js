@@ -1,12 +1,14 @@
-import {database, logEvent, timestamp} from "../../core/Api";
+import {database, logEvent, getFirebaseDataWithCache, timestamp} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {getProfileLoop} from "./api";
 import {post} from "../Chat/actions";
 
 export const loadSummary = (uid) => {
-  return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
-
+  return async (dispatch) => {
+    dispatch({
+      type: 'PROFILE_LOADED',
+      payload: await getFirebaseDataWithCache(`users/summary/${uid}`)
+    });
   };
 };
 
