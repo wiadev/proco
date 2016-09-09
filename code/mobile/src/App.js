@@ -4,7 +4,6 @@ import startLocationTracking from "./modules/Location";
 import {connect} from "react-redux";
 import InAppAlert from "./components/InAppAlert";
 import {AuthListener, logout} from "./modules/Authentication";
-import {UserListener} from "./modules/User";
 import {syncPermissions, updateNotificationToken} from "./modules/Permissions/actions";
 import {createAlert} from "./modules/InAppAlert/actions";
 import NoInternetModal from "./components/NoInternetModal";
@@ -15,10 +14,10 @@ import Routes from "./core/Routes";
 @connect(
   state => ({
     auth: state.auth,
-    user: state.user,
     statusbar: state.statusbar,
-    isUser: state.isUser,
     permissions: state.permissions,
+    blocked: state.api.data.userIs.blocked,
+    first_name: state.api.data.userInfo.first_name,
   }),
 )
 class App extends Component {
@@ -47,6 +46,9 @@ class App extends Component {
     });
 
     this._locationTracking(this.props);
+    console.log(this.props, this.state);
+
+
   }
 
 
@@ -89,10 +91,9 @@ class App extends Component {
   render() {
     const {
       dispatch,
-      statusbar,
       auth: {uid, isLoaded},
-      user: {first_name}, isUser: {blocked, onboarded},
-      permissions: {location}
+      first_name,
+      blocked,
     } = this.props;
 
     console.log("props on ap", this.props)
@@ -110,8 +111,6 @@ class App extends Component {
         <InAppAlert />
         <NoInternetModal />
         <AuthListener uid={uid}/>
-        <UserListener type="info" uid={uid}/>
-        <UserListener type="is" uid={uid} isActive={this.state.isActive} />
         {(uid && isBlocked) && <BlockedUserModal
           blocked={blocked}
           logout={() => dispatch(logout())}

@@ -32,7 +32,7 @@ const statuses = {
   submitted: 'SUBMITTED'
 };
 
-@connect(state => ({auth: state.auth, user: state.user, isUser: state.isUser}))
+@connect(state => ({auth: state.auth, user: state.firebase.data.userInfo, isUser: state.firebase.data.userIs}))
 export default class Register extends React.Component {
   constructor(props) {
     super(props);

@@ -12,7 +12,7 @@ import MessageCountIcon from '../../components/Chat/CountIcon';
 import { Actions } from 'react-native-router-flux';
 import styles from './styles';
 
-@connect(state => ({user: state.user, isUser: state.isUser}))
+@connect(state => ({user: state.api.data.userInfo, isUser: state.api.data.userIs}))
 export default class MainScreen extends React.Component {
   render() {
     return (

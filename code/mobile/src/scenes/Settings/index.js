@@ -45,9 +45,8 @@ class Settings extends React.Component {
     return (
       <View style={styles.settings}>
         <StatusBar hidden={false} />
-
+        <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
         <ScrollView>
-          <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
 
           <View style={styles.infoBox}>
             <Icon name="info-outline" style={styles.infoBoxIcon} />
@@ -62,7 +61,7 @@ class Settings extends React.Component {
 
           <Field type="text" legend="Birthday" value={this.props.user.birthday} style={styles.singleField} />
 
-          <Field type="text" legend="University" value={this.props.user.network} style={styles.singleField} />
+          <Field type="text" legend="University" value={this.state.network} style={styles.singleField} />
 
           <Field type="bool" legend="Suspend Discovery" value={this.state.settings.suspend_discovery} onChange={value => this._updateSetting('suspend_discovery', value)} style={styles.singleField} />
 

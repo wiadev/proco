@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-  View
+  View,
+Text
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from "react-native-swiper";
@@ -28,12 +29,14 @@ class Pool extends React.Component {
 
   componentWillMount() {
     this.ref.on('child_added', newPoolItem => {
+      console.log("child added", newPoolItem.key);
       this.setState({
         poolItems: this.state.poolItems.concat([{userId: newPoolItem.key}])
       });
     });
 
     this.ref.on('child_removed', deletedPoolItem => {
+      console.log("child child_removed", deletedPoolItem.key);
       this.setState({
         poolItems: _.filter(this.state.poolItems, singlePoolItem => {
           return singlePoolItem.userId === deletedPoolItem.key;
@@ -50,7 +53,7 @@ class Pool extends React.Component {
         <PermissionModal type="location" />
       );
     }
-
+console.log(this.state)
     return (
       <View style={styles.pool}>
         <Swiper

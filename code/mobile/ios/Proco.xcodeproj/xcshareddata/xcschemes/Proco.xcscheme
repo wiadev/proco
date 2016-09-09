@@ -88,8 +88,8 @@
       <AdditionalOptions>
       </AdditionalOptions>
       <LocationScenarioReference
-         identifier = "../Farm_San_Francisco_Poke&#x301;mon_Go_GPX.gpx"
-         referenceType = "0">
+         identifier = "London, England"
+         referenceType = "1">
       </LocationScenarioReference>
    </LaunchAction>
    <ProfileAction

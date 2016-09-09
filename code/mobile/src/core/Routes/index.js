@@ -47,13 +47,15 @@ const scenes = Actions.create(
       component={connect(state=>({
         uid: state.auth.uid,
         isLoadedAuth: state.auth.isLoaded,
-        isLoadedIs: state.isUser.isLoaded,
-        isBoarded: state.isUser.onboarded,
+        isLoadedIs: state.api.data.userIs.isLoaded,
+        isBoarded: state.api.data.userIs.onboarded,
       }))(Switch)}
       tabs={true}
       unmountScenes
       initial
-      selector={({uid, isLoadedAuth, isLoadedIs, isBoarded}) => {
+      selector={(props) => {
+        const {uid, isLoadedAuth, isLoadedIs, isBoarded} = props;
+        console.log("hey", isLoadedAuth, isLoadedIs, isBoarded, props)
         if (!isLoadedAuth || (uid && !isLoadedIs)) return 'BlockerActivity';
         if (!uid || !isBoarded) return 'auth';
         if (uid && isBoarded) return 'proco';
@@ -68,10 +70,7 @@ const scenes = Actions.create(
         tabs={true}
         unmountScenes
         hideNavBar
-        selector={({uid}) => {
-          console.log("uid", uid);
-          return uid ? 'Register' : 'Login';
-        }}
+        selector={({uid}) => uid ? 'Register' : 'Login'}
       >
         <Scene hideNavBar key="Login" component={Login}/>
         <Scene hideNavBar key="SelectNetwork" component={Register}/>
