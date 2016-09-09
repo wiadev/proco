@@ -20,7 +20,6 @@ DeviceEventEmitter.addListener(
   }
 );
 
-
 const startTracking = () => {
   Location.requestAlwaysAuthorization();
   Location.startUpdatingLocation();

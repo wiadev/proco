@@ -2,7 +2,7 @@ import {LoginManager, AccessToken} from "react-native-fbsdk";
 import {AsyncStorage, Linking} from "react-native";
 import {Actions} from "react-native-router-flux";
 import {base, database} from "../../core/Api";
-import {afterLoginActions} from '../User/actions';
+import {afterLoginActions,beforeLogoutActions} from '../User/actions';
 import {startWatchingPool} from '../Pool/actions';
 import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
 import React from "react";
@@ -105,6 +105,7 @@ export function login() {
 
 export function logout() {
   return dispatch => {
+    dispatch(beforeLogoutActions());
     Promise.all([AsyncStorage.clear()]).then(() => {
       base.unauth();
       LoginManager.logOut();

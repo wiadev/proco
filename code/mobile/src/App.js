@@ -35,6 +35,17 @@ class App extends Component {
   componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
     this.handleAppStateChange('active'); // First time
+    FCM.getFCMToken().then(fcm_token =>
+      this.props.dispatch(updateNotificationToken(fcm_token))
+    );
+
+    this.refreshUnsubscribe = FCM.on('refreshToken',
+      (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
+
+    this.notificationUnsubscribe = FCM.on('notification', (notif) => {
+      console.log("notification", notif);
+    });
+
     FCM.subscribeToTopic('/topics/generic');
     this.notificationUnsubscribe = FCM.on('notification', (notif) => {
       console.log(notif);
@@ -46,9 +57,6 @@ class App extends Component {
     });
 
     this._locationTracking(this.props);
-    console.log(this.props, this.state);
-
-
   }
 
 
@@ -65,13 +73,6 @@ class App extends Component {
     this.props.dispatch(syncPermissions());
     if (appState == 'active') {
       this.setState({isActive: true});
-      this.refreshUnsubscribe = FCM.on('refreshToken',
-        (fcm_token) => this.props.dispatch(updateNotificationToken(fcm_token)));
-      FCM.getFCMToken().then(fcm_token =>
-        this.props.dispatch(updateNotificationToken(fcm_token))
-      ).catch(() => {
-        console.log("get fcm token error")
-      })
     } else {
       this.setState({isActive: false});
     }
