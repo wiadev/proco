@@ -1,6 +1,7 @@
 import {database, timestamp} from '../../core/Api';
 import {assign} from '../../core/utils';
-import {block, report} from '../Profiles/actions';
+import {block, report, match} from '../Profiles/actions';
+import {requestPermission} from '../Permissions/actions';
 
 import { getPoolData } from './api';
 
@@ -52,9 +53,11 @@ export const action = (uid, type = 'seen', payload = {}) => {
         break;
       case 'match':
         dispatch(match(uid));
+        dispatch(requestPermission('notifications'));
         break;
       case 'answer':
         dispatch(answer(qid, payload));
+        dispatch(requestPermission('notifications'));
         break;
       default: break;
     }
@@ -100,10 +103,3 @@ export const answer = (qid, answer) => {
 
   };
 };
-
-export const match = (uid) => {
-  return (dispatch, getState) => {
-
-  };
-};
-

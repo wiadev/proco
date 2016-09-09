@@ -1,6 +1,7 @@
 import {database, logEvent, timestamp} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {getProfileLoop} from "./api";
+import {post} from "../Chat/actions";
 
 export const loadSummary = (uid) => {
   return (dispatch, getState) => {
@@ -85,7 +86,7 @@ const changeBlockStatus = (id, status = true, payload = {}) => {
 
 export const match = (uidToMatch) => {
   return (dispatch, getState) => {
-    const { auth: { uid } } = getState();
+    const {auth: {uid}} = getState();
 
     dispatch(changeMatchStatus(uidToMatch, true));
 
@@ -102,7 +103,8 @@ export const match = (uidToMatch) => {
           createdAt: timestamp,
           user: 'proco',
           type: 'matched-banner',
-        }));
+        }))
+      );
 
   };
 };
