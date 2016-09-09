@@ -3,6 +3,7 @@ import {AsyncStorage, Linking} from "react-native";
 import {Actions} from "react-native-router-flux";
 import {base, database} from "../../core/Api";
 import {afterLoginActions} from '../User/actions';
+import {startWatchingPool} from '../Pool/actions';
 import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
 import React from "react";
 import {STARTED, SET, LOADED} from "./actionTypes";
@@ -24,13 +25,13 @@ export function handleAuth(data) {
       });
 
       dispatch(afterLoginActions());
+      dispatch(startWatchingPool());
 
     } else if (!uid && auth.uid) {
       dispatch(logout());
     }
 
     dispatch(syncFacebookToken());
-
 
   };
 }

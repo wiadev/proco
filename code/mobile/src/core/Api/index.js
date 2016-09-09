@@ -80,8 +80,8 @@ export const getAnswerForCUQ = async(uid) => {
 
 export const getPoolData = async (uid) => ({
   question: await getCurrentQuestionOf(uid),
-  loops: await getUserLoops(uid),
-  answer: await getAnswerForCUQ(uid),
+  profileLoopPhotos: await getUserLoops(uid),
+  receivedAnswer: await getAnswerForCUQ(uid),
 });
 
 export function postAnswer(qid, answer) {

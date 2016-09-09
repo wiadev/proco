@@ -121,6 +121,30 @@ export const spreadDolls = (lat = 41, lng = 29, radius = 10000) => dollsRef().on
   }))
 );
 
+function getRandom(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len;
+    }
+    return result;
+}
+
+export const spreadDollsRandomly = (count = 20, lat = 41, lng = 29, radius = 10000) => dollsRef().once('value').then(snap => { 
+  const dolls = Object.keys(snap.val());
+  return Promise.all(getRandom(dolls, count).map(doll => {
+    console.log(doll, lat, lng);
+    const loc = generateRandomPoint({lat, lng}, radius);
+    console.log(loc)
+    return positionDoll(doll, loc.lat, loc.lng);
+  }));
+});
+
 function postQuestion(uid, question) { // this is taken directly from the app (except for the UID param) and shouldn't be tweaked.
   const usersRef = database.ref('users');
   const key = database.ref('keyGenerator').push().key;

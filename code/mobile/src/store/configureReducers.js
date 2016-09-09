@@ -6,6 +6,7 @@ import inAppAlertReducer from '../modules/InAppAlert/reducer';
 import authReducer from '../modules/Authentication/reducer';
 import permissionsReducer from '../modules/Permissions/reducer';
 import statusBarReducer from '../modules/StatusBar/reducer';
+import poolReducer from '../modules/Pool/reducer';
 import firebaseReducer from '../core/Api/firebase/reducer';
 
 const reducers = {
@@ -14,6 +15,7 @@ const reducers = {
   permissions: permissionsReducer,
   statusbar: statusBarReducer,
   api: firebaseReducer,
+  pool: poolReducer,
 };
 
 const namespacedReducer = combineReducers(

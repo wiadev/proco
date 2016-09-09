@@ -47,6 +47,17 @@ export default function Commands(vorpal) {
       });
     });
 
+  vorpal.command('ph spread random <count> <lat> <lng> [radius]', 'Spreads random dolls around given location')
+    .action(function (args, cb) {
+      const self = this;
+
+      this.log(`Starting to spread randomly...Shouldn't take long.`);
+      return ph.spreadDollsRandomly(args.count, args.lat, args.lng, args.radius).then((dolls) => {
+        self.log(`Done!`)
+        cb();
+      });
+    });
+
 
   vorpal.command('ph attach question all', 'Attaches a random question to all dolls')
     .action(function (args, cb) {

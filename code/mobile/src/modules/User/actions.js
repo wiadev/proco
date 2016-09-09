@@ -148,7 +148,5 @@ export function afterLoginActions() {
     dispatch(startWatching('userIs', database.ref(`users/is/${uid}`), isReducer));
     dispatch(startWatching('userSettings', database.ref(`users/settings/${uid}`)));
     dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
-    dispatch(startWatching('pool', database.ref(`pools/${uid}`)));
-
   };
 }

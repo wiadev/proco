@@ -14,37 +14,14 @@ import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import styles from './styles';
 
-@connect(state => ({auth: state.auth, permissions: state.permissions}))
+@connect(state => ({auth: state.auth, permissions: state.permissions, pool: state.pool}))
 class Pool extends React.Component {
   constructor(props) {
     super(props);
 
-    this.ref = database.ref(`pools/${this.props.auth.uid}`).limitToFirst(5);
-
     this.state = {
       index: 0,
-      poolItems: []
     };
-  }
-
-  componentWillMount() {
-    this.ref.on('child_added', newPoolItem => {
-      console.log("child added", newPoolItem.key);
-      this.setState({
-        poolItems: this.state.poolItems.concat([{userId: newPoolItem.key}])
-      });
-    });
-
-    this.ref.on('child_removed', deletedPoolItem => {
-      console.log("child child_removed", deletedPoolItem.key);
-      this.setState({
-        poolItems: _.filter(this.state.poolItems, singlePoolItem => {
-          return singlePoolItem.userId === deletedPoolItem.key;
-        })
-      });
-    });
-
-    // TODO: Update poolItem on child_changed event.
   }
 
   render() {
@@ -75,15 +52,18 @@ console.log(this.state)
   }
 
   _renderPoolItems() {
-    if (this.state.poolItems.length < 1) {
+    const poolItems = this.props.pool.items;
+    const poolItemKeys = Object.keys(poolItems);
+
+    if (poolItemKeys.length < 1) {
       return (
         <Card label="No one seems to be nearby" noClose={true} />
       );
     }
 
-    return this.state.poolItems.map((item, key) => {
+    return poolItemKeys.map((item, key) => {
       return (
-        <PoolItem key={key} isMounted={key === this.state.index} userId={item.userId} />
+        <PoolItem key={key} isMounted={key === this.state.index} {...poolItems[item]} />
       );
     });
   }
