@@ -1,11 +1,11 @@
-import Rebase from "re-base";
 import {AsyncStorage, Image} from "react-native";
+import firebase from "firebase";
 
-export const base = Rebase.createClass({
+export const base = firebase.initializeApp({
   apiKey: "AIzaSyCFOGhparb6dYAwoKtgvnHZ37hh0EARsOQ",
   authDomain: "proco-app.firebaseapp.com",
   databaseURL: "https://proco-app.firebaseio.com",
-  storageBucket: "proco-app.appspot.com",
+  storageBucket: "proco-app.appspot.com"
 });
 
 export const database = base.database();
