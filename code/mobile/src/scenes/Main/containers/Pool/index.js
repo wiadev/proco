@@ -18,7 +18,7 @@ export default class Pool extends React.Component {
     super(props);
 
     this.state = {
-      index: 0
+      current: null,
     };
   }
 
@@ -36,7 +36,12 @@ export default class Pool extends React.Component {
           loop={false}
           showsPagination={false}
           loadMinimal={true}
-          onMomentumScrollEnd={(e, state) => this.setState({index: state.index})}
+          loadMinimalSize={2}
+          onMomentumScrollEnd={(e, state) => {
+            const items = Object.keys(this.props.pool.items);
+            this.props.dispatch(action(items[state.index - 1], 'skip'));
+            this.setState({current: items[state.index]});
+          }}
         >
           {this._renderPoolItems()}
         </Swiper>
@@ -55,9 +60,9 @@ export default class Pool extends React.Component {
       );
     }
 
-    return poolItems.map((poolItemKey, key) => {
+    return poolItems.map((poolItemKey) => {
       return (
-        <PoolItem key={key} isMounted={key === this.state.index} data={this.props.pool.items[poolItemKey]} onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)} />
+        <PoolItem key={poolItemKey} isMounted={poolItemKey === (this.state.current || poolItemKey)} data={this.props.pool.items[poolItemKey]} onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)} />
       );
     });
   }
