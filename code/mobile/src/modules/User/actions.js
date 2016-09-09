@@ -1,6 +1,6 @@
 import {AsyncStorage} from "react-native";
 import {is as isReducer, info as infoReducer} from "./dataReducers";
-import {startWatching, takeOnline} from "../../core/Api/firebase";
+import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
 import {database, base, getThreadPeople} from "../../core/Api";
 import deepEqual from "deep-equal";
 
