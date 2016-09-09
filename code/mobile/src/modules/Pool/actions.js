@@ -88,7 +88,7 @@ export const removeFromPool = (id) => {
 export const questionSeen = (qid) => {
   return (dispatch, getState) => {
     const { auth: { uid } } = getState();
-    database.ref(`users/questions/${qid}/seen_by/${uid}`).set(null);
+    database.ref(`users/questions/${qid}/seen_by/${uid}`).set(true);
   };
 };
 

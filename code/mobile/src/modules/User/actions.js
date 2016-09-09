@@ -92,25 +92,6 @@ export function postQuestion(question) {
   return usersRef.update(questionUpdates);
 }
 
-export function postMessage(thread_id, message) {
-  return getThreadPeople(thread_id)
-    .then(to => {
-      const root = database.ref();
-      const key = root.child('keyGenerator').push().key;
-      message = Object.assign(message, {
-        key,
-      });
-      const updates = {
-        [`threads/_/${thread_id}/${key}`]: message,
-        [`threads/messages/${thread_id}/${to[0]}/${key}`]: message,
-        [`threads/messages/${thread_id}/${to[1]}/${key}`]: message,
-        [`users/inbox/${to[0]}/${to[1]}/last_message`]: message,
-        [`users/inbox/${to[1]}/${to[0]}/last_message`]: message,
-      };
-      return root.update(updates);
-    });
-}
-
 export function postLocation(type, data) {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;

@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react_native';
+import { AsyncStorage } from 'react-native';
 import { database, storage } from '../../core/Api';
 
 const getLoopsWithCache = (uid, loop_key = 0, count = 18) => {
@@ -27,4 +27,3 @@ export const getProfileLoop = async (uid, loop_key = null, count = 18) => {
 
     return await getLoopsWithCache(uid, loop_key, count);
 };
-
