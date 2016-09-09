@@ -10,7 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import Header from '../../Header';
-import MessageCountIcon from '../CountIcon';
+import MessageCountIcon from '../MessageCountIcon';
 import Card from '../../Card';
 import styles from './styles';
 

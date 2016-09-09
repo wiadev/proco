@@ -8,7 +8,7 @@ import Swiper from 'react-native-swiper';
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import GodMode from './containers/GodMode';
-import MessageCountIcon from '../../components/Chat/CountIcon';
+import MessageCountIcon from '../../components/Chat/MessageCountIcon';
 import { Actions } from 'react-native-router-flux';
 import styles from './styles';
 
@@ -20,7 +20,7 @@ export default class MainScreen extends React.Component {
         {this._renderScreenSwiper()}
 
         <View style={styles.messageIconWrapper}>
-          <MessageCountIcon messageCount={this.props.user.message_count || 0} onPress={Actions.ConversationList} />
+          <MessageCountIcon />
         </View>
 
       </View>
