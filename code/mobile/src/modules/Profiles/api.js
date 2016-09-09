@@ -21,9 +21,8 @@ const getLoopsWithCache = (uid, loop_key = 0, count = 18) => {
 
 export const getProfileLoop = async (uid, loop_key = null, count = 18) => {
     if (!loop_key) {
-      const snap = await database.ref(`users/summary/${uid}/loop_key`);
+      const snap = await database.ref(`users/summary/${uid}/loop_key`).once('value');
       loop_key = snap.val();
     }
-
-    return await getLoopsWithCache(uid, loop_key, count);
+   return await getLoopsWithCache(uid, loop_key || 0, count);
 };
