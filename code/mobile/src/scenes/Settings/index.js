@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
+import _ from 'lodash';
 
 import {database} from "../../core/Api";
 import {assign} from "../../core/utils";
@@ -32,8 +33,9 @@ class Settings extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({settings: assign(this.props.settings)});
+    this.setState({settings: assign(_.omit(this.props.settings, 'isLoaded'))});
   }
+
   render() {
     // TODO: Clicking on Contact should do something.
     if (this.state.settings === null) {
