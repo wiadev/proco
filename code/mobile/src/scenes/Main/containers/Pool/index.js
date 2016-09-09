@@ -9,6 +9,7 @@ import Swiper from "react-native-swiper";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
+import {action} from '../../../../modules/Pool/actions';
 import styles from './styles';
 
 @connect(state => ({auth: state.auth, permissions: state.permissions, pool: state.pool}))
@@ -55,12 +56,12 @@ export default class Pool extends React.Component {
 
     return poolItems.map((poolItemKey, key) => {
       return (
-        <PoolItem key={key} isMounted={key === this.state.index} data={this.props.pool.items[poolItemKey]} onComplete={this._doneWithPoolItem} />
+        <PoolItem key={key} isMounted={key === this.state.index} data={this.props.pool.items[poolItemKey]} onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)} />
       );
     });
   }
 
-  _doneWithPoolItem() {
-
+  _doneWithPoolItem(uid, act, payload) {
+    this.props.dispatch(action(uid, act, payload));
   }
 }

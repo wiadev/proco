@@ -9,11 +9,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
-import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../ProfileLoop';
 import MessageBox from '../Chat/Box';
-import {postAnswer, matchTo, markAsSeen} from '../../core/Api';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
@@ -116,7 +114,7 @@ export default class PoolItem extends React.Component {
           const action = _.keys(buttons)[buttonIndex];
 
           // this action is one of the keys of the buttons except 'CANCEL': ['BLOCK' | 'REPORT']
-          this.props.onComplete(action);
+          this._done(action);
         }
       });
   }
@@ -176,19 +174,20 @@ export default class PoolItem extends React.Component {
   }
 
   _done(action) {
-    markAsSeen(this.props.data.uid, this.props.data.question.qid);
-
     switch (action) {
       case 'START-CONVERSATION':
         // It's a MATCH! Start conversation.
-        matchTo(key)
-          .then(threadId => Actions.Conversation({thread_id: threadId, uid: this.props.data.uid}));
+        this.props.onComplete(this.props.data.uid, 'match');
         break;
       case 'ANSWER':
-        postAnswer(this.props.data.question.qid, this.state.answer);
+        this.props.onComplete(this.props.data.uid, 'answer', {answer: this.state.answer});
         break;
-      default:
-        // TODO: markAsSeen
+      case 'BLOCK':
+        this.props.onComplete(this.props.data.uid, 'block');
+        break;
+      case 'REPORT':
+        this.props.onComplete(this.props.data.uid, 'report');
+        break;
     }
   }
 }
