@@ -16,7 +16,7 @@ export const addToPool = (uid, data) => {
     const { pool } = getState();
     if (pool[uid]) return true; // add some cache checking & expire stuff
 
-    getPoolData(key).then(poolData => {
+    getPoolData(uid).then(poolData => {
       dispatch({
         type: 'POOL_ADD',
         payload: assign({
@@ -34,7 +34,7 @@ export const matchTo = (uid) => {
   };
 };
 
-export const saw = (key) => {
+export const saw = (uid) => {
   return (dispatch, getState) => {
 
   };
