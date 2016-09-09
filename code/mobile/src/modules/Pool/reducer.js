@@ -13,12 +13,12 @@ export default function reducer(state = initialState, action = {}) {
     case 'POOL_ADD':
       return assign(state, {
         items: assign(state.items, {
-          [action.payload.key]: action.payload
+          [action.payload.uid]: action.payload
         }),
       });
     case 'POOL_REMOVE':
       return assign(state, {
-        items: _.omit(state.items, action.payload.key),
+        items: _.omit(state.items, action.payload.uid),
       });
   }
 

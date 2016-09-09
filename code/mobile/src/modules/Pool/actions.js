@@ -11,16 +11,16 @@ export const startWatchingPool = () => {
 };
 
 
-export const addToPool = (key, data) => {
+export const addToPool = (uid, data) => {
   return (dispatch, getState) => {
     const { pool } = getState();
-    if (pool[key]) return true; // add some cache checking & expire stuff
+    if (pool[uid]) return true; // add some cache checking & expire stuff
 
     getPoolData(key).then(poolData => {
       dispatch({
         type: 'POOL_ADD',
         payload: assign({
-          key,
+          uid,
         }, data, poolData),
       });
     });
@@ -28,9 +28,9 @@ export const addToPool = (key, data) => {
   };
 };
 
-export const matchTo = (key) => {
+export const matchTo = (uid) => {
   return (dispatch, getState) => {
-    console.log("MATCHED TO", key);
+    console.log("MATCHED TO", uid);
   };
 };
 
