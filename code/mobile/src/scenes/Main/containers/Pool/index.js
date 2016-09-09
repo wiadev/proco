@@ -1,26 +1,23 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
-  View,
-Text
+  View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from "react-native-swiper";
-import _ from 'lodash';
 
-import {database} from '../../../../core/Api';
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import styles from './styles';
 
 @connect(state => ({auth: state.auth, permissions: state.permissions, pool: state.pool}))
-class Pool extends React.Component {
+export default class Pool extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      index: 0,
+      index: 0
     };
   }
 
@@ -30,18 +27,14 @@ class Pool extends React.Component {
         <PermissionModal type="location" />
       );
     }
-console.log(this.state)
+
     return (
       <View style={styles.pool}>
         <Swiper
           horizontal={true}
           loop={false}
           showsPagination={false}
-          onMomentumScrollEnd={(e, state, context) => {
-            this.setState({
-              index: state.index
-            });
-          }}
+          onMomentumScrollEnd={(e, state) => this.setState({index: state.index})}
         >
           {this._renderPoolItems()}
         </Swiper>
@@ -52,21 +45,22 @@ console.log(this.state)
   }
 
   _renderPoolItems() {
-    const poolItems = this.props.pool.items;
-    const poolItemKeys = Object.keys(poolItems);
+    const poolItems = Object.keys(this.props.pool.items);
 
-    if (poolItemKeys.length < 1) {
+    if (poolItems.length < 1) {
       return (
         <Card label="No one seems to be nearby" noClose={true} />
       );
     }
 
-    return poolItemKeys.map((item, key) => {
+    return poolItems.map((poolItemKey, key) => {
       return (
-        <PoolItem key={key} isMounted={key === this.state.index} {...poolItems[item]} />
+        <PoolItem key={key} isMounted={key === this.state.index} data={this.props.pool.items[poolItemKey]} onComplete={this._doneWithPoolItem} />
       );
     });
   }
-}
 
-export default Pool;
+  _doneWithPoolItem() {
+
+  }
+}

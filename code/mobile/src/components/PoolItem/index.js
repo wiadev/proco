@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import {
   View,
   TextInput,
@@ -14,16 +13,15 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../ProfileLoop';
 import MessageBox from '../Chat/Box';
-import {getPoolData, postAnswer, matchTo, markAsSeen} from '../../core/Api';
+import {postAnswer, matchTo, markAsSeen} from '../../core/Api';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@connect(state => ({current_question: state.api.data.userInfo.current_question}))
 export default class PoolItem extends React.Component {
   static propTypes = {
+    data: React.PropTypes.object.isRequired,
     isMounted: React.PropTypes.bool.isRequired,
-    userId: React.PropTypes.string.isRequired,
-    onComplete: React.PropTypes.func,
+    onComplete: React.PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -32,7 +30,6 @@ export default class PoolItem extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log("props", props);
 
     this.state = {
       height: 0,
@@ -40,14 +37,10 @@ export default class PoolItem extends React.Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.props);
-  }
-
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop isMounted={this.props.isMounted} photos={this.props.profileLoopPhotos}>
+        <ProfileLoop isMounted={this.props.isMounted} photos={this.props.data.profileLoopPhotos}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderQuestionAndAnswer()}
@@ -72,19 +65,19 @@ export default class PoolItem extends React.Component {
   }
 
   _renderQuestionAndAnswer() {
-    if (this.props.receivedAnswer) {
+    if (this.props.data.receivedAnswer) {
       // This user has answered current user's question.
       return (
         <View>
-          <MessageBox text={this.props.current_question} position="right" />
+          <MessageBox text={this.props.data.question.question} position="right" />
 
-          <MessageBox text={this.props.receivedAnswer} position="left" />
+          <MessageBox text={this.props.data.receivedAnswer} position="left" />
         </View>
       );
     } else {
       // This user hasn't answered current user's question. Current user can answer now.
       return (
-        <MessageBox text={this.props.question} position="left" />
+        <MessageBox text={this.props.data.question.question} position="left" />
       );
     }
   }
@@ -133,7 +126,7 @@ export default class PoolItem extends React.Component {
     if (!this.state.answerInputVisible) {
       let iconName;
 
-      if (!this.props.receivedAnswer) {
+      if (!this.props.data.receivedAnswer) {
         iconName = 'mode-comment';
       } else {
         iconName = 'thumb-up';
@@ -171,7 +164,7 @@ export default class PoolItem extends React.Component {
   }
 
   _onActionButtonPress() {
-    if (!this.props.receivedAnswer) {
+    if (!this.props.data.receivedAnswer) {
       this.refs['answerInput'].focus();
 
       this.setState({
@@ -183,16 +176,16 @@ export default class PoolItem extends React.Component {
   }
 
   _done(action) {
-    markAsSeen(this.props.userId, this.state.questionId);
+    markAsSeen(this.props.data.uid, this.props.data.question.qid);
 
     switch (action) {
       case 'START-CONVERSATION':
         // It's a MATCH! Start conversation.
         matchTo(key)
-          .then(threadId => Actions.Conversation({thread_id: threadId, uid: this.props.userId}));
+          .then(threadId => Actions.Conversation({thread_id: threadId, uid: this.props.data.uid}));
         break;
       case 'ANSWER':
-        postAnswer(this.state.questionId, this.state.answer);
+        postAnswer(this.props.data.question.qid, this.state.answer);
         break;
       default:
         // TODO: markAsSeen
