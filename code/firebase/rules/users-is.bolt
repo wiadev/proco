@@ -7,6 +7,7 @@ type UserIs {
   mobile_number_verified: Boolean | Null,
   onboarded: UserIsOnboarded | Null,
   god: Boolean | Null,
+  banned: UserBanStatus | Null,
 }
 
 type UserIsOnboarded extends Boolean {
@@ -16,4 +17,9 @@ type UserIsOnboarded extends Boolean {
     && getInfo(uid).birthday != null
     && getInfo(uid).gender != null
   }
+}
+
+type UserBanStatus extends Boolean {
+  write() { didUserReportedUser(currentUser(), uid) }
+  valite() { getReportCountFor(uid) > 4 }
 }

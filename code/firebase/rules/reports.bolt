@@ -1,0 +1,21 @@
+path /reports/{id} {
+
+  path /counter {
+    read() { didUserReportedUser(currentUser(), id) }
+    write() { didUserReportedUser(currentUser(), id) }
+    validate() { this == parent.reported_by.length }
+  }
+
+  path /reported_by/{uid} {
+    write() { isCurrentUser(uid) }
+  }
+
+}
+
+didUserReportedUser(uid, rid) {
+  root.reports[rid].reported_by[uid] != null
+}
+
+getReportCountFor(uid) {
+  root.reports[uid].reported_by.length
+}
