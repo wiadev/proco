@@ -35,6 +35,7 @@ export default class Pool extends React.Component {
           horizontal={true}
           loop={false}
           showsPagination={false}
+          loadMinimal={true}
           onMomentumScrollEnd={(e, state) => this.setState({index: state.index})}
         >
           {this._renderPoolItems()}
