@@ -7,7 +7,7 @@ import {startWatchingPool} from '../Pool/actions';
 import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
 import React from "react";
 import {STARTED, SET, LOADED} from "./actionTypes";
-import {updateUser} from "../User/actions";
+import {update} from "../User/actions";
 
 export function handleAuth(data) {
   if (!data) data = {};
@@ -51,7 +51,7 @@ export function syncFacebookToken() {
             return;
           }
 
-          dispatch(updateUser('tokens', {
+          dispatch(update('tokens', {
             facebook: token
           }));
 

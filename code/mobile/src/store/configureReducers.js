@@ -7,6 +7,7 @@ import authReducer from '../modules/Authentication/reducer';
 import permissionsReducer from '../modules/Permissions/reducer';
 import statusBarReducer from '../modules/StatusBar/reducer';
 import poolReducer from '../modules/Pool/reducer';
+import profilesReducer from '../modules/Profiles/reducer';
 import firebaseReducer from '../core/Api/firebase/reducer';
 
 const reducers = {
@@ -16,6 +17,7 @@ const reducers = {
   statusbar: statusBarReducer,
   api: firebaseReducer,
   pool: poolReducer,
+  profiles: profilesReducer,
 };
 
 const namespacedReducer = combineReducers(

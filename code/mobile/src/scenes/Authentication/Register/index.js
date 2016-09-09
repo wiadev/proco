@@ -10,7 +10,7 @@ import {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import DatePicker from "react-native-datepicker";
 import {logout} from "../../../modules/Authentication/actions";
-import {updateUser} from "../../../modules/User/actions";
+import {update} from "../../../modules/User/actions";
 import {Validations} from "../../../core/common";
 import {connect} from "react-redux";
 import moment from "moment";
@@ -210,7 +210,7 @@ export default class Register extends React.Component {
 
     Validations.NetworkEmailValidation(this.state.network_email)
       .then(network => {
-        this.props.dispatch(updateUser('info', {
+        this.props.dispatch(update('info', {
           birthday: this.state.birthday,
           network_email: network.email,
         }));

@@ -16,7 +16,7 @@ import Routes from "./core/Routes";
     auth: state.auth,
     statusbar: state.statusbar,
     permissions: state.permissions,
-    blocked: state.api.data.userIs.blocked,
+    banned: state.api.data.userIs.banned,
     first_name: state.api.data.userInfo.first_name,
   }),
 )
@@ -93,7 +93,7 @@ class App extends Component {
       dispatch,
       auth: {uid, isLoaded},
       first_name,
-      blocked,
+      banned,
     } = this.props;
 
     return (
@@ -108,8 +108,8 @@ class App extends Component {
         <InAppAlert />
         <NoInternetModal />
         <AuthListener uid={uid}/>
-        {(uid && blocked) && <BlockedUserModal
-          blocked={blocked}
+        {(uid && banned) && <BlockedUserModal
+          banned={banned}
           logout={() => dispatch(logout())}
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
