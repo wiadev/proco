@@ -48,7 +48,7 @@ export const stopWatching = (key) => {
 
 export const stopWatchingAll = () => {
   return (dispatch, getState) => {
-    const {firebase: {watching}} = getState();
+    const {api: {watching}} = getState();
     Object.keys(watching).forEach(key => {
       dispatch({
         type: 'FIREBASE_WATCHER_STOP',
