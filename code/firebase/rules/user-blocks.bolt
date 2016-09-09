@@ -1,0 +1,4 @@
+path /users/blocks/{uid}/{mid} is Boolean {
+  read() { isCurrentUser(uid) }
+  write() { isCurrentUser(uid) }
+}

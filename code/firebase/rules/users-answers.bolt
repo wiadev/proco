@@ -2,7 +2,6 @@ path /users/questions/{qid}/answers/{uid} is UserAnswer;
 
 type UserAnswer {
   write() { isCurrentUser(uid) }
-  validate() { root.users.questions[qid] != null }
   answer: AnswerString,
   timestamp: CurrentTimestamp,
 }

@@ -1,6 +1,6 @@
-path /logs/{type} {
+path /logs/{type}/{key} {
   read() { false }
   write() { isCurrentUser(this.uid) }
-}
 
-path /logs/{type}/timestamp is CurrentTimestamp;
+  path /timestamp is CurrentTimestamp;
+}
