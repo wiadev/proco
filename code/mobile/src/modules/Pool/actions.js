@@ -65,18 +65,18 @@ export const action = (uid, type = 'seen', payload = {}) => {
   };
 };
 
-export const removeFromPool = (id) => {
+export const removeFromPool = (key) => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
     dispatch({
       type: 'POOL_REMOVE',
       payload: {
-        uid,
+        uid: key,
       },
     });
 
-    database.ref(`pools/${uid}/${id}`).set(null);
+    database.ref(`pools/${uid}/${key}`).set(null);
 
   };
 };
@@ -88,12 +88,12 @@ export const questionSeen = (qid) => {
   };
 };
 
-export const answer = (qid, answer) => {
+export const answer = (qid, payload) => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
     database.ref(`users/questions/${qid}/answers/${uid}`).set({
-      answer,
+      answer: payload.answer,
       timestamp,
     });
 
