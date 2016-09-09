@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Image } from 'react-native';
 import { database, storage } from '../../core/Api';
 
 const getLoopsWithCache = (uid, loop_key = 0, count = 18) => {
