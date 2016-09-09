@@ -10,8 +10,9 @@ export const base = firebase.initializeApp({
 
 export const database = base.database();
 export const storage = base.storage();
+export const auth = base.auth();
 
-export const timestamp = base.database.ServerValue.TIMESTAMP;
+export const timestamp = firebase.database.ServerValue.TIMESTAMP;
 
 export const getFirebaseDataWithCache = ref => {
   const key = '@Proco:FDC:' + ref;
