@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
 
 import {database} from "../../core/Api";
+import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
 import {logout} from "../../modules/Authentication/actions";
 import BlockerActivity from '../../components/BlockerActivity';
@@ -18,7 +19,7 @@ import Header from '../../components/Header';
 import Field from '../../components/Field';
 import styles from './styles';
 
-@connect(state => ({auth: state.auth, user: state.user}))
+@connect(state => ({auth: state.auth, user: state.api.data.userInfo, settings: state.api.data.userSettings}))
 class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -31,9 +32,8 @@ class Settings extends React.Component {
   }
 
   componentWillMount() {
-    this.ref.once('value').then(settings => this.setState({settings: settings.val()}));
+    this.setState({settings: assign(this.props.settings)});
   }
-
   render() {
     // TODO: Clicking on Contact should do something.
     if (this.state.settings === null) {

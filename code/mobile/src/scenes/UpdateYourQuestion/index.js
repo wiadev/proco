@@ -19,7 +19,7 @@ import { hideStatusBar, showStatusBar } from '../../modules/StatusBar/actions';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
-@connect(state => ({auth: state.auth, user: state.user}))
+@connect(state => ({auth: state.auth, user: state.api.data.userInfo}))
 export default class UpdateYourQuestion extends React.Component {
   constructor(props) {
     super(props);
