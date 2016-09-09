@@ -15,6 +15,11 @@ import MessageBox from '../Chat/Box';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
+const initialState = {
+  answerInputVisible: false,
+  answer: ""
+};
+
 export default class PoolItem extends React.Component {
   static propTypes = {
     data: React.PropTypes.object.isRequired,
@@ -31,8 +36,16 @@ export default class PoolItem extends React.Component {
 
     this.state = {
       height: 0,
-      answerInputVisible: false,
+      ...initialState
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.question.question !== this.props.data.question.question) {
+      let newState = Object.assign({}, this.state, initialState);
+
+      this.setState(newState);
+    }
   }
 
   render() {
@@ -53,7 +66,7 @@ export default class PoolItem extends React.Component {
               returnKeyType="send"
               onSubmitEditing={() => this._done('ANSWER')}
               onChangeText={answer => this.setState({answer: answer})}
-              value={this.state.text}
+              value={this.state.answer}
               editable={true}
             />
           </KeyboardAvoidingView>
