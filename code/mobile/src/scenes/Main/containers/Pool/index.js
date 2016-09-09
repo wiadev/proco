@@ -30,7 +30,7 @@ class Pool extends React.Component {
         <PermissionModal type="location" />
       );
     }
-console.log(this.state)
+
     return (
       <View style={styles.pool}>
         <Swiper

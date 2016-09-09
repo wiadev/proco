@@ -4,9 +4,11 @@ import { getNetworkTitle } from '../../../core/Api';
 const reducer = async (data) => {
 
   const network = data.network ? await getNetworkTitle(data.network) : null;
+  const birthday = data.birthday ? moment(data.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY') : null;
 
   return Promise.resolve(assign(data, {
-    network
+    network,
+    birthday,
   }));
 };
 
