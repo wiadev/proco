@@ -25,34 +25,3 @@ export const getPoolData = async (uid, current_question_id = null) => ({
 });
 
 
-
-
-
-export const changeMatchStatusFor = (uidToMatch, status = true) => {
-  const uid = getCUID();
-  const matchUpdates = {
-    [`${uid}/${uidToMatch}`]: status,
-    [`${uidToMatch}/${uid}`]: status,
-  };
-  return database.ref('users/matches').update(matchUpdates);
-};
-
-export const matchTo = (uid) => changeMatchStatusFor(uid, true).then(() => {
-
-  const thread = threadsRef.child(`info`).push({
-    people: [uid, getCUID()],
-    created_at: base.database.ServerValue.TIMESTAMP,
-  });
-
-  return thread
-    .then(() =>
-      postMessage(thread.key, {
-        _id: 0,
-        text: `Congrats, it's a match!`,
-        createdAt: base.database.ServerValue.TIMESTAMP,
-        user: 'proco',
-        type: 'matched-banner',
-      }))
-    .then(() => thread.key);
-
-});

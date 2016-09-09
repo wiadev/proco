@@ -1,17 +1,16 @@
-import {database, timestamp, logEvent} from '../../core/Api';
-import {assign} from '../../core/utils';
-import {getProfileLoop} from './api';
+import {database, logEvent, timestamp} from "../../core/Api";
+import {assign} from "../../core/utils";
+import {getProfileLoop} from "./api";
 
 export const loadSummary = (uid) => {
   return (dispatch, getState) => {
-    const { auth: { uid } } = getState();
+    const {auth: {uid}} = getState();
 
   };
 };
 
-
 export const loadLoops = (uid, loop_key = null, count = 18) => {
-  return async (dispatch) => {
+  return async(dispatch) => {
     dispatch({
       type: 'LOOPS_LOADED',
       payload: {
@@ -24,7 +23,7 @@ export const loadLoops = (uid, loop_key = null, count = 18) => {
 
 export const report = (id, payload) => {
   return (dispatch, getState) => {
-    const { auth: { uid } } = getState();
+    const {auth: {uid}} = getState();
 
     dispatch(block(id, assign({
       triggered_by: 'report',
@@ -73,11 +72,58 @@ export const unblock = (id, payload = {}) => {
 
 const changeBlockStatus = (id, status = true, payload = {}) => {
   return (dispatch, getState) => {
-    const { auth: { uid } } = getState();
+    const {auth: {uid}} = getState();
     database.ref(`users/blocks/${uid}/${id}`).set(status).then(() => {
       return logEvent('blocks', {
         user: id,
         block_payload: payload,
+        status,
+      });
+    });
+  };
+};
+
+export const match = (uidToMatch) => {
+  return (dispatch, getState) => {
+    const { auth: { uid } } = getState();
+
+    dispatch(changeMatchStatus(uidToMatch, true));
+
+    const thread = database.ref(`threads`).child(`info`).push({
+      people: [uidToMatch, uid],
+      created_at: timestamp,
+    });
+
+    thread
+      .then(() =>
+        dispatch(post(thread.key, {
+          _id: 0,
+          text: `Congrats, it's a match!`,
+          createdAt: timestamp,
+          user: 'proco',
+          type: 'matched-banner',
+        }));
+
+  };
+};
+
+export const unmatch = (mid) => {
+  return (dispatch, getState) => {
+    dispatch(changeMatchStatus(mid, false));
+  };
+};
+
+
+const changeMatchStatus = (uidToMatch, status) => {
+  return (dispatch, getState) => {
+    const {auth: {uid}} = getState();
+    const matchUpdates = {
+      [`${uid}/${uidToMatch}`]: status,
+      [`${uidToMatch}/${uid}`]: status,
+    };
+    database.ref('users/matches').update(matchUpdates).then(() => {
+      return logEvent('matches', {
+        uidToMatch,
         status,
       });
     });
