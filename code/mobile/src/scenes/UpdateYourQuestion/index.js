@@ -6,16 +6,16 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  TextInput
+  TextInput,
+  StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../../components/ProfileLoop';
 import MessageBox from '../../components/Chat/Box';
-import { getUserLoops } from '../../core/Api';
+import { getProfileLoop } from '../../modules/Profiles/api';
 import { postQuestion } from '../../modules/User/actions';
-import { hideStatusBar, showStatusBar } from '../../modules/StatusBar/actions';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
@@ -32,29 +32,23 @@ export default class UpdateYourQuestion extends React.Component {
   }
 
   componentDidMount() {
-    // Need to hide statusbar.
-    this.props.dispatch(hideStatusBar());
-
     this.setState({
       question: this.props.user.current_question
     });
 
-    getUserLoops(this.props.auth.uid, this.props.user.loop_key)
+    getProfileLoop(this.props.auth.uid, this.props.user.loop_key)
       .then(photos => {
-        console.log("photos", photos);
         this.setState({
           profileLoopPhotos: photos
         })
       });
   }
 
-  componentWillUnmount() {
-    this.props.dispatch(showStatusBar());
-  }
-
   render() {
     return (
       <View style={styles.updateYourQuestion}>
+        <StatusBar hidden={true} />
+
         <ProfileLoop photos={this.state.profileLoopPhotos} photoOpacity={0.6} continuous={true}>
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
             {this._renderTop()}
