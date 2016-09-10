@@ -12,7 +12,7 @@ import ProfileLoop from "../../components/ProfileLoop";
 import profileLoopConfig from "../../core/config/profileLoop";
 import styles from "./styles";
 
-// Pollyfills for firebase web sdk
+// Polyfills for firebase web sdk
 const fs = RNFetchBlob.fs;
 const Blob = RNFetchBlob.polyfill.Blob;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
@@ -126,7 +126,7 @@ export default class ShootNewProfileLoop extends React.Component {
   }
 
   _done() {
-
+    // Triggered when capturing is complete. Captured photos are available in this.state.photos.
     const loop_key = database.ref('keyGenerator').push().key;
     const uid = this.props.uid;
     const uploads = this.state.photos.map((photo, key) => {
@@ -151,10 +151,7 @@ export default class ShootNewProfileLoop extends React.Component {
         })
     });
 
-
     Promise.all(uploads).then(results => console.log(results)).catch(e => console.log("error", e));
-
-    // Triggered when capturing is complete. Captured photos are available in this.state.photos.
   }
 
   _capture() {
