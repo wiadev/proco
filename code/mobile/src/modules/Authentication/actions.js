@@ -65,7 +65,7 @@ export function login() {
   return (dispatch) => {
 
     dispatch({type: STARTED});
-    dispatch(hideStatusBar());
+
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
     ).then((result) => {
