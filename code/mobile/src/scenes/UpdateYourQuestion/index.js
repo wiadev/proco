@@ -14,11 +14,7 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../../components/ProfileLoop';
 import MessageBox from '../../components/Chat/Box';
-<<<<<<< HEAD
-import { getProfileLoop } from '../../modules/Profile/api';
-=======
-import { getProfileLoop } from '../../modules/Profiles/api';
->>>>>>> master
+import { getProfileLoop } from '../../modules/Profiles/Loops/api';
 import { postQuestion } from '../../modules/User/actions';
 import styles from './styles';
 import colors from '../../core/style/colors';

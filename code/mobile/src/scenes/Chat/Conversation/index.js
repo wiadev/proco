@@ -2,7 +2,6 @@ import React from "react";
 import {GiftedChat} from "react-native-gifted-chat";
 import {connect} from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
-import {setStatusBarStyle} from "../../../modules/StatusBar/actions";
 import {database, getUserSummary, getThreadPeople} from "../../../core/Api";
 import {assign} from "../../../core/utils";
 

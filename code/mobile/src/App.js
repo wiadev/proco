@@ -14,7 +14,6 @@ import Routes from "./core/Routes";
 @connect(
   state => ({
     auth: state.auth,
-    statusbar: state.statusbar,
     permissions: state.permissions,
     banned: state.api.data.userIs.banned,
     first_name: state.api.data.userInfo.first_name,
@@ -104,7 +103,6 @@ class App extends Component {
       }}>
         {/*<StatusBar
          showHideTransition="slide"
-         {...statusbar}
          />*/}
         <InAppAlert />
         <NoInternetModal />

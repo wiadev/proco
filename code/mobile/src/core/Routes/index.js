@@ -17,7 +17,6 @@ import * as StaticPages from "./StaticPages";
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
   return (state, action) => {
-    console.log("router", state, action);
     if (action.type === 'CLEAN') {
       return defaultReducer(null, {
         type: 'RootContainerInitialAction',

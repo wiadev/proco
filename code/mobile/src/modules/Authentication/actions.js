@@ -1,10 +1,9 @@
 import {LoginManager, AccessToken} from "react-native-fbsdk";
 import {AsyncStorage, Linking} from "react-native";
 import {Actions} from "react-native-router-flux";
-import {base, database} from "../../core/Api";
+import {auth as coreAuth, facebookCredential} from "../../core/Api";
 import {afterLoginActions,beforeLogoutActions} from '../User/actions';
 import {startWatchingPool} from '../Pool/actions';
-import {hideStatusBar, showStatusBar} from "../StatusBar/actions";
 import React from "react";
 import {STARTED, SET, LOADED} from "./actionTypes";
 import {update} from "../User/actions";
@@ -46,8 +45,7 @@ export function syncFacebookToken() {
           const token = data.accessToken.toString();
 
           if (!uid) {
-            var credential = base.auth.FacebookAuthProvider.credential(token);
-            base.auth().signInWithCredential(credential);
+            coreAuth.signInWithCredential(facebookCredential(token));
             return;
           }
 
@@ -71,8 +69,6 @@ export function login() {
     LoginManager.logInWithReadPermissions(
       ['public_profile', 'user_likes', 'user_friends', 'user_birthday']
     ).then((result) => {
-      dispatch(showStatusBar());
-
       if (result.isCancelled) {
 
         dispatch({type: LOADED});
@@ -94,7 +90,6 @@ export function login() {
             }
           ]
         });
-
       } else {
         dispatch(syncFacebookToken());
       }
@@ -106,8 +101,7 @@ export function login() {
 export function logout() {
   return dispatch => {
     dispatch(beforeLogoutActions());
-    Promise.all([AsyncStorage.clear()]).then(() => {
-      base.unauth();
+    Promise.all([AsyncStorage.clear(), coreAuth.signOut()]).then(() => {
       LoginManager.logOut();
       dispatch({type: 'RESET'});
       dispatch({type: LOADED});
