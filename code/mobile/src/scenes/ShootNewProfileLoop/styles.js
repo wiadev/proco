@@ -6,7 +6,22 @@ import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   shootNewProfileLoop: {
-    flex: 1
+    flex: 1,
+    position: 'relative',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gray1
+  },
+  backButtonIcon: {
+    color: colors.primaryAlt
   },
   camera: {
     flex: 1,
@@ -16,10 +31,13 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     paddingHorizontal: 20
   },
-  buttons: {
+  actionButtons: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
+    alignItems: 'flex-end',
+    justifyContent: 'center'
+  },
+  captureButtonContainer: {
+    alignItems: 'center'
   },
   captureButton: {
     alignItems: 'center',
@@ -36,7 +54,12 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: colors.primaryAlt
   },
-  secondaryButton: {
+  previewButtonsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  previewButton: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 44,
@@ -44,15 +67,22 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     backgroundColor: colors.primaryAlt
   },
-  secondaryButtonIcon: {
+  previewButtonIcon: {
     backgroundColor: 'transparent',
-    color: colors.primary1
+    color: colors.primary1,
+    fontSize: 24
   },
   profileLoop: {
     justifyContent: 'flex-end',
     paddingBottom: 12,
     paddingHorizontal: 20
-  }
+  },
+  // uploadIndicator: {
+  //   paddingVertical: 6,
+  //   paddingHorizontal: 10,
+  //   backgroundColor: colors.primaryAlt,
+  //   opacity: 0.6
+  // },
 });
 
 export default styles;
