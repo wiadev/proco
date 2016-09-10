@@ -268,9 +268,6 @@ export default class Register extends React.Component {
         {
           text: "Logout",
           onPress: () => {
-            Actions.wrapper({
-              type: 'CLEAN',
-            });
             this.props.dispatch(logout());
           }
         }

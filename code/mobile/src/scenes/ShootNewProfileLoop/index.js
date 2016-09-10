@@ -9,7 +9,7 @@ import {Actions} from "react-native-router-flux";
 import {base,database} from "../../core/Api";
 import RNFetchBlob from "react-native-fetch-blob";
 import ProfileLoop from "../../components/ProfileLoop";
-import profileLoopConfig from "../../core/config/profileLoop";
+import profileLoopConfig from "../../modules/Profiles/Loops/config";
 import styles from "./styles";
 
 // Polyfills for firebase web sdk

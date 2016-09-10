@@ -10,7 +10,9 @@ export const base = firebase.initializeApp({
 
 export const database = base.database();
 export const storage = base.storage();
+
 export const auth = base.auth();
+export const facebookCredential = firebase.auth.FacebookAuthProvider.credential;
 
 export const timestamp = firebase.database.ServerValue.TIMESTAMP;
 
@@ -36,3 +38,5 @@ export const logEvent = (type, payload = {}) =>
     uid: base.auth().currentUser.uid,
     timestamp
   }, payload));
+
+export const getKey = () => database.ref('keyGenerator').push().key;

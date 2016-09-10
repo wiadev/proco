@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { NetInfo, Modal } from 'react-native';
 import {connect} from 'react-redux';
-import {setStatusBarStyle} from '../../modules/StatusBar';
 import Card  from '../Card';
 
 @connect()

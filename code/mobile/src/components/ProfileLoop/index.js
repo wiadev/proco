@@ -7,7 +7,7 @@ import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
 
 import BlockerActivity from '../../components/BlockerActivity';
-import profileLoopConfig from '../../core/config/profileLoop';
+import profileLoopConfig from '../../modules/Profiles/Loops/config';
 import styles from './styles';
 
 const propTypes = {

@@ -1,6 +1,6 @@
 import {database, logEvent, getFirebaseDataWithCache, timestamp} from "../../core/Api";
 import {assign} from "../../core/utils";
-import {getProfileLoop} from "./api";
+import {getProfileLoop} from "./Loops/api";
 import {post} from "../Chat/actions";
 
 export const loadSummary = (uid) => {

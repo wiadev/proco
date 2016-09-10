@@ -1,5 +1,5 @@
 import { database, getFirebaseDataWithCache } from '../../core/Api';
-import { getProfileLoop } from '../Profiles/api';
+import { getProfileLoop } from '../Profiles/Loops/api';
 
 const getQuestion = qid =>
   getFirebaseDataWithCache(`users/questions/${qid}/question`);

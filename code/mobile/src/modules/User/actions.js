@@ -1,9 +1,7 @@
 import {AsyncStorage} from "react-native";
 import {is as isReducer, info as infoReducer} from "./dataReducers";
 import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
-import {database, base, getThreadPeople} from "../../core/Api";
-import deepEqual from "deep-equal";
-import {timestamp} from '../../core/Api';
+import {database, base, timestamp} from "../../core/Api";
 
 const typeMap = {
   info: 'INFO',
@@ -11,7 +9,6 @@ const typeMap = {
   tokens: 'TOKENS',
   filters: 'FILTERS',
   is: 'IS',
-  drops: 'DROPS',
 };
 
 const types = Object.keys(typeMap);
@@ -24,50 +21,6 @@ export const getUserRefForTypeAsString = (type, uid) => {
 };
 
 export const getUserRefForType = (type, uid) => database.ref(getUserRefForTypeAsString(type, uid));
-
-const getUserUpdatedActionTypeFor = (type) => {
-  return `USER_UPDATED_${typeMap[type]}`;
-};
-
-const hasChanged = (old, _new) => {
-  return true; // @TODO: Ther is a bug with sync
-  const keysToCompare = Object.keys(_new);
-  let _old = {};
-  keysToCompare.forEach(key => _old[key] = (old[key] ? old[key] : null));
-  return !deepEqual(_old, _new);
-};
-
-const validateUserDataBeforeUpdate = (type, data, state) => {
-  if (!isValidType(type)) throw new Error('INVALID_TYPE');
-
-  switch (type) {
-    case 'info':
-      return hasChanged(state.user, data);
-    case 'settings':
-      return hasChanged(state.settings, data);
-    case 'tokens':
-      return hasChanged(state.tokens, data);
-    case 'filters':
-      return hasChanged(state.filters, data);
-    case 'is':
-      return hasChanged(state.isUser, data);
-    default:
-      return true;
-  }
-};
-
-export function updateUserLocally(type, data) {
-  if (!isValidType(type)) throw new Error('INVALID_TYPE');
-
-  AsyncStorage.setItem('@Proco:CU:' + typeMap[type], JSON.stringify(data));
-
-  return {
-    type: getUserUpdatedActionTypeFor(type),
-    payload: {
-      ...data
-    }
-  };
-}
 
 export const getCUID = () => {
   const currentUser = base.auth().currentUser;
@@ -93,16 +46,15 @@ export function postQuestion(question) {
   return usersRef.update(questionUpdates);
 }
 
-export function postLocation(type, data) {
+export const postLocation = (type, data) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     if (!uid) return;
     database.ref(`users/location-data/${type}-changes/${uid}`).push(data);
   }
-}
+};
 
-export function update(type, data = {}, after = () => {
-}) {
+export const update = (type, data = {}) => {
   return (dispatch, getState) => {
     const state = getState();
     const {uid = null} = state.auth;
@@ -112,16 +64,12 @@ export function update(type, data = {}, after = () => {
       return;
     }
 
-    if (validateUserDataBeforeUpdate(type, data, state)) {
-      getUserRefForType(type, uid).update(data).then(() => after());
-    } else {
-      console.log("We have this data already");
-    }
+    getUserRefForType(type, uid).update(data);
 
   };
-}
+};
 
-export function afterLoginActions() {
+export const afterLoginActions = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
@@ -137,10 +85,21 @@ export function afterLoginActions() {
     dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
 
   };
-}
+};
 
-export function beforeLogoutActions() {
+export const beforeLogoutActions = () => {
   return (dispatch, getState) => {
     dispatch(stopWatchingAll());
   };
-}
+};
+
+export const updateLoopKey = (loop_key) => {
+  return (dispatch, getState) => {
+    const { auth: { uid } } = getState();
+    database.ref('users').update({
+      [`info/${uid}/loop_key`]: loop_key,
+      [`summary/${uid}/loop_key`]: loop_key,
+      [`loops/${uid}/${loop_key}`]: timestamp,
+    });
+  };
+};
