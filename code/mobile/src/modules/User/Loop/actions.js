@@ -1,20 +1,17 @@
 import {AsyncStorage} from "react-native";
 import {getKey} from "../../../core/Api";
 import {upload as firebaseUpload} from "../../../core/Api/firebase/storage";
-import {updateLoopKey} from '../actions';
-
+import {updateLoopKey} from "../actions";
 import {
   USER_LOOP_CAPTURED,
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
+  USER_LOOP_CLEAN_CAPTURED,
 } from "./constants";
 
-export const cancelled = completed = () => ({
-  type: USER_LOOP_STATUS_CHANGED,
-  payload: {
-    status: 'WAITING',
-  },
+export const cancelled = completed = ({
+  type: USER_LOOP_CLEAN_CAPTURED,
 });
 
 export const startedCapturing = () => ({
@@ -65,7 +62,7 @@ export const upload = () => {
 
 const fileUploadProgressChanged = (file, progress) => {
   return (dispatch, getState) => {
-    const { userloop: { progresses } } = getState();
+    const {userloop: {progresses}} = getState();
     progresses[file] = progress;
     dispatch({
       type: USER_LOOP_UPLOAD_PROGRESSES_CHANGED,

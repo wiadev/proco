@@ -5,6 +5,7 @@ import {
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
+  USER_LOOP_CLEAN_CAPTURED,
 } from './constants';
 
 export const initialState = {
@@ -34,7 +35,12 @@ export default function reducer(state = initialState, action = {}) {
     case USER_LOOP_UPLOAD_PROGRESSES_CHANGED:
       return assign(state, {
         progresses: action.payload.progresses,
-      })
+      });
+    case USER_LOOP_CLEAN_CAPTURED:
+      return assign(state, {
+        status: 'WAITING',
+        photos: []
+      });
   }
 
 }
