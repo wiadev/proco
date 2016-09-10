@@ -36,3 +36,5 @@ export const logEvent = (type, payload = {}) =>
     uid: base.auth().currentUser.uid,
     timestamp
   }, payload));
+
+export const getKey = () => database.ref('keyGenerator').push().key;

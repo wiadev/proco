@@ -1,9 +1,8 @@
 import {AsyncStorage} from "react-native";
 import {is as isReducer, info as infoReducer} from "./dataReducers";
 import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
-import {database, base, getThreadPeople} from "../../core/Api";
+import {database, base, timestamp} from "../../core/Api";
 import deepEqual from "deep-equal";
-import {timestamp} from '../../core/Api';
 
 const typeMap = {
   info: 'INFO',
@@ -93,16 +92,15 @@ export function postQuestion(question) {
   return usersRef.update(questionUpdates);
 }
 
-export function postLocation(type, data) {
+export const postLocation = (type, data) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     if (!uid) return;
     database.ref(`users/location-data/${type}-changes/${uid}`).push(data);
   }
-}
+};
 
-export function update(type, data = {}, after = () => {
-}) {
+export const update = (type, data = {}, after = ()) => {
   return (dispatch, getState) => {
     const state = getState();
     const {uid = null} = state.auth;
@@ -119,9 +117,9 @@ export function update(type, data = {}, after = () => {
     }
 
   };
-}
+};
 
-export function afterLoginActions() {
+export const afterLoginActions = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
@@ -137,10 +135,21 @@ export function afterLoginActions() {
     dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
 
   };
-}
+};
 
-export function beforeLogoutActions() {
+export const beforeLogoutActions = () => {
   return (dispatch, getState) => {
     dispatch(stopWatchingAll());
   };
-}
+};
+
+export const updateLoopKey = (loop_key) => {
+  return (dispatch, getState) => {
+    const { auth: { uid } } = getState();
+    database.ref('users').update({
+      [`info/${uid}/loop_key`]: loop_key,
+      [`summary/${uid}/loop_key`]: loop_key,
+      [`loops/${uid}/${loop_key}`]: timestamp,
+    });
+  };
+};
