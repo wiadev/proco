@@ -3,6 +3,7 @@ import {is as isReducer, info as infoReducer} from "./dataReducers";
 import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
 import {database, base, getThreadPeople} from "../../core/Api";
 import deepEqual from "deep-equal";
+import {timestamp} from '../../core/Api';
 
 const typeMap = {
   info: 'INFO',
@@ -86,7 +87,7 @@ export function postQuestion(question) {
       uid,
       question,
       current: true,
-      timestamp: base.database.ServerValue.TIMESTAMP
+      timestamp: timestamp
     },
   };
   return usersRef.update(questionUpdates);
