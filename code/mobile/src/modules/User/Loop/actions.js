@@ -10,7 +10,7 @@ import {
   USER_LOOP_CLEAN_CAPTURED,
 } from "./constants";
 
-export const cancelled = completed = ({
+export const cancelled = completed = () => ({
   type: USER_LOOP_CLEAN_CAPTURED,
 });
 
@@ -85,6 +85,13 @@ const uploadProgressChanged = () => {
     });
   };
 };
+
+const startedUploading = () => ({
+  type: USER_LOOP_STATUS_CHANGED,
+  payload: {
+    status: 'UPLOADING',
+  },
+});
 
 const failed = () => ({
   type: USER_LOOP_STATUS_CHANGED,
