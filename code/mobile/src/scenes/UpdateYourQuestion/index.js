@@ -13,7 +13,7 @@ import { Actions } from 'react-native-router-flux';
 
 import ProfileLoop from '../../components/ProfileLoop';
 import MessageBox from '../../components/Chat/Box';
-import { getUserLoops } from '../../core/Api';
+import { getProfileLoop } from '../../modules/Profile/api';
 import { postQuestion } from '../../modules/User/actions';
 import { hideStatusBar, showStatusBar } from '../../modules/StatusBar/actions';
 import styles from './styles';
@@ -39,7 +39,7 @@ export default class UpdateYourQuestion extends React.Component {
       question: this.props.user.current_question
     });
 
-    getUserLoops(this.props.auth.uid, this.props.user.loop_key)
+    getProfileLoop(this.props.auth.uid, this.props.user.loop_key)
       .then(photos => {
         console.log("photos", photos);
         this.setState({
