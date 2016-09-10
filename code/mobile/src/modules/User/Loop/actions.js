@@ -40,9 +40,9 @@ export const upload = () => {
 
     const uploads = photos.map((photo, i) =>
       firebaseUpload(photo, `loops/${loop_key}/${i}.jpg`, 'image/jpg')
-        .uploadProgress((written, total) => {
+        /*.uploadProgress((written, total) => {
           dispatch(fileUploadProgressChanged(i, (written / total)));
-        })
+        })*/
         .then(snapshot => {
           dispatch(fileUploadProgressChanged(i, 1));
           return snapshot;
