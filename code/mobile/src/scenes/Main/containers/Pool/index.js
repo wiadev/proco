@@ -10,7 +10,7 @@ import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import styles from "./styles";
 
-@connect(state => ({auth: state.auth, permissions: state.permissions, pool: state.pool}))
+@connect(state => ({permissions: state.permissions, pool: state.pool}))
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
@@ -36,23 +36,13 @@ export default class Pool extends React.Component {
           showsPagination={false}
           loadMinimal={true}
           loadMinimalSize={2}
-          ref="poolswiper"
-          onMomentumScrollEnd={(e, state) => {
-
-            const items = Object.keys(this.props.pool.items);
-            const {uid = items[state.index - 1], act = 'skip', payload = null} = this.state.previousPoolData;
-            this.props.dispatch(action(uid, act, payload));
-            this.setState({
-              current: state.index,
-              previousPoolData: {},
-            });
-
-          }}
+          ref="swiper"
+          onMomentumScrollEnd={(e, state) => this._onSwiperScroll(e, state)}
         >
           {this._renderPoolItems()}
         </Swiper>
 
-        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
+        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon} />
       </View>
     );
   }
@@ -62,28 +52,44 @@ export default class Pool extends React.Component {
 
     if (poolItems.length < 1) {
       return (
-        <Card label="No one seems to be nearby" noClose={true}/>
+        <Card label="No one seems to be nearby" noClose={true} />
       );
     }
 
     return poolItems.map((poolItemKey, i) => {
       return (
-        <PoolItem key={poolItemKey} isMounted={i === 0} data={this.props.pool.items[poolItemKey]}
-                  onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
+        <PoolItem
+          key={poolItemKey}
+          isMounted={i === 0}
+          data={this.props.pool.items[poolItemKey]}
+          onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
         />
       );
     });
   }
 
+  _onSwiperScroll(e, state) {
+    if (state.index !== 0) {
+      const items = Object.keys(this.props.pool.items);
+      const {uid = items[state.index - 1], act = 'skip', payload = null} = this.state.previousPoolData;
+      this.props.dispatch(action(uid, act, payload));
+
+      this.setState({
+        current: state.index,
+        previousPoolData: {},
+      });
+    }
+  }
+
   _doneWithPoolItem(uid, act, payload) {
     this.setState({
       previousPoolData: {
-        uid,
-        act,
-        payload,
+        uid: uid,
+        act: act,
+        payload: payload,
       },
     });
 
-    this.refs.poolswiper.scrollBy(1);
+    this.refs['swiper'].scrollBy(1);
   }
 }
