@@ -94,7 +94,7 @@ export const removeFromPool = (user_key, loop_key) => {
     });
 
     database.ref(`pools/${uid}/${user_key}`).set(null);
-    if (loop_key) clearLoop(loop_key);
+    if (loop_key && loop_key !== 0) clearLoop(loop_key);
   };
 };
 
