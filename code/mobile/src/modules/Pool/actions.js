@@ -9,6 +9,8 @@ export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
     refs.pool = database.ref(`pools/${uid}`).limitToFirst(20);
+
+    dispatch(changePoolStatus('STARTED_WATCHING'));
     refs.pool.on('child_added', (snap) => {
       dispatch(addToPool(snap.key, snap.val()));
     });
@@ -18,7 +20,8 @@ export const startWatchingPool = () => {
 export const addToPool = (uid, data) => {
   return async(dispatch, getState) => {
     const {pool, api: {data: {userInfo: {current_question_id = null}}}} = getState();
-    if (pool[uid]) return true; // add some cache checking & expire stuff
+    if (pool.items[uid]) return true; // add some cache checking & expire stuff
+    if (pool.status ==! 'SHOWING') dispatch(changePoolStatus('SHOWING'));
     const poolData = await getPoolData(uid, current_question_id);
     if (!poolData.question.qid && !poolData.receivedAnswer) return true;
 
@@ -109,3 +112,10 @@ export const answer = (qid, payload) => {
 
   };
 };
+
+const changePoolStatus = status => ({
+  type: 'POOL_STATUS_CHANGED',
+  payload: {
+    status,
+  },
+});

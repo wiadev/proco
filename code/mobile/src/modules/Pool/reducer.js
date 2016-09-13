@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 export const initialState = {
   items: {},
-  isInProgress: false,
+  status: 'LOADING',
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -19,6 +19,10 @@ export default function reducer(state = initialState, action = {}) {
     case 'POOL_REMOVE':
       return assign(state, {
         items: _.omit(state.items, action.payload.uid),
+      });
+    case 'POOL_STATUS_CHANGED':
+      return assign(state, {
+        status: action.payload.status,
       });
   }
 
