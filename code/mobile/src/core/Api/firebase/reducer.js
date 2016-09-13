@@ -13,8 +13,10 @@ const initialState = {
 export default function reducer(state = initialState, action)  {
 
   switch (action.type) {
-    case 'FIREBASE_GET':
-    case 'FIREBASE_WATCH':
+    case 'FIREBASE_WATCH_USERINFO':
+    case 'FIREBASE_WATCH_USERIS':
+    case 'FIREBASE_WATCH_USERSETTINGS':
+    case 'FIREBASE_WATCH_USERFILTERS':
       return makeFirebaseState(action, state, action.payload.key, action.payload.data);
     case 'FIREBASE_LOGIN':
     case 'FIREBASE_LOGOUT':

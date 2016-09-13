@@ -11,7 +11,7 @@ export const startWatching = (key, ref, reducer = defaultDataReducer) => {
     ref.on('value', snapshot => {
       reducer(snapshot.val()).then(data => {
         dispatch({
-          type: 'FIREBASE_WATCH',
+          type: 'FIREBASE_WATCH_' + key.toLocaleUpperCase(),
           payload: {
             key,
             data,
