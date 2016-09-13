@@ -1,14 +1,15 @@
-import { assign } from '../../../core/utils';
-
+import {assign} from "../../../core/utils";
 import {
+  USER_LOOP_CHANGED,
   USER_LOOP_CAPTURED,
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
   USER_LOOP_CLEAN_CAPTURED,
-} from './constants';
+} from "./constants";
 
 export const initialState = {
+  current: [],
   captured: [],
   status: 'WAITING',
   progress: null,
@@ -18,7 +19,12 @@ export const initialState = {
 export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
-    default: return state;
+    default:
+      return state;
+    case USER_LOOP_CHANGED:
+      return assign(state, {
+        current: [],
+      });
     case USER_LOOP_STATUS_CHANGED:
       return assign(state, {
         status: action.payload.status,
