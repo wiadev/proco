@@ -18,6 +18,6 @@ export const info = {
   gender: null,
   first_name: null,
   birthday: null,
-  email: null,
+  network_email: null,
   unread_messages: 0,
 };
