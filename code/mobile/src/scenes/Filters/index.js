@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import {
   View,
   ScrollView,
-  Text,
-  TouchableOpacity
 } from 'react-native';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 
+import Text from '../../components/Text';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
 import { update } from '../../modules/User/actions';

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     height,
     width,
   },
-  innner: {
+  innerinnner: {
     width: cardWidth,
   },
   permissionImage: {

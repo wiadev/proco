@@ -1,8 +1,9 @@
 import React from "react";
-import {connect} from "react-redux";
-import {View} from "react-native";
+import { connect } from "react-redux";
+import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Swiper from "react-native-swiper";
+
 import {action} from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";

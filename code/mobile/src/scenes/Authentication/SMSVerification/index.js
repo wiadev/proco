@@ -2,11 +2,11 @@ import React from 'react';
 import {
   View,
   KeyboardAvoidingView,
-  Text,
   TextInput,
   ActivityIndicator
 } from 'react-native';
 
+import Text from '../../../components/Text';
 import styles from './styles';
 import colors from '../../../core/style/colors';
 

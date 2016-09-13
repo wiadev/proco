@@ -1,19 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
-  Text,
   View,
-  Image,
-  Modal,
-  TouchableHighlight,
+  Image
 } from 'react-native';
 
+import Text from '../Text';
 import Button from '../Button';
-import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';
-const photo = require('../../assets/images/cameraPermission.png');
-export default class Card extends Component {
 
+export default class Card extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -31,7 +27,7 @@ export default class Card extends Component {
     return (
       <Image
         style={styles.permissionImage}
-        source={photo}
+        source={require('../../assets/images/cameraPermission.png')}
       />
     );
   }
@@ -51,7 +47,7 @@ export default class Card extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.innner}>
+        <View style={styles.inner}>
           {this.renderIcon(icon)}
 
           {label && <Text style={styles.label}>{label}</Text>}

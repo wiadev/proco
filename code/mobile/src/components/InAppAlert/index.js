@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-    View,
-    StatusBar
+    View
 } from 'react-native';
 
 import Alert from './Alert';
 import { deleteAlert } from '../../modules/InAppAlert/actions';
 
-class InAppAlert extends React.Component {
+@connect(state => ({inAppAlerts: state.inAppAlerts}))
+export default class InAppAlert extends React.Component {
     render() {
         const alerts = this.props.inAppAlerts.alerts;
         const hasAlert = alerts.length > 0;
@@ -28,9 +28,3 @@ class InAppAlert extends React.Component {
         this.props.dispatch(deleteAlert(alert));
     }
 }
-
-export default connect(state => {
-    return {
-        inAppAlerts: state.inAppAlerts
-    };
-})(InAppAlert);

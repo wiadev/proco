@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {
   View,
   ScrollView,
-  Text,
   Image,
   StatusBar
 } from 'react-native';
@@ -11,6 +10,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
 import _ from 'lodash';
 
+import Text from '../../components/Text';
 import {database} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";

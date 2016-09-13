@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   View,
-  Text,
-  Image,
-  TouchableWithoutFeedback
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Text from '../Text';
 import styles from './styles';
 
 const themes = ['dark', 'light'];

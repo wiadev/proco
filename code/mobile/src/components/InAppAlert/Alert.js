@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-    View,
-    Text,
-    Animated,
-    Easing
+    Animated
 } from 'react-native';
 
+import Text from '../Text';
 import styles from './styles';
 
 export default class Alert extends React.Component {

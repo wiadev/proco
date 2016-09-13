@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   View,
-  Text
 } from 'react-native';
 
+import Text from '../Text';
 import styles from './styles';
 
 export default class Button extends React.Component {

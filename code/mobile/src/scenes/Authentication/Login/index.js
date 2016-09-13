@@ -1,16 +1,16 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   View,
   Image,
-  Text,
   TouchableOpacity,
   ActivityIndicator
 } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import Swiper from "react-native-swiper";
 
-import {login} from "../../../modules/Authentication/actions";
+import Text from '../../../components/Text';
+import { login } from "../../../modules/Authentication/actions";
 
 import colors from '../../../core/style/colors';
 import styles from './styles';

@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import {
-  View,
-  Image,
-  Text,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native';
+
 import styles from './styles';
-import {connect} from 'react-redux';
 import {logout,updateNetworkEmail} from '../../../modules/Authentication/actions';
 
 import Card from '../../../components/Card';
@@ -16,7 +14,7 @@ import Card from '../../../components/Card';
     user: state.user,
   }),
 )
-class Verification extends Component {
+class Verification extends React.Component {
 
   state = {
     isChecking: true,

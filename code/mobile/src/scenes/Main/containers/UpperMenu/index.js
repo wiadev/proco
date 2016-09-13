@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Text,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 
+import Text from '../../../../components/Text';
 import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/MaterialIcons';

@@ -1,19 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  Text,
   ActivityIndicator,
   View,
-  Image,
-  TouchableHighlight,
-  Alert,
+  Image
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
 
 import styles from './styles';
 
-class Loading extends Component {
+export default class Loading extends React.Component {
 
   constructor(props) {
     super(props);
@@ -23,15 +17,13 @@ class Loading extends Component {
     return (
       <View style={styles.container}>
         <Image style={styles.logo} resizeMode="contain" source={require('../../assets/images/logo.png')} />
+
         <ActivityIndicator
           style={[styles.centering, {paddingBottom: 75}]}
           size="large"
           color="#ffffff"
         />
-
       </View>
     );
   }
 }
-
-export default Loading;

@@ -3,12 +3,13 @@ import {
   StatusBar,
   View,
   ScrollView,
-  Text,
   TextInput,
   KeyboardAvoidingView
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import DatePicker from "react-native-datepicker";
+
+import Text from '../../../components/Text';
 import {logout} from "../../../modules/Authentication/actions";
 import {update} from "../../../modules/User/actions";
 import {Validations} from "../../../core/common";

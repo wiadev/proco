@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   Switch,
   TouchableHighlight
 } from 'react-native';
@@ -11,6 +10,7 @@ import {
   MKRangeSlider
 } from 'react-native-material-kit';
 
+import Text from '../Text';
 import styles from './styles';
 import colors from '../../core/style/colors';
 
