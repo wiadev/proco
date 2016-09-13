@@ -8,8 +8,6 @@ const initialState = {
     userInfo: userStates.info,
     userIs: userStates.is,
   },
-  getting: {},
-  watching: {},
 };
 
 export default function reducer(state = initialState, action)  {
@@ -25,23 +23,6 @@ export default function reducer(state = initialState, action)  {
         authData: action.payload.authData,
         authError: action.payload.error
       }, state);
-    case 'FIREBASE_GETTER_START':
-    case 'FIREBASE_WATCHER_START':
-      return assign(state, {
-        [action.payload.type]: Object.assign({
-          [action.payload.key]: {
-            status: action.payload.status,
-            ref: action.payload.ref
-          },
-        }, state[action.payload.type])
-      });
-    case 'FIREBASE_GETTER_STOP':
-    case 'FIREBASE_WATCHER_STOP':
-      return assign(state, {
-        [action.payload.type]: Object.assign({
-          [action.payload.key]: null,
-        }, state[action.payload.type])
-      });
     default:
       return state;
   }

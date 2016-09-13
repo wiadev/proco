@@ -36,6 +36,7 @@ export default class PoolItem extends React.Component {
 
     this.state = {
       height: 0,
+      isPlayed: false,
       ...initialState
     };
   }
@@ -48,10 +49,18 @@ export default class PoolItem extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.isMounted) {
+      this.setState({
+        isPlayed: true,
+      });
+    }
+  }
+
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop isMounted={this.props.isMounted} photos={this.props.data.profileLoopPhotos}>
+        <ProfileLoop isMounted={this.props.isMounted && !this.state.isPlayed} photos={this.props.data.profileLoopPhotos}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderQuestionAndAnswer()}

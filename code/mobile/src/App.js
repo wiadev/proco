@@ -9,10 +9,10 @@ import {createAlert} from "./modules/InAppAlert/actions";
 import NoInternetModal from "./components/NoInternetModal";
 import BlockedUserModal from "./components/BlockedUserModal";
 import FCM from "react-native-fcm";
-import Routes from "./core/Routes";
-
-import {setTheme} from 'react-native-material-kit';
-import colors from './core/style/colors';
+import Routes from "./scenes";
+import {clearCachedLoops} from "./modules/Profiles/Loops/api";
+import {setTheme} from "react-native-material-kit";
+import colors from "./core/style/colors";
 
 setTheme({
   radioStyle: {
@@ -65,6 +65,7 @@ class App extends Component {
     });
 
     this._locationTracking(this.props);
+    clearCachedLoops();
   }
 
 
@@ -90,7 +91,7 @@ class App extends Component {
     this._locationTracking(props);
   }
 
-  _locationTracking({ permissions: { location } } = this.props) {
+  _locationTracking({permissions: {location}} = this.props) {
     if (location === 'authorized' && !this.state.didStartedLocationTracking) {
       startLocationTracking();
       this.setState({didStartedLocationTracking: true});

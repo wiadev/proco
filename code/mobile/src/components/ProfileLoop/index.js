@@ -25,7 +25,7 @@ const defaultProps = {
   // end - mock data
   isMounted: true,
   photoOpacity: 1,
-  local: false,
+  local: true,
   continuous: false
 };
 

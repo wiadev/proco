@@ -37,6 +37,7 @@ export default class Pool extends React.Component {
           showsPagination={false}
           loadMinimal={true}
           loadMinimalSize={2}
+          ref="poolswiper"
           onMomentumScrollEnd={(e, state) => {
             const items = Object.keys(this.props.pool.items);
             this.props.dispatch(action(items[state.index - 1], 'skip'));
@@ -60,9 +61,9 @@ export default class Pool extends React.Component {
       );
     }
 
-    return poolItems.map((poolItemKey) => {
+    return poolItems.map((poolItemKey, i) => {
       return (
-        <PoolItem key={poolItemKey} isMounted={poolItemKey === (this.state.current || poolItemKey)} data={this.props.pool.items[poolItemKey]} onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)} />
+        <PoolItem key={poolItemKey} isMounted={i === 0} data={this.props.pool.items[poolItemKey]} onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)} />
       );
     });
   }

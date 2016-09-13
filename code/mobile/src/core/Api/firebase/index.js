@@ -1,23 +1,12 @@
-import {database} from "../index";
+import {database, refs} from "../index";
 
 const defaultDataReducer = (data) => Promise.resolve(data);
 
 export const startWatching = (key, ref, reducer = defaultDataReducer) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
 
-    const {api: {watching}} = getState();
-
-    if (watching[key]) return false;
-
-    dispatch({
-      type: 'FIREBASE_WATCHER_START',
-      payload: {
-        type: 'watching',
-        key,
-        status: true,
-        ref,
-      }
-    });
+    if (refs[key]) return false;
+    refs[key] = ref;
 
     ref.on('value', snapshot => {
       reducer(snapshot.val()).then(data => {
@@ -35,29 +24,15 @@ export const startWatching = (key, ref, reducer = defaultDataReducer) => {
 };
 
 export const stopWatching = (key) => {
-  return (dispatch) => {
-    dispatch({
-      type: 'FIREBASE_WATCHER_STOP',
-      payload: {
-        type: 'watching',
-        key,
-      }
-    });
+  return () => {
+    if (!refs[key]) return false;
+    refs[key].off();
   };
 };
 
 export const stopWatchingAll = () => {
-  return (dispatch, getState) => {
-    const {api: {watching}} = getState();
-    Object.keys(watching).forEach(key => {
-      dispatch({
-        type: 'FIREBASE_WATCHER_STOP',
-        payload: {
-          type: 'watching',
-          key,
-        }
-      });
-    });
+  return () => {
+    Object.keys(refs).forEach(key => stopWatching(key));
   };
 };
 

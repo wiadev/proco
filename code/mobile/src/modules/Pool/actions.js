@@ -1,27 +1,33 @@
-import {database, timestamp} from "../../core/Api";
+import {database, timestamp, refs} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {block, report, match} from "../Profiles/actions";
 import {requestPermission} from "../Permissions/actions";
 import {getPoolData} from "./api";
+import { clearLoop } from '../Profiles/Loops/api';
 
 export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
-    database.ref(`pools/${uid}`).limitToFirst(20).on('child_added', (snap) => {
+    refs.pool = database.ref(`pools/${uid}`).limitToFirst(20);
+    refs.pool.on('child_added', (snap) => {
       dispatch(addToPool(snap.key, snap.val()));
     });
   };
 };
 
 export const addToPool = (uid, data) => {
-  return async (dispatch, getState) => {
+  return async(dispatch, getState) => {
     const {pool, api: {data: {userInfo: {current_question_id = null}}}} = getState();
     if (pool[uid]) return true; // add some cache checking & expire stuff
+    const poolData = await getPoolData(uid, current_question_id);
     dispatch({
       type: 'POOL_ADD',
       payload: assign({
         uid,
-      }, data, await getPoolData(uid, current_question_id)),
+      }, data, poolData, {
+        profileLoopPhotos: poolData.profileLoopPhotos.files,
+        profileLoopKey: poolData.profileLoopPhotos.key,
+      }),
     });
   };
 };
@@ -30,9 +36,11 @@ export const action = (uid, type = 'seen', payload = {}) => {
   return (dispatch, getState) => {
 
     const poolData = getState().pool.items[uid];
-    const {question: {qid}, receivedAnswer} = poolData;
 
-    dispatch(removeFromPool(uid));
+    console.log("poolData", poolData)
+    const {question: {qid}, receivedAnswer, profileLoopKey} = poolData;
+
+    dispatch(removeFromPool(uid, profileLoopKey));
 
     switch (type) {
       case 'report':
@@ -65,19 +73,19 @@ export const action = (uid, type = 'seen', payload = {}) => {
   };
 };
 
-export const removeFromPool = (key) => {
+export const removeFromPool = (user_key, loop_key) => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
     dispatch({
       type: 'POOL_REMOVE',
       payload: {
-        uid: key,
+        uid: user_key,
       },
     });
 
-    database.ref(`pools/${uid}/${key}`).set(null);
-
+    database.ref(`pools/${uid}/${user_key}`).set(null);
+    if (loop_key) clearLoop(loop_key);
   };
 };
 

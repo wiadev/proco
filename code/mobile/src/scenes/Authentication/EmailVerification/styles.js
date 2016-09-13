@@ -4,7 +4,7 @@ import {
   PixelRatio,
 } from 'react-native';
 
-import { getCorrectFontSizeForScreen } from '../../../core/functions';
+import { getCorrectFontSizeForScreen } from '../../../core/utils';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;

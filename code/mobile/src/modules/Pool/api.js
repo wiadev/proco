@@ -1,5 +1,5 @@
 import { database, getFirebaseDataWithCache } from '../../core/Api';
-import { getProfileLoop } from '../Profiles/Loops/api';
+import { getProfileLoopOf } from '../Profiles/Loops/api';
 
 const getQuestion = qid =>
   getFirebaseDataWithCache(`users/questions/${qid}/question`);
@@ -20,6 +20,6 @@ const getCurrentQuestion = uid =>
 
 export const getPoolData = async (uid, current_question_id = null) => ({
   question: await getCurrentQuestion(uid),
-  profileLoopPhotos: await getProfileLoop(uid),
+  profileLoopPhotos: await getProfileLoopOf(uid),
   receivedAnswer: current_question_id ? await getAnswer(current_question_id) : null,
 });

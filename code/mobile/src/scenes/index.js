@@ -1,18 +1,20 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Actions, ActionConst, Router, Switch, Scene, Reducer} from "react-native-router-flux";
-import {Login, Register, SMSVerification} from "../../scenes/Authentication";
-import Main from "../../scenes/Main";
-import Settings from "../../scenes/Settings";
-import UpdateYourQuestion from "../../scenes/UpdateYourQuestion";
-import ShootNewProfileLoop from "../../scenes/ShootNewProfileLoop";
-import Filters from "../../scenes/Filters";
-import Conversations from "../../scenes/Chat/List";
-import Conversation from "../../scenes/Chat/Conversation";
-import WebView from "../../components/WebView";
-import Card from "../../components/Card";
-import BlockerActivity from "../../components/BlockerActivity";
+
+import {Login, Register, SMSVerification} from "./Authentication";
+import Main from "./Main";
+import Settings from "./Settings";
+import UpdateYourQuestion from "./UpdateYourQuestion";
+import ShootNewProfileLoop from "./ShootNewProfileLoop";
+import Filters from "./Filters";
+import Conversations from "./Chat/List";
+import Conversation from "./Chat/Conversation";
 import * as StaticPages from "./StaticPages";
+
+import WebView from "../components/WebView";
+import Card from "../components/Card";
+import BlockerActivity from "../components/BlockerActivity";
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -54,7 +56,6 @@ const scenes = Actions.create(
       initial
       selector={(props) => {
         const {uid, isLoadedAuth, isLoadedIs, isBoarded} = props;
-        console.log("hey", isLoadedAuth, isLoadedIs, isBoarded, props)
         if (!isLoadedAuth || (uid && !isLoadedIs)) return 'BlockerActivity';
         if (!uid || !isBoarded) return 'auth';
         if (uid && isBoarded) return 'proco';
