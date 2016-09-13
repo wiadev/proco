@@ -18,8 +18,11 @@ const getCurrentQuestion = uid =>
     );
 
 
-export const getPoolData = async (uid, current_question_id = null) => ({
-  question: await getCurrentQuestion(uid),
-  profileLoopPhotos: await getProfileLoopOf(uid),
-  receivedAnswer: current_question_id ? await getAnswer(current_question_id) : null,
-});
+export const getPoolData = async (uid, q = {}) => {
+  const receivedAnswer = (q.qid ? await getAnswer(q.qid, uid) : null);
+  return {
+    question: receivedAnswer ? q : await getCurrentQuestion(uid),
+    profileLoopPhotos: await getProfileLoopOf(uid),
+    receivedAnswer,
+  }
+};

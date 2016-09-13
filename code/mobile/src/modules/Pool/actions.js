@@ -8,7 +8,7 @@ import { clearLoop } from '../Profiles/Loops/api';
 export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
-    refs.pool = database.ref(`pools/${uid}`).limitToFirst(20);
+    refs.pool = database.ref(`pools/${uid}`).orderByChild('added_on').limitToLast(5);
 
     dispatch(changePoolStatus('STARTED_WATCHING'));
     refs.pool.on('child_added', (snap) => {
@@ -19,10 +19,15 @@ export const startWatchingPool = () => {
 
 export const addToPool = (uid, data) => {
   return async(dispatch, getState) => {
-    const {pool, api: {data: {userInfo: {current_question_id = null}}}} = getState();
+    const {pool, api: {data: {userInfo: {current_question = null, current_question_id = null}}}} = getState();
     if (pool.items[uid]) return true; // add some cache checking & expire stuff
     if (pool.status ==! 'SHOWING') dispatch(changePoolStatus('SHOWING'));
-    const poolData = await getPoolData(uid, current_question_id);
+
+    const poolData = await getPoolData(uid, {
+      qid: current_question_id,
+      question: current_question,
+    });
+
     if (!poolData.question.qid && !poolData.receivedAnswer) return true;
 
     dispatch({
@@ -42,7 +47,6 @@ export const action = (uid, type = 'seen', payload = {}) => {
 
     const poolData = getState().pool.items[uid];
 
-    console.log("poolData", poolData)
     const {question: {qid}, receivedAnswer, profileLoopKey} = poolData;
 
     dispatch(removeFromPool(uid, profileLoopKey));
