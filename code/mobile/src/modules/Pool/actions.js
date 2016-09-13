@@ -20,6 +20,8 @@ export const addToPool = (uid, data) => {
     const {pool, api: {data: {userInfo: {current_question_id = null}}}} = getState();
     if (pool[uid]) return true; // add some cache checking & expire stuff
     const poolData = await getPoolData(uid, current_question_id);
+    if (!poolData.question.qid && !poolData.receivedAnswer) return true;
+
     dispatch({
       type: 'POOL_ADD',
       payload: assign({
