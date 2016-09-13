@@ -36,7 +36,7 @@ export default class UpdateYourQuestion extends React.Component {
       question: this.props.user.current_question
     });
 
-    getProfileLoop(this.props.auth.uid, this.props.user.loop_key)
+    getProfileLoop(this.props.user.loop_key)
       .then(photos => {
         this.setState({
           profileLoopPhotos: photos
