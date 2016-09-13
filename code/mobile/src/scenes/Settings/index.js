@@ -63,7 +63,7 @@ class Settings extends React.Component {
 
           <Field type="text" legend="Birthday" value={this.props.user.birthday} style={styles.singleField} />
 
-          <Field type="text" legend="University" value={this.state.network} style={styles.singleField} />
+          <Field type="text" legend="University" value={this.props.user.network} style={styles.singleField} />
 
           <Field type="bool" legend="Suspend Discovery" value={this.state.settings.suspend_discovery} onChange={value => this._updateSetting('suspend_discovery', value)} style={styles.singleField} />
 
