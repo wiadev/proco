@@ -1,11 +1,5 @@
-/**
- * Proco
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React from 'react';
 import { AppRegistry } from 'react-native';
-import setup from './src/setup';
+import Setup from './src/Setup';
 
-AppRegistry.registerComponent('Proco', setup);
+AppRegistry.registerComponent('Proco', () => Setup);
