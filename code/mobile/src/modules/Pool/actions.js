@@ -5,7 +5,7 @@ import { requestPermission } from "../Permissions/actions";
 import { getPoolData } from "./api";
 import { clearLoop } from "../Profiles/Loops/api";
 
-export const trigger = () => {
+export const trigger = (reset = false) => {
   return (dispatch, getState) => {
     const {auth: {uid}, pool } = getState();
 
@@ -16,7 +16,7 @@ export const trigger = () => {
       };
     }
 
-    if (pool.status.status === 'GENERATING') return;
+    if (pool.status.status.includes('IN_PROGRESS')) return;
 
     if (!(Date.now() - pool.status.last_checked >= 30000)) {
      setTimeout(() => {
@@ -25,7 +25,7 @@ export const trigger = () => {
     }
 
     database.ref(`ocean/statuses/${uid}`).set({
-      status: 'GENERATING',
+      status: reset ? 'IN_PROGRESS_RESET' : 'IN_PROGRESS',
       last_checked: timestamp,
     }).catch((e) => {
       console.log("Firebase Catched", e);

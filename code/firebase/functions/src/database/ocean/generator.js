@@ -6,8 +6,6 @@ const dropSetter = (pool, key, data) =>
   pool.child(key).set(data).catch(() => Promise.resolve());
 
 module.exports = (event) => {
-
-    console.log("here4");
     
     const uid = event.params.uid;
 
@@ -48,22 +46,12 @@ module.exports = (event) => {
           } else {
 
             geoQuery.cancel();
-
-            console.log("here5");
-
-            if (drops.length === 0) {
-              return status.set({
-                status: 'EMPTY',
-                last_checked: timestamp,
-              });
-            }
-
            
             Promise.all(drops)
               .then(() => {
                 console.log("then at promise all");
                 status.set({
-                  status: 'GENERATED',
+                  status: 'COMPLETED',
                   last_checked: timestamp,
                 })
                 .then(() => resolve());

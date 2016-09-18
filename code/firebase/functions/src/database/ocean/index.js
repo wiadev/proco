@@ -22,7 +22,7 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
 
     if (previousLocationData) {
       const distance = GeoFire.distance([locationData[0], locationData[1]], [previousLocationData[0], previousLocationData[1]]);
-      if (distance < 0.05) {
+      if (distance < 0.5) {
         return Promise.resolve();
       }
     }
@@ -43,13 +43,16 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
 
     const previous = event.data.previous.val();
 
-    console.log("here1", current, previous, event.uid, event);
-    
-    if ((current && current.status !== 'GENERATING') || (previous && previous.status === 'GENERATING')) return Promise.resolve();
-    console.log("here2", current, previous);
+    if (current && !current.status.includes('IN_PROGRESS')) return Promise.resolve();
+
+    if (previous && previous.status === current.status) return Promise.resolve();
+
+    if (current.status === 'IN_PROGRESS_RESET') {
+      return event.data.adminRef.root.child(`ocean/pools/${event.params.uid}`).set(null)
+        .then(() => generator(event));
+    }
 
     if (previous && !(Date.now() - previous.last_checked >= 30000)) return Promise.resolve();
-    console.log("here3", current, previous);
 
     return generator(event);
 
