@@ -1,15 +1,13 @@
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
+
+import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    backgroundColor: 'rgba(120,55,175, 0.8)',
+  blockerActivity: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.primary1
   },
 });
 
