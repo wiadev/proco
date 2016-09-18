@@ -164,7 +164,7 @@ const changePoolStatus = status => ({
 });
 
 const changePoolWatchStatus = status => ({
-  type: 'POOL_STATUS_CHANGED',
+  type: 'POOL_WATCH_STATUS_CHANGED',
   payload: {
     status,
   },
