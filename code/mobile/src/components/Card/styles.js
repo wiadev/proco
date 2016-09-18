@@ -1,51 +1,35 @@
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-const cardWidth = width * 80 / 100;
+import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-    height,
-    width,
-    backgroundColor: 'rgba(120,55,175, 0.8)',
+  card: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: colors.primary1
   },
-  backgroundImage: {
-    position: 'absolute',
-    height,
-    width,
+  container: {
+    alignSelf: 'center',
+    marginHorizontal: 20
   },
-  innerinnner: {
-    width: cardWidth,
-  },
-  permissionImage: {
-    marginBottom: 25,
+  activityIndicator: {
+    marginBottom: 20
   },
   label: {
-    backgroundColor: 'transparent',
-    color: 'white',
-    fontFamily: 'OpenSans',
+    color: colors.primaryAlt,
     fontSize: 28,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   text: {
     marginTop: 10,
-    backgroundColor: 'transparent',
-    color: 'white',
-    fontFamily: 'OpenSans-Light',
+    color: colors.primaryAlt,
     fontSize: 16,
-    textAlign: 'center',
+    fontWeight: "300",
+    textAlign: 'center'
   },
   buttonList: {
-    marginTop: 35,
-  },
+    marginTop: 35
+  }
 });
 
 export default styles;

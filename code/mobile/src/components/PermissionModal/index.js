@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {NetInfo} from 'react-native';
-import {connect} from 'react-redux';
-import {requestPermission, openSettings} from '../../modules/Permissions/actions';
-import Card from '../Card';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+
+import { requestPermission } from '../../modules/Permissions/actions';
+import Card from '../Card';
 
 const Permissions = require('react-native-permissions');
 
@@ -29,19 +29,15 @@ const texts = {
   }
 };
 
-@connect(
-  state => ({
-    permissions: state.permissions,
-  }),
-)
-export default class PermissionModal extends Component {
+@connect(state => ({permissions: state.permissions}))
+export default class PermissionModal extends React.Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    isInProgres: false,
-  };
+    this.state = {
+      isInProgress: false
+    };
+  }
 
   componentWillReceiveProps() {
     this.setState({isInProgress: false});
@@ -54,16 +50,17 @@ export default class PermissionModal extends Component {
 
     if (status === null) return null;
     if (status === 'authorized') return null;
-    //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+    // response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
 
     let screenProps = Object.assign({
-      show: true,
+      show: true
     }, text);
 
-    if (this.state.isInProgres) {
-      screenProps.renderThis = () => (<ActivityIndicator size="large" color="#ffffff"/>);
+    if (this.state.isInProgress) {
+      return (
+        <Card activityIndicator={true} />
+      );
     } else {
-
       if (status === 'denied') {
         screenProps.buttons = [
           {
@@ -91,8 +88,7 @@ export default class PermissionModal extends Component {
         ];
       }
 
+      return (<Card {...screenProps} activityIndicator={this.state.isInProgress} />);
     }
-
-    return (<Card {...screenProps} />);
   }
 };

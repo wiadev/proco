@@ -35,11 +35,7 @@ class Verification extends React.Component {
           },
         ]}
         noClose={this.state.isChecking}
-        renderThis={() => this.state.isChecking ? <ActivityIndicator
-          style={{marginTop: 5}}
-          size="large"
-          color="#ffffff"
-        /> : null}
+        activityIndicator={this.state.isChecking}
       />
     );
   }

@@ -1,63 +1,77 @@
 import React from 'react';
 import {
   View,
-  Image
+  ActivityIndicator
 } from 'react-native';
 
 import Text from '../Text';
 import Button from '../Button';
 import {Actions} from 'react-native-router-flux';
 import styles from './styles';
+import colors from '../../core/style/colors';
 
 export default class Card extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  renderButtons(buttons = []) {
-    return buttons.map((button, i) => {
-      return (
-        <Button key={i} text={button.text} onPress={button.onPress} />
-      );
-    });
-  }
-
-  renderIcon(icon) {
-    if (!icon) return null;
+  render() {
     return (
-      <Image
-        style={styles.permissionImage}
-        source={require('../../assets/images/cameraPermission.png')}
-      />
+      <View style={styles.card}>
+        <View style={styles.container}>
+          {this._renderActivityIndicator()}
+
+          <Text style={styles.label}>{this.props.label}</Text>
+
+          <Text style={styles.text}>{this.props.text}</Text>
+
+          {this._renderButtons()}
+        </View>
+      </View>
     );
   }
 
-  render() {
-    console.log("propscard", this.props);
+  _renderActivityIndicator() {
+    if (this.props.activityIndicator) {
+      return (
+        <ActivityIndicator size="large" color={colors.primaryAlt} style={styles.activityIndicator} />
+      );
+    }
+  }
 
-    const {icon, label, text, renderThis, noClose = false} = this.props;
-    let { buttons = [] } = this.props;
+  _renderButtons() {
+    let buttons = this.props.buttons;
 
-    if (noClose === false) {
+    if (this.props.noClose === false) {
       buttons = buttons.concat([{
         text: "Close",
         onPress: Actions.pop
       }]);
     }
 
-    return (
-      <View style={styles.container}>
-        <View style={styles.inner}>
-          {this.renderIcon(icon)}
-
-          {label && <Text style={styles.label}>{label}</Text>}
-          {text && <Text style={styles.text}>{text}</Text>}
-
-          {renderThis && renderThis()}
-          {buttons && <View style={styles.buttonList}>{this.renderButtons(buttons)}</View>}
-
+    if (buttons.length > 0) {
+      return (
+        <View style={styles.buttonList}>
+          {buttons.map((button, key) => {
+            return (
+              <Button key={key} text={button.text} onPress={button.onPress} />
+            )
+          })}
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
+
+Card.propTypes = {
+  label: React.PropTypes.string,
+  text: React.PropTypes.string,
+  noClose: React.PropTypes.bool,
+  buttons: React.PropTypes.arrayOf(React.PropTypes.shape({
+    text: React.PropTypes.string.isRequired,
+    onPress: React.PropTypes.func.isRequired
+  })),
+  activityIndicator: React.PropTypes.bool
+};
+
+Card.defaultProps = {
+  noClose: false,
+  buttons: [],
+  activityIndicator: false
+};
