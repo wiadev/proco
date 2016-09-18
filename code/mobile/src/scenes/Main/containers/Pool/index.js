@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Swiper from "react-native-swiper";
+
 import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
@@ -16,69 +17,77 @@ export default class Pool extends React.Component {
 
     this.state = {
       current: 0,
-      previousPoolData: {},
+      previousPoolData: {}
     };
   }
 
   componentWillMount() {
-    this._poolGenerationCheck();
+    this.props.dispatch(trigger());
   }
 
   componentWillReceiveProps(props) {
-    this._poolGenerationCheck(props);
+    if (props.pool.status === 'COMPLETED') {
+      this.props.dispatch(trigger());
+    }
   }
 
   render() {
+    let renderCard = false;
+    let cardLabel = "";
+    let cardText = "";
+    let cardInProgress = false;
+
     if (this.props.permissions.location !== 'authorized') {
       return (
-        <PermissionModal type="location"/>
+        <PermissionModal type="location" />
       );
     }
 
-    return (
-      <View style={styles.pool}>
-        <Swiper
-          horizontal={true}
-          loop={false}
-          showsPagination={false}
-          loadMinimal={true}
-          loadMinimalSize={2}
-          ref="swiper"
-          onMomentumScrollEnd={(e, state) => this._onSwiperScroll(e, state)}
-        >
-          {this._renderPoolItems()}
-        </Swiper>
+    if (['IN_PROGRESS', 'IN_PROGRESS_RESET'].indexOf(this.props.pool.status.status) !== -1) {
+      renderCard = true;
+      cardInProgress = true;
+      cardLabel = "Just a sec";
+      cardText = "Looking for awesome people nearby...";
+    }
 
-        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
-      </View>
-    );
+    if (this.props.pool.status.status === 'COMPLETED' && this.props.pool.items.length === 0) {
+      renderCard = true;
+      cardLabel = "Oh noes :(";
+      cardText = "No one seems to nearby."
+    }
+
+    if (renderCard) {
+      return (
+        <Card label={cardLabel} text={cardText} noClose={true} activityIndicator={cardInProgress} />
+      );
+    } else {
+      return (
+        <View style={styles.pool}>
+          <Swiper
+            horizontal={true}
+            loop={false}
+            showsPagination={false}
+            loadMinimal={true}
+            loadMinimalSize={2}
+            ref="swiper"
+            onMomentumScrollEnd={(e, state) => this._onSwiperScroll(e, state)}
+          >
+            {this._renderPoolItems()}
+          </Swiper>
+
+          <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
+        </View>
+      );
+    }
   }
 
   _renderPoolItems() {
     const poolItems = Object.keys(this.props.pool.items);
+    let lastPoolItemKey = 0;
 
-    let message = '...'; //@TODO: Find a solution for this state.
+    let items = poolItems.map((poolItemKey, i) => {
+      lastPoolItemKey = i;
 
-    switch (this.props.pool.status.status) {
-      default:
-        break;
-      case 'EMPTY':
-        message = 'No one seems to be nearby';
-        break;
-      case 'GENERATING':
-        message = 'Finding great people nearby...';
-        break;
-    }
-
-    if (poolItems.length < 1) {
-
-
-      return (
-        <Card label={message} noClose={true}/>
-      );
-    }
-
-    const items = poolItems.map((poolItemKey, i) => {
       return (
         <PoolItem
           key={poolItemKey}
@@ -89,9 +98,9 @@ export default class Pool extends React.Component {
       );
     });
 
-    if (poolItems.length === 1) {
-      items.push(<Card key="0" label={message} noClose={true}/>);
-    }
+    items.push(
+      <Card key={lastPoolItemKey + 1} label="Oh noes :(" text="No one else seems to be nearby." noClose={true} />
+    );
 
     return items;
   }
@@ -115,15 +124,9 @@ export default class Pool extends React.Component {
         uid: uid,
         act: act,
         payload: payload,
-      },
+      }
     });
 
     this.refs['swiper'].scrollBy(1);
-  }
-
-  _poolGenerationCheck(props = this.props) {
-    if (!props.pool.status) {
-      this.props.dispatch(trigger());
-    }
   }
 }
