@@ -61,7 +61,7 @@ class Settings extends React.Component {
             </View>
           </View>
 
-          <Field type="text" legend="Birthday" value={this.props.user.birthday} style={styles.singleField} />
+          <Field type="text" legend="Birthday" value={this.props.user.birthday_display} style={styles.singleField} />
 
           <Field type="text" legend="University" value={this.props.user.network} style={styles.singleField} />
 
