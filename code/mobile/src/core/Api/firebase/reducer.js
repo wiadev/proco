@@ -2,11 +2,13 @@ import { assign } from '../../utils';
 import updeep from "updeep";
 
 import * as userStates from '../../../modules/User/initialStates';
+import { list as threadListInitialState } from '../../../modules/Chat/initialStates';
 
 const initialState = {
   data: {
     userInfo: userStates.info,
     userIs: userStates.is,
+    threadList: threadListInitialState,
   },
 };
 
@@ -17,6 +19,8 @@ export default function reducer(state = initialState, action)  {
     case 'FIREBASE_WATCH_USERIS':
     case 'FIREBASE_WATCH_USERSETTINGS':
     case 'FIREBASE_WATCH_USERFILTERS':
+    case 'FIREBASE_WATCH_THREADLIST':
+    case 'FIREBASE_WATCH_USERINBOXUNSEENTHREADS':
       return makeFirebaseState(action, state, action.payload.key, action.payload.data);
     case 'FIREBASE_LOGIN':
     case 'FIREBASE_LOGOUT':

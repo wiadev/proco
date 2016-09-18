@@ -1,16 +1,53 @@
-import {database, timestamp, refs} from "../../core/Api";
-import {assign} from "../../core/utils";
-import {block, report, match} from "../Profiles/actions";
-import {requestPermission} from "../Permissions/actions";
-import {getPoolData} from "./api";
-import { clearLoop } from '../Profiles/Loops/api';
+import { database, timestamp, refs } from "../../core/Api";
+import { assign } from "../../core/utils";
+import { block, report, match } from "../Profiles/actions";
+import { requestPermission } from "../Permissions/actions";
+import { getPoolData } from "./api";
+import { clearLoop } from "../Profiles/Loops/api";
+
+export const trigger = () => {
+  return (dispatch, getState) => {
+    const {auth: {uid}, pool } = getState();
+
+    if (!pool.status) {
+      pool.status = {
+        status: null,
+        last_checked: 0,
+      };
+    }
+
+    if (pool.status.status === 'GENERATING') return;
+
+    if (!(Date.now() - pool.status.last_checked >= 30000)) {
+     setTimeout(() => {
+       dispatch(trigger());
+     }, 30000);
+    }
+
+    database.ref(`ocean/statuses/${uid}`).set({
+      status: 'GENERATING',
+      last_checked: timestamp,
+    }).catch((e) => {
+      console.log("Firebase Catched", e);
+    });
+
+  };
+};
+
+export const startWatchingPoolStatus = () => {
+  return (dispatch, getState) => {
+    const {auth: {uid}} = getState();
+    refs.poolStatus = database.ref(`ocean/statuses/${uid}`);
+    refs.poolStatus.on('value', (snap) => dispatch(changePoolStatus(snap.val())));
+  };
+};
 
 export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
-    refs.pool = database.ref(`pools/${uid}`).orderByChild('added_on').limitToLast(5);
+    refs.pool = database.ref(`ocean/pools/${uid}`).orderByChild('added_on').limitToLast(5);
 
-    dispatch(changePoolStatus('STARTED_WATCHING'));
+    dispatch(changePoolWatchStatus('STARTED_WATCHING'));
     refs.pool.on('child_added', (snap) => {
       dispatch(addToPool(snap.key, snap.val()));
     });
@@ -21,7 +58,7 @@ export const addToPool = (uid, data) => {
   return async(dispatch, getState) => {
     const {pool, api: {data: {userInfo: {current_question = null, current_question_id = null}}}} = getState();
     if (pool.items[uid]) return true; // add some cache checking & expire stuff
-    if (pool.status ==! 'SHOWING') dispatch(changePoolStatus('SHOWING'));
+    if (pool.status == !'SHOWING') dispatch(changePoolStatus('SHOWING'));
 
     const poolData = await getPoolData(uid, {
       qid: current_question_id,
@@ -93,7 +130,7 @@ export const removeFromPool = (user_key, loop_key) => {
       },
     });
 
-    database.ref(`pools/${uid}/${user_key}`).set(null);
+    database.ref(`ocean/pools/${uid}/${user_key}`).set(null);
     if (loop_key && loop_key !== 0) clearLoop(loop_key);
   };
 };
@@ -118,6 +155,13 @@ export const answer = (qid, payload) => {
 };
 
 const changePoolStatus = status => ({
+  type: 'POOL_STATUS_CHANGED',
+  payload: {
+    status,
+  },
+});
+
+const changePoolWatchStatus = status => ({
   type: 'POOL_STATUS_CHANGED',
   payload: {
     status,

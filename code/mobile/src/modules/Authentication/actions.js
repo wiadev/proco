@@ -3,7 +3,6 @@ import {AsyncStorage, Linking} from "react-native";
 import {Actions} from "react-native-router-flux";
 import {auth as coreAuth, facebookCredential} from "../../core/Api";
 import {afterLoginActions,beforeLogoutActions} from '../User/actions';
-import {startWatchingPool} from '../Pool/actions';
 import React from "react";
 import {STARTED, SET, LOADED} from "./actionTypes";
 import {update} from "../User/actions";
@@ -24,7 +23,6 @@ export function handleAuth(data) {
       });
 
       dispatch(afterLoginActions());
-      dispatch(startWatchingPool());
 
     } else if (!uid && auth.uid) {
       dispatch(logout());

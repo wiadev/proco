@@ -1,15 +1,54 @@
+/*
+* So, this works like this:
+*
+* When user location changes, app sets a location in the ocean. We track changes in the ocean and when there is a change,
+* we create a pool from strach everytime (it's cheap) and set it to /pools/$uid where child of this ref is $mid (a user key).
+* The key point here is we *MUST* do this with user privileges so we don't override the rules here.
+* Logic of the pool is these rules. We check if that user is OK by the current user filters, blocked and matched statuses on write()
+* Since write fails immediately for "unfit" profiles, we don't even need to check filters/conditions anywhere else.
+* Code here is a bit ugly but that's because we are using a hacky language (Bolt) and a hacky technique.
+* The app caches loop keys and question keys so they don't download it everytime.
+*/
+
 path /ocean {
+
   read() { false }
-  index() { [ "g" ] }
+
+  path /index {
+    
+    index() { [ "g" ] }
+
+    path /{uid} {
+      write() { isCurrentUser(uid) }
+
+      //g: String,
+      //l: LDCoords,
+    }
+  }
+
+  path /pools/{uid} {
+    read() { isCurrentUser(uid) }
+
+    index() { [ "added_on" ] }
+
+    path /{mid} {
+      write() { isCurrentUser(uid) && (checkPoolFilters(uid, mid) || this == null) }
+    }
+  }
+
+  path /statuses/{uid} {
+    read() { isCurrentUser(uid) }
+    write() { isCurrentUser(uid) }
+
+    path /status {
+      validate() { prior(this) != 'GENERATING' && this == 'GENERATING' }
+    }
+
+    path /last_checked is CurrentTimestamp;
+  }
+
 }
 
-path /ocean/{uid} {
-  write() { isCurrentUser(uid) }
-
-
-  //g: String,
-  //l: LDCoords,
-}
 
 type LDCoords extends Object {
   '0': LAT,
@@ -23,3 +62,39 @@ type LAT extends Number {
 type LONG extends Number {
   validate() {this >= -180 && this <= 180 }
 }
+
+
+checkPoolFilters(uid, mid) {
+  hasCurrentQuestion(mid)
+  && isNotSelf(mid) // We shouldn't users themselves to their pool
+  && !isBlocked(mid)
+  && !isMatched(mid)
+  && !isSeenCurrentQuestion(mid)
+  && checkGenderFilterFor(mid)
+  && checkAgeFilterFor(mid)
+}
+
+getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
+getSummaryForPI(user) { root.users.summary[user] }
+
+getAgeFor(uid) { getSummaryForPI(uid).age }
+getGenderFor(uid) { getSummaryForPI(uid).gender }
+getNetworkFor(uid) { getSummaryForPI(uid).network }
+
+hasCurrentQuestion(mid) { getSummaryForPI(mid).current_question_id != null }
+
+checkGenderFilterFor(mid) {
+  getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
+}
+
+checkAgeMin(mid) { getAgeFor(mid) >= getFilterOptionForCU('age_min') }
+checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('age_max') }
+
+checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
+
+isSeenCurrentQuestion(mid) {
+  root.users.questions[getSummaryForPI(mid).current_question_id].seen_by[currentUser()] == true
+}
+
+
+type PoolItem extends Object {}

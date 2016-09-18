@@ -7,9 +7,7 @@ import Swiper from 'react-native-swiper';
 
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
-import GodMode from './containers/GodMode';
 import MessageCountIcon from '../../components/Chat/MessageCountIcon';
-import { Actions } from 'react-native-router-flux';
 import styles from './styles';
 
 @connect(state => ({user: state.api.data.userInfo, isUser: state.api.data.userIs}))
@@ -32,10 +30,6 @@ export default class MainScreen extends React.Component {
       <UpperMenu fid={this.props.user.fid} />,
       <Pool />
     ];
-
-    if (this.props.isUser.god === true) {
-      swiperSlides.unshift(<GodMode />);
-    }
 
     let swiperIndex = swiperSlides.length - 1;
 

@@ -3,8 +3,7 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Swiper from "react-native-swiper";
-
-import {action} from "../../../../modules/Pool/actions";
+import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
@@ -19,6 +18,14 @@ export default class Pool extends React.Component {
       current: 0,
       previousPoolData: {},
     };
+  }
+
+  componentWillMount() {
+    this._poolGenerationCheck();
+  }
+
+  componentWillReceiveProps(props) {
+    this._poolGenerationCheck(props);
   }
 
   render() {
@@ -42,7 +49,7 @@ export default class Pool extends React.Component {
           {this._renderPoolItems()}
         </Swiper>
 
-        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon} />
+        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
       </View>
     );
   }
@@ -50,13 +57,28 @@ export default class Pool extends React.Component {
   _renderPoolItems() {
     const poolItems = Object.keys(this.props.pool.items);
 
+    let message = '...'; //@TODO: Find a solution for this state.
+
+    switch (this.props.pool.status.status) {
+      default:
+        break;
+      case 'EMPTY':
+        message = 'No one seems to be nearby';
+        break;
+      case 'GENERATING':
+        message = 'Finding great people nearby...';
+        break;
+    }
+
     if (poolItems.length < 1) {
+
+
       return (
-        <Card label="No one seems to be nearby" noClose={true} />
+        <Card label={message} noClose={true}/>
       );
     }
 
-    return poolItems.map((poolItemKey, i) => {
+    const items = poolItems.map((poolItemKey, i) => {
       return (
         <PoolItem
           key={poolItemKey}
@@ -66,6 +88,12 @@ export default class Pool extends React.Component {
         />
       );
     });
+
+    if (poolItems.length === 1) {
+      items.push(<Card key="0" label={message} noClose={true}/>);
+    }
+
+    return items;
   }
 
   _onSwiperScroll(e, state) {
@@ -91,5 +119,11 @@ export default class Pool extends React.Component {
     });
 
     this.refs['swiper'].scrollBy(1);
+  }
+
+  _poolGenerationCheck(props = this.props) {
+    if (!props.pool.status) {
+      this.props.dispatch(trigger());
+    }
   }
 }

@@ -18,6 +18,7 @@ export const timestamp = firebase.database.ServerValue.TIMESTAMP;
 export const refs = {};
 
 export const getFirebaseDataWithCache = ref => {
+  console.log("ref", ref);
   const key = '@Proco:FDC:' + ref;
   return AsyncStorage.getItem(key).then(data => {
     if (data !== null) return JSON.parse(data);

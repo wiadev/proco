@@ -1,10 +1,10 @@
-import {database, logEvent, getFirebaseDataWithCache, timestamp} from "../../core/Api";
-import {assign} from "../../core/utils";
-import {getProfileLoop} from "./Loops/api";
-import {post} from "../Chat/actions";
+import { database, logEvent, getFirebaseDataWithCache, timestamp } from "../../core/Api";
+import { assign } from "../../core/utils";
+import { getProfileLoop } from "./Loops/api";
+import { post } from "../Chat/actions";
 
 export const loadSummary = (uid) => {
-  return async (dispatch) => {
+  return async(dispatch) => {
     dispatch({
       type: 'PROFILE_LOADED',
       payload: await getFirebaseDataWithCache(`users/summary/${uid}`)
@@ -92,21 +92,24 @@ export const match = (uidToMatch) => {
 
     dispatch(changeMatchStatus(uidToMatch, true));
 
-    const thread = database.ref(`threads`).child(`info`).push({
-      people: [uidToMatch, uid],
-      created_at: timestamp,
-    });
+    const thread = database.ref('threads/info').push();
 
-    thread
-      .then(() =>
-        dispatch(post(thread.key, {
-          _id: 0,
-          text: `Congrats, it's a match!`,
-          createdAt: timestamp,
-          user: 'proco',
-          type: 'matched-banner',
-        }))
-      );
+    thread.set({
+      people: {
+        [uidToMatch]: true,
+        [uid]: true,
+      },
+      created_at: timestamp,
+    }).then(() => {
+
+      dispatch(post(thread.key, {
+        _id: 0,
+        text: `Congrats, it's a match!`,
+        createdAt: timestamp,
+        user: 'proco',
+        type: 'matched-banner',
+      }));
+    });
 
   };
 };

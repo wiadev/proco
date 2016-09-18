@@ -1,21 +1,65 @@
-path /threads/_/{thread_id}/{key} is Message {
-  read(){ false }
-  validate() { createOnly(this) && isCurrentUser(this.sender) }
+path /threads {
+  path /info is ThreadInfo[];
+  path /messages/{thread_id}/{uid} is Message[];
 }
 
-path /threads/messages/{thread_id}/{uid} is Map<MID, Message> {
-  read() { isCurrentUser(uid) }
+type ThreadInfo {
+  write() { this.people[currentUser()] == true }
+  read() { this.people[currentUser()] == true }
+
+  people: Map<String, Boolean>,
+  created_at: CurrentTimestamp,
 }
 
-path /users/inbox/{uid}/{mid}/last_message is Message;
+
+path /inboxes {
+
+  read() { true }
+  write() { true }
+
+/*
+  path /{uid} {
+    read() { isCurrentUser(uid) }
+  }
+
+  path /{uid}/threads/{thread_id}/last_message is Message {
+    write() { isInThread(thread_id, uid) }
+  }
+
+  path /{uid}/threads/{thread_id}/unseen_messages/{message_id} is Boolean {
+    write() { isInThread(thread_id, uid) }
+  }
+
+  path /{uid}/unseen_threads/{thread_id} is Boolean {
+    write() { isInThread(thread_id, uid) }
+  }
+*/
+}
+
+//isInThread(thread_id, uid) { root['threads/info/' + thread_id + '/people/' + uid] == true }
+isInThread(thread_id, uid) { true }
+
+type ArchivedMessage extends Message {
+  read() { false }
+}
 
 type Message {
-  read() { isUser(this.sender) }
-  sender: MessageSender,
+  validate() { createOnly(this) }
+  write() { isInThread(thread_id, this.sender) }
+  read() { isInThread(thread_id, this.sender) }
+
+  _id: String,
+  text: String,
+  // createdAt: CurrentTimestamp,
+  createdAt: CurrentTimestamp | Null,
+  user: String | Null,
+  // user: MessageSender,
+  image: String | Null,
+  type: String | Null,
 }
 
 type MessageSender extends String {
-  validate() { isUser(this) }
+  validate() { this == 'proco' || isUser(this) }
 }
 
 type MID extends String {}

@@ -1,0 +1,6 @@
+path /archived/location-history/{uid} {
+  read() { false }
+  write() { isCurrentUser(uid) }
+
+  //path /timestamp is CurrentTimestamp;
+}

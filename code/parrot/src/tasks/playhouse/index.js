@@ -10,7 +10,7 @@ import { generateRandomPoint } from './utils';
 
 export const usersRef = database.ref('users');
 export const dollsRef = (uid) => database.ref(`internal/playhouse/dolls/${uid ? uid : ''}`);
-export const oceanRef = new GeoFire(database.ref('ocean'));
+export const oceanRef = new GeoFire(database.ref('ocean/index'));
 export const summaryRef = usersRef.child('summary');
 
 /*

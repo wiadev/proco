@@ -3,7 +3,11 @@ import _ from 'lodash';
 
 export const initialState = {
   items: {},
-  status: 'LOADING',
+  watchStatus: 'LOADING',
+  status: {
+    status: 'GENERATING',
+    last_checked: 0,
+  },
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -23,6 +27,10 @@ export default function reducer(state = initialState, action = {}) {
     case 'POOL_STATUS_CHANGED':
       return assign(state, {
         status: action.payload.status,
+      });
+    case 'POOL_WATCH_STATUS_CHANGED':
+      return assign(state, {
+        watchStatus: action.payload.status,
       });
   }
 

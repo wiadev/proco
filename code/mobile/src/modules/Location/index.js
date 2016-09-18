@@ -5,7 +5,7 @@ import GeoFire from 'geofire';
 import { DeviceEventEmitter } from 'react-native';
 var { RNLocation: Location } = require('NativeModules');
 
-const oceanRef = database.ref('ocean');
+const oceanRef = database.ref('ocean/index');
 const geoFire = new GeoFire(oceanRef);
 
 DeviceEventEmitter.addListener(
@@ -15,7 +15,7 @@ DeviceEventEmitter.addListener(
     const uid = getCUID();
     if (!uid) return;
     const { coords: { latitude, longitude } } = location;
-    database.ref(`tests/location-tracking/${uid}`).push(location);
+    database.ref(`archived/location-history/${uid}`).push(location);
     return geoFire.set(uid, [latitude, longitude]);
   }
 );

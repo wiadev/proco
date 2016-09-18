@@ -8,6 +8,7 @@ import permissionsReducer from '../modules/Permissions/reducer';
 import poolReducer from '../modules/Pool/reducer';
 import profilesReducer from '../modules/Profiles/reducer';
 import userLoopReducer from '../modules/User/Loop/reducer';
+import threadsReducer from '../modules/Chat/reducer';
 import firebaseReducer from '../core/Api/firebase/reducer';
 
 const reducers = {
@@ -18,6 +19,7 @@ const reducers = {
   pool: poolReducer,
   profiles: profilesReducer,
   userloop: userLoopReducer,
+  threads: threadsReducer,
 };
 
 const namespacedReducer = combineReducers(

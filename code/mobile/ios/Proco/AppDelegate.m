@@ -27,12 +27,15 @@
   
   NSURL *jsCodeLocation;
 
-  #ifdef DEBUG
-      jsCodeLocation = [NSURL URLWithString:@"http://rnjs.development.internal.procoapp.com:8081/index.ios.bundle?platform=ios&dev=true"];
+  #if DEBUG
+    #if TARGET_IPHONE_SIMULATOR
+        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+    #else
+        jsCodeLocation = [NSURL URLWithString:@"http://rnjs.development.internal.procoapp.com:8081/index.ios.bundle?platform=ios&dev=true"];
+    #endif
   #else
-      jsCodeLocation = [CodePush bundleURL];
+    jsCodeLocation = [CodePush bundleURL];
   #endif
-
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Proco"

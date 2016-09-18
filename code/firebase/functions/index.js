@@ -16,7 +16,7 @@ const functions = require('firebase-functions');
   with the same naming scheme and a index.js
 */
 
-const pool = require('./src/database/pool');
+const ocean = require('./src/database/ocean');
 
 let $ = {};
 
@@ -27,14 +27,8 @@ $.handleUserInfoChange = require('./src/database/handleUserInfoChange');
 
 $.handleUserVerifications = require('./src/database/handleUserVerifications');
 
-$.handleNewMatch = require('./src/database/handleNewMatch');
-$.handleUserPostedNewMessage = require('./src/database/handleUserPostedNewMessage');
-
-$.handleUserBlocksUser = require('./src/database/handleUserBlocksUser');
-
-$.handleOcean = pool.ocean;
-$.handlePools = pool.pools;
-$.handleFilterChanges = pool.filters;
+$.handleOcean = ocean.ocean;
+$.handlePools = ocean.poolStatus;
 
 // Internal functions
 

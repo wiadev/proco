@@ -1,6 +1,7 @@
 import {AsyncStorage} from "react-native";
 import {is as isReducer, info as infoReducer} from "./dataReducers";
 import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
+import {startWatchingPool, startWatchingPoolStatus} from '../Pool/actions';
 import {database, base, timestamp} from "../../core/Api";
 
 const typeMap = {
@@ -83,6 +84,9 @@ export const afterLoginActions = () => {
     dispatch(startWatching('userIs', database.ref(`users/is/${uid}`), isReducer));
     dispatch(startWatching('userSettings', database.ref(`users/settings/${uid}`)));
     dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
+    dispatch(startWatching('userInboxUnseenThreads', database.ref(`inboxes/${uid}/unseen_threads`)));
+    dispatch(startWatchingPoolStatus());
+    dispatch(startWatchingPool());
 
   };
 };
