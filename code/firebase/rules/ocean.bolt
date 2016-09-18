@@ -41,7 +41,7 @@ path /ocean {
     write() { isCurrentUser(uid) }
 
     path /status {
-      validate() { prior(this) != 'GENERATING' && this == 'GENERATING' }
+      validate() { this.includes('IN_PROGRESS') }
     }
 
     path /last_checked is CurrentTimestamp;

@@ -5,7 +5,7 @@ export const initialState = {
   items: {},
   watchStatus: 'LOADING',
   status: {
-    status: 'GENERATING',
+    status: 'NULL',
     last_checked: 0,
   },
 };

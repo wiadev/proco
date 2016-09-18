@@ -7,21 +7,15 @@ import { clearLoop } from "../Profiles/Loops/api";
 
 export const trigger = (reset = false) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, pool } = getState();
-
-    if (!pool.status) {
-      pool.status = {
-        status: null,
-        last_checked: 0,
-      };
-    }
+    const {auth: {uid}, pool} = getState();
 
     if (pool.status.status.includes('IN_PROGRESS')) return;
 
     if (!(Date.now() - pool.status.last_checked >= 30000)) {
-     setTimeout(() => {
-       dispatch(trigger());
-     }, 30000);
+      setTimeout(() => {
+        dispatch(trigger());
+      }, 30000);
+      return;
     }
 
     database.ref(`ocean/statuses/${uid}`).set({
@@ -38,7 +32,15 @@ export const startWatchingPoolStatus = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
     refs.poolStatus = database.ref(`ocean/statuses/${uid}`);
-    refs.poolStatus.on('value', (snap) => dispatch(changePoolStatus(snap.val())));
+
+    refs.poolStatus.on('value', (snap) => {
+      const data = snap.val() ? snap.val() : {
+        status: 'NULL',
+        last_checked: 0,
+      };
+
+      dispatch(changePoolStatus(data));
+    });
   };
 };
 
