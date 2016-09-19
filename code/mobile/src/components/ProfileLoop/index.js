@@ -10,25 +10,6 @@ import BlockerActivity from '../../components/BlockerActivity';
 import profileLoopConfig from '../../modules/Profiles/Loops/config';
 import styles from './styles';
 
-const propTypes = {
-  isMounted: React.PropTypes.bool,
-  photos: React.PropTypes.array.isRequired,
-  photoOpacity: React.PropTypes.number,
-  local: React.PropTypes.bool,
-  continuous: React.PropTypes.bool,
-  style: React.PropTypes.any,
-  containerStyle: React.PropTypes.any
-};
-
-const defaultProps = {
-  // start - mock data
-  // end - mock data
-  isMounted: true,
-  photoOpacity: 1,
-  local: true,
-  continuous: false
-};
-
 @reactMixin.decorate(reactTimerMixin)
 export default class ProfileLoop extends React.Component {
   constructor(props) {
@@ -151,5 +132,19 @@ export default class ProfileLoop extends React.Component {
   }
 }
 
-ProfileLoop.propTypes = propTypes;
-ProfileLoop.defaultProps = defaultProps;
+ProfileLoop.propTypes = {
+  isMounted: React.PropTypes.bool,
+  photos: React.PropTypes.array.isRequired,
+  photoOpacity: React.PropTypes.number,
+  local: React.PropTypes.bool,
+  continuous: React.PropTypes.bool,
+  style: React.PropTypes.any,
+  containerStyle: React.PropTypes.any
+};
+
+ProfileLoop.defaultProps = {
+  isMounted: true,
+  photoOpacity: 1,
+  local: true,
+  continuous: false
+};
