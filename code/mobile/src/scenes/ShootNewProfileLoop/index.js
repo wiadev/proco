@@ -21,6 +21,14 @@ import colors from '../../core/style/colors';
 @connect(state => ({profileLoop: state.userloop}))
 @reactMixin.decorate(reactTimerMixin)
 export default class ShootNewProfileLoop extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      cameraType: 'front'
+    };
+  }
+
   render() {
     return (
       <View style={styles.shootNewProfileLoop}>
@@ -29,6 +37,8 @@ export default class ShootNewProfileLoop extends React.Component {
         {this._renderCameraOrProfileLoop()}
 
         {this._renderBackButton()}
+
+        {this._renderCameraSwitchButton()}
       </View>
     );
   }
@@ -38,7 +48,7 @@ export default class ShootNewProfileLoop extends React.Component {
       return (
         <Camera
           ref="camera"
-          type="front"
+          type={this.state.cameraType}
           aspect="fill"
           captureAudio={false}
           orientation="portrait"
@@ -72,6 +82,22 @@ export default class ShootNewProfileLoop extends React.Component {
       return (
         <TouchableOpacity onPress={() => this._goBack()} activeOpacity={0.8} style={styles.backButton}>
           <Icon name="keyboard-backspace" style={styles.backButtonIcon} />
+        </TouchableOpacity>
+      );
+    }
+  }
+
+  _renderCameraSwitchButton() {
+    if (this.props.profileLoop.status === 'WAITING') {
+      let iconName = 'camera-front';
+
+      if (this.state.cameraType === 'front') {
+        iconName = 'camera-rear';
+      }
+
+      return (
+        <TouchableOpacity style={styles.cameraSwitchButton} onPress={() => this._switchCameraType()}>
+          <Icon name={iconName} style={styles.cameraSwitchButtonIcon} />
         </TouchableOpacity>
       );
     }
@@ -126,6 +152,18 @@ export default class ShootNewProfileLoop extends React.Component {
     //     <Text>Uploading... ({this.props.profileLoop.progress}%)</Text>
     //   </View>
     // );
+  }
+
+  _switchCameraType() {
+    let newCameraType = 'front';
+
+    if (this.state.cameraType === 'front') {
+      newCameraType = 'back';
+    }
+
+    this.setState({
+      cameraType: newCameraType
+    });
   }
 
   _capture() {

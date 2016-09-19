@@ -13,15 +13,31 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.gray1
   },
   backButtonIcon: {
-    color: colors.primaryAlt
+    color: colors.primaryAlt,
+    fontSize: 18
+  },
+  cameraSwitchButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.gray1
+  },
+  cameraSwitchButtonIcon: {
+    color: colors.primaryAlt,
+    fontSize: 18
   },
   camera: {
     flex: 1,
