@@ -7,11 +7,15 @@ const fs = RNFetchBlob.fs;
 const cachePoolDir = fs.dirs.DocumentDir + '/LoopCache';
 const loopBaseRef = storage.ref('loops');
 
-export const clearCachedLoops = () =>
+export const clearCachedLoops = () => Promise.resolve();
+export const clearLoop = () => Promise.resolve();
+
+/*export const clearCachedLoops = () =>
   fs.unlink(cachePoolDir).catch(e => Promise.resolve());
 
 export const clearLoop = (loop_key) =>
   fs.unlink(`${cachePoolDir}/${loop_key}`).catch(e => Promise.resolve());
+*/
 
 export const getProfileLoop = (loop_key = 0) => {
   let files = [];
@@ -38,9 +42,9 @@ export const getProfileLoop = (loop_key = 0) => {
 
 export const getProfileLoopOf = async(uid) => {
   const snap = await database.ref(`users/summary/${uid}/loop_key`).once('value');
-  const loop_key = snap.val() || 0;
+  const loop_key = snap.val() || '-KS1JSyxptuUJpIa8z_i';
   return {
-    files: await getProfileLoop(),
+    files: await getProfileLoop(loop_key),
     key: loop_key,
   };
 };

@@ -17,7 +17,6 @@ const getCurrentQuestion = uid =>
       }))
     );
 
-
 export const getPoolData = async (uid, q = {}) => {
   const receivedAnswer = (q.qid ? await getAnswer(q.qid, uid) : null);
   return {

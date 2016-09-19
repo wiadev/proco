@@ -31,7 +31,7 @@
     #if TARGET_IPHONE_SIMULATOR
         jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
     #else
-        jsCodeLocation = [NSURL URLWithString:@"http://rnjs.development.internal.procoapp.com:8081/index.ios.bundle?platform=ios&dev=true"];
+        jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.99:8081/index.ios.bundle?platform=ios&dev=true"];
     #endif
   #else
     jsCodeLocation = [CodePush bundleURL];

@@ -30,7 +30,7 @@ module.exports = (event) => {
       return new Promise((resolve, reject) => {
         const geoQuery = geoFire.query({
           center: location,
-          radius: 1,
+          radius: 500,
         });
 
         let drops = [];

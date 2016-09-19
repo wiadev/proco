@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>16</string>
+	<string>17</string>
 	<key>CodePushDeploymentKey</key>
 	<string>exddagaa6deaahf5Jtqj64fCgScDEJKHCtHifg</string>
 	<key>FacebookAppID</key>
@@ -60,12 +60,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Advertisement would like to use bluetooth.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Advertisement would like to create a calendar event.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>App requires background location tracking</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>@TODO: come up with a clever thing here</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>LaunchScreen</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Advertisement would like to store a photo.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Bold.ttf</string>
@@ -99,7 +105,7 @@
 		<string>armv7</string>
 	</array>
 	<key>UIRequiresFullScreen</key>
-	<false/>
+	<true/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleLightContent</string>
 	<key>UISupportedInterfaceOrientations</key>

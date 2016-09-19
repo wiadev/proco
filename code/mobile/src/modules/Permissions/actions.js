@@ -53,7 +53,7 @@ export function updateNotificationToken(fcm_token) {
 
     if (!auth.uid) return;
 
-    if (tokens.fcm === fcm_token) {
+    if (tokens && tokens.fcm === fcm_token) {
       console.log("Already have it");
       return;
     }
