@@ -69,7 +69,7 @@ checkPoolFilters(uid, mid) {
   && isNotSelf(mid) // We shouldn't users themselves to their pool
   && !isBlocked(mid)
   && !isMatched(mid)
-  && !isSeenCurrentQuestion(mid)
+  //&& !isSeenCurrentQuestion(mid)
   && checkGenderFilterFor(mid)
   && checkAgeFilterFor(mid)
 }
