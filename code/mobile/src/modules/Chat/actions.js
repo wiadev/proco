@@ -1,17 +1,15 @@
 import { database, timestamp, getKey } from "../../core/Api";
 import { getThreadPeople } from "./api";
+import { startWatching } from "../../core/Api/firebase";
 
 export const post = (thread_id, message) => {
-  console.log("got post", thread_id, message)
+
   return (dispatch, getState) => {
 
     const {auth: {uid}} = getState();
 
-    console.log("uid", uid);
-
     getThreadPeople(thread_id).then(people => {
 
-      console.log("got people", people);
       if (!message._id) {
         message._id = getKey();
       }
@@ -30,11 +28,9 @@ export const post = (thread_id, message) => {
         }
       });
 
-      console.log("updates", updates)
       database.ref().update(updates);
 
     });
-
 
   };
 };
@@ -83,6 +79,33 @@ export const mute = (thread_id) => {
 export const unmute = (thread_id) => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
+
+  };
+};
+
+export const startWatchingThreads = () => {
+  return (dispatch, getState) => {
+    const {auth: {uid}} = getState();
+
+    dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async(data) => {
+      console.log("data", data);
+
+      const threads = data.threads ? data.threads : {};
+      const unseen = data.unseen_threads ? Object.keys(data.unseen_threads) : [];
+
+      for (let thread of Object.keys(data.threads)) {
+        threads[thread] = Object.assign(data.threads[thread], {
+          people: await getThreadPeople(thread),
+          unseen: Object.keys(data.threads[thread].unseen_messages),
+        });
+      }
+
+      return {
+        threads,
+        unseen
+      };
+
+    }));
 
   };
 };

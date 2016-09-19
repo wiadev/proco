@@ -1,6 +1,6 @@
 import React from 'react';
 import List from '../../../components/Chat/ConversationList';
-import {getUserSummary} from '../../../core/Api';
+import {database} from '../../../core/Api';
 
 import { connect } from 'react-redux';
 
@@ -24,11 +24,16 @@ export default class ConversationList extends React.Component {
 
   componentWillMount() {
 
+    database.ref(`inboxes/${this.props.uid}`).on('value', (snap) => {
+      const data = snap.val();
+      this.setState({threads: data.threads});
+    });
+
   }
 
   render() {
     return (
-      <List isLoading={this.state.isLoading} list={this.state.list} />
+      <List isLoading={this.state.isLoading} list={this.state.threads} />
     );
   }
 }

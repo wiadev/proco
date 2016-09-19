@@ -1,8 +1,9 @@
-import {AsyncStorage} from "react-native";
-import {is as isReducer, info as infoReducer} from "./dataReducers";
-import {startWatching, stopWatchingAll, takeOnline} from "../../core/Api/firebase";
-import {startWatchingPool, startWatchingPoolStatus} from '../Pool/actions';
-import {database, base, timestamp} from "../../core/Api";
+import { AsyncStorage } from "react-native";
+import { is as isReducer, info as infoReducer } from "./dataReducers";
+import { startWatching, stopWatchingAll, takeOnline } from "../../core/Api/firebase";
+import { startWatchingPool, startWatchingPoolStatus } from "../Pool/actions";
+import { startWatchingThreads } from "../Chat/actions";
+import { database, base, timestamp } from "../../core/Api";
 
 const typeMap = {
   info: 'INFO',
@@ -84,7 +85,7 @@ export const afterLoginActions = () => {
     dispatch(startWatching('userIs', database.ref(`users/is/${uid}`), isReducer));
     dispatch(startWatching('userSettings', database.ref(`users/settings/${uid}`)));
     dispatch(startWatching('userFilters', database.ref(`users/filters/${uid}`)));
-    dispatch(startWatching('userInboxUnseenThreads', database.ref(`inboxes/${uid}/unseen_threads`)));
+    dispatch(startWatchingThreads());
     dispatch(startWatchingPoolStatus());
     dispatch(startWatchingPool());
 
@@ -99,7 +100,7 @@ export const beforeLogoutActions = () => {
 
 export const updateLoopKey = (loop_key) => {
   return (dispatch, getState) => {
-    const { auth: { uid } } = getState();
+    const {auth: {uid}} = getState();
     database.ref('users').update({
       [`info/${uid}/loop_key`]: loop_key,
       [`summary/${uid}/loop_key`]: loop_key,

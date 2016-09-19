@@ -26,7 +26,7 @@ const defaultProps = {
   isMounted: true,
   photoOpacity: 1,
   local: true,
-  continuous: false
+  continuous: false,
 };
 
 @reactMixin.decorate(reactTimerMixin)
