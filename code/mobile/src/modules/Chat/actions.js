@@ -3,6 +3,14 @@ import { getThreadPeople } from "./api";
 import { startWatching } from "../../core/Api/firebase";
 import { loadSummary } from "../Profiles/actions";
 
+const getThreadRef = (thread_id, uid) => {
+  if (!refs[`threadRefs_${thread_id}`]) {
+    refs[`threadRefs_${thread_id}`] = database.ref(`threads/${thread_id}/${uid}`);
+  }
+
+  return refs[`threadRefs_${thread_id}`];
+};
+
 export const post = (thread_id, message) => {
 
   return (dispatch, getState) => {
@@ -95,7 +103,7 @@ export const startWatchingThreads = () => {
       for (let thread of Object.keys(threads)) {
 
         const people = await getThreadPeople(thread);
-        people.splice(uid, 1);
+        people.splice(people.indexOf(uid), 1);
 
         threads[thread] = Object.assign(threads[thread], {
           people,
@@ -118,7 +126,7 @@ export const startWatchingThreads = () => {
   };
 };
 
-export const loadThread = (thread_id, count = 30) => {
+export const loadEarlier = (thread_id, count = 30) => {
   return (dispatch, getState) => {
     const {auth: {uid}, threads} = getState();
 
@@ -129,7 +137,7 @@ export const loadThread = (thread_id, count = 30) => {
       thread.last_message = 0;
     }
 
-    database.ref()
+    getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(count)
       .startAt(thread.last_message)
@@ -152,10 +160,10 @@ export const startWatchingThread = (thread_id) => {
     const thread = threads[thread_id];
 
     if (!thread) {
-      dispatch(setInitialStateForThread());
+      dispatch(loadEarlier(thread_id));
     }
 
-    refs[`messageTrackerFor_${thread_id}`] = database.ref(`threads/${thread_id}/${uid}`)
+    getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(1)
       .startAt()
