@@ -93,15 +93,18 @@ export const startWatchingThreads = () => {
       const { threads = {}, unseen_threads = {} } = data ? data : {};
 
       for (let thread of Object.keys(threads)) {
-        const people =  await getThreadPeople(thread).splice(uid, 1);
+
+        const people = await getThreadPeople(thread);
+
         threads[thread] = Object.assign(threads[thread], {
           people,
           unseen: threads[thread].unseen_messages ? Object.keys(threads[thread].unseen_messages) : [],
         });
 
-        for (let profile of people) {
-          dispatch(loadSummary(profile));
-        }
+        people.forEach(person => {
+          if (person === uid) return;
+          dispatch(loadSummary(person));
+        });
 
       }
 
@@ -117,6 +120,18 @@ export const startWatchingThreads = () => {
 
 export const loadThread = (thread_id, count = 30) => {
   return (dispatch, getState) => {
+    const { auth: { uid }, threads } = getState();
+
+    const thread = threads[thread_id];
+
+    if (!thread) {
+      dispatch(setInitialStateForThread());
+      thread.last_message = 0;
+    }
+
+    //database.ref()
+
+
 
   };
 };
@@ -136,7 +151,7 @@ export const startWatchingThread = (thread_id) => {
       .limitToLast(1)
       .startAt()
       .on('child_added', (snap) => {
-        dispatch(messageReceived(thread_id, snap.val()));
+        dispatch(receivedMessages(thread_id, [snap.val()]));
       });
   };
 };
