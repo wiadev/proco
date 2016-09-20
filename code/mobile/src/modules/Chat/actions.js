@@ -21,7 +21,7 @@ export const post = (thread_id, message) => {
     message._id = getKey();
     message.createdAt = timestamp;
     message.type = message.type || "message";
-    message.sender = message.sender || uid;
+    message.user = message.user || uid;
 
     const updates = {};
 
@@ -126,9 +126,15 @@ export const startWatchingThreads = () => {
   };
 };
 
+const getMessageObjectForApp = (message, profiles) => assign(message, {
+  user: assign({
+    _id: message.user,
+  }, profiles[message.user]),
+});
+
 export const loadEarlier = (thread_id, count = 30) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, api: { data: { userThreads: { threads }}}} = getState();
+    const {auth: {uid}, profiles, api: { data: { userThreads: { threads }}}} = getState();
 
     const {last_message: { _id = 0 }} = threads[thread_id];
 
@@ -140,7 +146,8 @@ export const loadEarlier = (thread_id, count = 30) => {
       .then(snap => snap.val())
       .then(messages => {
         if (messages) {
-          //dispatch(loadedMessages(thread_id, Object.keys(obj).map(function (key) {return obj[key]});));
+          const _messages = Object.keys(messages).map(message => getMessageObjectForApp(message, profiles));
+          dispatch(loadedMessages(thread_id, _messages));
         }
       });
 
@@ -150,7 +157,7 @@ export const loadEarlier = (thread_id, count = 30) => {
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, api: { data: { userThreads: { threads }}}} = getState();
+    const {auth: {uid}, profiles, api: { data: { userThreads: { threads }}}} = getState();
 
     const {last_message: { _id = 0 }} = threads[thread_id];
 
@@ -159,7 +166,7 @@ export const startWatchingThread = (thread_id) => {
       .limitToLast(1)
       .startAt(_id)
       .on('child_added', (snap) => {
-        dispatch(receivedMessages(thread_id, [snap.val()]));
+        dispatch(receivedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
       });
   };
 };
