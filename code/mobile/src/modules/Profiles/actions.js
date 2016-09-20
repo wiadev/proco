@@ -1,4 +1,4 @@
-import { database, logEvent, getFirebaseDataWithCache, timestamp } from "../../core/Api";
+import { database, logEvent, getFirebaseDataWithCache, getFirebaseData, timestamp } from "../../core/Api";
 import { assign } from "../../core/utils";
 import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";
@@ -7,7 +7,7 @@ export const loadSummary = (uid) => {
   return async(dispatch) => {
     dispatch({
       type: 'PROFILE_LOADED',
-      payload: await getFirebaseDataWithCache(`users/summary/${uid}`)
+      payload: await getFirebaseData(`users/summary/${uid}`),
     });
   };
 };
