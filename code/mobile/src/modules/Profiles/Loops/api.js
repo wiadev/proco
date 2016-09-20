@@ -15,7 +15,7 @@ export const clearLoop = (loop_key) =>
   fs.unlink(`${cachePoolDir}/${loop_key}`).catch(e => Promise.resolve());
 */
 
-export const getProfileLoop = (loop_key = 0) => {
+export const getProfileLoop = (loop_key) => {
   const localPath = cachePoolDir + '/' + loop_key;
   return fs.exists(localPath)
     .then((data) => data ? localPath : Promise.reject())
@@ -33,7 +33,7 @@ export const getProfileLoop = (loop_key = 0) => {
 
 export const getProfileLoopOf = async(uid) => {
   const snap = await database.ref(`users/summary/${uid}/loop_key`).once('value');
-  const loop_key = snap.val() || '0';
+  const loop_key = snap.val() || 'default.mp4';
   return {
     file: await getProfileLoop(loop_key),
     key: loop_key,
