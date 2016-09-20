@@ -6,7 +6,7 @@ const cachePoolDir = fs.dirs.DocumentDir + '/LoopCache';
 const loopBaseRef = storage.ref('loops');
 
 export const clearCachedLoops = () => Promise.resolve();
-export const clearLoop = () => Promise.resolve();
+export const clearLoop = (loop_key) => Promise.resolve();
 
 /*export const clearCachedLoops = () =>
   fs.unlink(cachePoolDir).catch(e => Promise.resolve());
