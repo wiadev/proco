@@ -21,16 +21,6 @@ const initialState = {
 };
 
 export default class PoolItem extends React.Component {
-  static propTypes = {
-    data: React.PropTypes.object.isRequired,
-    isMounted: React.PropTypes.bool.isRequired,
-    onComplete: React.PropTypes.func.isRequired
-  };
-
-  static defaultProps = {
-    isMounted: true
-  };
-
   constructor(props) {
     super(props);
 
@@ -213,3 +203,13 @@ export default class PoolItem extends React.Component {
     }
   }
 }
+
+PoolItem.propTypes = {
+  data: React.PropTypes.object.isRequired,
+  isMounted: React.PropTypes.bool.isRequired,
+  onComplete: React.PropTypes.func.isRequired
+};
+
+PoolItem.defaultProps = {
+  isMounted: true
+};
