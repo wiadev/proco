@@ -1,19 +1,17 @@
-import {assign} from "../../../core/utils";
+import { assign } from "../../../core/utils";
 import {
   USER_LOOP_CHANGED,
   USER_LOOP_CAPTURED,
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
-  USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
-  USER_LOOP_CLEAN_CAPTURED,
+  USER_LOOP_CLEAN_CAPTURED
 } from "./constants";
 
 export const initialState = {
-  current: [],
-  captured: [],
+  current: null,
+  captured: null,
   status: 'WAITING',
   progress: null,
-  progresses: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -23,7 +21,7 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case USER_LOOP_CHANGED:
       return assign(state, {
-        current: [],
+        current: null,
       });
     case USER_LOOP_STATUS_CHANGED:
       return assign(state, {
@@ -32,20 +30,16 @@ export default function reducer(state = initialState, action = {}) {
     case USER_LOOP_CAPTURED:
       return assign(state, {
         status: 'PREVIEWING',
-        photos: action.payload.photos,
+        file: action.payload.file,
       });
     case USER_LOOP_UPLOAD_PROGRESS_CHANGED:
       return assign(state, {
         progress: action.payload.progress,
       });
-    case USER_LOOP_UPLOAD_PROGRESSES_CHANGED:
-      return assign(state, {
-        progresses: action.payload.progresses,
-      });
     case USER_LOOP_CLEAN_CAPTURED:
       return assign(state, {
         status: 'WAITING',
-        photos: []
+        file: null,
       });
   }
 

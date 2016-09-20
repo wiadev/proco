@@ -1,13 +1,12 @@
-import {AsyncStorage} from "react-native";
-import {getKey} from "../../../core/Api";
-import {upload as firebaseUpload} from "../../../core/Api/firebase/storage";
-import {updateLoopKey} from "../actions";
+import { AsyncStorage } from "react-native";
+import { getKey } from "../../../core/Api";
+import { upload as firebaseUpload } from "../../../core/Api/firebase/storage";
+import { updateLoopKey } from "../actions";
 import {
   USER_LOOP_CAPTURED,
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
-  USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
-  USER_LOOP_CLEAN_CAPTURED,
+  USER_LOOP_CLEAN_CAPTURED
 } from "./constants";
 
 export const cancelled = completed = () => ({
@@ -21,70 +20,52 @@ export const startedCapturing = () => ({
   },
 });
 
-export const doneCapturing = (photos = []) => ({
+export const doneCapturing = (file = null) => ({
   type: USER_LOOP_CAPTURED,
   payload: {
-    photos,
+    file,
   },
 });
 
 export const upload = () => {
   return (dispatch, getState) => {
-    const {userloop: {photos = []}} = getState();
+    const {userloop: {file = null}, auth: {uid}} = getState();
 
+    if (!file) {
+      dispatch(failed());
+      return;
+    }
+    
     dispatch(startedUploading());
 
-    dispatch(uploadProgressChanged(0));
+    dispatch(progressChanged(0));
 
-    const loop_key = getKey();
+    const loop_key = `${uid}/${getKey()}`;
 
-    const uploads = photos.map((photo, i) =>
-      firebaseUpload(photo, `loops/${loop_key}/${i}.jpg`, 'image/jpg')
-        /*.uploadProgress((written, total) => {
-          dispatch(fileUploadProgressChanged(i, (written / total)));
-        })*/
-        .then(snapshot => {
-          dispatch(fileUploadProgressChanged(i, 1));
-          return snapshot;
-        })
-    );
-
-    Promise.all(uploads).then(() => {
-      dispatch(completed());
-      dispatch(updateLoopKey(loop_key));
-    }).catch(e => {
-      console.log("UPLOAD ERROR", e);
-      dispatch(failed());
-    })
+    return firebaseUpload(file, `loops/${loop_key}.mp4`, 'video/mp4')
+    /*.uploadProgress((written, total) => {
+     dispatch(fileUploadProgressChanged(i, (written / total)));
+     })*/
+      .then(snapshot => {
+        dispatch(progressChanged(100));
+        dispatch(completed());
+        dispatch(updateLoopKey(loop_key));
+        return snapshot;
+      })
+      .catch(e => {
+        console.log("UPLOAD ERROR", e);
+        dispatch(failed());
+      });
 
   };
 };
 
-const fileUploadProgressChanged = (file, progress) => {
-  return (dispatch, getState) => {
-    const {userloop: {progresses}} = getState();
-    progresses[file] = progress;
-    dispatch({
-      type: USER_LOOP_UPLOAD_PROGRESSES_CHANGED,
-      payload: {
-        progresses,
-      },
-    });
-    dispatch(uploadProgressChanged());
-  }
-};
-
-const uploadProgressChanged = () => {
-  return (dispatch, getState) => {
-    const {userloop: {progresses = []}} = getState();
-    dispatch({
-      type: USER_LOOP_UPLOAD_PROGRESS_CHANGED,
-      payload: {
-        progress: (progresses.reduce((a, b) => a + b, 0) / progresses.length) * 100,
-      },
-    });
-  };
-};
+const progressChanged = (progress) => ({
+  type: USER_LOOP_UPLOAD_PROGRESS_CHANGED,
+  payload: {
+    progress,
+  },
+});
 
 const startedUploading = () => ({
   type: USER_LOOP_STATUS_CHANGED,
