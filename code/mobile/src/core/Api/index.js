@@ -17,14 +17,17 @@ export const timestamp = firebase.database.ServerValue.TIMESTAMP;
 
 export const refs = {};
 
+export const getFirebaseData = (ref) => {
+  return database.ref(ref)
+    .once('value')
+    .then(snap => snap.val());
+};
+
 export const getFirebaseDataWithCache = ref => {
-  console.log("ref", ref);
   const key = '@Proco:FDC:' + ref;
   return AsyncStorage.getItem(key).then(data => {
     if (data !== null) return JSON.parse(data);
-    return database.ref(ref)
-      .once('value')
-      .then(snap => snap.val())
+    return getFirebaseData(ref)
       .then(data => {
         if (!data) return null;
         AsyncStorage.setItem(key, JSON.stringify(data));
