@@ -35,14 +35,14 @@ export const upload = () => {
       dispatch(failed());
       return;
     }
-    
+
     dispatch(startedUploading());
 
     dispatch(progressChanged(0));
 
     const loop_key = `${uid}/${getKey()}`;
 
-    return firebaseUpload(file, `loops/${loop_key}.mp4`, 'video/mp4')
+    return firebaseUpload(file, `loops/${loop_key}`, 'video/mp4')
     /*.uploadProgress((written, total) => {
      dispatch(fileUploadProgressChanged(i, (written / total)));
      })*/

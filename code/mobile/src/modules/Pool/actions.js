@@ -80,7 +80,7 @@ export const addToPool = (uid, data) => {
       payload: assign({
         uid,
       }, data, poolData, {
-        profileLoopPhotos: poolData.profileLoopPhotos.files,
+        profileLoopFile: poolData.profileLoopPhotos.file,
         profileLoopKey: poolData.profileLoopPhotos.key,
       }),
     });
