@@ -1,4 +1,4 @@
-import { database, logEvent, getFirebaseDataWithCache, getFirebaseData, timestamp } from "../../core/Api";
+import { database, logEvent, getFirebaseData, timestamp, refs } from "../../core/Api";
 import { assign } from "../../core/utils";
 import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";
@@ -72,6 +72,50 @@ export const unblock = (id, payload = {}) => {
     dispatch(changeBlockStatus(id, false, payload));
   };
 };
+
+export const startTrackingOnlineStatus = (uid) => {
+  return dispatch => {
+    const ref = refs[`onlineStatusTrackerFor_${uid}`];
+    if (ref) return;
+
+    ref = database.ref(`users/summary/${uid}/is_online`)
+      .on('value', snap => dispatch(onlineStatusChanged(snap.val() || false)));
+
+    dispatch(startedTrackingOnlineStatus());
+  }
+};
+
+export const stopTrackingOnlineStatus = (uid) => {
+  return dispatch => {
+    const ref = refs[`onlineStatusTrackerFor_${uid}`];
+    if (!ref) return;
+    ref.off();
+    delete refs[`onlineStatusTrackerFor_${uid}`];
+    dispatch(stoppedTrackingOnlineStatus(uid));
+  }
+};
+
+const startedTrackingOnlineStatus = (uid) => ({
+  type: 'PROFILE_ONLINE_STATUS_STARTED_TRACKING',
+  payload: {
+    uid,
+  },
+});
+
+const stoppedTrackingOnlineStatus = (uid) => ({
+  type: 'PROFILE_ONLINE_STATUS_STOPPED_TRACKING',
+  payload: {
+    uid,
+  },
+});
+
+const onlineStatusChanged = (uid, status = false) => ({
+  type: 'PROFILE_ONLINE_STATUS_CHANGED',
+  payload: {
+    uid,
+    status,
+  },
+});
 
 const changeBlockStatus = (id, status = true, payload = {}) => {
   return (dispatch, getState) => {
