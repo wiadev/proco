@@ -38,6 +38,13 @@ module.exports = (event) => {
 
         geoQuery.on("ready", () => {
 
+          if (drops.length > 0) {
+            status.set({
+              status: 'COMPLETED',
+              last_checked: timestamp,
+            });
+          }
+
           const radius = geoQuery.radius();
           if (drops.length < 10 && radius < 5) { // If we have less than 10 drops and radius is less than 5 km, up the radius
             geoQuery.updateCriteria({
