@@ -3,7 +3,7 @@ import { is as isReducer, info as infoReducer } from "./dataReducers";
 import { startWatching, stopWatchingAll, takeOnline } from "../../core/Api/firebase";
 import { startWatchingPool, startWatchingPoolStatus } from "../Pool/actions";
 import { startWatchingThreads } from "../Chat/actions";
-import { database, base, timestamp } from "../../core/Api";
+import { database, base, timestamp, getKey } from "../../core/Api";
 import { clearLoop } from '../Profiles/Loops/api';
 
 const typeMap = {
@@ -33,7 +33,7 @@ export const getCUID = () => {
 export function postQuestion(question) {
   const uid = getCUID();
   const usersRef = database.ref('users');
-  const key = database.ref('keyGenerator').push().key;
+  const key = getKey();
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
