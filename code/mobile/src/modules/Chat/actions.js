@@ -1,6 +1,7 @@
-import { database, timestamp, getKey } from "../../core/Api";
+import { database, timestamp, refs, getKey } from "../../core/Api";
 import { getThreadPeople } from "./api";
 import { startWatching } from "../../core/Api/firebase";
+import { loadSummary } from '../Profiles/actions';
 
 export const post = (thread_id, message) => {
 
@@ -92,10 +93,16 @@ export const startWatchingThreads = () => {
       const { threads = {}, unseen_threads = {} } = data ? data : {};
 
       for (let thread of Object.keys(threads)) {
+        const people =  await getThreadPeople(thread).splice(uid, 1);
         threads[thread] = Object.assign(threads[thread], {
-          people: await getThreadPeople(thread),
+          people,
           unseen: threads[thread].unseen_messages ? Object.keys(threads[thread].unseen_messages) : [],
         });
+
+        for (let profile of people) {
+          dispatch(loadSummary(profile));
+        }
+
       }
 
       return {
@@ -104,6 +111,53 @@ export const startWatchingThreads = () => {
       };
 
     }));
+
+  };
+};
+
+export const loadThread = (thread_id, count = 30) => {
+  return (dispatch, getState) => {
+
+  };
+};
+
+export const startWatchingThread = (thread_id) => {
+  return (dispatch, getState) => {
+    const { auth: { uid }, threads } = getState();
+
+    const thread = threads[thread_id];
+
+    if (!thread) {
+      dispatch(setInitialStateForThread());
+    }
+
+    refs[`messageTrackerFor_${thread_id}`] = database.ref(`threads/${thread_id}/${uid}`)
+      .orderByKey()
+      .limitToLast(1)
+      .startAt()
+      .on('child_added', (snap) => {
+        dispatch(messageReceived(thread_id, snap.val()));
+      });
+  };
+};
+
+const setInitialStateForThread = (thread_id) => ({
+  type: 'SET_THREAD_INITIAL_STATE',
+  payload: {
+    thread_id,
+  },
+});
+
+const receivedMessages = (thread_id, messages) => ({
+  type: 'RECEIVED_MESSAGES',
+  payload: {
+    thread_id,
+    messages,
+  },
+});
+
+export const stopWatchingThread = (thread_id) => {
+  return (dispatch, getState) => {
 
   };
 };

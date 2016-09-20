@@ -1,8 +1,6 @@
-import { assign } from '../../core/utils';
-import _ from 'lodash';
+import { assign } from "../../core/utils";
 
 export const initialState = {
-  inbox: {},
   threads: {},
   isInProgress: false,
 };
@@ -10,17 +8,23 @@ export const initialState = {
 export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
-    default: return state;
-    case 'INBOX_LOADED':
+    default:
+      return state;
+    case 'SET_THREAD_INITIAL_STATE':
       return assign(state, {
-        inbox: assign(state.items, {
-          [action.payload.uid]: action.payload
+        threads: assign(state.threads, {
+          [action.payload.thread_id]: {
+            last_message: null,
+            messages: [],
+          },
         }),
       });
-    case 'THREAD_LOADED':
+    case 'RECEIVED_MESSAGES':
       return assign(state, {
-        threads: assign(state.items, {
-          [action.payload.uid]: action.payload
+        threads: assign(state.threads, {
+          [action.payload.thread_id]: {
+            messages: state.threads[action.payload.thread_id].messages.concat(action.payload.messages),
+          },
         }),
       });
   }

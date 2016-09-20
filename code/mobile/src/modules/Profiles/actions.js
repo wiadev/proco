@@ -4,10 +4,15 @@ import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";
 
 export const loadSummary = (uid) => {
-  return async(dispatch) => {
+  return async(dispatch, getState) => {
+    const {profiles} = getState();
+    if (profiles[uid]) return;
+
     dispatch({
       type: 'PROFILE_LOADED',
-      payload: await getFirebaseData(`users/summary/${uid}`),
+      payload: Object.assign({
+        uid,
+      }, await getFirebaseData(`users/summary/${uid}`)),
     });
   };
 };
