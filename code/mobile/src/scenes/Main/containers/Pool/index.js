@@ -43,7 +43,7 @@ export default class Pool extends React.Component {
       );
     }
 
-    if (['IN_PROGRESS', 'IN_PROGRESS_RESET'].indexOf(this.props.pool.status.status) !== -1) {
+    if (['IN_PROGRESS', 'IN_PROGRESS_RESET'].indexOf(this.props.pool.status.status) !== -1 && this.props.pool.items.length === 0) {
       renderCard = true;
       cardInProgress = true;
       cardLabel = "Just a sec";
