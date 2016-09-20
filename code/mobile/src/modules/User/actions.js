@@ -3,7 +3,8 @@ import { is as isReducer, info as infoReducer } from "./dataReducers";
 import { startWatching, stopWatchingAll, takeOnline } from "../../core/Api/firebase";
 import { startWatchingPool, startWatchingPoolStatus } from "../Pool/actions";
 import { startWatchingThreads } from "../Chat/actions";
-import { database, base, timestamp } from "../../core/Api";
+import { database, base, timestamp, getKey } from "../../core/Api";
+import { clearLoop } from '../Profiles/Loops/api';
 
 const typeMap = {
   info: 'INFO',
@@ -32,7 +33,7 @@ export const getCUID = () => {
 export function postQuestion(question) {
   const uid = getCUID();
   const usersRef = database.ref('users');
-  const key = database.ref('keyGenerator').push().key;
+  const key = getKey();
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
@@ -100,11 +101,16 @@ export const beforeLogoutActions = () => {
 
 export const updateLoopKey = (loop_key) => {
   return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
+    const {auth: {uid}, api: {data: {userInfo: {loop_key = null}}}} = getState();
+
+    if (loop_key) {
+      clearLoop(loop_key);
+    }
+
     database.ref('users').update({
       [`info/${uid}/loop_key`]: loop_key,
       [`summary/${uid}/loop_key`]: loop_key,
-      [`loops/${uid}/${loop_key}`]: timestamp,
+      [`loops/${loop_key}`]: timestamp,
     });
   };
 };
