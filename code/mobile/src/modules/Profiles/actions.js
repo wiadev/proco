@@ -154,7 +154,7 @@ export const match = (uidToMatch) => {
       dispatch(post(thread.key, {
         text: `Congrats, it's a match!`,
         createdAt: timestamp,
-        sender: 'proco',
+        user: 'proco',
         type: 'matched-banner',
       }));
     });
