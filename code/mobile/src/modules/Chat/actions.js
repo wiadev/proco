@@ -90,7 +90,7 @@ export const startWatchingThreads = () => {
     dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async (data) => {
 
       const { threads = {}, unseen_threads = {} } = data ? data : {};
-      
+
       for (let thread of Object.keys(threads)) {
         threads[thread] = Object.assign(threads[thread], {
           people: await getThreadPeople(thread),

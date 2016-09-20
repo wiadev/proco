@@ -8,7 +8,7 @@ const initialState = {
   data: {
     userInfo: userStates.info,
     userIs: userStates.is,
-    threads: threadListInitialState,
+    userThreads: threadListInitialState,
   },
 };
 
@@ -19,7 +19,7 @@ export default function reducer(state = initialState, action)  {
     case 'FIREBASE_WATCH_USERIS':
     case 'FIREBASE_WATCH_USERSETTINGS':
     case 'FIREBASE_WATCH_USERFILTERS':
-    case 'FIREBASE_WATCH_THREADS':
+    case 'FIREBASE_WATCH_USERTHREADS':
       return makeFirebaseState(action, state, action.payload.key, action.payload.data);
     case 'FIREBASE_LOGIN':
     case 'FIREBASE_LOGOUT':

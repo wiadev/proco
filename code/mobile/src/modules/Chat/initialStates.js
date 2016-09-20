@@ -1,4 +1,4 @@
 export const list = {
   threads: {},
-  unread: [],
+  unseen: [],
 };
