@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import Text from '../../components/Text';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
+import { trigger as poolTrigger } from '../../modules/Pool/actions';
 import { update } from '../../modules/User/actions';
 import styles from './styles';
 
@@ -105,6 +106,7 @@ export default class Filters extends React.Component {
 
   _done() {
     this.props.dispatch(update('filters', this.state.filters));
+    this.props.dispatch(poolTrigger(true));
 
     Actions.pop();
   }
