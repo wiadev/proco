@@ -1,7 +1,7 @@
 import { database, timestamp, refs, getKey } from "../../core/Api";
 import { getThreadPeople } from "./api";
 import { startWatching } from "../../core/Api/firebase";
-import { loadSummary } from '../Profiles/actions';
+import { loadSummary } from "../Profiles/actions";
 
 export const post = (thread_id, message) => {
 
@@ -88,13 +88,14 @@ export const startWatchingThreads = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
-    dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async (data) => {
+    dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async(data) => {
 
-      const { threads = {}, unseen_threads = {} } = data ? data : {};
+      const {threads = {}, unseen_threads = {}} = data ? data : {};
 
       for (let thread of Object.keys(threads)) {
 
         const people = await getThreadPeople(thread);
+        people.splice(uid, 1);
 
         threads[thread] = Object.assign(threads[thread], {
           people,
@@ -102,7 +103,6 @@ export const startWatchingThreads = () => {
         });
 
         people.forEach(person => {
-          if (person === uid) return;
           dispatch(loadSummary(person));
         });
 
@@ -120,7 +120,7 @@ export const startWatchingThreads = () => {
 
 export const loadThread = (thread_id, count = 30) => {
   return (dispatch, getState) => {
-    const { auth: { uid }, threads } = getState();
+    const {auth: {uid}, threads} = getState();
 
     const thread = threads[thread_id];
 
@@ -129,8 +129,17 @@ export const loadThread = (thread_id, count = 30) => {
       thread.last_message = 0;
     }
 
-    //database.ref()
-
+    database.ref()
+      .orderByKey()
+      .limitToLast(count)
+      .startAt(thread.last_message)
+      .once('value')
+      .then(snap => snap.val())
+      .then(messages => {
+        if (messages) {
+          //dispatch(loadedMessages(thread_id, Object.keys(obj).map(function (key) {return obj[key]});));
+        }
+      });
 
 
   };
@@ -138,7 +147,7 @@ export const loadThread = (thread_id, count = 30) => {
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const { auth: { uid }, threads } = getState();
+    const {auth: {uid}, threads} = getState();
 
     const thread = threads[thread_id];
 
@@ -160,6 +169,14 @@ const setInitialStateForThread = (thread_id) => ({
   type: 'SET_THREAD_INITIAL_STATE',
   payload: {
     thread_id,
+  },
+});
+
+const loadedMessages = (thread_id, messages) => ({
+  type: 'LOADED_MESSAGES',
+  payload: {
+    thread_id,
+    messages,
   },
 });
 

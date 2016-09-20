@@ -19,11 +19,19 @@ export default function reducer(state = initialState, action = {}) {
           },
         }),
       });
-    case 'RECEIVED_MESSAGES':
+    case 'LOADED_MESSAGES':
       return assign(state, {
         threads: assign(state.threads, {
           [action.payload.thread_id]: {
             messages: state.threads[action.payload.thread_id].messages.concat(action.payload.messages),
+          },
+        }),
+      });
+    case 'RECEIVED_MESSAGES':
+      return assign(state, {
+        threads: assign(state.threads, {
+          [action.payload.thread_id]: {
+            messages: state.threads[action.payload.thread_id].messages.append(action.payload.messages),
           },
         }),
       });
