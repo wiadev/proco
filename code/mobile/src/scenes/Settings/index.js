@@ -127,7 +127,7 @@ class Settings extends React.Component {
   _done() {
     this.ref.set(this.state.settings);
 
-    Actions.Main();
+    Actions.pop();
   }
 }
 

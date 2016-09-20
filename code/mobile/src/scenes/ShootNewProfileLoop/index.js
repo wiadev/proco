@@ -13,7 +13,6 @@ import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
 
 import ProfileLoop from "../../components/ProfileLoop";
-import profileLoopConfig from "../../modules/Profiles/Loops/config";
 import { startedCapturing, doneCapturing, upload, cancelled } from '../../modules/User/Loop/actions';
 import styles from "./styles";
 import colors from '../../core/style/colors';
@@ -50,11 +49,10 @@ export default class ShootNewProfileLoop extends React.Component {
           ref="camera"
           type={this.state.cameraType}
           aspect="fill"
-          captureAudio={false}
-          orientation="portrait"
-          captureTarget={Camera.constants.CaptureTarget.temp}
+          orientation={Camera.constants.Orientation.portrait}
           keepAwake={true}
           style={styles.camera}
+          playSoundOnCapture={false}
         >
           <View style={styles.actionButtons}>
             {this._renderActionButtons()}
@@ -64,9 +62,7 @@ export default class ShootNewProfileLoop extends React.Component {
     } else {
       return (
         <ProfileLoop
-          local={true}
-          continuous={true}
-          photos={this.props.profileLoop.photos}
+          repeat={true}
           containerStyle={styles.profileLoop}
         >
           <View style={styles.actionButtons}>
@@ -167,23 +163,19 @@ export default class ShootNewProfileLoop extends React.Component {
   }
 
   _capture() {
-    this.props.dispatch(startedCapturing());
+    this.refs.camera.capture({
+      mode: Camera.constants.CaptureMode.video,
+      audio: false,
+      target: Camera.constants.CaptureTarget.temp
+    })
+      .then(videoDetails => {
+        console.log("done", videoDetails);
+      });
 
-    let photos = [];
-    let i = 0;
-
-    let captureLoop = this.setInterval(() => {
-      if (i < profileLoopConfig.numberOfFrames) {
-        this.refs.camera.capture()
-          .then(data => photos.push(data.path));
-        i++;
-      } else {
-        // Stop the capturing interval function.
-        this.clearInterval(captureLoop);
-
-        this.props.dispatch(doneCapturing(photos));
-      }
-    }, profileLoopConfig.frameGap);
+    this.setTimeout(() => {
+      console.log("captured");
+      this.refs.camera.stopCapture();
+    }, 2000);
   }
 
   _goBack() {
