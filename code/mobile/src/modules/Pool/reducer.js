@@ -38,6 +38,11 @@ export default function reducer(state = initialState, action = {}) {
       return assign(state, {
         watchStatus: action.payload.status,
       });
+    case 'POOL_RESET':
+      return assign(state, {
+        items: {},
+        count: 0,
+      });
   }
 
 }

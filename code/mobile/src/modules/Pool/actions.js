@@ -18,6 +18,10 @@ export const trigger = (reset = false) => {
       return;
     }
 
+    if (reset) {
+      dispatch(resetLocalPool());
+    }
+
     database.ref(`ocean/statuses/${uid}`).set({
       status: reset ? 'IN_PROGRESS_RESET' : 'IN_PROGRESS',
       last_checked: timestamp,
@@ -174,4 +178,8 @@ const changePoolWatchStatus = status => ({
   payload: {
     status,
   },
+});
+
+const resetLocalPool = () => ({
+  type: 'POOL_RESET',
 });
