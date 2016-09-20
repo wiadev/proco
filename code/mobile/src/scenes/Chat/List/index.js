@@ -24,11 +24,6 @@ export default class ConversationList extends React.Component {
 
   componentWillMount() {
 
-    database.ref(`inboxes/${this.props.uid}`).on('value', (snap) => {
-      const data = snap.val();
-      this.setState({threads: data.threads});
-    });
-
   }
 
   render() {
