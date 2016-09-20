@@ -7,39 +7,37 @@ const getThreadRef = (thread_id, uid) => {
   if (!refs[`threadRefs_${thread_id}`]) {
     refs[`threadRefs_${thread_id}`] = database.ref(`threads/${thread_id}/${uid}`);
   }
-
   return refs[`threadRefs_${thread_id}`];
 };
 
 export const post = (thread_id, message) => {
 
-  return (dispatch, getState) => {
+  return async(dispatch, getState) => {
 
     const {auth: {uid}} = getState();
 
-    getThreadPeople(thread_id).then(people => {
+    const people = await getThreadPeople(thread_id);
 
-      if (!message._id) {
-        message._id = getKey();
+    message._id = getKey();
+    message.createdAt = timestamp;
+    message.type = message.type || "message";
+    message.sender = message.sender || uid;
+
+    const updates = {};
+
+    updates[`threads/messages/${thread_id}/_/${message._id}`] = message;
+
+    people.forEach(to => {
+      updates[`threads/messages/${thread_id}/${to}/${message._id}`] = message;
+      updates[`inboxes/${to}/threads/${thread_id}/last_message`] = message;
+
+      if (to !== uid) {
+        updates[`inboxes/${to}/threads/${thread_id}/unseen_messages/${message._id}`] = true;
+        updates[`inboxes/${to}/unseen_threads/${thread_id}`] = true;
       }
-
-      const updates = {};
-
-      updates[`threads/messages/${thread_id}/_/${message._id}`] = message;
-
-      people.forEach(to => {
-        updates[`threads/messages/${thread_id}/${to}/${message._id}`] = message;
-        updates[`inboxes/${to}/threads/${thread_id}/last_message`] = message;
-
-        if (to !== uid) {
-          updates[`inboxes/${to}/threads/${thread_id}/unseen_messages/${message._id}`] = true;
-          updates[`inboxes/${to}/unseen_threads/${thread_id}`] = true;
-        }
-      });
-
-      database.ref().update(updates);
-
     });
+
+    database.ref().update(updates);
 
   };
 };
@@ -130,14 +128,14 @@ export const startWatchingThreads = () => {
 
 export const loadEarlier = (thread_id, count = 30) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, threads} = getState();
+    const {auth: {uid}, api: { data: { userThreads: { threads }}}} = getState();
 
-    const thread = threads[thread_id];
+    const {last_message: { _id = 0 }} = threads[thread_id];
 
     getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(count)
-      .startAt(thread.last_message)
+      .startAt(_id)
       .once('value')
       .then(snap => snap.val())
       .then(messages => {
@@ -152,18 +150,14 @@ export const loadEarlier = (thread_id, count = 30) => {
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, threads} = getState();
+    const {auth: {uid}, api: { data: { userThreads: { threads }}}} = getState();
 
-    const thread = threads[thread_id];
-
-    if (!thread.last_message) {
-      dispatch(loadEarlier(thread_id));
-    }
+    const {last_message: { _id = 0 }} = threads[thread_id];
 
     getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(1)
-      .startAt()
+      .startAt(_id)
       .on('child_added', (snap) => {
         dispatch(receivedMessages(thread_id, [snap.val()]));
       });
@@ -202,6 +196,9 @@ const receivedMessages = (thread_id, messages) => ({
 
 export const stopWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
+
+    const {auth: {uid}} = getState();
+    getThreadRef(thread_id, uid).off();
 
   };
 };

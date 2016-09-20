@@ -152,10 +152,9 @@ export const match = (uidToMatch) => {
     }).then(() => {
 
       dispatch(post(thread.key, {
-        _id: 0,
         text: `Congrats, it's a match!`,
         createdAt: timestamp,
-        user: 'proco',
+        sender: 'proco',
         type: 'matched-banner',
       }));
     });

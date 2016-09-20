@@ -1,7 +1,7 @@
 import { assign } from "../../core/utils";
 
 export const initialState = {
-  threads: {},
+  messages: {},
   isInProgress: false,
 };
 
@@ -12,27 +12,20 @@ export default function reducer(state = initialState, action = {}) {
       return state;
     case 'SET_THREAD_INITIAL_STATE':
       return assign(state, {
-        threads: assign(state.threads, {
-          [action.payload.thread_id]: {
-            last_message: null,
-            messages: [],
-          },
+        messages: assign(state.messages, {
+          [action.payload.thread_id]: [],
         }),
       });
     case 'LOADED_MESSAGES':
       return assign(state, {
-        threads: assign(state.threads, {
-          [action.payload.thread_id]: {
-            messages: state.threads[action.payload.thread_id].messages.concat(action.payload.messages),
-          },
+        messages: assign(state.messages, {
+          [action.payload.thread_id]: state.threads[action.payload.thread_id].messages.concat(action.payload.messages),
         }),
       });
     case 'RECEIVED_MESSAGES':
       return assign(state, {
-        threads: assign(state.threads, {
-          [action.payload.thread_id]: {
-            messages: state.threads[action.payload.thread_id].messages.append(action.payload.messages),
-          },
+        messages: assign(state.messages, {
+          [action.payload.thread_id]: state.threads[action.payload.thread_id].messages.append(action.payload.messages),
         }),
       });
   }
