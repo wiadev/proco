@@ -114,6 +114,8 @@ export const startWatchingThreads = () => {
           dispatch(loadSummary(person));
         });
 
+        dispatch(setInitialStateForThread(thread));
+
       }
 
       return {
@@ -131,11 +133,6 @@ export const loadEarlier = (thread_id, count = 30) => {
     const {auth: {uid}, threads} = getState();
 
     const thread = threads[thread_id];
-
-    if (!thread) {
-      dispatch(setInitialStateForThread());
-      thread.last_message = 0;
-    }
 
     getThreadRef(thread_id, uid)
       .orderByKey()
@@ -159,7 +156,7 @@ export const startWatchingThread = (thread_id) => {
 
     const thread = threads[thread_id];
 
-    if (!thread) {
+    if (!thread.last_message) {
       dispatch(loadEarlier(thread_id));
     }
 
@@ -173,12 +170,19 @@ export const startWatchingThread = (thread_id) => {
   };
 };
 
-const setInitialStateForThread = (thread_id) => ({
-  type: 'SET_THREAD_INITIAL_STATE',
-  payload: {
-    thread_id,
-  },
-});
+const setInitialStateForThread = (thread_id) => {
+  return (dispatch, getState) => {
+    const {threads} = getState();
+    const thread = threads[thread_id];
+    if (thread) return;
+    dispatch({
+      type: 'SET_THREAD_INITIAL_STATE',
+      payload: {
+        thread_id,
+      },
+    })
+  };
+};
 
 const loadedMessages = (thread_id, messages) => ({
   type: 'LOADED_MESSAGES',
