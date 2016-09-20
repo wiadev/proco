@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  Image,
   Text,
   ScrollView,
   ListView,
@@ -25,6 +26,7 @@ export default class ConversationList extends React.Component {
           leftActor="keyboard-arrow-left"
           leftAction={() => Actions.pop()}
         />
+
         {this.props.isLoading ? <ActivityIndicator
           size="large"
           color="#ffffff"
@@ -34,56 +36,55 @@ export default class ConversationList extends React.Component {
   }
 
   _renderConversationList() {
-    const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 });
-
-    if (this.props.list.length === 0) {
+    if (Object.keys(this.props.threads.threads).length === 0) {
       return (
         <Card label="You have no messages" noClose={true} />
       );
-    } else {
-      return (
-        <ScrollView>
-          <ListView
-            dataSource={listDataSource.cloneWithRows(this.props.list)}
-            renderRow={::this._renderSingleConversation}
-          />
-        </ScrollView>
-      );
     }
+
+    const listDataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2 });
+
+    let threadsArray = [];
+
+    Object.keys(this.props.threads.threads).map(threadId => threadsArray.push({
+      threadId: threadId,
+      ...this.props.threads.threads[threadId]
+    }));
+
+    return (
+      <ScrollView>
+        <ListView
+          dataSource={listDataSource.cloneWithRows(threadsArray)}
+          renderRow={::this._renderSingleConversation}
+        />
+      </ScrollView>
+    );
   }
 
-  _renderSingleConversation(conversation) {
+  _renderSingleConversation(thread) {
     // TODO: Other user's avatar should go in <View style={styles.avatar}></View>
+    const profile = this.props.profiles.profiles[thread.people[0]];
+
     return (
-      <TouchableHighlight onPress={() => this._goToConversation(conversation.key)} underlayColor="rgba(0, 0, 0, 0.1)">
+      <TouchableHighlight onPress={() => Actions.Conversation(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.1)">
         <View style={styles.conversation}>
           <View style={styles.avatar}>
-
+            <Image source={{uri: profile.avatar}} style={{flex: 1, width: null, height: null, resizeMode: 'cover'}} />
           </View>
 
           <View style={styles.conversationInfo}>
             <View>
-              <Text style={styles.username}>{conversation.name}</Text>
-              <Text style={styles.lastMessage}>{conversation.last_message}</Text>
-            </View>
-
-            <View>
-              <MessageCountIcon
-                messageCount={conversation.unread}
-                messageDot={{borderColor: 'white'}}
-                textColor={conversation.unread ? 'rgb(249,54,95)' : 'rgb(209,213,217)'}
-                textStyles={conversation.unread ? {color: 'white', fontSize: 12, left: -31} : {color: 'transparent'}}
-                showEmpty={false}
-                size={25}
-              />
+              <Text style={styles.username}>{this.props.profiles.profiles[thread.people[0]].display_name}</Text>
+              <Text style={styles.lastMessage}>{thread.last_message.text}</Text>
             </View>
           </View>
         </View>
       </TouchableHighlight>
     );
   }
-
-  _goToConversation(uid) {
-    Actions.Conversation(uid);
-  }
 }
+
+ConversationList.propTypes = {
+  threads: React.PropTypes.any.isRequired,
+  profiles: React.PropTypes.any.isRequired
+};
