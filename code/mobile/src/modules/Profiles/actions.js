@@ -75,10 +75,9 @@ export const unblock = (id, payload = {}) => {
 
 export const startTrackingOnlineStatus = (uid) => {
   return dispatch => {
-    const ref = refs[`onlineStatusTrackerFor_${uid}`];
-    if (ref) return;
+    if (refs[`onlineStatusTrackerFor_${uid}`]) return;
 
-    ref = database.ref(`users/summary/${uid}/is_online`)
+    refs[`onlineStatusTrackerFor_${uid}`] = database.ref(`users/summary/${uid}/is_online`)
       .on('value', snap => dispatch(onlineStatusChanged(snap.val() || false)));
 
     dispatch(startedTrackingOnlineStatus());
