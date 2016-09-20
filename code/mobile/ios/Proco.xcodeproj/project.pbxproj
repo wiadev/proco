@@ -29,6 +29,7 @@
 		257A8C1EEBD9441CBF80A1DB /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD229D14BEF547EC8D447BDB /* libRNVectorIcons.a */; };
 		2B4E22CD9A994903B70C4FA2 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B46DEE4C61A84C78B02A7050 /* FontAwesome.ttf */; };
 		3B13C01962EA4B7B95DB773F /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4355BDA6B3E6457C923C0838 /* libCodePush.a */; };
+		5D57691ED52947C593C9FE5F /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75F87ED2CEFC48459BF4B2D7 /* libRCTVideo.a */; };
 		631F69686E4D42118700C96E /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF52AFB6CAE24AD393BAFABE /* libRNFetchBlob.a */; };
 		6B20FCB2FA4546208F06B0CA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10577893D20348DBABA66E2F /* Octicons.ttf */; };
 		7424EF961D6A446A00044091 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7424EF8C1D6A446A00044091 /* OpenSans-Bold.ttf */; };
@@ -123,6 +124,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		6280DA571D919BD600EC9EA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 241540E075FB40B786D5AEC3 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
 		};
 		74026B001D82288300732098 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -246,6 +254,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Proco/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1471247FC2F524FFCA2E3C58 /* libPods-ProcoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProcoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		241540E075FB40B786D5AEC3 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		2A1279D63385446794351B6D /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		3237A91D6AF67B398168C205 /* libPods-Proco.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Proco.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E9640889A044A41B2FB77B6 /* libRNFIRMessaging.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFIRMessaging.a; sourceTree = "<group>"; };
@@ -272,6 +281,7 @@
 		7452C75E1D592B7F00AAACD7 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "../src/assets/images/logo@2x.png"; sourceTree = "<group>"; };
 		7452C75F1D592B7F00AAACD7 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "../src/assets/images/logo@3x.png"; sourceTree = "<group>"; };
 		748900DB1D633591009E48C4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../config/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		75F87ED2CEFC48459BF4B2D7 /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7B2772ED7EA24CB687C333DA /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -333,6 +343,7 @@
 				3B13C01962EA4B7B95DB773F /* libCodePush.a in Frameworks */,
 				CFB9B809DEB44E2FA00EE06D /* libz.tbd in Frameworks */,
 				EE56F784DB034A97A4485188 /* libRNLocation.a in Frameworks */,
+				5D57691ED52947C593C9FE5F /* libRCTVideo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,6 +466,14 @@
 				B24152153627426DBDACB867 /* libz.tbd */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6280DA471D919BD600EC9EA4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6280DA581D919BD600EC9EA4 /* libRCTVideo.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		732E03D7C1164F72BFFD30D0 /* Resources */ = {
@@ -596,6 +615,7 @@
 				DAD841FC5FC640629B2420BB /* RNFetchBlob.xcodeproj */,
 				A4B2D44E4E7D49FEA66EFD7A /* CodePush.xcodeproj */,
 				85EDFF74518A4671BE8AD25D /* RNLocation.xcodeproj */,
+				241540E075FB40B786D5AEC3 /* RCTVideo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -684,7 +704,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 800;
 				ORGANIZATIONNAME = "Barbar Startup Factory";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -774,6 +794,10 @@
 				{
 					ProductGroup = 00C302E01ABCB9EE00DB3ED1 /* Products */;
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
+				},
+				{
+					ProductGroup = 6280DA471D919BD600EC9EA4 /* Products */;
+					ProjectRef = 241540E075FB40B786D5AEC3 /* RCTVideo.xcodeproj */;
 				},
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
@@ -867,6 +891,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6280DA581D919BD600EC9EA4 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 6280DA571D919BD600EC9EA4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		74026B011D82288300732098 /* libRNLocation.a */ = {
@@ -1156,7 +1187,10 @@
 				INFOPLIST_FILE = ProcoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1177,7 +1211,10 @@
 				INFOPLIST_FILE = ProcoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1228,6 +1265,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-location",
+					"$(SRCROOT)/../node_modules/react-native-video",
 				);
 				INFOPLIST_FILE = Proco/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1283,6 +1321,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-location",
+					"$(SRCROOT)/../node_modules/react-native-video",
 				);
 				INFOPLIST_FILE = Proco/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1357,6 +1396,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-location",
+					"$(SRCROOT)/../node_modules/react-native-video",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1415,6 +1455,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 					"$(SRCROOT)/../node_modules/react-native-location",
+					"$(SRCROOT)/../node_modules/react-native-video",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
