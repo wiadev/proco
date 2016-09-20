@@ -47,12 +47,16 @@ export default class ShootNewProfileLoop extends React.Component {
       return (
         <Camera
           ref="camera"
+          captureMode={Camera.constants.CaptureMode.video}
           type={this.state.cameraType}
-          aspect="fill"
+          aspect={Camera.constants.Aspect.fill}
+          captureTarget={Camera.constants.CaptureTarget.temp}
+          captureAudio={false}
           orientation={Camera.constants.Orientation.portrait}
           keepAwake={true}
-          style={styles.camera}
           playSoundOnCapture={false}
+          mirrorImage={true}
+          style={styles.camera}
         >
           <View style={styles.actionButtons}>
             {this._renderActionButtons()}
@@ -62,6 +66,7 @@ export default class ShootNewProfileLoop extends React.Component {
     } else {
       return (
         <ProfileLoop
+          video={this.props.profileLoop.file}
           repeat={true}
           containerStyle={styles.profileLoop}
         >
@@ -163,19 +168,16 @@ export default class ShootNewProfileLoop extends React.Component {
   }
 
   _capture() {
+    this.props.dispatch(startedCapturing());
+
     this.refs.camera.capture({
-      mode: Camera.constants.CaptureMode.video,
-      audio: false,
       target: Camera.constants.CaptureTarget.temp
     })
-      .then(videoDetails => {
-        console.log("done", videoDetails);
-      });
+      .then(videoDetails => this.props.dispatch(doneCapturing(videoDetails.path)));
 
     this.setTimeout(() => {
-      console.log("captured");
       this.refs.camera.stopCapture();
-    }, 2000);
+    }, 1000);
   }
 
   _goBack() {
