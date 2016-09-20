@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1
   },
-  photo: {
+  video: {
     position: 'absolute',
     top: 0,
     left: 0

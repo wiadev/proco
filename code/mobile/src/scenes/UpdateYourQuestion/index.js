@@ -49,7 +49,7 @@ export default class UpdateYourQuestion extends React.Component {
       <View style={styles.updateYourQuestion}>
         <StatusBar hidden={true} />
 
-        <ProfileLoop photos={this.state.profileLoopPhotos} photoOpacity={0.6} continuous={true}>
+        <ProfileLoop repeat={true}>
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
             {this._renderTop()}
 
