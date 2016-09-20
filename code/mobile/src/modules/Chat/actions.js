@@ -87,22 +87,20 @@ export const startWatchingThreads = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
 
-    dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async(data) => {
-      console.log("data", data);
+    dispatch(startWatching('userThreads', database.ref(`inboxes/${uid}`), async (data) => {
 
-      const threads = data.threads ? data.threads : {};
-      const unseen = data.unseen_threads ? Object.keys(data.unseen_threads) : [];
-
-      for (let thread of Object.keys(data.threads)) {
-        threads[thread] = Object.assign(data.threads[thread], {
+      const { threads = {}, unseen_threads = {} } = data ? data : {};
+      
+      for (let thread of Object.keys(threads)) {
+        threads[thread] = Object.assign(threads[thread], {
           people: await getThreadPeople(thread),
-          unseen: Object.keys(data.threads[thread].unseen_messages),
+          unseen: threads[thread].unseen_messages ? Object.keys(threads[thread].unseen_messages) : [],
         });
       }
 
       return {
         threads,
-        unseen
+        unseen: Object.keys(unseen_threads),
       };
 
     }));
