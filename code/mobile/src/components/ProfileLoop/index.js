@@ -20,7 +20,8 @@ export default class ProfileLoop extends React.Component {
     return (
       <View onLayout={event => this._onLayout(event)} style={[styles.profileLoop, this.props.style]}>
         <Video
-          source={require('../../assets/dummyProfileLoop.mp4')}
+          source={this._getVideoSource()}
+          muted={true}
           resizeMode="cover"
           repeat={this.props.repeat}
           style={[styles.video, {width: this.state.width, height: this.state.height, opacity: this.props.videoOpacity}]}
@@ -40,6 +41,14 @@ export default class ProfileLoop extends React.Component {
       width: layout.width,
       height: layout.height
     });
+  }
+
+  _getVideoSource() {
+    if (this.props.video) {
+      return {uri: this.props.video};
+    } else {
+      return require('../../assets/dummyProfileLoop.mp4');
+    }
   }
 }
 
