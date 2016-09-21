@@ -4,9 +4,9 @@ path /threads {
   path /messages/{thread_id} {
     read() { root.threads.info[thread_id].people[currentUser()] != null }
 
-    index() { [ "createdAt" ] }
-
-    path /{uid} is Message[];
+    path /{uid} is Message[] {
+      index() { [ "createdAt" ] }
+    }
   }
 
 }
