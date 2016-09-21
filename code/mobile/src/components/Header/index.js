@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   View,
+  StatusBar,
   Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +17,8 @@ export default class Header extends React.Component {
   render() {
     return (
       <View style={this._getHeaderStyle()}>
+        <StatusBar hidden={false} animated={true} />
+
         <View style={this._getColumnStyle('left')}>
           {this._renderLeftActor()}
         </View>
