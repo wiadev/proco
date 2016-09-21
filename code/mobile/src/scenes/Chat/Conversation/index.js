@@ -6,7 +6,7 @@ import {
   post,
   startWatchingThread,
   stopWatchingThread,
-  loadEarlier,
+  loadMessages,
   markThreadAsSeen,
 } from "../../../modules/Chat/actions";
 
@@ -29,7 +29,7 @@ import {
     post: (message) => dispatch(post(ownProps.data, message)),
     startWatching: () => dispatch(startWatchingThread(ownProps.data)),
     stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
-    loadEarlier: (last_message, count) => dispatch(loadEarlier(ownProps.data, last_message, count)),
+    loadMessages: (endAt) => dispatch(loadMessages(ownProps.data, endAt)),
     markThreadAsSeen: () => dispatch(markThreadAsSeen(ownProps.data)),
     report: (uid) => dispatch(report(uid, {
       from: 'chat',
@@ -41,7 +41,7 @@ import {
     })),
   }),
   (stateProps, dispatchProps, ownProps) => Object.assign({}, ownProps, stateProps, dispatchProps, {
-    loadEarlier: (count = 30) => dispatchProps.loadEarlier(stateProps.messages[stateProps.messages.length - 1]._id, count),
+    loadEarlier: () => dispatchProps.loadMessages(stateProps.messages[stateProps.messages.length - 1].createdAt),
     report: () => dispatchProps.report(stateProps.recipient._id),
     block: () => dispatchProps.block(stateProps.recipient._id),
   }),

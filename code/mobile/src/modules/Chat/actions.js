@@ -140,24 +140,28 @@ const getMessageObjectForApp = (message, profiles) => {
   });
 };
 
-export const loadEarlier = (thread_id, endAt = Date.now(), count = 30) => {
+export const loadMessages = (thread_id, endAt, startAt) => {
+  console.log("load messages", thread_id, endAt, startAt);
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles: { profiles }} = getState();
+    const {auth: {uid}, profiles: {profiles}} = getState();
 
-    let ref = getThreadRef(thread_id, uid)
-      .orderByChild('createdAt')
-      .limitToLast(count)
-      .endAt(endAt)
-      .once('value')
+    let ref = getThreadRef(thread_id, uid).orderByChild('createdAt');
+
+    if (endAt) ref = ref.endAt(endAt);
+    if (startAt !== null) {
+      ref = ref.startAt(startAt);
+      if (endAt) ef = ref.limitToLast(30);
+    }
+
+    ref.once('value')
       .then(snap => snap.val())
       .then(messages => {
         if (messages) {
 
-          let _messages = Object.keys(messages);
-          _messages.reverse();
+         console.log("got messages", messages, startAt, endAt, Object.keys(messages).length);
 
           dispatch(loadedMessages(thread_id,
-            _messages.map(message => getMessageObjectForApp(messages[message], profiles))
+            Object.keys(messages).map(message => getMessageObjectForApp(messages[message], profiles))
           ));
 
         }
@@ -168,16 +172,29 @@ export const loadEarlier = (thread_id, endAt = Date.now(), count = 30) => {
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles: { profiles }} = getState();
+    const {auth: {uid}, profiles: {profiles}, chat: {messages}} = getState();
+
+    const now = Date.now();
 
     let ref = getThreadRef(thread_id, uid)
       .orderByChild('createdAt')
-      .startAt(Date.now())
-      .limitToLast(1);
+      .startAt(now)
+      .limitToLast(1)
+      .on('child_added', (snap) => {
+        console.log("child added", now, snap.val());
+        dispatch(loadedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
+      });
 
-    ref.on('child_added', (snap) => {
-      dispatch(receivedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
-    });
+    const thread = messages[thread_id];
+
+    let startAt = null;
+
+    if (thread.length > 1) {
+      startAt = thread[thread.length - 1].createdAt;
+    }
+
+    dispatch(loadMessages(thread_id, now, startAt));
+
   };
 };
 
@@ -198,14 +215,6 @@ const setInitialStateForThread = (thread_id) => {
 
 const loadedMessages = (thread_id, messages) => ({
   type: 'LOADED_MESSAGES',
-  payload: {
-    thread_id,
-    messages,
-  },
-});
-
-const receivedMessages = (thread_id, messages) => ({
-  type: 'RECEIVED_MESSAGES',
   payload: {
     thread_id,
     messages,
