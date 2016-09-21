@@ -62,14 +62,11 @@ export default class ConversationList extends React.Component {
   }
 
   _renderSingleConversation(thread) {
-    // TODO: Other user's avatar should go in <View style={styles.avatar}></View>
-    const profile = this.props.profiles.profiles[thread.people[0]];
-
     return (
       <TouchableHighlight onPress={() => Actions.Conversation(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.1)">
         <View style={styles.conversation}>
           <View style={styles.avatar}>
-            <Image source={{uri: profile.avatar}} style={{flex: 1, width: null, height: null, resizeMode: 'cover'}} />
+            {this._renderAvatar(thread.people[0])}
           </View>
 
           <View style={styles.conversationInfo}>
@@ -81,6 +78,14 @@ export default class ConversationList extends React.Component {
         </View>
       </TouchableHighlight>
     );
+  }
+
+  _renderAvatar(userId) {
+    if (this.props.profiles.profiles.hasOwnProperty(userId)) {
+      return (
+        <Image source={{uri: this.props.profiles.profiles[userId].avatar}} style={{flex: 1, width: null, height: null, resizeMode: 'cover'}} />
+      );
+    }
   }
 }
 

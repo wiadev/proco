@@ -62,8 +62,8 @@ export default class ConversationContainer extends React.Component {
     this.props.stopWatching();
   }
 
-  componentDidMount() {
-
+  componentWillReceiveProps() {
+    this.props.markThreadAsSeen();
   }
 
   render() {
