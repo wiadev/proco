@@ -4,6 +4,7 @@ import { startWatching, stopWatchingAll, takeOnline } from "../../core/Api/fireb
 import { startWatchingPool, startWatchingPoolStatus } from "../Pool/actions";
 import { startWatchingThreads } from "../Chat/actions";
 import { database, base, timestamp, getKey } from "../../core/Api";
+import { loadSummary } from '../Profiles/actions';
 import { clearLoop } from '../Profiles/Loops/api';
 
 const typeMap = {
@@ -89,6 +90,7 @@ export const afterLoginActions = () => {
     dispatch(startWatchingThreads());
     dispatch(startWatchingPoolStatus());
     dispatch(startWatchingPool());
+    dispatch(loadSummary(uid));
 
   };
 };

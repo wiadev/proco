@@ -74,7 +74,7 @@ export default class ConversationList extends React.Component {
 
           <View style={styles.conversationInfo}>
             <View>
-              <Text style={styles.username}>{this.props.profiles.profiles[thread.people[0]].display_name}</Text>
+              <Text style={styles.username}>{this.props.profiles.profiles[thread.people[0]].name}</Text>
               <Text style={styles.lastMessage}>{thread.last_message.text}</Text>
             </View>
           </View>
