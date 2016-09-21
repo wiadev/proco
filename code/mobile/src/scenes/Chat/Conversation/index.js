@@ -1,105 +1,58 @@
 import React from "react";
-import {GiftedChat} from "react-native-gifted-chat";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
-import {database, getUserSummary, getThreadPeople} from "../../../core/Api";
-import {assign} from "../../../core/utils";
+import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../../../modules/Chat/actions";
 
 @connect(
-  state => ({
-    auth: state.auth,
-    user: state.user,
+  (state, ownProps) => {
+    const thread = Object.assign({
+      id: ownProps.data,
+    }, state.api.data.userThreads.threads[ownProps.data]);
+
+    return {
+      thread,
+      messages: state.chat.messages[ownProps.data],
+      recipient: state.profiles.profiles[thread.people[0]]
+    };
+  },
+  (dispatch, ownProps) => ({
+    post: (message) => dispatch(post(ownProps.data, message)),
+    startWatching: () => dispatch(startWatchingThread(ownProps.data)),
+    stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
+    loadEarlier: (count = 30) => dispatch(loadEarlier(ownProps.data, count)),
   }),
 )
 export default class ConversationContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.listeners = {};
-    this.currentUser = {
-      name: props.user.first_name,
-      '_id': props.auth.uid,
-      avatar: props.user.avatar
-    };
 
-    this.conversationRef = null;
-  }
-
-  state = {
-    list: [],
-    matchedUser: {}
-  };
-
-  componentWillUnmount() {
-    if (this.conversationRef) {
-      this.conversationRef.off();
-    }
+    console.log(props);
   }
 
   componentWillMount() {
-    const generateMessage = (message, key) => {
-      message['_id'] = key;
-      message['user'] = (message['sender'] === this.props.auth.uid) ? this.currentUser : this.state.matchedUser;
-      return message;
-    };
+    this.props.startWatching();
+  }
 
-    const addedOrChanged = (snapshot) => {
-      const key = snapshot.key;
-      const _message = snapshot.val();
-      const message = generateMessage(_message, key);
-
-      this.setState((previousState) => {
-        return {
-          messages: GiftedChat.append(previousState.messages, [message]),
-        };
-      });
-    };
-
-    this.conversationRef = database.ref(`threads/messages/${this.props.thread_id}/${this.props.auth.uid}`);
-    this.conversationRef.on('child_added', addedOrChanged);
-
-    this.conversationRef.on('child_changed', addedOrChanged);
-
-    this.conversationRef.on('child_removed',
-      (snapshot) => {
-        const key = snapshot.key;
-
-        const data = assign(this.state.messages, {
-          [key]: undefined,
-        });
-
-        this.setState({data: data, messages: generateMessage(data)});
-      });
-
-    getUserSummary(this.props.uid).then(user => {
-      console.log("got user", user);
-      this.setState({
-        matchedUser: Object.assign({
-          uid: this.props.uid,
-        }, user)
-      })
-    });
+  componentWillUnmount() {
+    this.props.stopWatching();
   }
 
   componentDidMount() {
-    this.props.dispatch(setStatusBarStyle('default'));
+
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props);
     return (<Conversation
       onSend={::this.onSend}
-      messages={this.state.messages}
-      {...this.state.matchedUser}
+      messages={this.props.messages}
+      thread={this.props.thread}
+      recipient={this.props.recipient}
     />);
   }
 
   onSend(messages) {
-    messages.forEach(message => {
-      const messageRef = this.conversationRef.push({
-        text: message.text,
-        sender: this.props.auth.uid,
-        createdAt: message.createdAt,
-      });
-    });
+
+
   }
 }
