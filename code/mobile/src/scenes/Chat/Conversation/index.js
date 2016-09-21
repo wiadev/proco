@@ -14,6 +14,7 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
       thread,
       messages: state.chat.messages[ownProps.data],
       recipient: state.profiles.profiles[thread.people[0]],
+      user: state.profiles.profiles[state.auth.uid],
     };
   },
   (dispatch, ownProps) => ({
@@ -59,6 +60,7 @@ export default class ConversationContainer extends React.Component {
     console.log(this.props);
     return (<Conversation
       onSend={::this.onSend}
+      user={this.props.user}
       messages={this.props.messages}
       thread={this.props.thread}
       recipient={this.props.recipient}
