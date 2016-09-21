@@ -1,4 +1,4 @@
-import { database, logEvent, getFirebaseData, timestamp, refs } from "../../core/Api";
+import { database, logEvent, getFirebaseData, getNetworkTitle, timestamp, refs } from "../../core/Api";
 import { assign } from "../../core/utils";
 import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";
@@ -9,26 +9,22 @@ export const loadSummary = (uid) => {
 
     if (profiles[uid]) return;
 
+    const {display_name, age, avatar, gender, network} = await getFirebaseData(`users/summary/${uid}`);
+
     dispatch({
       type: 'PROFILE_LOADED',
-      payload: Object.assign({
-        uid,
-      }, await getFirebaseData(`users/summary/${uid}`)),
-    });
-  };
-};
-
-export const loadLoops = (uid, loop_key = null, count = 18) => {
-  return async(dispatch) => {
-    dispatch({
-      type: 'LOOPS_LOADED',
       payload: {
         uid,
-        loops: await getProfileLoop(uid, loop_key, count),
+        name: display_name,
+        age,
+        avatar,
+        gender,
+        network: await getNetworkTitle(network),
       },
     });
   };
 };
+
 
 export const report = (id, payload) => {
   return (dispatch, getState) => {

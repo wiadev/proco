@@ -1,11 +1,12 @@
 import { database, timestamp, refs, getKey } from "../../core/Api";
+import { assign } from "../../core/utils";
 import { getThreadPeople } from "./api";
 import { startWatching } from "../../core/Api/firebase";
 import { loadSummary } from "../Profiles/actions";
 
 const getThreadRef = (thread_id, uid) => {
   if (!refs[`threadRefs_${thread_id}`]) {
-    refs[`threadRefs_${thread_id}`] = database.ref(`threads/${thread_id}/${uid}`);
+    refs[`threadRefs_${thread_id}`] = database.ref(`threads/messages/${thread_id}/${uid}`);
   }
   return refs[`threadRefs_${thread_id}`];
 };
@@ -132,48 +133,43 @@ const getMessageObjectForApp = (message, profiles) => assign(message, {
   }, profiles[message.user]),
 });
 
-export const loadEarlier = (thread_id, count = 30) => {
+export const loadEarlier = (thread_id, startAt, count = 30) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles, api: { data: { userThreads: { threads }}}} = getState();
+    const {auth: {uid}, profiles} = getState();
 
-    const {last_message: { _id = 0 }} = threads[thread_id];
-
-    getThreadRef(thread_id, uid)
+    let ref = getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(count)
-      .startAt(_id)
+      .startAt(startAt)
       .once('value')
       .then(snap => snap.val())
       .then(messages => {
         if (messages) {
-          const _messages = Object.keys(messages).map(message => getMessageObjectForApp(message, profiles));
+          const _messages = Object.keys(messages).map(message => getMessageObjectForApp(messages[message], profiles));
           dispatch(loadedMessages(thread_id, _messages));
         }
       });
-
 
   };
 };
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles, api: { data: { userThreads: { threads }}}} = getState();
+    const {auth: {uid}, profiles, chat: {messages}} = getState();
 
-    const {last_message: { _id = 0 }} = threads[thread_id];
-
-    getThreadRef(thread_id, uid)
+    let ref = getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(1)
-      .startAt(_id)
       .on('child_added', (snap) => {
         dispatch(receivedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
+        if (messages[thread_id].length === 0) dispatch(loadEarlier(thread_id, snap.key));
       });
   };
 };
 
 const setInitialStateForThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {chat: { messages }} = getState();
+    const {chat: {messages}} = getState();
 
     if (messages[thread_id]) return;
 

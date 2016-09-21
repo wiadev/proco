@@ -53,6 +53,6 @@ export default class ConversationContainer extends React.Component {
 
   onSend(messages) {
 
-
+console.log(messages);
   }
 }
