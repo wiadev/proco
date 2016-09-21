@@ -12,14 +12,17 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
     return {
       thread,
       messages: state.chat.messages[ownProps.data],
-      recipient: state.profiles.profiles[thread.people[0]]
+      recipient: state.profiles.profiles[thread.people[0]],
     };
   },
   (dispatch, ownProps) => ({
     post: (message) => dispatch(post(ownProps.data, message)),
     startWatching: () => dispatch(startWatchingThread(ownProps.data)),
     stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
-    loadEarlier: (count = 30) => dispatch(loadEarlier(ownProps.data, count)),
+    loadEarlier: (last_message, count) => dispatch(loadEarlier(ownProps.data, last_message, count)),
+  }),
+  (stateProps, dispatchProps, ownProps) => Object.assign({}, ownProps, stateProps, dispatchProps, {
+    loadEarlier: (count = 30) => dispatchProps.loadEarlier(stateProps.messages[stateProps.messages.length - 1]._id, count),
   }),
 )
 export default class ConversationContainer extends React.Component {

@@ -154,7 +154,7 @@ export const loadEarlier = (thread_id, endAt, count = 30) => {
           dispatch(loadedMessages(thread_id,
             _messages.map(message => getMessageObjectForApp(messages[message], profiles))
           ));
-          
+
         }
       });
 
