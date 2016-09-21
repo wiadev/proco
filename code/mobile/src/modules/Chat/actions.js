@@ -23,7 +23,7 @@ export const post = (thread_id, message) => {
       _id: getKey(),
       createdAt: timestamp,
       type: message.type || "message",
-      user: message.user || uid,
+      user: message.user !== 'proco' ? uid : 'proco',
     });
 
     const updates = {};
@@ -132,7 +132,7 @@ export const startWatchingThreads = () => {
 const getMessageObjectForApp = (message, profiles) => assign(message, {
   user: assign({
     _id: message.user,
-  }, profiles[message.user]),
+  }, profiles.profiles[message.user]),
 });
 
 export const loadEarlier = (thread_id, endAt, count = 30) => {
