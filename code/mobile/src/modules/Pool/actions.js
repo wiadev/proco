@@ -79,10 +79,7 @@ export const addToPool = (uid, data) => {
       type: 'POOL_ADD',
       payload: assign({
         uid,
-      }, data, poolData, {
-        profileLoopFile: poolData.profileLoop.file,
-        profileLoopKey: poolData.profileLoop.key,
-      }),
+      }, data, poolData),
     });
   };
 };
