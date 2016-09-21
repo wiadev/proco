@@ -173,9 +173,10 @@ export const startWatchingThread = (thread_id) => {
 
 const setInitialStateForThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {threads} = getState();
-    const thread = threads[thread_id];
-    if (thread) return;
+    const {chat: { messages }} = getState();
+
+    if (messages[thread_id]) return;
+
     dispatch({
       type: 'SET_THREAD_INITIAL_STATE',
       payload: {
