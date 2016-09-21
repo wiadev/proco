@@ -48,7 +48,7 @@ export const post = (thread_id, message) => {
 export const markThreadAsSeen = (thread_id) => {
   return async(dispatch, getState) => {
     const {auth: {uid}} = getState();
-    database.ref(`inboxes/${uid}/${thread_id}/unseen_threads/${thread_id}`).set(null);
+    database.ref(`inboxes/${uid}/unseen_threads/${thread_id}`).set(null);
   };
 };
 
