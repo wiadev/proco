@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Actions} from 'react-native-router-flux';
+import codePush from 'react-native-code-push';
 import _ from 'lodash';
 
 import Text from '../../components/Text';
@@ -28,12 +29,20 @@ class Settings extends React.Component {
     this.ref = database.ref(getUserRefForTypeAsString('settings', this.props.auth.uid));
 
     this.state = {
-      settings: null
+      settings: null,
+      version: null
     };
   }
 
   componentWillMount() {
     this.setState({settings: assign(_.omit(this.props.settings, 'isLoaded'))});
+
+    codePush.getUpdateMetadata(codePush.UpdateState.RUNNING)
+      .then(currentVersionData => {
+        this.setState({
+          version: `${currentVersionData.appVersion} (${currentVersionData.label})`
+        });
+      });
   }
 
   render() {
@@ -112,6 +121,10 @@ class Settings extends React.Component {
 
           <View style={styles.barbarLogoContainer}>
             <Image source={require('../../assets/images/logo-barbar.png')} style={styles.logo} />
+          </View>
+
+          <View style={styles.versionContainer}>
+            <Text style={styles.version}>{this.state.version}</Text>
           </View>
         </ScrollView>
       </View>
