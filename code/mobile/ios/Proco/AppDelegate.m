@@ -19,36 +19,35 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-  [FIRApp configure];
-  [[FBSDKApplicationDelegate sharedInstance] application:application
-                           didFinishLaunchingWithOptions:launchOptions];
-  
-  NSURL *jsCodeLocation;
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [FIRApp configure];
+    [[FBSDKApplicationDelegate sharedInstance] application:application
+                             didFinishLaunchingWithOptions:launchOptions];
 
-  #if DEBUG
-    #if TARGET_IPHONE_SIMULATOR
-        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-    #else
-        jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.99:8081/index.ios.bundle?platform=ios&dev=true"];
-    #endif
-  #else
+    NSURL *jsCodeLocation;
+
+#if DEBUG
+#if TARGET_IPHONE_SIMULATOR
+    jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+#else
+    jsCodeLocation = [NSURL URLWithString:@"http://192.168.1.99:8081/index.ios.bundle?platform=ios&dev=true"];
+#endif
+#else
     jsCodeLocation = [CodePush bundleURL];
-  #endif
+#endif
 
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"Proco"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
-  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                        moduleName:@"Proco"
+                                                 initialProperties:nil
+                                                     launchOptions:launchOptions];
+    rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [UIViewController new];
-  rootViewController.view = rootView;
-  self.window.rootViewController = rootViewController;
-  [self.window makeKeyAndVisible];
-  return YES;
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    UIViewController *rootViewController = [UIViewController new];
+    rootViewController.view = rootView;
+    self.window.rootViewController = rootViewController;
+    [self.window makeKeyAndVisible];
+    return YES;
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))handler {
@@ -58,18 +57,18 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  
-  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                                openURL:url
-                                                      sourceApplication:sourceApplication
-                                                             annotation:annotation
-                  ];
 
-  return handled;
+    BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                                  openURL:url
+                                                        sourceApplication:sourceApplication
+                                                               annotation:annotation
+    ];
+
+    return handled;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-  [FBSDKAppEvents activateApp];
+    [FBSDKAppEvents activateApp];
 }
 
 @end
