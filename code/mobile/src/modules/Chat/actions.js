@@ -19,10 +19,12 @@ export const post = (thread_id, message) => {
 
     const people = await getThreadPeople(thread_id);
 
-    message._id = getKey();
-    message.createdAt = timestamp;
-    message.type = message.type || "message";
-    message.user = message.user || uid;
+    message = assign(message, {
+      _id: getKey(),
+      createdAt: timestamp,
+      type: message.type || "message",
+      user: message.user || uid,
+    });
 
     const updates = {};
 
@@ -133,20 +135,26 @@ const getMessageObjectForApp = (message, profiles) => assign(message, {
   }, profiles[message.user]),
 });
 
-export const loadEarlier = (thread_id, startAt, count = 30) => {
+export const loadEarlier = (thread_id, endAt, count = 30) => {
   return (dispatch, getState) => {
     const {auth: {uid}, profiles} = getState();
 
     let ref = getThreadRef(thread_id, uid)
       .orderByKey()
       .limitToLast(count)
-      .startAt(startAt)
+      .endAt(endAt)
       .once('value')
       .then(snap => snap.val())
       .then(messages => {
         if (messages) {
-          const _messages = Object.keys(messages).map(message => getMessageObjectForApp(messages[message], profiles));
-          dispatch(loadedMessages(thread_id, _messages));
+
+          let _messages = Object.keys(messages).filter(key => (key !== endAt));
+          _messages.reverse();
+
+          dispatch(loadedMessages(thread_id,
+            _messages.map(message => getMessageObjectForApp(messages[message], profiles))
+          ));
+          
         }
       });
 
@@ -159,11 +167,19 @@ export const startWatchingThread = (thread_id) => {
 
     let ref = getThreadRef(thread_id, uid)
       .orderByKey()
-      .limitToLast(1)
-      .on('child_added', (snap) => {
-        dispatch(receivedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
-        if (messages[thread_id].length === 0) dispatch(loadEarlier(thread_id, snap.key));
-      });
+      .limitToLast(1);
+
+    const thread = messages[thread_id];
+    const count = thread.length;
+
+    if (count > 0) ref = ref.startAt(thread[count - 1]._id);
+
+    ref.on('child_added', (snap) => {
+      dispatch(receivedMessages(thread_id, [getMessageObjectForApp(snap.val(), profiles)]));
+      if (getState().chat.messages[thread_id].length < 2) {
+        dispatch(loadEarlier(thread_id, snap.key));
+      }
+    });
   };
 };
 

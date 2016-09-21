@@ -30,7 +30,7 @@ class Conversation extends React.Component {
           rightActorType="icon"
           rightActor="error-outline"
           rightAction={() => this._showUserActionSheet()}
-          title={this.props.recipient.display_name}
+          title={this.props.recipient.name}
         />
 
         <View style={styles.container}>
