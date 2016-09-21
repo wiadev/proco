@@ -42,6 +42,7 @@ class Conversation extends React.Component {
             keyboardShouldPersistTaps={true}
             placeholder={'Your message?'}
             messages={this.props.messages}
+            user={this.props.user}
             onSend={::this.props.onSend}
             sendButtonText={'SEND'}
           />

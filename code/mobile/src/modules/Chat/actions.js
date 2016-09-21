@@ -129,15 +129,20 @@ export const startWatchingThreads = () => {
   };
 };
 
-const getMessageObjectForApp = (message, profiles) => assign(message, {
-  user: assign({
-    _id: message.user,
-  }, profiles.profiles[message.user]),
-});
+const getMessageObjectForApp = (message, profiles) => {
+  const user = profiles[message.user];
+  return assign(message, {
+    user: {
+      _id: message.user,
+      name: user.name,
+      avatar: user.avatar,
+    },
+  });
+};
 
 export const loadEarlier = (thread_id, endAt, count = 30) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles} = getState();
+    const {auth: {uid}, profiles: { profiles }} = getState();
 
     let ref = getThreadRef(thread_id, uid)
       .orderByKey()
@@ -163,7 +168,7 @@ export const loadEarlier = (thread_id, endAt, count = 30) => {
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
-    const {auth: {uid}, profiles, chat: {messages}} = getState();
+    const {auth: {uid}, profiles: { profiles }, chat: {messages}} = getState();
 
     let ref = getThreadRef(thread_id, uid)
       .orderByKey()

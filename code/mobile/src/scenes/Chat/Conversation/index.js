@@ -10,11 +10,16 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
       id: ownProps.data,
     }, state.api.data.userThreads.threads[ownProps.data]);
 
+    const user = state.profiles.profiles[state.auth.uid];
     return {
       thread,
       messages: state.chat.messages[ownProps.data],
       recipient: state.profiles.profiles[thread.people[0]],
-      user: state.profiles.profiles[state.auth.uid],
+      user: {
+        _id: user.uid,
+        name: user.name,
+        avatar: user.avatar,
+      },
     };
   },
   (dispatch, ownProps) => ({
