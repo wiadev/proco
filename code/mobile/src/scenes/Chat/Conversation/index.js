@@ -2,7 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
 import { report, block } from "../../../modules/Profiles/actions";
-import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../../../modules/Chat/actions";
+import {
+  post,
+  startWatchingThread,
+  stopWatchingThread,
+  loadEarlier,
+  markThreadAsSeen,
+} from "../../../modules/Chat/actions";
 
 @connect(
   (state, ownProps) => {
@@ -10,15 +16,12 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
       id: ownProps.data,
     }, state.api.data.userThreads.threads[ownProps.data]);
 
-    const user = state.profiles.profiles[state.auth.uid];
     return {
       thread,
       messages: state.chat.messages[ownProps.data],
       recipient: state.profiles.profiles[thread.people[0]],
       user: {
-        _id: user.uid,
-        name: user.name,
-        avatar: user.avatar,
+        _id: state.auth.uid,
       },
     };
   },
@@ -27,6 +30,7 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
     startWatching: () => dispatch(startWatchingThread(ownProps.data)),
     stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
     loadEarlier: (last_message, count) => dispatch(loadEarlier(ownProps.data, last_message, count)),
+    markThreadAsSeen: () => dispatch(markThreadAsSeen(ownProps.data)),
     report: (uid) => dispatch(report(uid, {
       from: 'chat',
       thread_id: ownProps.data,
@@ -51,6 +55,7 @@ export default class ConversationContainer extends React.Component {
 
   componentWillMount() {
     this.props.startWatching();
+    this.props.markThreadAsSeen();
   }
 
   componentWillUnmount() {
@@ -75,6 +80,6 @@ export default class ConversationContainer extends React.Component {
   onSend(messages) {
 
     messages.forEach(message => this.props.post(message));
-console.log(messages);
+    console.log(messages);
   }
 }
