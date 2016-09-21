@@ -150,7 +150,8 @@ export const loadMessages = (thread_id, endAt, startAt) => {
     if (endAt) ref = ref.endAt(endAt);
     if (startAt !== null) {
       ref = ref.startAt(startAt);
-      if (endAt) ef = ref.limitToLast(30);
+    } else {
+      ref = ref.limitToLast(30);
     }
 
     ref.once('value')
@@ -190,7 +191,7 @@ export const startWatchingThread = (thread_id) => {
     let startAt = null;
 
     if (thread.length > 1) {
-      startAt = thread[thread.length - 1].createdAt;
+      startAt = thread[0].createdAt + 1;
     }
 
     dispatch(loadMessages(thread_id, now, startAt));
