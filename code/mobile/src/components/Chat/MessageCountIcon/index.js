@@ -10,9 +10,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './styles';
 
-@connect(state => ({userInfo: state.api.data.userInfo}))
+@connect(state => ({unseenThreadsCount: state.api.data.userThreads.unseen.length}))
 export default class MessageCountIcon extends React.Component {
   render() {
+    console.log(this.props);
     return (
       <TouchableOpacity onPress={Actions.ConversationList} activeOpacity={0.6} style={styles.messageCountIcon}>
         <Icon name="comment" style={styles.icon} />
@@ -29,15 +30,15 @@ export default class MessageCountIcon extends React.Component {
   }
 
   _renderUnreadMessageCount() {
-    if (this.props.userInfo.unread_messages > 99) {
+    if (this.props.unseenThreadsCount > 99) {
       return '99+';
     } else {
-      return this.props.userInfo.unread_messages;
+      return this.props.unseenThreadsCount;
     }
   }
 
   _renderUnreadIndicator() {
-    if (this.props.userInfo.unread_messages !== 0) {
+    if (this.props.unseenThreadsCount !== 0) {
       return (
         <View style={styles.unreadIndicator}>
           <View style={styles.unreadIndicatorInner} />
