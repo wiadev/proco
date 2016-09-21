@@ -1,6 +1,11 @@
 path /threads {
   path /info is ThreadInfo[];
-  path /messages/{thread_id}/{uid} is Message[];
+
+  path /messages/{thread_id} {
+    read() { root.threads.info[thread_id].people[currentUser()] != null }
+    path /{uid} is Message[];
+  }
+
 }
 
 type ThreadInfo {
