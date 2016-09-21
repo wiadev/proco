@@ -44,6 +44,14 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'contain'
+  },
+  versionContainer: {
+    marginBottom: 6
+  },
+  version: {
+    color: colors.gray1,
+    fontSize: 10,
+    textAlign: 'center'
   }
 });
 
