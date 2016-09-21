@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
+import { report, block } from "../../../modules/Profiles/actions";
 import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../../../modules/Chat/actions";
 
 @connect(
@@ -20,9 +21,19 @@ import { post, startWatchingThread, stopWatchingThread, loadEarlier } from "../.
     startWatching: () => dispatch(startWatchingThread(ownProps.data)),
     stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
     loadEarlier: (last_message, count) => dispatch(loadEarlier(ownProps.data, last_message, count)),
+    report: (uid) => dispatch(report(uid, {
+      from: 'chat',
+      thread_id: ownProps.data,
+    })),
+    block: (uid) => dispatch(block(uid, {
+      from: 'chat',
+      thread_id: ownProps.data,
+    })),
   }),
   (stateProps, dispatchProps, ownProps) => Object.assign({}, ownProps, stateProps, dispatchProps, {
     loadEarlier: (count = 30) => dispatchProps.loadEarlier(stateProps.messages[stateProps.messages.length - 1]._id, count),
+    report: () => dispatchProps.report(stateProps.recipient._id),
+    block: () => dispatchProps.block(stateProps.recipient._id),
   }),
 )
 export default class ConversationContainer extends React.Component {
