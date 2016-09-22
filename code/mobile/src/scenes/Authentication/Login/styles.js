@@ -7,22 +7,21 @@ const facebookBlue = '#3B5998';
 const styles = StyleSheet.create({
   login: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: colors.primary1
+    flexDirection: 'column'
   },
   logoRow: {
     flex: 1,
     paddingTop: 50,
     paddingBottom: 20
   },
+  logoSideCushion: {
+    flex: 1
+  },
   logo: {
-    flex: 1,
+    flex: 5,
     width: null,
     height: null,
     resizeMode: 'contain'
-  },
-  logoSideCushion: {
-    flex: 1
   },
   swiperRow: {
     flex: 3,
@@ -62,8 +61,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 50
   },
+  swiperSlideImageContainer: {
+    flex: 1
+  },
+  swiperSlideImageSideCushion: {
+    flex: 1
+  },
   swiperSlideImage: {
-    flex: 1,
+    flex: 16,
     marginVertical: 20,
     width: null,
     height: null,
@@ -71,7 +76,8 @@ const styles = StyleSheet.create({
   },
   swiperSlideText: {
     fontSize: 21,
-    color: colors.primaryAlt,
+    fontWeight: 'bold',
+    color: colors.primary2,
     textAlign: 'center'
   },
   loginButtonRow: {
@@ -80,28 +86,37 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
     marginHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 8,
     paddingHorizontal: 30,
     borderRadius: 40,
     backgroundColor: colors.primaryAlt
   },
+  loginButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
   loginButtonIcon: {
+    marginRight: 14,
     color: facebookBlue,
-    fontSize: 26
+    fontSize: 26,
+    borderRadius: 8,
+    overflow: 'hidden'
   },
   loginButtonText: {
     flex: 1,
     color: facebookBlue,
-    fontSize: 16,
-    textAlign: 'center'
+    fontSize: 14,
+    fontWeight: 'bold'
   },
   privacyPolicyNotice: {
-    marginBottom: 6,
+    marginHorizontal: 30,
+    marginBottom: 20,
     color: colors.primaryAlt,
-    fontSize: 10,
+    fontSize: 12,
     textAlign: 'center'
   }
 });
+
 export default styles;
