@@ -9,9 +9,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     backgroundColor: colors.primaryAlt,
-    borderRadius: 12,
+    borderRadius: 100,
     borderWidth: 1,
-    borderColor: colors.primary1,
+    borderColor: colors.primary1
   },
   buttonDanger: {
     backgroundColor: colors.danger,
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     borderColor: colors.info
   },
   buttonText: {
-    color: colors.primary1,
-    fontSize: 16,
+    color: colors.primary2,
+    fontSize: 14,
     textAlign: 'center',
   },
   buttonTextWhite: {
