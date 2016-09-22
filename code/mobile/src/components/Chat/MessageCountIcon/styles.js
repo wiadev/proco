@@ -4,21 +4,23 @@ import colors from '../../../core/style/colors';
 
 const styles = StyleSheet.create({
   messageCountIcon: {
-    position: 'relative'
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   icon: {
     backgroundColor: 'transparent',
     color: colors.primaryAlt,
     fontSize: 32
   },
-  contentWrapper: {
+  iconContentWrapper: {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    left: 0,
-    right: 0
+    right: 0,
+    width: 32
   },
-  content: {
+  iconContent: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
@@ -46,6 +48,14 @@ const styles = StyleSheet.create({
     height: 6,
     borderRadius: 3,
     backgroundColor: colors.primary1
+  },
+  avatars: {
+    marginRight: 5
+  },
+  avatar: {
+    width: 20,
+    height: 20,
+    borderRadius: 10
   }
 });
 

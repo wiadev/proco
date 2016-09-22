@@ -6,9 +6,10 @@ const styles = StyleSheet.create({
   button: {
     alignSelf: 'stretch',
     marginTop: 5,
-    padding: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     backgroundColor: colors.primaryAlt,
-    borderRadius: 20,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.primary1,
   },
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: colors.primary1,
-    fontFamily: 'OpenSans',
     fontSize: 16,
     textAlign: 'center',
   },
