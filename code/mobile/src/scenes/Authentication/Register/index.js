@@ -3,13 +3,14 @@ import {
   StatusBar,
   View,
   ScrollView,
-  TextInput,
   KeyboardAvoidingView
 } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import Icon from 'react-native-vector-icons/Ionicons';
 import DatePicker from "react-native-datepicker";
 
+import Container from '../../../components/Container';
 import Text from '../../../components/Text';
+import TextInput from '../../../components/TextInput';
 import {logout} from "../../../modules/Authentication/actions";
 import {update} from "../../../modules/User/actions";
 import {Validations} from "../../../core/common";
@@ -20,7 +21,6 @@ import Header from "../../../components/Header";
 import BlockerActivity from "../../../components/BlockerActivity";
 import Picker from "react-native-picker";
 import {styles, dpCustom} from "./styles";
-import colors from '../../../core/style/colors';
 
 const charMap = {ç: 'c', ö: 'o', ş: 's', ı: 'i', ü: 'u', ğ: 'g'};
 const clearTurkishChars = (str) => {
@@ -59,14 +59,14 @@ export default class Register extends React.Component {
     }
 
     return (
-      <View style={styles.register}>
+      <Container>
         <StatusBar hidden={false} />
 
         <Header
           theme="dark"
           titleType="logo"
           leftActorType="icon"
-          leftActor="keyboard-arrow-left"
+          leftActor="ios-arrow-back"
           leftAction={() => this.onLogout()}
           rightActorType="text"
           rightActor="Next"
@@ -76,8 +76,8 @@ export default class Register extends React.Component {
         <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
           <ScrollView>
             <View style={styles.infoBox}>
-              <View style={styles.infoBoxIcon}>
-                <Icon name="info-outline" size={42} color={colors.primaryAlt} />
+              <View style={styles.infoBoxIconContainer}>
+                <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon} />
               </View>
 
               <View style={styles.infoBoxContent}>
@@ -116,7 +116,7 @@ export default class Register extends React.Component {
                       onPress={() => this.picker.toggle()}
                     >{this.state.gender || 'Please Select'}</Text>
 
-                    <Icon name="keyboard-arrow-right" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon}
+                    <Icon name="ios-arrow-back" size={32} color="rgba(255, 255, 255, 0.7)" style={styles.genderIcon}
                     />
                   </View>
                 </View>
@@ -162,7 +162,7 @@ export default class Register extends React.Component {
             />
           </ScrollView>
         </KeyboardAvoidingView>
-      </View>
+      </Container>
     );
   }
 
