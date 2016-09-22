@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View,
+  TouchableOpacity
 } from 'react-native';
 
 import Text from '../Text';
@@ -9,11 +9,11 @@ import styles from './styles';
 export default class Button extends React.Component {
   render() {
     return (
-      <View style={[this._getButtonStyle(), this.props.style]} pointerEvents={'box-none'}>
-        <Text style={[this._getButtonTextStyle(), this.props.textStyle]} onPress={() => this.props.onPress()}>
+      <TouchableOpacity style={[this._getButtonStyle(), this.props.style]} onPress={() => this.props.onPress()} activeOpacity={0.8}>
+        <Text style={[this._getButtonTextStyle(), this.props.textStyle]}>
           {this.props.text}
         </Text>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -58,5 +58,5 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  type: 'regular'
+  type: 'default'
 };
