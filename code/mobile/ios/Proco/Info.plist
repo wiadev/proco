@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.4</string>
+	<string>1.0.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -31,7 +31,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>1</string>
 	<key>CodePushDeploymentKey</key>
 	<string>exddagaa6deaahf5Jtqj64fCgScDEJKHCtHifg</string>
 	<key>FacebookAppID</key>
@@ -60,12 +60,12 @@
 			</dict>
 		</dict>
 	</dict>
-  <key>NSCameraUsageDescription</key>
-  <string>We need your camera for shooting loops</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Advertisement would like to use bluetooth.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Advertisement would like to create a calendar event.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need your camera for shooting loops</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>App requires background location tracking</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
