@@ -16,15 +16,12 @@ export default function reducer(state = initialState, action = {}) {
         }),
       });
     case 'LOADED_MESSAGES':
+      const messages = state.messages[action.payload.thread_id].concat(action.payload.messages);
+      messages.sort((a, b) => b.createdAt - a.createdAt);
+      console.log(messages);
       return assign(state, {
         messages: assign(state.messages, {
-          [action.payload.thread_id]: state.messages[action.payload.thread_id].concat(action.payload.messages),
-        }),
-      });
-    case 'RECEIVED_MESSAGES':
-      return assign(state, {
-        messages: assign(state.messages, {
-          [action.payload.thread_id]: action.payload.messages.concat(state.messages[action.payload.thread_id]),
+          [action.payload.thread_id]: messages,
         }),
       });
   }

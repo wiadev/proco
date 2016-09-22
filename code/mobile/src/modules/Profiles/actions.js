@@ -5,7 +5,7 @@ import { post } from "../Chat/actions";
 
 export const loadSummary = (uid) => {
   return async(dispatch, getState) => {
-    const {profiles} = getState();
+    const {profiles: {profiles}} = getState();
 
     if (profiles[uid]) return;
 
