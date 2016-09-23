@@ -39,9 +39,8 @@ const styles = StyleSheet.create({
     color: colors.primary3
   },
   linkIcon: {
-    marginRight: -14,
-    color: colors.gray1,
-    fontSize: 36
+    color: colors.gray2,
+    fontSize: 30
   },
   choiceIcon: {
     color: colors.primary3,
