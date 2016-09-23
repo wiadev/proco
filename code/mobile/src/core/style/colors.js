@@ -5,6 +5,7 @@ const colors = {
   primary3: '#FFC80B', // Proco Pink
   secondary: '#91288C', // Proco Magenta
 
+  black: 'rgb(0, 0, 0)',
   gray1: 'rgba(94, 94, 94, 0.8)',
   gray2: 'rgba(94, 94, 94, 0.2)',
 

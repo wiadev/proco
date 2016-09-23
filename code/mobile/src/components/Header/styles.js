@@ -40,17 +40,15 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   title: {
-    color: colors.primary1,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
     textAlign: 'center'
   },
   text: {
-    fontWeight: '500',
     color: colors.primaryAlt
   },
   textOnLightTheme: {
-    color: colors.primary1
+    color: colors.black
   },
   actorIcon: {
     fontSize: 24,
