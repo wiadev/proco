@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 15 // I always use even numbers for this kind of stuff, but this is really the best option here. -G
   },
   highlightedText: {
-    color: colors.primary1
+    color: colors.primary3
   },
   linkIcon: {
     marginRight: -14,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     fontSize: 36
   },
   choiceIcon: {
-    color: colors.primary1,
+    color: colors.primary3,
     fontSize: 24
   }
 });

@@ -11,14 +11,6 @@ import BlockedUserModal from "./components/BlockedUserModal";
 import FCM from "react-native-fcm";
 import Routes from "./scenes";
 import {clearCachedLoops} from "./modules/Profiles/Loops/api";
-import {setTheme} from "react-native-material-kit";
-import colors from "./core/style/colors";
-
-setTheme({
-  radioStyle: {
-    fillColor: colors.primary1
-  }
-});
 
 @connect(
   state => ({
