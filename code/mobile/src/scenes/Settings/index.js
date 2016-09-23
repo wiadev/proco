@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {Actions} from 'react-native-router-flux';
 import codePush from 'react-native-code-push';
 import _ from 'lodash';
@@ -60,7 +60,7 @@ class Settings extends React.Component {
 
         <ScrollView>
           <View style={styles.infoBox}>
-            <Icon name="info-outline" style={styles.infoBoxIcon} />
+            <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon} />
 
             <View style={styles.infoBoxContent}>
               <Text style={styles.infoBoxText}>
