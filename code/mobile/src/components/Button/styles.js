@@ -4,38 +4,38 @@ import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   button: {
+    backgroundColor: colors.primaryAlt
+  },
+  buttonHighlighted: {
+    backgroundColor: colors.primary2
+  },
+  textButton: {
     alignSelf: 'stretch',
-    marginTop: 5,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: colors.primaryAlt,
     borderRadius: 100,
-    borderWidth: 1,
-    borderColor: colors.primary1
   },
-  buttonDanger: {
-    backgroundColor: colors.danger,
-    borderColor: colors.danger
+  iconButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 20
   },
-  buttonWarning: {
-    backgroundColor: colors.warning,
-    borderColor: colors.warning
+  content: {
+    color: colors.primary1
   },
-  buttonSuccess: {
-    backgroundColor: colors.success,
-    borderColor: colors.success
+  highlightedContent: {
+    color: colors.primaryAlt
   },
-  buttonInfo: {
-    backgroundColor: colors.info,
-    borderColor: colors.info
-  },
-  buttonText: {
-    color: colors.primary2,
+  text: {
     fontSize: 14,
     textAlign: 'center',
   },
-  buttonTextWhite: {
-    color: colors.primaryAlt
+  icon: {
+    marginTop: 3,
+    backgroundColor: 'transparent',
+    fontSize: 34
   }
 });
 

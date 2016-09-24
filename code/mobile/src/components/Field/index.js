@@ -107,7 +107,7 @@ export default class Field extends React.Component {
           maxValue={this.state.value[1]}
           onChange={value => this._onValueChange([_.round(value.min), _.round(value.max)])}
           thumbRadius={8}
-          lowerTrackColor={colors.primary3}
+          lowerTrackColor={colors.primary2}
         />
       );
     }

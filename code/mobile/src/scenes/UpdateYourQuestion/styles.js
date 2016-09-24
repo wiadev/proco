@@ -13,9 +13,16 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1
   },
-  closeButton: {
+  closeButtonContainer: {
+    flexDirection: 'row',
     marginLeft: 6,
-    marginTop: 6
+    marginTop: 6,
+  },
+  closeButton: {
+    paddingHorizontal: 10,
+    backgroundColor: 'transparent',
+    fontSize: 36,
+    color: colors.primaryAlt
   },
   container: {
     flex: 1,
@@ -39,6 +46,9 @@ const styles = StyleSheet.create({
   secondaryButtonIcon: {
     backgroundColor: 'transparent',
     color: colors.primary1
+  },
+  inputBubble: {
+    marginHorizontal: 10
   }
 });
 

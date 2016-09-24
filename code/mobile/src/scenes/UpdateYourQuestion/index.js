@@ -3,17 +3,15 @@ import { connect } from 'react-redux';
 import {
   View,
   KeyboardAvoidingView,
-  TouchableHighlight,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  TextInput,
   StatusBar
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { Actions } from 'react-native-router-flux';
 
+import Button from '../../components/Button';
 import ProfileLoop from '../../components/ProfileLoop';
-import MessageBox from '../../components/Chat/Box';
+import Bubble from '../../components/Bubble';
 import { getProfileLoop } from '../../modules/Profiles/Loops/api';
 import { postQuestion } from '../../modules/User/actions';
 import styles from './styles';
@@ -54,28 +52,19 @@ export default class UpdateYourQuestion extends React.Component {
             {this._renderTop()}
 
             <View style={styles.container}>
-              <TouchableWithoutFeedback onPress={() => this.refs['questionInput'].focus()}>
-                <View>
-                  <MessageBox text={this.state.question} position="right" />
-                </View>
-              </TouchableWithoutFeedback>
+              <Bubble
+                type="input"
+                position="right"
+                autoFocus={true}
+                value={this.state.question}
+                onFocus={() => this.setState({verifying: false})}
+                onBlur={() => this.setState({verifying: true})}
+                onChange={question => this.setState({question: question})}
+                onSubmitEditing={() => this.setState({verifying: true})}
+                style={styles.inputBubble}
+              />
 
               {this._renderButtons()}
-
-              <TextInput
-                ref='questionInput'
-                autoFocus={true}
-                placeholder="Question"
-                returnKeyType="done"
-                onSubmitEditing={() => this.setState({
-                  verifying: true
-                })}
-                onChangeText={text => this.setState({
-                  question: text
-                })}
-                value={this.state.question}
-                editable={true}
-              />
             </View>
           </KeyboardAvoidingView>
         </ProfileLoop>
@@ -86,13 +75,9 @@ export default class UpdateYourQuestion extends React.Component {
   _renderTop() {
     if (!this.state.verifying) {
       return (
-        <View>
-          <TouchableHighlight onPress={() => this._cancel()}>
-            <View style={styles.closeButton}>
-              <Icon name="close" size={32} color={colors.primaryAlt} />
-            </View>
-          </TouchableHighlight>
-        </View>
+        <TouchableOpacity onPress={() => this._cancel()} style={styles.closeButtonContainer} activeOpacity={0.9}>
+          <Icon name="ios-close" style={styles.closeButton} />
+        </TouchableOpacity>
       );
     }
   }
@@ -101,17 +86,18 @@ export default class UpdateYourQuestion extends React.Component {
     if (this.state.verifying) {
       return (
         <View style={styles.buttons}>
-          <TouchableOpacity onPress={() => this._cancel()}>
-            <View style={styles.secondaryButton}>
-              <Icon name="close" size={24} style={styles.secondaryButtonIcon} />
-            </View>
-          </TouchableOpacity>
+          <Button
+            type="icon"
+            icon="ios-close"
+            onPress={() => this._cancel()}
+          />
 
-          <TouchableOpacity onPress={() => this._done()}>
-            <View style={styles.secondaryButton}>
-              <Icon name="check" size={24} style={styles.secondaryButtonIcon} />
-            </View>
-          </TouchableOpacity>
+          <Button
+            type="icon"
+            icon="ios-checkmark"
+            highlight={true}
+            onPress={() => this._done()}
+          />
         </View>
       );
     }

@@ -36,14 +36,14 @@ const styles = StyleSheet.create({
     fontSize: 15 // I always use even numbers for this kind of stuff, but this is really the best option here. -G
   },
   highlightedText: {
-    color: colors.primary3
+    color: colors.primary2
   },
   linkIcon: {
     color: colors.gray2,
     fontSize: 30
   },
   choiceIcon: {
-    color: colors.primary3,
+    color: colors.primary2,
     fontSize: 24
   }
 });

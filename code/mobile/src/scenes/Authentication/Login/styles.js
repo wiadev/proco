@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   swiperSlideText: {
     fontSize: 21,
     fontWeight: 'bold',
-    color: colors.primary3,
+    color: colors.primary2,
     textAlign: 'center'
   },
   loginButtonRow: {

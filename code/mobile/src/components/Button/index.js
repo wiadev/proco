@@ -2,61 +2,77 @@ import React from 'react';
 import {
   TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Text from '../Text';
 import styles from './styles';
+
+const types = ['text', 'icon'];
 
 export default class Button extends React.Component {
   render() {
     return (
       <TouchableOpacity style={[this._getButtonStyle(), this.props.style]} onPress={() => this.props.onPress()} activeOpacity={0.8}>
-        <Text style={[this._getButtonTextStyle(), this.props.textStyle]}>
-          {this.props.text}
-        </Text>
+        {this._renderContent()}
       </TouchableOpacity>
     );
+  }
+
+  _renderContent() {
+    if (this.props.type === 'icon') {
+      return (
+        <Icon name={this.props.icon} style={[this._getContentStyle(), styles.icon]} />
+      );
+    } else {
+      return (
+        <Text style={[this._getContentStyle(), styles.text, this.props.textStyle]}>
+          {this.props.text}
+        </Text>
+      );
+    }
   }
 
   _getButtonStyle() {
     let buttonStyle = [styles.button];
 
     switch (this.props.type) {
-      case 'danger':
-        buttonStyle.push(styles.buttonDanger);
+      case 'text':
+        buttonStyle.push(styles.textButton);
         break;
-      case 'warning':
-        buttonStyle.push(styles.buttonWarning);
+      case 'icon':
+        buttonStyle.push(styles.iconButton);
         break;
-      case 'success':
-        buttonStyle.push(styles.buttonSuccess);
-        break;
-      case 'info':
-        buttonStyle.push(styles.buttonInfo);
-        break;
+    }
+
+    if (this.props.highlight) {
+      buttonStyle.push(styles.buttonHighlighted);
     }
 
     return buttonStyle;
   }
 
-  _getButtonTextStyle() {
-    let buttonTextStyle = [styles.buttonText];
+  _getContentStyle() {
+    let contentStyle = [styles.content];
 
-    if (['danger', 'warning', 'success', 'info'].indexOf(this.props.type) !== -1) {
-      buttonTextStyle.push(styles.buttonTextWhite);
+    if (this.props.highlight) {
+      contentStyle.push(styles.highlightedContent);
     }
 
-    return buttonTextStyle;
+    return contentStyle;
   }
 }
 
 Button.propTypes = {
-  text: React.PropTypes.string.isRequired,
+  type: React.PropTypes.oneOf(types),
+  highlight: React.PropTypes.bool,
+  text: React.PropTypes.string,
+  icon: React.PropTypes.string,
   onPress: React.PropTypes.func.isRequired,
-  type: React.PropTypes.string,
   style: React.PropTypes.any,
   textStyle: React.PropTypes.any
 };
 
 Button.defaultProps = {
-  type: 'default'
+  type: types[0],
+  highlight: false
 };
