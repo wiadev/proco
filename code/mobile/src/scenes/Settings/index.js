@@ -16,7 +16,7 @@ import {database} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
 import {logout} from "../../modules/Authentication/actions";
-import BlockerActivity from '../../components/BlockerActivity';
+import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
 import styles from './styles';
@@ -49,7 +49,7 @@ class Settings extends React.Component {
     // TODO: Clicking on Contact should do something.
     if (this.state.settings === null) {
       return (
-        <BlockerActivity />
+        <Loading />
       );
     }
 

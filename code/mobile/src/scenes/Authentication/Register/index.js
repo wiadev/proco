@@ -18,7 +18,7 @@ import {connect} from "react-redux";
 import moment from "moment";
 import {Actions} from "react-native-router-flux";
 import Header from "../../../components/Header";
-import BlockerActivity from "../../../components/BlockerActivity";
+import Loading from '../../../components/Loading';
 import Picker from "react-native-picker";
 import {styles, dpCustom} from "./styles";
 
@@ -55,7 +55,7 @@ export default class Register extends React.Component {
 
   render() {
     if (this.state.status !== statuses.ready) {
-      return <BlockerActivity />;
+      return <Loading />;
     }
 
     return (

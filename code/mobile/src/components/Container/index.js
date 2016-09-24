@@ -9,7 +9,7 @@ import styles from './styles';
 export default class Container extends React.Component {
   render() {
     return (
-      <View style={styles.background}>
+      <View style={[styles.background, this.props.style]}>
         {this._renderContent()}
       </View>
     );
@@ -29,7 +29,8 @@ export default class Container extends React.Component {
 }
 
 Container.propTypes = {
-  solidBackground: React.PropTypes.bool
+  solidBackground: React.PropTypes.bool,
+  style: React.PropTypes.any
 };
 
 Container.defaultProps = {

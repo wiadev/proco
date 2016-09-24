@@ -14,7 +14,7 @@ import * as StaticPages from "./StaticPages";
 
 import WebView from "../components/WebView";
 import Card from "../components/Card";
-import BlockerActivity from "../components/BlockerActivity";
+import Loading from '../components/Loading';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -56,12 +56,12 @@ const scenes = Actions.create(
       initial
       selector={(props) => {
         const {uid, isLoadedAuth, isLoadedIs, isBoarded} = props;
-        if (!isLoadedAuth || (uid && !isLoadedIs)) return 'BlockerActivity';
+        if (!isLoadedAuth || (uid && !isLoadedIs)) return 'Loading';
         if (!uid || !isBoarded) return 'auth';
         if (uid && isBoarded) return 'proco';
       }}
     >
-      <Scene hideNavBar key="BlockerActivity" component={BlockerActivity}/>
+      <Scene hideNavBar key="Loading" component={Loading} />
       <Scene
         key="auth"
         component={connect(state=>({
