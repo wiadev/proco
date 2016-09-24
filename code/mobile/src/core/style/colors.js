@@ -10,6 +10,7 @@ const colors = {
   gray2: 'rgba(94, 94, 94, 0.2)',
 
   dimPrimaryAlt: 'rgba(255, 255, 255, 0.2)',
+  dimPrimary1: 'rgba(120, 55, 175, 0.8)',
 
   danger: '#EA5644',
   warning: '#F5A611',

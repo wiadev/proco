@@ -1,21 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
+  StatusBar,
   View,
   KeyboardAvoidingView,
   TouchableOpacity,
-  StatusBar
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { Actions } from 'react-native-router-flux';
 
+import Loading from '../../components/Loading';
+import Text from '../../components/Text';
 import Button from '../../components/Button';
 import ProfileLoop from '../../components/ProfileLoop';
 import Bubble from '../../components/Bubble';
-import { getProfileLoop } from '../../modules/Profiles/Loops/api';
+import { getProfileLoopOf } from '../../modules/Profiles/Loops/api';
 import { postQuestion } from '../../modules/User/actions';
 import styles from './styles';
-import colors from '../../core/style/colors';
+
+const statuses = {
+  EDITING: 'editing',
+  VERIFYING: 'verifying',
+  VIEWING: 'viewing'
+};
 
 @connect(state => ({auth: state.auth, user: state.api.data.userInfo}))
 export default class UpdateYourQuestion extends React.Component {
@@ -23,9 +31,10 @@ export default class UpdateYourQuestion extends React.Component {
     super(props);
 
     this.state = {
-      profileLoopPhotos: [],
-      verifying: false,
-      question: ""
+      status: statuses.EDITING,
+      overlayWidth: 0,
+      question: "",
+      profileLoop: null
     };
   }
 
@@ -34,21 +43,26 @@ export default class UpdateYourQuestion extends React.Component {
       question: this.props.user.current_question
     });
 
-    getProfileLoop(this.props.user.loop_key)
-      .then(photos => {
-        this.setState({
-          profileLoopPhotos: photos
-        })
-      });
+    getProfileLoopOf(this.props.auth.uid)
+      .then(data => this.setState({profileLoop: data.file}));
   }
 
   render() {
+    if (this.state.profileLoop === null) {
+      return (
+        <Loading />
+      );
+    }
+
     return (
       <View style={styles.updateYourQuestion}>
         <StatusBar hidden={true} />
 
-        <ProfileLoop repeat={true}>
+        <ProfileLoop video={this.state.profileLoop} repeat={true}>
+          {this._renderOverlay()}
+
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
+
             {this._renderTop()}
 
             <View style={styles.container}>
@@ -57,10 +71,9 @@ export default class UpdateYourQuestion extends React.Component {
                 position="right"
                 autoFocus={true}
                 value={this.state.question}
-                onFocus={() => this.setState({verifying: false})}
-                onBlur={() => this.setState({verifying: true})}
+                onFocus={() => this.setState({status: statuses.EDITING})}
+                onBlur={() => this.setState({status: statuses.VERIFYING})}
                 onChange={question => this.setState({question: question})}
-                onSubmitEditing={() => this.setState({verifying: true})}
                 style={styles.inputBubble}
               />
 
@@ -72,8 +85,20 @@ export default class UpdateYourQuestion extends React.Component {
     );
   }
 
+  _renderOverlay() {
+    if (this.state.status === statuses.EDITING) {
+      return (
+        <View style={styles.overlay} onLayout={event => this.setState({overlayWidth: event.nativeEvent.layout.width})}>
+          <Image source={require('../../assets/images/ask-question.png')} style={[styles.overlayImage, {width: this.state.overlayWidth / 3, height: this.state.overlayWidth / 3}]} />
+
+          <Text style={styles.overlayText}>Now ask your question.</Text>
+        </View>
+      );
+    }
+  }
+
   _renderTop() {
-    if (!this.state.verifying) {
+    if (this.state.status !== statuses.VERIFYING) {
       return (
         <TouchableOpacity onPress={() => this._cancel()} style={styles.closeButtonContainer} activeOpacity={0.9}>
           <Icon name="ios-close" style={styles.closeButton} />
@@ -83,7 +108,7 @@ export default class UpdateYourQuestion extends React.Component {
   }
 
   _renderButtons() {
-    if (this.state.verifying) {
+    if (this.state.status === statuses.VERIFYING) {
       return (
         <View style={styles.buttons}>
           <Button
@@ -113,7 +138,7 @@ export default class UpdateYourQuestion extends React.Component {
     postQuestion(this.state.question);
 
     this.setState({
-      verifying: false
+      status: statuses.VIEWING
     });
   }
 }

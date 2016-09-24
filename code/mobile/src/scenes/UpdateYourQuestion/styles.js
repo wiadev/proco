@@ -11,7 +11,27 @@ const styles = StyleSheet.create({
     opacity: 1
   },
   wrapper: {
+    position: 'relative',
     flex: 1
+  },
+  overlay: {
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    paddingTop: 60,
+    backgroundColor: colors.dimPrimary1,
+  },
+  overlayImage: {
+    resizeMode: 'contain'
+  },
+  overlayText: {
+    color: colors.primary2,
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '600'
   },
   closeButtonContainer: {
     flexDirection: 'row',
