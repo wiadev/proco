@@ -11,7 +11,6 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import Header from '../../Header';
-import MessageCountIcon from '../MessageCountIcon';
 import Card from '../../Card';
 import styles from './styles';
 
@@ -23,7 +22,7 @@ export default class ConversationList extends React.Component {
           theme="light"
           title="Messages"
           leftActorType="icon"
-          leftActor="keyboard-arrow-left"
+          leftActor="ios-arrow-back"
           leftAction={() => Actions.pop()}
         />
 

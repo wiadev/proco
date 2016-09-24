@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   actorIconOnLightTheme: {
-    color: colors.primary1
+    color: colors.black
   }
 });
 

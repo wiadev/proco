@@ -25,10 +25,10 @@ class Conversation extends React.Component {
         <Header
           theme="light"
           leftActorType="icon"
-          leftActor="keyboard-arrow-left"
+          leftActor="ios-arrow-back"
           leftAction={Actions.pop}
           rightActorType="icon"
-          rightActor="error-outline"
+          rightActor="ios-alert-outline"
           rightAction={() => this._showUserActionSheet()}
           title={this.props.recipient.name}
         />
