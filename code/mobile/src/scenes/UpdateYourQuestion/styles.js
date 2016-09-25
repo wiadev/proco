@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1
   },
+  // FIXME: Overlay style (paddingTop) is hardcoded, need to find a way to vertically center content in a responsive way.
   overlay: {
     alignItems: 'center',
     position: 'absolute',
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    paddingTop: 60,
+    paddingTop: 100,
     backgroundColor: colors.dimPrimary1,
   },
   overlayImage: {
