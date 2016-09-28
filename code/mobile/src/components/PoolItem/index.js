@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   ActionSheetIOS
 } from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 
@@ -23,10 +24,11 @@ const initialState = {
 export default class PoolItem extends React.Component {
   constructor(props) {
     super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {
       height: 0,
-      ...initialState
+      ...initialState,
     };
   }
 
@@ -38,7 +40,12 @@ export default class PoolItem extends React.Component {
     }
   }
 
+  componentWillMount() {
+    console.log("I'LL MOUNT", this.props)
+  }
+
   render() {
+    console.log("IM HERE", this.props.data.uid)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
         <ProfileLoop video={this.props.data.profileLoop.file} repeat={true}>

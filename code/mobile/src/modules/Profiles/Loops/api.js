@@ -1,5 +1,5 @@
 import RNFetchBlob from "react-native-fetch-blob";
-import {database, storage} from "../../../core/Api";
+import { database, storage } from "../../../core/Api";
 
 const fs = RNFetchBlob.fs;
 const cachePoolDir = fs.dirs.DocumentDir + '/LoopCache';
@@ -9,26 +9,25 @@ export const clearCachedLoops = () => Promise.resolve();
 export const clearLoop = (loop_key) => Promise.resolve();
 
 /*export const clearCachedLoops = () =>
-  fs.unlink(cachePoolDir).catch(e => Promise.resolve());
+ fs.unlink(cachePoolDir).catch(e => Promise.resolve());
 
-export const clearLoop = (loop_key) =>
-  fs.unlink(`${cachePoolDir}/${loop_key}`).catch(e => Promise.resolve());
-*/
+ export const clearLoop = (loop_key) =>
+ fs.unlink(`${cachePoolDir}/${loop_key}`).catch(e => Promise.resolve());
+ */
 
 export const getProfileLoop = (loop_key) => {
   const localPath = cachePoolDir + '/' + loop_key;
   return fs.exists(localPath)
-    .then((data) => data ? localPath : Promise.reject())
-    .catch(() => loopBaseRef.child(loop_key).getDownloadURL()
-      .then(url =>
-        RNFetchBlob
-          .config({
-            path: localPath,
-          })
-          .fetch('GET', url)
-      )
-      .then(res => res.path())
-    );
+    .then((data) => {
+      if (data) return localPath;
+      return loopBaseRef.child(loop_key).getDownloadURL().then(url => RNFetchBlob
+        .config({
+          path: localPath,
+        })
+        .fetch('GET', url)
+        .then(() => localPath)
+      );
+    });
 };
 
 export const getProfileLoopOf = async(uid) => {

@@ -89,15 +89,11 @@ export default class Pool extends React.Component {
 
   _renderPoolItems() {
     const poolItems = Object.keys(this.props.pool.items);
-    let lastPoolItemKey = 0;
 
     let items = poolItems.map((poolItemKey, i) => {
-      lastPoolItemKey = i;
-
       return (
         <PoolItem
           key={poolItemKey}
-          isMounted={i === 0}
           data={this.props.pool.items[poolItemKey]}
           onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
         />
@@ -105,7 +101,7 @@ export default class Pool extends React.Component {
     });
 
     items.push(
-      <Card key={lastPoolItemKey + 1} label="Oh noes :(" text="No one else seems to be nearby." noClose={true} />
+      <Card key={"last-page"} label="Oh noes :(" text="No one else seems to be nearby." noClose={true} />
     );
 
     return items;

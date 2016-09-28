@@ -16,6 +16,7 @@
     "lodash": "^4.15.0",
     "moment": "^2.14.1",
     "react": "^15.3.1",
+    "react-addons-pure-render-mixin": "^15.3.2",
     "react-mixin": "^3.0.5",
     "react-native": "^0.33.0",
     "react-native-blur": "^1.0.1",
