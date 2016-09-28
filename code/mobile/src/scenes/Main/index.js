@@ -7,7 +7,6 @@ import Swiper from 'react-native-swiper';
 
 import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
-import MessageCountIcon from '../../components/Chat/MessageCountIcon';
 import styles from './styles';
 
 @connect(state => ({user: state.api.data.userInfo, isUser: state.api.data.userIs}))
@@ -16,11 +15,6 @@ export default class MainScreen extends React.Component {
     return (
       <View style={styles.mainScreen}>
         {this._renderScreenSwiper()}
-
-        <View style={styles.messageIconWrapper}>
-          <MessageCountIcon />
-        </View>
-
       </View>
     );
   }

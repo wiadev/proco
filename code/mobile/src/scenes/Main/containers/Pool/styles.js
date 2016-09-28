@@ -7,6 +7,11 @@ const styles = StyleSheet.create({
     position: 'relative',
     flex: 1
   },
+  messageIconWrapper: {
+    position: 'absolute',
+    top: 20,
+    right: 20
+  },
   upperMenuIcon: {
     position: 'absolute',
     top: 10,

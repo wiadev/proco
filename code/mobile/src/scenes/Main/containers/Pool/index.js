@@ -8,6 +8,7 @@ import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
+import MessageCountIcon from '../../../../components/Chat/MessageCountIcon';
 import styles from "./styles";
 
 @connect(state => ({permissions: state.permissions, pool: state.pool}))
@@ -17,7 +18,7 @@ export default class Pool extends React.Component {
 
     this.state = {
       current: 0,
-      previousPoolData: {}
+      previousPoolData: {},
     };
   }
 
@@ -76,6 +77,11 @@ export default class Pool extends React.Component {
           </Swiper>
 
           <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
+
+          <View style={styles.messageIconWrapper}>
+            <MessageCountIcon />
+          </View>
+
         </View>
       );
     }
