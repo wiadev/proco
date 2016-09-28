@@ -47,14 +47,7 @@ class App extends Component {
     });
 
     FCM.subscribeToTopic('/topics/generic');
-    this.notificationUnsubscribe = FCM.on('notification', (notif) => {
-      console.log(notif);
-      this.props.dispatch(createAlert({
-        type: 'info',
-        title: notif.notification.title
-      }));
-      // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
-    });
+    FCM.subscribeToTopic('/topics/my');
 
     this._locationTracking(this.props);
     clearCachedLoops();
