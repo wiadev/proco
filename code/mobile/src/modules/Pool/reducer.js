@@ -3,7 +3,6 @@ import _ from 'lodash';
 
 export const initialState = {
   items: {},
-  count: 0,
   watchStatus: 'LOADING',
   status: {
     status: 'NULL',
@@ -15,10 +14,6 @@ export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
     default: return state;
-    case 'POOL_WILL_ADD':
-      return assign(state, {
-        count: state.count + 1,
-      });
     case 'POOL_ADD':
       return assign(state, {
         items: assign(state.items, {
@@ -28,7 +23,6 @@ export default function reducer(state = initialState, action = {}) {
     case 'POOL_REMOVE':
       return assign(state, {
         items: _.omit(state.items, action.payload.uid),
-        count: state.count - 1,
       });
     case 'POOL_STATUS_CHANGED':
       return assign(state, {
@@ -41,7 +35,6 @@ export default function reducer(state = initialState, action = {}) {
     case 'POOL_RESET':
       return assign(state, {
         items: {},
-        count: 0,
       });
   }
 
