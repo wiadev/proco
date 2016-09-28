@@ -20,22 +20,10 @@ export default class MainScreen extends React.Component {
   }
 
   _renderScreenSwiper() {
-    let swiperSlides = [
-      <UpperMenu fid={this.props.user.fid} />,
-      <Pool />
-    ];
-
-    let swiperIndex = swiperSlides.length - 1;
-
     return (
-      <Swiper horizontal={false} loop={false} showsPagination={false} index={swiperIndex}>
-        {swiperSlides.map((slide, key) => {
-          return (
-            <View key={key} style={styles.swiperSlide}>
-              {slide}
-            </View>
-          );
-        })}
+      <Swiper horizontal={false} loop={false} showsPagination={false} index={1}>
+        <UpperMenu />
+        <Pool />
       </Swiper>
     );
   }

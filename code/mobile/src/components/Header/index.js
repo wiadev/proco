@@ -2,7 +2,8 @@ import React from 'react';
 import {
   View,
   StatusBar,
-  Image
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -49,17 +50,23 @@ export default class Header extends React.Component {
   }
 
   _renderActor(actorType, actor, action) {
-    if (actorType === 'icon') {
-      return (
-        <Icon name={actor} onPress={action} style={this._getActorIconStyle()} />
-      )
+    let content = null;
+    switch (actorType) {
+      case 'icon':
+        content = <Icon name={actor} style={this._getActorIconStyle()} />;
+        break;
+      case 'text':
+        content = <Text style={this._getTextStyle()}>{actor}</Text>;
+        break;
+      default: break;
     }
 
-    if (actorType === 'text') {
-      return (
-        <Text onPress={action} style={this._getTextStyle()}>{actor}</Text>
-      );
-    }
+    return <TouchableOpacity hitSlop={{
+      top: 5,
+      left: 5,
+      bottom: 5,
+      right: 5,
+    }} onPress={action}>{content}</TouchableOpacity>;
   }
 
   _renderLeftActor() {

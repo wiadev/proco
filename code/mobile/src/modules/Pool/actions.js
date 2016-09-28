@@ -65,7 +65,7 @@ export const addToPool = (uid, data) => {
     const {pool, api: {data: {userInfo: {current_question = null, current_question_id = null}}}} = getState();
     if (pool.items[uid]) return true; // add some cache checking & expire stuff
     if (pool.status == !'SHOWING') dispatch(changePoolStatus('SHOWING'));
-    
+
     const poolData = await getPoolData(uid, {
       qid: current_question_id,
       question: current_question,
