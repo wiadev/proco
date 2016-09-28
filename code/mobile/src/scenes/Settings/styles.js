@@ -32,12 +32,8 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   procoLogoContainer: {
-    height: 100,
+    height: 50,
     marginHorizontal: 80
-  },
-  barbarLogoContainer: {
-    height: 100,
-    marginHorizontal: 30
   },
   logo: {
     flex: 1,

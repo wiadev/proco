@@ -104,9 +104,6 @@ class Settings extends React.Component {
 
           <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true} />
 
-          <View style={styles.procoLogoContainer}>
-            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
-          </View>
 
           <Field type="link" legend="Logout" onPress={() => this.props.dispatch(logout())} stickToPrevious={true} />
 
@@ -118,9 +115,9 @@ class Settings extends React.Component {
               </Text>
             </View>
           </View>
-
-          <View style={styles.barbarLogoContainer}>
-            <Image source={require('../../assets/images/logo-barbar.png')} style={styles.logo} />
+          
+          <View style={styles.procoLogoContainer}>
+            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
           </View>
 
           <View style={styles.versionContainer}>
