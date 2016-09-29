@@ -18,7 +18,7 @@ export function handleAuth(data) {
       dispatch({
         type: SET,
         payload: {
-          uid
+          uid,
         }
       });
 
@@ -48,7 +48,7 @@ export function syncFacebookToken() {
           }
 
           dispatch(update('tokens', {
-            facebook: token
+            facebook: token,
           }));
 
         } else {

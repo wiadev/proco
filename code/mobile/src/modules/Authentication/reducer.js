@@ -29,7 +29,7 @@ export default function reducer(state = initialState, action = {}) {
       });
     case SET:
       return assign(state, {
-        isLoaded: (action.payload.uid ? true : false),
+        isLoaded: true,
         isInProgress: false,
         uid: action.payload.uid,
       });

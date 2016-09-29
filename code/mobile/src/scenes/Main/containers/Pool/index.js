@@ -81,6 +81,7 @@ export default class Pool extends React.Component {
             style={this._getListViewStyle()}
             dataSource={this.state.dataSource}
             pageSize={2}
+            initialListSize={2}
             removeClippedSubviews={true}
             renderRow={(poolItemKey) => <PoolItem
               key={poolItemKey}

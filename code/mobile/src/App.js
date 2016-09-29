@@ -15,13 +15,12 @@ import {clearCachedLoops} from "./modules/Profiles/Loops/api";
 
 @connect(
   state => ({
-    auth: state.auth,
-    permissions: state.permissions,
-    banned: state.api.data.userIs.banned,
-    first_name: state.api.data.userInfo.first_name,
     uid: state.auth.uid,
     isLoadedAuth: state.auth.isLoaded,
     isLoadedIs: state.api.data.userIs.isLoaded,
+    banned: state.api.data.userIs.banned,
+    locationPermission: state.permissions.location,
+    first_name: state.api.data.userInfo.first_name,
   }),
 )
 class App extends Component {
@@ -51,7 +50,6 @@ class App extends Component {
     });
 
     FCM.subscribeToTopic('/topics/generic');
-    FCM.subscribeToTopic('/topics/my');
 
     this._locationTracking(this.props);
     clearCachedLoops();
@@ -80,25 +78,24 @@ class App extends Component {
     this._locationTracking(props);
   }
 
-  _locationTracking({permissions: {location}} = this.props) {
-    if (location === 'authorized' && !this.state.didStartedLocationTracking) {
+  _locationTracking({locationPermission} = this.props) {
+    if (locationPermission === 'authorized' && !this.state.didStartedLocationTracking) {
       startLocationTracking();
       this.setState({didStartedLocationTracking: true});
     }
   }
 
-  _shouldRouterRender({isLoadedAuth} = this.props) {
-    return !!(isLoadedAuth);
-  }
-
   render() {
     const {
       dispatch,
-      auth: {uid, isLoaded},
+      uid,
+      isLoadedIs,
+      isLoadedAuth,
       first_name,
       banned,
     } = this.props;
 
+    console.log("IS LOADED AUTH", isLoadedAuth)
     return (
       <View style={{
         flex: 1,
@@ -116,7 +113,7 @@ class App extends Component {
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
         />}
-        {this._shouldRouterRender() ? <Routes /> : <Loading />}
+        {!isLoadedAuth || (uid && !isLoadedIs) ? <Loading /> : <Routes />}
       </View>
     );
   }
