@@ -1,25 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, Animated, ListView, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Swiper from "react-native-swiper";
-
 import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
-import MessageCountIcon from '../../../../components/Chat/MessageCountIcon';
+import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 import styles from "./styles";
+let AnimatedListView = Animated.createAnimatedComponent(ListView)
 
 @connect(state => ({permissions: state.permissions, pool: state.pool}))
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
 
+    let pan = new Animated.ValueXY();
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
     this.state = {
-      current: 0,
-      previousPoolData: {},
+      pan,
+      dataSource: this.ds.cloneWithRows(Object.keys(this.props.pool.items)),
+      dockAnimation: pan.y.interpolate({
+        inputRange: [0, 240],
+        outputRange: [0, 1],
+        extrapolate: 'clamp'
+      })
     };
+
   }
 
   componentWillMount() {
@@ -30,6 +38,9 @@ export default class Pool extends React.Component {
     if (props.pool.status === 'COMPLETED') {
       this.props.dispatch(trigger());
     }
+    this.setState({
+      dataSource: this.ds.cloneWithRows(Object.keys(props.pool.items)),
+    });
   }
 
   render() {
@@ -40,7 +51,7 @@ export default class Pool extends React.Component {
 
     if (this.props.permissions.location !== 'authorized') {
       return (
-        <PermissionModal type="location" />
+        <PermissionModal type="location"/>
       );
     }
 
@@ -59,22 +70,24 @@ export default class Pool extends React.Component {
 
     if (renderCard) {
       return (
-        <Card label={cardLabel} text={cardText} noClose={true} activityIndicator={cardInProgress} />
+        <Card label={cardLabel} text={cardText} noClose={true} activityIndicator={cardInProgress}/>
       );
     } else {
       return (
         <View style={styles.pool}>
-          <Swiper
+          <AnimatedListView
             horizontal={true}
-            loop={false}
-            showsPagination={false}
-            loadMinimal={true}
-            loadMinimalSize={2}
-            ref="swiper"
-            onMomentumScrollEnd={(e, state) => this._onSwiperScroll(e, state)}
-          >
-            {this._renderPoolItems()}
-          </Swiper>
+            pagingEnabled={true}
+            style={this._getListViewStyle()}
+            dataSource={this.state.dataSource}
+            pageSize={2}
+            removeClippedSubviews={true}
+            renderRow={(poolItemKey) => <PoolItem
+              key={poolItemKey}
+              data={this.props.pool.items[poolItemKey]}
+              onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
+            />}
+          />
 
           <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
 
@@ -85,26 +98,6 @@ export default class Pool extends React.Component {
         </View>
       );
     }
-  }
-
-  _renderPoolItems() {
-    const poolItems = Object.keys(this.props.pool.items);
-
-    let items = poolItems.map((poolItemKey, i) => {
-      return (
-        <PoolItem
-          key={poolItemKey}
-          data={this.props.pool.items[poolItemKey]}
-          onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
-        />
-      );
-    });
-
-    items.push(
-      <Card key={"last-page"} label="Oh noes :(" text="No one else seems to be nearby." noClose={true} />
-    );
-
-    return items;
   }
 
   _onSwiperScroll(e, state) {
@@ -130,5 +123,42 @@ export default class Pool extends React.Component {
     });
 
     this.refs['swiper'].scrollBy(1);
+  }
+
+  _getListViewStyle() {
+    return [
+      styles.pool,
+      {
+        width: this.state.dockAnimation.interpolate({
+          inputRange: [0, 1],
+          outputRange: [Dimensions.get('window').width, Dimensions.get('window').width * 2],
+        }),
+      },
+      {
+        transform: [
+          {
+            scale: this.state.dockAnimation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0.5],
+              // extrapolate: 'clamp'
+            }),
+          },
+          {
+            translateX: this.state.dockAnimation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, -(Dimensions.get('window').width)],
+              // extrapolate: 'clamp'
+            }),
+          },
+          {
+            translateY: this.state.dockAnimation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, (Dimensions.get('window').height / 2)],
+              // extrapolate: 'clamp'
+            }),
+          }
+        ],
+      }
+    ];
   }
 }

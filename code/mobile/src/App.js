@@ -8,6 +8,7 @@ import {syncPermissions, updateNotificationToken} from "./modules/Permissions/ac
 import {createAlert} from "./modules/InAppAlert/actions";
 import NoInternetModal from "./components/NoInternetModal";
 import BlockedUserModal from "./components/BlockedUserModal";
+import Loading from './components/Loading';
 import FCM from "react-native-fcm";
 import Routes from "./scenes";
 import {clearCachedLoops} from "./modules/Profiles/Loops/api";
@@ -18,6 +19,9 @@ import {clearCachedLoops} from "./modules/Profiles/Loops/api";
     permissions: state.permissions,
     banned: state.api.data.userIs.banned,
     first_name: state.api.data.userInfo.first_name,
+    uid: state.auth.uid,
+    isLoadedAuth: state.auth.isLoaded,
+    isLoadedIs: state.api.data.userIs.isLoaded,
   }),
 )
 class App extends Component {
@@ -83,6 +87,10 @@ class App extends Component {
     }
   }
 
+  _shouldRouterRender({isLoadedAuth} = this.props) {
+    return !!(isLoadedAuth);
+  }
+
   render() {
     const {
       dispatch,
@@ -108,7 +116,7 @@ class App extends Component {
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
         />}
-        <Routes />
+        {this._shouldRouterRender() ? <Routes /> : <Loading />}
       </View>
     );
   }

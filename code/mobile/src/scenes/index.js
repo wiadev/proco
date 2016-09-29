@@ -14,7 +14,6 @@ import * as StaticPages from "./StaticPages";
 
 import WebView from "../components/WebView";
 import Card from "../components/Card";
-import Loading from '../components/Loading';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -47,21 +46,17 @@ const scenes = Actions.create(
       key="app"
       component={connect(state=>({
         uid: state.auth.uid,
-        isLoadedAuth: state.auth.isLoaded,
-        isLoadedIs: state.api.data.userIs.isLoaded,
         isBoarded: state.api.data.userIs.onboarded,
       }))(Switch)}
       tabs={true}
       unmountScenes
       initial
       selector={(props) => {
-        const {uid, isLoadedAuth, isLoadedIs, isBoarded} = props;
-        if (!isLoadedAuth || (uid && !isLoadedIs)) return 'Loading';
+        const {uid, isBoarded} = props;
         if (!uid || !isBoarded) return 'auth';
         if (uid && isBoarded) return 'proco';
       }}
     >
-      <Scene hideNavBar key="Loading" component={Loading} />
       <Scene
         key="auth"
         component={connect(state=>({

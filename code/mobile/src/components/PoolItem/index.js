@@ -18,7 +18,7 @@ import colors from '../../core/style/colors';
 
 const initialState = {
   answerInputVisible: false,
-  answer: ""
+  answer: "",
 };
 
 export default class PoolItem extends React.Component {

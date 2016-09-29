@@ -4,7 +4,6 @@ import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
   pool: {
-    position: 'relative',
     flex: 1
   },
   messageIconWrapper: {
