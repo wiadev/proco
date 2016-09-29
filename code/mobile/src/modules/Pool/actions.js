@@ -85,8 +85,10 @@ export const addToPool = (uid, data) => {
 export const action = (uid, type = 'seen', payload = {}) => {
   return (dispatch, getState) => {
 
+console.log(uid, type, payload)
     const poolData = getState().pool.items[uid];
 
+console.log("poolData", poolData)
     const {question: {qid}, receivedAnswer, profileLoopKey} = poolData;
 
     dispatch(removeFromPool(uid, profileLoopKey));

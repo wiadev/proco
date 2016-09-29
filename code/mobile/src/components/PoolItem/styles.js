@@ -8,10 +8,10 @@ import colors from '../../core/style/colors';
 const styles = StyleSheet.create({
   poolItem: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
     marginHorizontal: 10,
     marginBottom: 10,
-    borderRadius: 10,
+    borderRadius: 30,
     width: Dimensions.get('window').width - 20,
   },
   poolItemContent: {

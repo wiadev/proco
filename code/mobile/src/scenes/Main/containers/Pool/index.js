@@ -8,38 +8,47 @@ import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 import styles from "./styles";
-let AnimatedListView = Animated.createAnimatedComponent(ListView)
 
-@connect(state => ({permissions: state.permissions, pool: state.pool}))
+let AnimatedListView = Animated.createAnimatedComponent(ListView);
+
+@connect(state => ({
+  permissions: state.permissions,
+  pool: state.pool,
+  poolItems: state.pool.items,
+  poolKeys: Object.keys(state.pool.items),
+}))
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
 
     let pan = new Animated.ValueXY();
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+      console.log(r1, r2);
+      return r1.uid !== r2.uid;
+    }});
 
     this.state = {
       pan,
-      dataSource: this.ds.cloneWithRows(Object.keys(this.props.pool.items)),
-      dockAnimation: pan.y.interpolate({
+      poolAnimation: pan.y.interpolate({
         inputRange: [0, 240],
         outputRange: [0, 1],
-        extrapolate: 'clamp'
-      })
+        extrapolate: 'clamp',
+      }),
+      current: {},
     };
 
   }
 
   componentWillMount() {
     this.props.dispatch(trigger());
+    this.setState({
+      dataSource: this.ds.cloneWithRows(this.props.poolKeys),
+    });
   }
 
   componentWillReceiveProps(props) {
-    if (props.pool.status === 'COMPLETED') {
-      this.props.dispatch(trigger());
-    }
     this.setState({
-      dataSource: this.ds.cloneWithRows(Object.keys(props.pool.items)),
+      dataSource: this.ds.cloneWithRows(props.poolKeys),
     });
   }
 
@@ -73,64 +82,67 @@ export default class Pool extends React.Component {
         <Card label={cardLabel} text={cardText} noClose={true} activityIndicator={cardInProgress}/>
       );
     } else {
-      return (
-        <View style={styles.pool}>
-          <AnimatedListView
-            horizontal={true}
-            pagingEnabled={true}
-            style={this._getListViewStyle()}
-            dataSource={this.state.dataSource}
-            pageSize={2}
-            initialListSize={2}
-            removeClippedSubviews={true}
-            renderRow={(poolItemKey) => <PoolItem
-              key={poolItemKey}
-              data={this.props.pool.items[poolItemKey]}
-              onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
-            />}
-          />
+    }
+    return (
+      <View style={styles.pool}>
+        <AnimatedListView
+          horizontal={true}
+          pagingEnabled={true}
+          style={this._getListViewStyle()}
+          dataSource={this.state.dataSource}
+          pageSize={2}
+          initialListSize={2}
+          removeClippedSubviews={true}
+          enableEmptySections={true}
+          renderRow={(key) => <PoolItem
+            key={key}
+            onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
+            {...this.props.poolItems[key]}
+          />}
+          onChangeVisibleRows={::this._onSwiperScroll}
+        />
 
-          <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
+        <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
 
-          <View style={styles.messageIconWrapper}>
-            <MessageCountIcon />
-          </View>
-
+        <View style={styles.messageIconWrapper}>
+          <MessageCountIcon />
         </View>
-      );
-    }
+
+      </View>
+    );
   }
 
-  _onSwiperScroll(e, state) {
-    if (state.index !== 0) {
-      const items = Object.keys(this.props.pool.items);
-      const {uid = items[state.index - 1], act = 'skip', payload = null} = this.state.previousPoolData;
-      this.props.dispatch(action(uid, act, payload));
-
-      this.setState({
-        current: state.index,
-        previousPoolData: {},
-      });
-    }
-  }
-
-  _doneWithPoolItem(uid, act, payload) {
+  _setCurrentPoolData(uid, act = 'skip', payload = {}) {
     this.setState({
-      previousPoolData: {
-        uid: uid,
-        act: act,
-        payload: payload,
-      }
+      current: {
+        uid,
+        act,
+        payload,
+      },
     });
+  }
 
-    this.refs['swiper'].scrollBy(1);
+  _onSwiperScroll(visibleRows, changedRows) {
+
+    console.log(visibleRows, changedRows);
+
+    const keys = this.props.poolKeys;
+    const gone = Object.keys(changedRows.s1).filter(key => !changedRows.s1[key]);
+    if (gone.length === 1) {
+      this.props.dispatch(action(keys[gone[0]]));
+    }
+
+    const visible = Object.keys(visibleRows.s1).filter(key => visibleRows.s1[key])[0];
+
+    console.log("now visible", visible);
+
   }
 
   _getListViewStyle() {
     return [
       styles.pool,
       {
-        width: this.state.dockAnimation.interpolate({
+        width: this.state.poolAnimation.interpolate({
           inputRange: [0, 1],
           outputRange: [Dimensions.get('window').width, Dimensions.get('window').width * 2],
         }),
@@ -138,21 +150,21 @@ export default class Pool extends React.Component {
       {
         transform: [
           {
-            scale: this.state.dockAnimation.interpolate({
+            scale: this.state.poolAnimation.interpolate({
               inputRange: [0, 1],
               outputRange: [1, 0.5],
               // extrapolate: 'clamp'
             }),
           },
           {
-            translateX: this.state.dockAnimation.interpolate({
+            translateX: this.state.poolAnimation.interpolate({
               inputRange: [0, 1],
               outputRange: [0, -(Dimensions.get('window').width)],
               // extrapolate: 'clamp'
             }),
           },
           {
-            translateY: this.state.dockAnimation.interpolate({
+            translateY: this.state.poolAnimation.interpolate({
               inputRange: [0, 1],
               outputRange: [0, (Dimensions.get('window').height / 2)],
               // extrapolate: 'clamp'
