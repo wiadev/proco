@@ -2,14 +2,15 @@ import React from 'react';
 import {
   View,
   Image,
-  Text,
   ScrollView,
   ListView,
   TouchableHighlight,
   ActivityIndicator,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Moment from 'moment';
 
+import Text from '../../Text';
 import Header from '../../Header';
 import Card from '../../Card';
 import styles from './styles';
@@ -62,17 +63,19 @@ export default class ConversationList extends React.Component {
 
   _renderSingleConversation(thread) {
     return (
-      <TouchableHighlight onPress={() => Actions.Conversation(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.1)">
+      <TouchableHighlight onPress={() => Actions.Conversation(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.05)">
         <View style={styles.conversation}>
           <View style={styles.avatar}>
             {this._renderAvatar(thread.people[0])}
           </View>
 
-          <View style={styles.conversationInfo}>
-            <View>
-              <Text style={styles.username}>{this.props.profiles.profiles[thread.people[0]].name}</Text>
-              <Text style={styles.lastMessage}>{thread.last_message.text}</Text>
-            </View>
+          <View style={styles.nameAndLastMessage}>
+            <Text chatText={true} style={styles.username}>{this.props.profiles.profiles[thread.people[0]].name}</Text>
+            <Text chatText={true} style={styles.lastMessage}>{thread.last_message.text}</Text>
+          </View>
+
+          <View>
+            <Text chatText={true} style={styles.timeSince}>{Moment(thread.last_message.createdAt).fromNow(true)}</Text>
           </View>
         </View>
       </TouchableHighlight>
