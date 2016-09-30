@@ -9,23 +9,19 @@ import PermissionModal from "../../../../components/PermissionModal";
 import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 import styles from "./styles";
 
-let AnimatedListView = Animated.createAnimatedComponent(ListView);
+const AnimatedListView = Animated.createAnimatedComponent(ListView);
+const data = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.uid !== r2.uid});
 
 @connect(state => ({
   permissions: state.permissions,
-  pool: state.pool,
   poolItems: state.pool.items,
-  poolKeys: Object.keys(state.pool.items),
+  poolLength: Object.keys(state.pool.items).length,
 }))
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
 
     let pan = new Animated.ValueXY();
-    this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
-      console.log(r1, r2);
-      return r1.uid !== r2.uid;
-    }});
 
     this.state = {
       pan,
@@ -41,22 +37,20 @@ export default class Pool extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(trigger());
-    this.setState({
-      dataSource: this.ds.cloneWithRows(this.props.poolKeys),
-    });
+    this._updatePoolData();
   }
 
   componentWillReceiveProps(props) {
+    this._updatePoolData(props);
+  }
+
+  _updatePoolData(props = this.props) {
     this.setState({
-      dataSource: this.ds.cloneWithRows(props.poolKeys),
+      dataSource: data.cloneWithRows(props.poolItems),
     });
   }
 
   render() {
-    let renderCard = false;
-    let cardLabel = "";
-    let cardText = "";
-    let cardInProgress = false;
 
     if (this.props.permissions.location !== 'authorized') {
       return (
@@ -64,25 +58,17 @@ export default class Pool extends React.Component {
       );
     }
 
-    if (['IN_PROGRESS', 'IN_PROGRESS_RESET'].indexOf(this.props.pool.status.status) !== -1 && this.props.pool.items.length === 0) {
-      renderCard = true;
-      cardInProgress = true;
-      cardLabel = "Just a sec";
-      cardText = "Looking for awesome people nearby...";
-    }
-
-    if (this.props.pool.status.status === 'COMPLETED' && this.props.pool.items.length === 0) {
-      renderCard = true;
-      cardLabel = "Oh noes :(";
-      cardText = "No one seems to nearby."
-    }
-
-    if (renderCard) {
+    if (this.props.poolLength < 1) {
       return (
-        <Card label={cardLabel} text={cardText} noClose={true} activityIndicator={cardInProgress}/>
+        <Card
+          label="Just a sec!"
+          text="Looking for awesome people nearby..."
+          noClose={true}
+          activityIndicator={true}
+        />
       );
-    } else {
     }
+
     return (
       <View style={styles.pool}>
         <AnimatedListView
@@ -93,12 +79,15 @@ export default class Pool extends React.Component {
           pageSize={2}
           initialListSize={2}
           removeClippedSubviews={true}
+          ref="poolList"
           enableEmptySections={true}
-          renderRow={(key) => <PoolItem
-            key={key}
-            onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
-            {...this.props.poolItems[key]}
-          />}
+          renderRow={(row) =>
+            <PoolItem
+              key={row.uid}
+              onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
+              {...row}
+            />
+          }
           onChangeVisibleRows={::this._onSwiperScroll}
         />
 
@@ -123,19 +112,32 @@ export default class Pool extends React.Component {
   }
 
   _onSwiperScroll(visibleRows, changedRows) {
+    const _visibleRows = Object.keys(visibleRows.s1);
+    const _changedRows = Object.keys(changedRows.s1);
 
-    console.log(visibleRows, changedRows);
+    if (_visibleRows.length === 1 && _changedRows.length === 1) {
 
-    const keys = this.props.poolKeys;
-    const gone = Object.keys(changedRows.s1).filter(key => !changedRows.s1[key]);
-    if (gone.length === 1) {
-      this.props.dispatch(action(keys[gone[0]]));
+      console.log("here");
+      const gone = _changedRows[0];
+
+      this.props.dispatch(action(gone));
+
+      this.refs.poolList._component.scrollTo({
+        x: 0,
+        y: 0,
+        animated: false,
+      });
+
+      const come = _visibleRows[0];
+console.log(gone, come);
+      this.setState({
+        current: {
+          uid: come,
+        },
+      });
+
+
     }
-
-    const visible = Object.keys(visibleRows.s1).filter(key => visibleRows.s1[key])[0];
-
-    console.log("now visible", visible);
-
   }
 
   _getListViewStyle() {
