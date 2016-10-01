@@ -12,13 +12,15 @@ export default class Loading extends React.Component {
   constructor(props) {
     super(props);
 
+    this.animations = {};
+
     this.state = {
       opacity: new Animated.Value(1)
     };
   }
 
   componentDidMount() {
-    const animations = {
+    this.animations = {
       fadeOut: Animated.timing(this.state.opacity, {
         toValue: 0
       }),
@@ -29,19 +31,25 @@ export default class Loading extends React.Component {
 
     this.state.opacity.addListener(animatedValue => {
       if (animatedValue.value === 0) {
-        animations.fadeOut.stop();
+        this.animations.fadeOut.stop();
 
-        animations.fadeIn.start();
+        this.animations.fadeIn.start();
       }
 
       if (animatedValue.value === 1) {
-        animations.fadeIn.stop();
+        this.animations.fadeIn.stop();
 
-        animations.fadeOut.start();
+        this.animations.fadeOut.start();
       }
     });
 
-    animations.fadeOut.start();
+    this.animations.fadeOut.start();
+  }
+
+  componentWillUnmount() {
+    Object.keys(this.animations).map(animationKey => {
+      this.animations[animationKey].stop();
+    });
   }
 
   render() {
