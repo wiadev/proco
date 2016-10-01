@@ -3,6 +3,20 @@ import { StyleSheet } from 'react-native';
 import colors from '../../core/style/colors';
 
 const paddingHorizontal = 20;
+const colorSet = {
+  left: {
+    bg: colors.primary1,
+    fg: colors.primaryAlt
+  },
+  right: {
+    bg: colors.gray,
+    fg: colors.black
+  },
+  alt: {
+    bg: colors.primaryAlt,
+    fg: colors.primary1
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -14,14 +28,14 @@ const styles = StyleSheet.create({
   },
   containerLeft: {
     alignSelf: 'flex-start',
-    backgroundColor: colors.gray
+    backgroundColor: colorSet.left.bg
   },
   containerRight: {
     alignSelf: 'flex-end',
-    backgroundColor: colors.primary1
+    backgroundColor: colorSet.right.bg
   },
   containerAlt: {
-    backgroundColor: colors.primaryAlt
+    backgroundColor: colorSet.alt.bg
   },
   containerForMultilineInput: {
     paddingVertical: 0
@@ -44,32 +58,32 @@ const styles = StyleSheet.create({
   },
   tailLeft: {
     left: -2,
-    borderTopColor: colors.gray,
+    borderTopColor: colorSet.left.bg,
     transform: [
       {rotate: '50deg'}
     ]
   },
   tailRight: {
     right: -2,
-    borderTopColor: colors.primary1,
+    borderTopColor: colorSet.right.bg,
     transform: [
       {rotate: '310deg'}
     ]
   },
   tailAlt: {
-    borderTopColor: colors.primaryAlt
+    borderTopColor: colorSet.alt.bg
   },
   content: {
     fontSize: 14
   },
   contentLeft: {
-    color: colors.black
+    color: colorSet.left.fg
   },
   contentRight: {
-    color: colors.primaryAlt
+    color: colorSet.right.fg
   },
   contentAlt: {
-    color: colors.primary1
+    color: colorSet.alt.fg
   },
   // input
   sizeHandlerText: {
@@ -80,7 +94,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: paddingHorizontal + 12,
   },
   textInput: {
-    color: colors.primary1,
     fontFamily: 'SF UI Display'
   }
 });

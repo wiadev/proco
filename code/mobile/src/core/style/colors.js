@@ -1,11 +1,13 @@
 const colors = {
+  black: 'rgb(0, 0, 0)',
+  gray: '#CDCDCD',
+
   primaryAlt: '#FFFFFF', // White
   primary1: '#7837Af', // Proco Purple
   primary2: '#FFC80B', // Proco Yellow
   primary3: '#F9365F', // Proco Pink
   secondary: '#91288C', // Proco Magenta
 
-  black: 'rgb(0, 0, 0)',
   gray1: 'rgba(94, 94, 94, 0.8)',
   gray2: 'rgba(94, 94, 94, 0.2)',
 

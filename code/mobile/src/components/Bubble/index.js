@@ -33,7 +33,7 @@ export default class Bubble extends React.Component {
         <View style={this._getContainerStyle()}>
           <Text chatText={true} style={this._getTextStyle()}>{this.props.text}</Text>
 
-          <View style={this._getTailStyle()} />
+          {this._renderTail()}
         </View>
       );
     } else {
@@ -41,7 +41,7 @@ export default class Bubble extends React.Component {
         <View style={this._getContainerStyle()}>
           <Text numberOfLines={1} style={[styles.content, styles.sizeHandlerText]}>{this.props.value}</Text>
 
-          <View style={this._getTailStyle()} />
+          {this._renderTail()}
 
           <TextInput
             ref="textInput"
@@ -56,6 +56,14 @@ export default class Bubble extends React.Component {
             style={this._getTextInputStyle()}
           />
         </View>
+      );
+    }
+  }
+
+  _renderTail() {
+    if (!this.props.noTail) {
+      return (
+        <View style={this._getTailStyle()} />
       );
     }
   }
@@ -166,6 +174,7 @@ Bubble.propTypes = {
   type: React.PropTypes.oneOf(types),
   position: React.PropTypes.oneOf(positions).isRequired,
   alternativeStyle: React.PropTypes.bool,
+  noTail: React.PropTypes.bool,
   style: React.PropTypes.any,
 
   // text
@@ -184,6 +193,7 @@ Bubble.propTypes = {
 
 Bubble.defaultProps = {
   alternativeStyle: false,
+  noTail: false,
   autoFocus: false,
   multiline: false,
   returnKeyType: 'next'

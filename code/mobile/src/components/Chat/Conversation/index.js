@@ -1,24 +1,18 @@
 import React from 'react';
 import {
   View,
+  TouchableOpacity,
   ActionSheetIOS,
 } from 'react-native';
-import {Actions} from 'react-native-router-flux';
-import {GiftedChat} from 'react-native-gifted-chat';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
+import { GiftedChat } from 'react-native-gifted-chat';
 
 import Header from '../../Header';
+import Bubble from '../../Bubble';
 import styles from './styles';
 
-const propTypes = {
-  messages: React.PropTypes.array.isRequired,
-  onSend: React.PropTypes.func.isRequired
-};
-
-class Conversation extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default class Conversation extends React.Component {
   render() {
     return (
       <View style={styles.conversation}>
@@ -44,10 +38,35 @@ class Conversation extends React.Component {
             messages={this.props.messages}
             user={this.props.user}
             onSend={::this.props.onSend}
-            sendButtonText={'SEND'}
+            renderBubble={::this._renderBubble}
+            renderSend={::this._renderSend}
           />
         </View>
       </View>
+    );
+  }
+
+  _renderBubble(chatProps) {
+    return (
+      <View style={{flex: 1}}>
+        <Bubble
+          type="text"
+          position={chatProps.position}
+          noTail={chatProps.isSameUser(chatProps.currentMessage, chatProps.nextMessage) && chatProps.isSameDay(chatProps.currentMessage, chatProps.nextMessage)}
+          text={chatProps.currentMessage.text}
+          multiline={true}
+        />
+      </View>
+    );
+  }
+
+  _renderSend(chatProps) {
+    return (
+      <TouchableOpacity
+        onPress={() => chatProps.onSend({text: chatProps.text.trim()}, true)}
+        style={styles.send}>
+        <Icon name="ios-send" style={styles.sendIcon} />
+      </TouchableOpacity>
     );
   }
 
@@ -71,4 +90,7 @@ class Conversation extends React.Component {
   }
 }
 
-export default Conversation;
+Conversation.propTypes = {
+  messages: React.PropTypes.array.isRequired,
+  onSend: React.PropTypes.func.isRequired
+};

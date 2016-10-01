@@ -76,7 +76,6 @@ export default class ConversationContainer extends React.Component {
   }
 
   onSend(messages) {
-
     messages.forEach(message => this.props.post(message));
     console.log(messages);
   }
