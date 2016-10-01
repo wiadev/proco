@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   View,
-  Text,
   TextInput
 } from 'react-native';
 
+import Text from '../Text';
 import styles from './styles';
 
 const types = ['text', 'input'];
@@ -31,7 +31,9 @@ export default class Bubble extends React.Component {
     if (this.props.type === 'text') {
       return (
         <View style={this._getContainerStyle()}>
-          <Text style={this._getTextStyle()}>{this.props.text}</Text>
+          <Text chatText={true} style={this._getTextStyle()}>{this.props.text}</Text>
+
+          <View style={this._getTailStyle()} />
         </View>
       );
     } else {
@@ -77,6 +79,10 @@ export default class Bubble extends React.Component {
         break;
     }
 
+    if (this.props.alternativeStyle) {
+      containerStyle.push(styles.containerAlt);
+    }
+
     if (this.props.type === 'input' && this.props.multiline) {
       containerStyle.push(styles.containerForMultilineInput);
     }
@@ -96,6 +102,10 @@ export default class Bubble extends React.Component {
         break;
     }
 
+    if (this.props.alternativeStyle) {
+      tailStyle.push(styles.tailAlt);
+    }
+
     return tailStyle;
   }
 
@@ -110,6 +120,10 @@ export default class Bubble extends React.Component {
       case 'right':
         textStyle.push(styles.contentRight);
         break;
+    }
+
+    if (this.props.alternativeStyle) {
+      textStyle.push(styles.contentAlt);
     }
 
     return textStyle;
@@ -140,6 +154,10 @@ export default class Bubble extends React.Component {
         break;
     }
 
+    if (this.props.alternativeStyle) {
+      textInputStyle.push(styles.contentAlt);
+    }
+
     return textInputStyle;
   }
 }
@@ -147,6 +165,7 @@ export default class Bubble extends React.Component {
 Bubble.propTypes = {
   type: React.PropTypes.oneOf(types),
   position: React.PropTypes.oneOf(positions).isRequired,
+  alternativeStyle: React.PropTypes.bool,
   style: React.PropTypes.any,
 
   // text
@@ -164,6 +183,7 @@ Bubble.propTypes = {
 };
 
 Bubble.defaultProps = {
+  alternativeStyle: false,
   autoFocus: false,
   multiline: false,
   returnKeyType: 'next'

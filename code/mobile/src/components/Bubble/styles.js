@@ -8,16 +8,19 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     margin: 0,
-    paddingVertical: 12,
+    paddingVertical: 8,
     paddingHorizontal: paddingHorizontal,
     borderRadius: 20
   },
   containerLeft: {
     alignSelf: 'flex-start',
-    backgroundColor: colors.primary2
+    backgroundColor: colors.gray
   },
   containerRight: {
     alignSelf: 'flex-end',
+    backgroundColor: colors.primary1
+  },
+  containerAlt: {
     backgroundColor: colors.primaryAlt
   },
   containerForMultilineInput: {
@@ -41,29 +44,31 @@ const styles = StyleSheet.create({
   },
   tailLeft: {
     left: -2,
-    borderTopColor: colors.primary2,
+    borderTopColor: colors.gray,
     transform: [
       {rotate: '50deg'}
     ]
   },
   tailRight: {
     right: -2,
-    borderTopColor: colors.primaryAlt,
+    borderTopColor: colors.primary1,
     transform: [
       {rotate: '310deg'}
     ]
+  },
+  tailAlt: {
+    borderTopColor: colors.primaryAlt
   },
   content: {
     fontSize: 14
   },
   contentLeft: {
-    color: colors.primaryAlt
+    color: colors.black
   },
   contentRight: {
-    color: colors.primary1
+    color: colors.primaryAlt
   },
-  // text
-  text: {
+  contentAlt: {
     color: colors.primary1
   },
   // input
@@ -75,7 +80,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: paddingHorizontal + 12,
   },
   textInput: {
-    color: colors.primary1
+    color: colors.primary1,
+    fontFamily: 'SF UI Display'
   }
 });
 
