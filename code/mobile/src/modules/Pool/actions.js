@@ -51,7 +51,7 @@ export const startWatchingPoolStatus = () => {
 export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
-    refs.pool = database.ref(`ocean/pools/${uid}`).orderByChild('added_on').limitToLast(5);
+    refs.pool = database.ref(`ocean/pools/${uid}`).orderByChild('added_on').limitToLast(15);
 
     dispatch(changePoolWatchStatus('STARTED_WATCHING'));
     refs.pool.on('child_added', (snap) => {
