@@ -15,7 +15,7 @@ const data = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.uid !== r2.u
 @connect(state => ({
   permissions: state.permissions,
   poolItems: state.pool.items,
-  poolLength: Object.keys(state.pool.items).length,
+  poolKeys: Object.keys(state.pool.items).slice(0, 3),
 }))
 export default class Pool extends React.Component {
   constructor(props) {
@@ -45,8 +45,12 @@ export default class Pool extends React.Component {
   }
 
   _updatePoolData(props = this.props) {
+
+    const _data = {};
+    props.poolKeys.forEach(key => _data[key] = props.poolItems[key]);
+
     this.setState({
-      dataSource: data.cloneWithRows(props.poolItems),
+      dataSource: data.cloneWithRows(_data),
     });
   }
 
@@ -58,7 +62,7 @@ export default class Pool extends React.Component {
       );
     }
 
-    if (this.props.poolLength < 1) {
+    if (this.props.poolKeys.length < 1) {
       return (
         <Card
           label="Just a sec!"
