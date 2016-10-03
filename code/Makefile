@@ -22,7 +22,3 @@ firebasebolt:
 
 firebaseboltdeploy: firebasebolt
 	cd ./firebase && firebase deploy --only database
-
-synccommon:
-	rm -rf ./mobile/src/core/common
-	cp -R ./common/src ./mobile/src/core/common

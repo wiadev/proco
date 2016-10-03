@@ -52,27 +52,15 @@ const scenes = Actions.create(
       unmountScenes
       initial
       selector={({uid, isBoarded}) => {
+        console.log("uid", uid, isBoarded);
         if (uid && isBoarded) {
+          console.log("proco");
           return 'proco';
         }
-        return 'auth;'
+        console.log("auth");
+        return 'auth';
       }}
     >
-      <Scene
-        key="auth"
-        component={connect(state=>({
-          uid: state.auth.uid,
-        }))(Switch)}
-        tabs={true}
-        unmountScenes
-        hideNavBar
-        selector={({uid}) => uid ? 'Register' : 'Login'}
-      >
-        <Scene hideNavBar key="Login" component={Login}/>
-        <Scene hideNavBar key="SelectNetwork" component={Register}/>
-        <Scene hideNavBar key="Register" component={Register}/>
-        <Scene hideNavBar key="SMSVerification" animation="fade" component={SMSVerification}/>
-      </Scene>
       <Scene key="proco" hideNavBar>
         <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
         <Scene key="Settings" component={Settings} />
@@ -85,6 +73,7 @@ const scenes = Actions.create(
         </Scene>
         <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
       </Scene>
+      <Scene hideNavBar key="auth" component={Login} />
     </Scene>
   </Scene>
 );

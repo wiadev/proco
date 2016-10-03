@@ -95,15 +95,11 @@ class App extends Component {
       banned,
     } = this.props;
 
-    console.log("IS LOADED AUTH", isLoadedAuth)
     return (
       <View style={{
         flex: 1,
         backgroundColor: '#7A36AD',
       }}>
-        {/*<StatusBar
-         showHideTransition="slide"
-         />*/}
         <InAppAlert />
         <NoInternetModal />
         <AuthListener uid={uid}/>
@@ -113,7 +109,7 @@ class App extends Component {
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
         />}
-        {!isLoadedAuth || (uid && !isLoadedIs) ? <Loading /> : <Routes />}
+        {isLoadedAuth && (!uid || (uid && isLoadedIs === true)) ? <Routes /> : <Loading />}
       </View>
     );
   }
