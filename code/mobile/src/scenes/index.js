@@ -51,10 +51,11 @@ const scenes = Actions.create(
       tabs={true}
       unmountScenes
       initial
-      selector={(props) => {
-        const {uid, isBoarded} = props;
-        if (!uid || !isBoarded) return 'auth';
-        if (uid && isBoarded) return 'proco';
+      selector={({uid, isBoarded}) => {
+        if (uid && isBoarded) {
+          return 'proco';
+        }
+        return 'auth;'
       }}
     >
       <Scene
