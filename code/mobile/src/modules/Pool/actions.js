@@ -51,7 +51,7 @@ export const startWatchingPoolStatus = () => {
 export const startWatchingPool = () => {
   return (dispatch, getState) => {
     const {auth: {uid}} = getState();
-    refs.pool = database.ref(`ocean/pools/${uid}`).orderByChild('added_on').limitToLast(5);
+    refs.pool = database.ref(`ocean/pools/${uid}`).orderByChild('added_on').limitToLast(15);
 
     dispatch(changePoolWatchStatus('STARTED_WATCHING'));
     refs.pool.on('child_added', (snap) => {
@@ -65,8 +65,6 @@ export const addToPool = (uid, data) => {
     const {pool, api: {data: {userInfo: {current_question = null, current_question_id = null}}}} = getState();
     if (pool.items[uid]) return true; // add some cache checking & expire stuff
     if (pool.status == !'SHOWING') dispatch(changePoolStatus('SHOWING'));
-
-    dispatch(incrementPoolCount());
 
     const poolData = await getPoolData(uid, {
       qid: current_question_id,
@@ -87,8 +85,10 @@ export const addToPool = (uid, data) => {
 export const action = (uid, type = 'seen', payload = {}) => {
   return (dispatch, getState) => {
 
+console.log(uid, type, payload)
     const poolData = getState().pool.items[uid];
 
+console.log("poolData", poolData)
     const {question: {qid}, receivedAnswer, profileLoopKey} = poolData;
 
     dispatch(removeFromPool(uid, profileLoopKey));
@@ -158,10 +158,6 @@ export const answer = (qid, payload) => {
 
   };
 };
-
-const incrementPoolCount = () => ({
-  type: 'POOL_WILL_ADD',
-});
 
 const changePoolStatus = status => ({
   type: 'POOL_STATUS_CHANGED',

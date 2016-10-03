@@ -2,16 +2,17 @@ import React from 'react';
 import {
   View,
   StatusBar,
-  Image
+  Image,
+  TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Text from '../Text';
 import styles from './styles';
 
 const themes = ['dark', 'light'];
 const titleTypes = ['text', 'logo'];
-const actorTypes = ['icon', 'text'];
+const actorTypes = ['text', 'icon'];
 
 export default class Header extends React.Component {
   render() {
@@ -49,17 +50,23 @@ export default class Header extends React.Component {
   }
 
   _renderActor(actorType, actor, action) {
-    if (actorType === 'icon') {
-      return (
-        <Icon name={actor} size={24} onPress={action} style={this._getIconStyle()} />
-      )
+    let content = null;
+    switch (actorType) {
+      case 'icon':
+        content = <Icon name={actor} style={this._getActorIconStyle()} />;
+        break;
+      case 'text':
+        content = <Text style={this._getTextStyle()}>{actor}</Text>;
+        break;
+      default: break;
     }
 
-    if (actorType === 'text') {
-      return (
-        <Text onPress={action} style={this._getTextStyle()}>{actor}</Text>
-      );
-    }
+    return <TouchableOpacity hitSlop={{
+      top: 5,
+      left: 5,
+      bottom: 5,
+      right: 5,
+    }} onPress={action}>{content}</TouchableOpacity>;
   }
 
   _renderLeftActor() {
@@ -78,8 +85,8 @@ export default class Header extends React.Component {
     let headerStyle = [styles.header];
 
     switch (this.props.theme) {
-      case 'dark':
-        headerStyle.push(styles.headerDark);
+      case 'light':
+        headerStyle.push(styles.headerLight);
     }
 
     return headerStyle;
@@ -104,15 +111,23 @@ export default class Header extends React.Component {
   }
 
   _getTextStyle() {
-    if (this.props.theme === 'dark') {
-      return styles.textOnDarkTheme;
+    let textStyle = [styles.text];
+
+    if (this.props.theme === 'light') {
+      textStyle.push(styles.textOnLightTheme);
     }
+
+    return textStyle;
   }
 
-  _getIconStyle() {
-    if (this.props.theme === 'dark') {
-      return styles.iconOnDarkTheme;
+  _getActorIconStyle() {
+    let actorIconStyle = [styles.actorIcon];
+
+    if (this.props.theme === 'light') {
+      actorIconStyle.push(styles.actorIconOnLightTheme);
     }
+
+    return actorIconStyle;
   }
 }
 
@@ -129,5 +144,7 @@ Header.propTypes = {
 };
 
 Header.defaultProps = {
-  titleType: titleTypes[0]
+  titleType: titleTypes[0],
+  leftActorType: actorTypes[0],
+  rightActorType: actorTypes[0]
 };

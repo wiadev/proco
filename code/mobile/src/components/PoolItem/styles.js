@@ -1,12 +1,18 @@
 import {
-  StyleSheet
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 
 import colors from '../../core/style/colors';
 
 const styles = StyleSheet.create({
   poolItem: {
-    flex: 1
+    flex: 1,
+    marginTop: 10,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    borderRadius: 30,
+    width: Dimensions.get('window').width - 20,
   },
   poolItemContent: {
     flex: 0,

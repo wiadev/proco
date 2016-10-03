@@ -1,53 +1,57 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   TextInput,
   TouchableWithoutFeedback,
   TouchableHighlight,
   KeyboardAvoidingView,
-  ActionSheetIOS
-} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import _ from 'lodash';
-
-import ProfileLoop from '../ProfileLoop';
-import MessageBox from '../Chat/Box';
-import styles from './styles';
-import colors from '../../core/style/colors';
+  ActionSheetIOS,
+} from "react-native";
+import PureRenderMixin from "react-addons-pure-render-mixin";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import _ from "lodash";
+import ProfileLoop from "../ProfileLoop";
+import MessageBox from "../Chat/Box";
+import styles from "./styles";
+import colors from "../../core/style/colors";
 
 const initialState = {
   answerInputVisible: false,
-  answer: ""
+  answer: "",
 };
 
 export default class PoolItem extends React.Component {
   constructor(props) {
     super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {
       height: 0,
-      ...initialState
+      ...initialState,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data.question.question !== this.props.data.question.question) {
+    if (nextProps.question.question !== this.props.question.question) {
       let newState = Object.assign({}, this.state, initialState);
 
       this.setState(newState);
     }
   }
 
+  componentWillMount() {
+    console.log("I'LL MOUNT", this.props)
+  }
+
   render() {
+    console.log("IM HERE", this.props.uid)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop video={this.props.data.profileLoop.file} repeat={true}>
+        <ProfileLoop video={this.props.profileLoop.file} repeat={true}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderQuestionAndAnswer()}
-
               {this._renderAnswer()}
-
               {this._renderBottomButtons()}
             </View>
 
@@ -66,19 +70,19 @@ export default class PoolItem extends React.Component {
   }
 
   _renderQuestionAndAnswer() {
-    if (this.props.data.receivedAnswer) {
+    if (this.props.receivedAnswer) {
       // This user has answered current user's question.
       return (
         <View>
-          <MessageBox text={this.props.data.question.question} position="right" />
+          <MessageBox text={this.props.question.question} position="right"/>
 
-          <MessageBox text={this.props.data.receivedAnswer} position="left" />
+          <MessageBox text={this.props.receivedAnswer} position="left"/>
         </View>
       );
     } else {
       // This user hasn't answered current user's question. Current user can answer now.
       return (
-        <MessageBox text={this.props.data.question.question} position="left" />
+        <MessageBox text={this.props.question.question} position="left"/>
       );
     }
   }
@@ -86,7 +90,8 @@ export default class PoolItem extends React.Component {
   _renderBottomButtons() {
     return (
       <View style={styles.bottomButtons}>
-        <TouchableHighlight onPress={() => this._showReportMenu()} activeOpacity={0.9} underlayColor={colors.primaryAlt} style={styles.bottomButton}>
+        <TouchableHighlight onPress={() => this._showReportMenu()} activeOpacity={0.9} underlayColor={colors.primaryAlt}
+                            style={styles.bottomButton}>
           <Icon
             name="report"
             size={22}
@@ -127,14 +132,15 @@ export default class PoolItem extends React.Component {
     if (!this.state.answerInputVisible) {
       let iconName;
 
-      if (!this.props.data.receivedAnswer) {
+      if (!this.props.receivedAnswer) {
         iconName = 'mode-comment';
       } else {
         iconName = 'thumb-up';
       }
 
       return (
-        <TouchableHighlight onPress={() => this._onActionButtonPress()} activeOpacity={0.9} underlayColor={colors.primaryAlt} style={styles.bottomButton}>
+        <TouchableHighlight onPress={() => this._onActionButtonPress()} activeOpacity={0.9}
+                            underlayColor={colors.primaryAlt} style={styles.bottomButton}>
           <Icon
             name={iconName}
             size={22}
@@ -146,7 +152,8 @@ export default class PoolItem extends React.Component {
   }
 
   _renderAnswer() {
-    // FIXME: With the hidden input and a MessageBox rendering the message, user can't see or move the cursor (by holding on text).
+    // FIXME: With the hidden input and a MessageBox rendering the message, user can't see or move the cursor (by
+    // holding on text).
     if (this.state.answerInputVisible) {
       return (
         <TouchableWithoutFeedback onPress={() => this.refs['answerInput'].focus()}>
@@ -165,7 +172,7 @@ export default class PoolItem extends React.Component {
   }
 
   _onActionButtonPress() {
-    if (!this.props.data.receivedAnswer) {
+    if (!this.props.receivedAnswer) {
       this.refs['answerInput'].focus();
 
       this.setState({
@@ -180,22 +187,21 @@ export default class PoolItem extends React.Component {
     switch (action) {
       case 'START-CONVERSATION':
         // It's a MATCH! Start conversation.
-        this.props.onComplete(this.props.data.uid, 'match');
+        this.props.onComplete(this.props.uid, 'match');
         break;
       case 'ANSWER':
-        this.props.onComplete(this.props.data.uid, 'answer', {answer: this.state.answer});
+        this.props.onComplete(this.props.uid, 'answer', {answer: this.state.answer});
         break;
       case 'BLOCK':
-        this.props.onComplete(this.props.data.uid, 'block');
+        this.props.onComplete(this.props.uid, 'block');
         break;
       case 'REPORT':
-        this.props.onComplete(this.props.data.uid, 'report');
+        this.props.onComplete(this.props.uid, 'report');
         break;
     }
   }
 }
 
 PoolItem.propTypes = {
-  data: React.PropTypes.object.isRequired,
   onComplete: React.PropTypes.func.isRequired
 };

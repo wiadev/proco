@@ -1,17 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Image,
   TouchableOpacity,
 } from 'react-native';
 
+import Container from '../../../../components/Container';
 import Text from '../../../../components/Text';
-import LinearGradient from 'react-native-linear-gradient';
 import {Actions} from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-
-import FacebookProfilePhoto from '../../../../components/FacebookProfilePhoto';
 
 const menuItems = [
   {
@@ -32,27 +31,30 @@ const menuItems = [
   }
 ];
 
+@connect(state => ({avatar: state.api.data.userInfo.avatar}))
 export default class UpperMenu extends React.Component {
   render() {
     // TODO: Colors used in LinearGradient are not in color palette. Need to replace those colors or add them to palette.
     return (
-      <View style={styles.upperMenu}>
-        <Image source={require('../../../../assets/images/stock-photo-56093412-selfi-man-with-his-dog-.jpg')} style={styles.backgroundImage}>
-          <LinearGradient colors={['rgba(59, 28, 255, 0.8)', 'rgba(249, 54, 95, 0.8)']} style={styles.backgroundLinearGradient}>
-            <View style={styles.avatarRow}>
-              <FacebookProfilePhoto styles={styles.avatar} fid={this.props.fid} size="large" />
-            </View>
+      <Container>
+        <View style={styles.logoRow}>
+          <View style={styles.logoSideCushion} />
 
-            <View style={styles.menuRow}>
-              {this._renderMenuItems()}
-            </View>
+          <Image source={require('../../../../assets/images/logo.png')} style={styles.logo} />
 
-            <View style={styles.bottomArrowRow}>
-              <Icon name="keyboard-arrow-down" style={styles.bottomArrowIcon} />
-            </View>
-          </LinearGradient>
-        </Image>
-      </View>
+          <View style={styles.logoSideCushion} />
+        </View>
+
+        <View style={styles.avatarRow}>
+          <Image source={{uri: this.props.avatar}} style={styles.avatar} />
+        </View>
+
+        <View style={styles.menuRow}>
+          {this._renderMenuItems()}
+        </View>
+
+        <Icon name="ios-arrow-down" style={styles.bottomArrowIcon} />
+      </Container>
     );
   }
 

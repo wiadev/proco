@@ -14,7 +14,6 @@ import * as StaticPages from "./StaticPages";
 
 import WebView from "../components/WebView";
 import Card from "../components/Card";
-import BlockerActivity from "../components/BlockerActivity";
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -47,21 +46,18 @@ const scenes = Actions.create(
       key="app"
       component={connect(state=>({
         uid: state.auth.uid,
-        isLoadedAuth: state.auth.isLoaded,
-        isLoadedIs: state.api.data.userIs.isLoaded,
         isBoarded: state.api.data.userIs.onboarded,
       }))(Switch)}
       tabs={true}
       unmountScenes
       initial
-      selector={(props) => {
-        const {uid, isLoadedAuth, isLoadedIs, isBoarded} = props;
-        if (!isLoadedAuth || (uid && !isLoadedIs)) return 'BlockerActivity';
-        if (!uid || !isBoarded) return 'auth';
-        if (uid && isBoarded) return 'proco';
+      selector={({uid, isBoarded}) => {
+        if (uid && isBoarded) {
+          return 'proco';
+        }
+        return 'auth;'
       }}
     >
-      <Scene hideNavBar key="BlockerActivity" component={BlockerActivity}/>
       <Scene
         key="auth"
         component={connect(state=>({

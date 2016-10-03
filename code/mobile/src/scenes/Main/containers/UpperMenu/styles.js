@@ -3,33 +3,34 @@ import {StyleSheet} from 'react-native';
 import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
-  upperMenu: {
+  logoRow: {
+    flex: 1.2,
+    flexDirection: 'row'
+  },
+  logoSideCushion: {
     flex: 1
   },
-  backgroundImage: {
+  logo: {
     flex: 1,
     width: null,
     height: null,
-    resizeMode: 'cover'
-  },
-  backgroundLinearGradient: {
-    flex: 1
+    resizeMode: 'contain'
   },
   avatarRow: {
     flex: 3,
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center'
   },
   avatar: {
     width: 160,
     height: 160,
-    marginBottom: 40,
     borderRadius: 80,
     borderWidth: 2,
     borderColor: colors.primaryAlt
   },
   menuRow: {
-    flex: 2,
+    flex: 3,
     alignItems: 'center'
   },
   menuItem: {
@@ -41,12 +42,10 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     opacity: 0.9
   },
-  bottomArrowRow: {
-    paddingBottom: 20
-  },
   bottomArrowIcon: {
+    backgroundColor: 'transparent',
     color: colors.primaryAlt,
-    fontSize: 44,
+    fontSize: 32,
     textAlign: 'center'
   }
 });

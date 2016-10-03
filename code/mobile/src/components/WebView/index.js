@@ -1,24 +1,35 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import {Dimensions, View, WebView} from 'react-native';
+import {
+  View,
+  WebView
+} from 'react-native';
 
 import Header from '../Header';
-const height = Dimensions.get('window').height;
+import styles from './styles';
 
-export default function (props) {
-  return (
-    <View style={{flex: 1}}>
-      <Header
-        theme="dark"
-        rightActorType="text"
-        rightActor="Done"
-        rightAction={Actions.pop}
-        title={props.title}
-      />
-      <WebView
-        source={{uri: props.uri}}
-        style={{height}}
-      />
-    </View>
-  );
+export default class CustomWebView extends React.Component {
+  render() {
+    return (
+      <View style={styles.customWebView}>
+        <Header
+          theme="light"
+          rightActorType="text"
+          rightActor="Done"
+          rightAction={Actions.pop}
+          title={this.props.title}
+        />
+
+        <WebView
+          source={{uri: this.props.uri}}
+          style={styles.webView}
+        />
+      </View>
+    );
+  }
 }
+
+CustomWebView.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  uri: React.PropTypes.string.isRequired
+};

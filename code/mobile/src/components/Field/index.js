@@ -5,7 +5,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   MKRangeSlider
 } from 'react-native-material-kit';
@@ -38,7 +38,7 @@ export default class Field extends React.Component {
           <View style={[this._getStyle(), this.props.style]}>
             {this._renderLegend()}
 
-            <Icon name="keyboard-arrow-right" style={styles.linkIcon} />
+            <Icon name="ios-arrow-forward" style={styles.linkIcon} />
           </View>
         </TouchableHighlight>
       );
@@ -107,7 +107,7 @@ export default class Field extends React.Component {
           maxValue={this.state.value[1]}
           onChange={value => this._onValueChange([_.round(value.min), _.round(value.max)])}
           thumbRadius={8}
-          lowerTrackColor={colors.primary1}
+          lowerTrackColor={colors.primary2}
         />
       );
     }
@@ -116,7 +116,7 @@ export default class Field extends React.Component {
   _renderChoiceCheck() {
     if (this.props.value) {
       return (
-        <Icon name="check" style={styles.choiceIcon} />
+        <Icon name="ios-checkmark" style={styles.choiceIcon} />
       );
     }
   }

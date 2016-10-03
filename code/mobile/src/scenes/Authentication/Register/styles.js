@@ -11,13 +11,17 @@ export const styles = StyleSheet.create({
   },
   infoBox: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
     marginTop: 20,
     paddingVertical: 10
   },
-  infoBoxIcon: {
+  infoBoxIconContainer: {
     flex: 1,
     alignItems: 'center'
+  },
+  infoBoxIcon: {
+    fontSize: 42,
+    color: colors.primaryAlt
   },
   infoBoxContent: {
     flex: 4,
@@ -68,8 +72,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   genderText: {
-    fontFamily: 'OpenSans-Light',
-    color: 'white',
     fontSize: 26,
     height: 35,
     marginTop: 10,
@@ -97,7 +99,7 @@ export const dpCustom = StyleSheet.create({
     marginTop: 5,
   },
   dateText: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'CenturyGothic',
     color: colors.primaryAlt,
     fontSize: 26,
   },

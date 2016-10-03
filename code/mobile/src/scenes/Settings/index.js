@@ -6,7 +6,7 @@ import {
   Image,
   StatusBar
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {Actions} from 'react-native-router-flux';
 import codePush from 'react-native-code-push';
 import _ from 'lodash';
@@ -16,7 +16,7 @@ import {database} from "../../core/Api";
 import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
 import {logout} from "../../modules/Authentication/actions";
-import BlockerActivity from '../../components/BlockerActivity';
+import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
 import styles from './styles';
@@ -49,7 +49,7 @@ class Settings extends React.Component {
     // TODO: Clicking on Contact should do something.
     if (this.state.settings === null) {
       return (
-        <BlockerActivity />
+        <Loading />
       );
     }
 
@@ -60,7 +60,7 @@ class Settings extends React.Component {
 
         <ScrollView>
           <View style={styles.infoBox}>
-            <Icon name="info-outline" style={styles.infoBoxIcon} />
+            <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon} />
 
             <View style={styles.infoBoxContent}>
               <Text style={styles.infoBoxText}>
@@ -104,9 +104,6 @@ class Settings extends React.Component {
 
           <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true} />
 
-          <View style={styles.procoLogoContainer}>
-            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
-          </View>
 
           <Field type="link" legend="Logout" onPress={() => this.props.dispatch(logout())} stickToPrevious={true} />
 
@@ -118,9 +115,9 @@ class Settings extends React.Component {
               </Text>
             </View>
           </View>
-
-          <View style={styles.barbarLogoContainer}>
-            <Image source={require('../../assets/images/logo-barbar.png')} style={styles.logo} />
+          
+          <View style={styles.procoLogoContainer}>
+            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
           </View>
 
           <View style={styles.versionContainer}>

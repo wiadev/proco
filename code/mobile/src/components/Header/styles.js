@@ -11,18 +11,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: 70,
     paddingTop: 20,
+    borderBottomWidth: 0
+  },
+  headerLight: {
     backgroundColor: colors.primaryAlt,
     borderBottomWidth: 1,
     borderColor: '#dadbda'
-  },
-  headerDark: {
-    backgroundColor: colors.primary1,
-    borderBottomWidth: 0
   },
   logo: {
     flex: 1,
     width: null,
     height: null,
+    marginVertical: 8,
     resizeMode: 'contain'
   },
   column: {
@@ -40,16 +40,23 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   title: {
-    color: colors.primary1,
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
     textAlign: 'center'
   },
-  textOnDarkTheme: {
+  text: {
     color: colors.primaryAlt
   },
-  iconOnDarkTheme: {
-    color: colors.primaryAlt
+  textOnLightTheme: {
+    color: colors.black
+  },
+  actorIcon: {
+    fontSize: 24,
+    color: colors.primaryAlt,
+    backgroundColor: 'transparent'
+  },
+  actorIconOnLightTheme: {
+    color: colors.black
   }
 });
 

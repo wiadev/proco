@@ -50,7 +50,7 @@ export default class Card extends React.Component {
         <View style={styles.buttonList}>
           {buttons.map((button, key) => {
             return (
-              <Button key={key} text={button.text} onPress={button.onPress} />
+              <Button key={key} text={button.text} onPress={button.onPress} style={styles.button} />
             )
           })}
         </View>

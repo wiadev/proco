@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 
@@ -37,7 +37,7 @@ export default class MessageCountIcon extends React.Component {
           {this.state.users.map((userId, key) => this._renderAvatar(userId, key))}
         </View>
 
-        <Icon name="comment" style={styles.icon} />
+        <Icon name="ios-chatbubbles" style={styles.icon} />
 
         <View style={styles.iconContentWrapper}>
           <View style={styles.iconContent}>

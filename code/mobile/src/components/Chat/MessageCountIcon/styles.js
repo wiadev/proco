@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, PixelRatio} from 'react-native';
 
 import colors from '../../../core/style/colors';
 
@@ -18,12 +18,16 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     right: 0,
-    width: 32
+    width: 35
   },
   iconContent: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    height: 30,
+    width: 30,
+    borderRadius: 30 / PixelRatio.get()
   },
   messagesCount: {
     fontSize: 14,

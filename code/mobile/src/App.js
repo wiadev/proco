@@ -8,23 +8,18 @@ import {syncPermissions, updateNotificationToken} from "./modules/Permissions/ac
 import {createAlert} from "./modules/InAppAlert/actions";
 import NoInternetModal from "./components/NoInternetModal";
 import BlockedUserModal from "./components/BlockedUserModal";
+import Loading from './components/Loading';
 import FCM from "react-native-fcm";
 import Routes from "./scenes";
 import {clearCachedLoops} from "./modules/Profiles/Loops/api";
-import {setTheme} from "react-native-material-kit";
-import colors from "./core/style/colors";
-
-setTheme({
-  radioStyle: {
-    fillColor: colors.primary1
-  }
-});
 
 @connect(
   state => ({
-    auth: state.auth,
-    permissions: state.permissions,
+    uid: state.auth.uid,
+    isLoadedAuth: state.auth.isLoaded,
+    isLoadedIs: state.api.data.userIs.isLoaded,
     banned: state.api.data.userIs.banned,
+    locationPermission: state.permissions.location,
     first_name: state.api.data.userInfo.first_name,
   }),
 )
@@ -55,14 +50,6 @@ class App extends Component {
     });
 
     FCM.subscribeToTopic('/topics/generic');
-    this.notificationUnsubscribe = FCM.on('notification', (notif) => {
-      console.log(notif);
-      this.props.dispatch(createAlert({
-        type: 'info',
-        title: notif.notification.title
-      }));
-      // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
-    });
 
     this._locationTracking(this.props);
     clearCachedLoops();
@@ -91,8 +78,8 @@ class App extends Component {
     this._locationTracking(props);
   }
 
-  _locationTracking({permissions: {location}} = this.props) {
-    if (location === 'authorized' && !this.state.didStartedLocationTracking) {
+  _locationTracking({locationPermission} = this.props) {
+    if (locationPermission === 'authorized' && !this.state.didStartedLocationTracking) {
       startLocationTracking();
       this.setState({didStartedLocationTracking: true});
     }
@@ -101,11 +88,14 @@ class App extends Component {
   render() {
     const {
       dispatch,
-      auth: {uid, isLoaded},
+      uid,
+      isLoadedIs,
+      isLoadedAuth,
       first_name,
       banned,
     } = this.props;
 
+    console.log("IS LOADED AUTH", isLoadedAuth)
     return (
       <View style={{
         flex: 1,
@@ -123,7 +113,7 @@ class App extends Component {
           contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
           name={first_name}
         />}
-        <Routes />
+        {!isLoadedAuth || (uid && !isLoadedIs) ? <Loading /> : <Routes />}
       </View>
     );
   }

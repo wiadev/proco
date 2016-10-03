@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
   },
   buttonList: {
     marginTop: 35
+  },
+  button: {
+    marginBottom: 10
   }
 });
 

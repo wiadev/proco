@@ -4,8 +4,13 @@ import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
   pool: {
-    position: 'relative',
-    flex: 1
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  messageIconWrapper: {
+    position: 'absolute',
+    top: 20,
+    right: 20
   },
   upperMenuIcon: {
     position: 'absolute',
