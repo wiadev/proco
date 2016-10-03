@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   },
   messageBoxText: {
     color: 'white',
-    fontFamily: 'OpenSans-Light',
     fontSize: 18,
     backgroundColor: '#F9365F',
     flex: -1,

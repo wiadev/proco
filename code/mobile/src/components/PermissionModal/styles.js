@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   permissionLabel: {
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'OpenSans',
     fontSize: 28,
     textAlign: 'center',
   },
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'transparent',
     color: 'white',
-    fontFamily: 'OpenSans-Light',
     fontSize: 16,
     textAlign: 'center',
   },
@@ -49,7 +47,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'rgb(249,54,95)',
-    fontFamily: 'OpenSans',
     fontSize: 16,
     textAlign: 'center',
   },
