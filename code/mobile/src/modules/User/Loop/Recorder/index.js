@@ -1,5 +1,7 @@
-import React, { Component, PropTypes } from "react";
-import { StyleSheet, requireNativeComponent, NativeModules, View } from "react-native";
+import React from 'react';
+import { requireNativeComponent, NativeModules, View } from 'react-native';
+
+import styles from './styles';
 
 const constants = {
   // Flash enum
@@ -8,20 +10,11 @@ const constants = {
   SCFlashModeAuto: 2,
   SCFlashModeLight: 3
 };
-/******* STYLES **********/
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    backgroundColor: "transparent"
-  }
-});
-
-/******* RECORDER COMPONENT **********/
-
-export default class Recorder extends Component {
+export default class Recorder extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       recording: false,
     }
@@ -29,18 +22,14 @@ export default class Recorder extends Component {
 
   static constants = constants;
 
-  static propTypes = {
-    config: PropTypes.object,
-    device: PropTypes.string,
-    onNewSegment: PropTypes.func,
-  };
-
   // Start recording of the current session
   record() {
     if (this.state.recording) return;
+
     this.setState({
       recording: true
     });
+
     NativeModules.RNRecorderManager.record();
   }
 
@@ -97,11 +86,22 @@ export default class Recorder extends Component {
     });
 
     return (
-      <RNRecorder {...nativeProps}>
-        <View style={styles.wrapper}>{this.props.children}</View>
-      </RNRecorder>
+      <View style={styles.wrapper}>
+        <RNRecorder {...nativeProps} style={{flex: 1}} />
+
+        <View style={styles.containerWrapper}>
+          <View style={[styles.container, this.props.containerStyle]}>{this.props.children}</View>
+        </View>
+      </View>
     );
   }
 }
+
+Recorder.propTypes = {
+  config: React.PropTypes.object,
+  device: React.PropTypes.string,
+  onNewSegment: React.PropTypes.func,
+  containerStyle: React.PropTypes.any
+};
 
 const RNRecorder = requireNativeComponent('RNRecorder', Recorder);

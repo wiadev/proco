@@ -4,13 +4,16 @@ import {
   StatusBar,
   View,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  Animated,
+  Dimensions
 } from "react-native";
 import { Actions } from "react-native-router-flux";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Camera from "react-native-camera";
 import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
+
+import Recorder from '../../modules/User/Loop/Recorder';
 
 import ProfileLoop from "../../components/ProfileLoop";
 import { startedCapturing, doneCapturing, upload, cancelled } from '../../modules/User/Loop/actions';
@@ -24,8 +27,16 @@ export default class ShootNewProfileLoop extends React.Component {
     super(props);
 
     this.state = {
-      cameraType: 'front'
+      recorderDevice: 'front',
+      recordProgressBarWidth: new Animated.Value(0)
     };
+
+    this.recordProgressBarAnimation = Animated.timing(
+      this.state.recordProgressBarWidth, {
+        toValue: Dimensions.get('window').width,
+        duration: 2000
+      }
+    );
   }
 
   render() {
@@ -37,7 +48,7 @@ export default class ShootNewProfileLoop extends React.Component {
 
         {this._renderBackButton()}
 
-        {this._renderCameraSwitchButton()}
+        {this._renderRecorderDeviceSwitchButton()}
       </View>
     );
   }
@@ -45,23 +56,23 @@ export default class ShootNewProfileLoop extends React.Component {
   _renderCameraOrProfileLoop() {
     if (['WAITING', 'CAPTURING'].indexOf(this.props.profileLoop.status) !== -1) {
       return (
-        <Camera
-          ref="camera"
-          captureMode={Camera.constants.CaptureMode.video}
-          type={this.state.cameraType}
-          aspect={Camera.constants.Aspect.fill}
-          captureTarget={Camera.constants.CaptureTarget.temp}
-          captureAudio={false}
-          orientation={Camera.constants.Orientation.portrait}
-          keepAwake={true}
-          playSoundOnCapture={false}
-          mirrorImage={true}
-          style={styles.camera}
+        <Recorder
+          ref={recorder => {
+            if (!this.recorder) {
+              this.recorder = recorder;
+            }
+          }}
+          device={this.state.recorderDevice}
+          containerStyle={styles.recorderContainer}
         >
+          <View style={styles.recorderProgressBar}>
+            <Animated.View style={[styles.recorderProgressBarInner, {width: this.state.recordProgressBarWidth}]} />
+          </View>
+
           <View style={styles.actionButtons}>
             {this._renderActionButtons()}
           </View>
-        </Camera>
+        </Recorder>
       );
     } else {
       return (
@@ -88,17 +99,17 @@ export default class ShootNewProfileLoop extends React.Component {
     }
   }
 
-  _renderCameraSwitchButton() {
+  _renderRecorderDeviceSwitchButton() {
     if (this.props.profileLoop.status === 'WAITING') {
       let iconName = 'camera-front';
 
-      if (this.state.cameraType === 'front') {
+      if (this.state.recorderDevice === 'front') {
         iconName = 'camera-rear';
       }
 
       return (
-        <TouchableOpacity style={styles.cameraSwitchButton} onPress={() => this._switchCameraType()}>
-          <Icon name={iconName} style={styles.cameraSwitchButtonIcon} />
+        <TouchableOpacity style={styles.recorderDeviceSwitchButton} onPress={() => this._switchRecorderDevice()}>
+          <Icon name={iconName} style={styles.recorderDeviceSwitchButtonIcon} />
         </TouchableOpacity>
       );
     }
@@ -121,7 +132,7 @@ export default class ShootNewProfileLoop extends React.Component {
   _renderCaptureButton() {
     return (
       <View style={styles.captureButtonContainer}>
-        <TouchableOpacity onPress={() => this._capture()}>
+        <TouchableOpacity onPress={() => this._startRecording()}>
           <View style={styles.captureButton}>
             <View style={styles.captureButtonInner} />
           </View>
@@ -133,7 +144,7 @@ export default class ShootNewProfileLoop extends React.Component {
   _renderPreviewButtons() {
     return (
       <View style={styles.previewButtonsContainer}>
-        <TouchableOpacity onPress={() => this.props.dispatch(cancelled())} style={styles.previewButton}>
+        <TouchableOpacity onPress={() => this._reset()} style={styles.previewButton}>
           <Icon name="refresh" style={styles.previewButtonIcon} />
         </TouchableOpacity>
 
@@ -155,29 +166,44 @@ export default class ShootNewProfileLoop extends React.Component {
     // );
   }
 
-  _switchCameraType() {
-    let newCameraType = 'front';
+  _switchRecorderDevice() {
+    let recorderDevice = 'front';
 
-    if (this.state.cameraType === 'front') {
-      newCameraType = 'back';
+    if (this.state.recorderDevice === 'front') {
+      recorderDevice = 'back';
     }
 
     this.setState({
-      cameraType: newCameraType
+      recorderDevice: recorderDevice
     });
   }
 
-  _capture() {
+  _startRecording() {
     this.props.dispatch(startedCapturing());
 
-    this.refs.camera.capture({
-      target: Camera.constants.CaptureTarget.temp
-    })
-      .then(videoDetails => this.props.dispatch(doneCapturing(videoDetails.path)));
+    this.recorder.record();
 
-    this.setTimeout(() => {
-      this.refs.camera.stopCapture();
-    }, 1000);
+    this.recordProgressBarAnimation.start(() => {
+      this.recorder.pause();
+
+      this.recorder.save((error, url) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(url);
+          this.props.dispatch(doneCapturing(url));
+        }
+      });
+    });
+  }
+
+  _reset() {
+    console.log(this);
+    this.state.recordProgressBarWidth.setValue(0);
+
+    this.recorder.removeAllSegments();
+
+    this.props.dispatch(cancelled());
   }
 
   _goBack() {
