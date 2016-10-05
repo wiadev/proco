@@ -1,31 +1,74 @@
 import React from 'react';
 import {
-  View
+  View,
+  Image,
+  Dimensions
 } from 'react-native';
-import Video from 'react-native-video';
+import reactMixin from 'react-mixin';
+import reactTimerMixin from 'react-timer-mixin';
 
 import styles from './styles';
+const screen = Dimensions.get('window');
 
+@reactMixin.decorate(reactTimerMixin)
 export default class ProfileLoop extends React.Component {
   constructor(props) {
     super(props);
 
+    this.factor = 0;
+    this.factorOperation = 'plus';
+
     this.state = {
-      width: 0,
-      height: 0
+      factor: 0
     };
+
+    this.setInterval(() => {
+      if (this.nextFactorOperation === 'plus') {
+        if (this.factor < 4) {
+          this._setFactorStuff({
+            factor: this.factor + 1
+          });
+        } else {
+          this._setFactorStuff({
+            factor: this.factor - 1,
+            nextFactorOperation: 'minus'
+          });
+        }
+      } else {
+        if (this.state.factor > 0) {
+          this._setFactorStuff({
+            factor: this.factor - 1
+          });
+        } else {
+          this._setFactorStuff({
+            factor: this.factor + 1,
+            nextFactorOperation: 'plus'
+          });
+        }
+      }
+    }, 100);
+  }
+
+  _setFactorStuff(params) {
+    this.factor = params.factor;
+
+    this.setState({
+      factor: params.factor
+    });
+
+    if (params.hasOwnProperty('nextFactorOperation')) {
+      this.nextFactorOperation = params.nextFactorOperation;
+    }
   }
 
   render() {
     return (
-      <View onLayout={event => this._onLayout(event)} style={[styles.profileLoop, this.props.style]}>
-        <Video
-          source={{uri: this.props.video}}
-          muted={true}
-          resizeMode="cover"
-          repeat={this.props.repeat}
-          style={[styles.video, {width: this.state.width, height: this.state.height, opacity: this.props.videoOpacity}]}
-        />
+      <View style={[styles.profileLoop, this.props.style]}>
+        <Image
+          source={this.props.imageSource}
+          style={[styles.image, {
+            marginTop: -1 * this.state.factor * screen.height
+          }]} />
 
         <View style={[styles.container, this.props.containerStyle]}>
           {this.props.children}
@@ -33,26 +76,14 @@ export default class ProfileLoop extends React.Component {
       </View>
     );
   }
-
-  _onLayout(event) {
-    const layout = event.nativeEvent.layout;
-
-    this.setState({
-      width: layout.width,
-      height: layout.height
-    });
-  }
 }
 
 ProfileLoop.propTypes = {
-  video: React.PropTypes.any.isRequired,
-  videoOpacity: React.PropTypes.number,
-  repeat: React.PropTypes.bool,
+  imageSource: React.PropTypes.any,
   style: React.PropTypes.any,
   containerStyle: React.PropTypes.any
 };
 
 ProfileLoop.defaultProps = {
-  videoOpacity: 1,
-  repeat: false
+  imageSource: {uri: 'http://images.phhhoto.com/3/IRsBq56727a/jpeg'}
 };
