@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import colors from '../../core/style/colors';
 
 const paddingHorizontal = 20;
-const colorSet = {
+export const colorSet = {
   left: {
     bg: colors.primary1,
     fg: colors.primaryAlt

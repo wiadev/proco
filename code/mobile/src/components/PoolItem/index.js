@@ -1,28 +1,26 @@
 import React from "react";
 import {
   View,
-  TextInput,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
   KeyboardAvoidingView,
   ActionSheetIOS,
+  TouchableOpacity
 } from "react-native";
 import PureRenderMixin from "react-addons-pure-render-mixin";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import _ from "lodash";
+
 import ProfileLoop from "../ProfileLoop";
-import MessageBox from "../Chat/Box";
+import Bubble from '../Bubble';
+import Button from '../Button';
 import styles from "./styles";
-import colors from "../../core/style/colors";
 
 const initialState = {
-  answerInputVisible: false,
   answer: "",
 };
 
 export default class PoolItem extends React.Component {
   constructor(props) {
     super(props);
+
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {
@@ -39,30 +37,15 @@ export default class PoolItem extends React.Component {
     }
   }
 
-  componentWillMount() {
-    console.log("I'LL MOUNT", this.props)
-  }
-
   render() {
-    console.log("IM HERE", this.props.uid)
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
         <ProfileLoop video={this.props.profileLoop.file} repeat={true}>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderQuestionAndAnswer()}
-              {this._renderAnswer()}
-              {this._renderBottomButtons()}
+              {this._renderActionButton()}
             </View>
-
-            <TextInput
-              ref='answerInput'
-              returnKeyType="send"
-              onSubmitEditing={() => this._done('ANSWER')}
-              onChangeText={answer => this.setState({answer: answer})}
-              value={this.state.answer}
-              editable={true}
-            />
           </KeyboardAvoidingView>
         </ProfileLoop>
       </View>
@@ -74,37 +57,34 @@ export default class PoolItem extends React.Component {
       // This user has answered current user's question.
       return (
         <View>
-          <MessageBox text={this.props.question.question} position="right"/>
+          <Bubble type="text" position="right" contentSize="big" text={this.props.question.question} />
 
-          <MessageBox text={this.props.receivedAnswer} position="left"/>
+          <Bubble type="text" position="left" contentSize="big" text={this.props.receivedAnswer} style={styles.nonTopBubble} />
         </View>
       );
     } else {
       // This user hasn't answered current user's question. Current user can answer now.
       return (
-        <MessageBox text={this.props.question.question} position="left"/>
+        <View>
+          <Bubble type="text" position="left" contentSize="big" text={this.props.question.question} />
+
+          <Bubble
+            type="input"
+            position="right"
+            contentSize="big"
+            returnKeyType="send"
+            placeholder="Answer..."
+            value={this.state.answer}
+            onChange={answer => this.setState({answer: answer})}
+            onSubmitEditing={() => this._done('ANSWER')}
+            style={styles.nonTopBubble}
+          />
+        </View>
       );
     }
   }
 
-  _renderBottomButtons() {
-    return (
-      <View style={styles.bottomButtons}>
-        <TouchableHighlight onPress={() => this._showReportMenu()} activeOpacity={0.9} underlayColor={colors.primaryAlt}
-                            style={styles.bottomButton}>
-          <Icon
-            name="report"
-            size={22}
-            style={styles.bottomButtonIcon}
-          />
-        </TouchableHighlight>
-
-        {this._renderActionButton()}
-      </View>
-    )
-  }
-
-  _showReportMenu() {
+  _showDispleaseMenu() {
     const buttons = {
       BLOCK: 'Block',
       REPORT: 'Report',
@@ -128,39 +108,16 @@ export default class PoolItem extends React.Component {
   }
 
   _renderActionButton() {
-    // If current user is answering, the action will complete when answer is submitted.
-    if (!this.state.answerInputVisible) {
-      let iconName;
-
-      if (!this.props.receivedAnswer) {
-        iconName = 'mode-comment';
-      } else {
-        iconName = 'thumb-up';
-      }
-
+    if (this.props.receivedAnswer) {
       return (
-        <TouchableHighlight onPress={() => this._onActionButtonPress()} activeOpacity={0.9}
-                            underlayColor={colors.primaryAlt} style={styles.bottomButton}>
-          <Icon
-            name={iconName}
-            size={22}
-            style={styles.bottomButtonIcon}
+        <View style={styles.actionButtonContainer}>
+          <Button
+            type="image"
+            highlight={true}
+            onPress={() => this._done('START-CONVERSATION')}
+            image={require('../../assets/images/mascot.png')}
           />
-        </TouchableHighlight>
-      );
-    }
-  }
-
-  _renderAnswer() {
-    // FIXME: With the hidden input and a MessageBox rendering the message, user can't see or move the cursor (by
-    // holding on text).
-    if (this.state.answerInputVisible) {
-      return (
-        <TouchableWithoutFeedback onPress={() => this.refs['answerInput'].focus()}>
-          <View>
-            <MessageBox text={this.state.answer} position="right"/>
-          </View>
-        </TouchableWithoutFeedback>
+        </View>
       );
     }
   }
@@ -169,18 +126,6 @@ export default class PoolItem extends React.Component {
     this.setState({
       height: event.nativeEvent.layout.height
     });
-  }
-
-  _onActionButtonPress() {
-    if (!this.props.receivedAnswer) {
-      this.refs['answerInput'].focus();
-
-      this.setState({
-        answerInputVisible: true
-      });
-    } else {
-      this._done('START-CONVERSATION');
-    }
   }
 
   _done(action) {

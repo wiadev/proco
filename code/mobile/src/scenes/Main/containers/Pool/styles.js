@@ -4,8 +4,7 @@ import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
   pool: {
-    flex: 1,
-    backgroundColor: 'black',
+    flex: 1
   },
   messageIconWrapper: {
     position: 'absolute',
@@ -19,7 +18,8 @@ const styles = StyleSheet.create({
     right: 0,
     color: colors.primaryAlt,
     fontSize: 44,
-    textAlign: 'center'
+    textAlign: 'center',
+    backgroundColor: 'transparent'
   }
 });
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import Text from '../Text';
 import styles from './styles';
 
-const types = ['text', 'icon'];
+const types = ['text', 'icon', 'image'];
 
 export default class Button extends React.Component {
   render() {
@@ -19,16 +20,21 @@ export default class Button extends React.Component {
   }
 
   _renderContent() {
-    if (this.props.type === 'icon') {
-      return (
-        <Icon name={this.props.icon} style={[this._getContentStyle(), styles.icon]} />
-      );
-    } else {
-      return (
-        <Text style={[this._getContentStyle(), styles.text, this.props.textStyle]}>
-          {this.props.text}
-        </Text>
-      );
+    switch (this.props.type) {
+      case 'text':
+        return (
+          <Text style={[this._getContentStyle(), styles.text, this.props.textStyle]}>
+            {this.props.text}
+          </Text>
+        );
+      case 'icon':
+        return (
+          <Icon name={this.props.icon} style={[this._getContentStyle(), styles.icon]} />
+        );
+      case 'image':
+        return (
+          <Image source={this.props.image} style={styles.image} />
+        );
     }
   }
 
@@ -41,6 +47,9 @@ export default class Button extends React.Component {
         break;
       case 'icon':
         buttonStyle.push(styles.iconButton);
+        break;
+      case 'image':
+        buttonStyle.push(styles.imageButton);
         break;
     }
 
@@ -67,6 +76,7 @@ Button.propTypes = {
   highlight: React.PropTypes.bool,
   text: React.PropTypes.string,
   icon: React.PropTypes.string,
+  image: React.PropTypes.any,
   onPress: React.PropTypes.func.isRequired,
   style: React.PropTypes.any,
   textStyle: React.PropTypes.any

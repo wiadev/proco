@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import Text from '../Text';
-import styles from './styles';
+import styles, { colorSet }  from './styles';
 
 const types = ['text', 'input'];
 const contentSizes = ['small', 'regular', 'big'];
@@ -40,12 +40,14 @@ export default class Bubble extends React.Component {
     } else {
       return (
         <View style={this._getContainerStyle()}>
-          <Text numberOfLines={1} style={[styles.content, styles.sizeHandlerText]}>{this.props.value}</Text>
+          <Text numberOfLines={1} style={[styles.content, styles.sizeHandlerText]}>{this.props.value || this.props.placeholder}</Text>
 
           {this._renderTail()}
 
           <TextInput
             ref="textInput"
+            placeholder={this.props.placeholder}
+            placeholderTextColor={this._getPlaceholderColor()}
             value={this.props.value}
             autoFocus={this.props.autoFocus}
             multiline={this.props.multiline}
@@ -53,6 +55,7 @@ export default class Bubble extends React.Component {
             onBlur={this.props.onBlur}
             onChangeText={this.props.onChange}
             onSubmitEditing={this.props.onSubmitEditing}
+            returnKeyType={this.props.returnKeyType}
             onContentSizeChange={event => this._onContentSizeChange(event)}
             style={[this._getContentStyle(), this._getTextInputStyle()]}
           />
@@ -164,6 +167,15 @@ export default class Bubble extends React.Component {
 
     return textInputStyle;
   }
+
+  _getPlaceholderColor() {
+    switch (this.props.position) {
+      case 'left':
+        return colorSet.left.fg;
+      case 'right':
+        return colorSet.right.fg;
+    }
+  }
 }
 
 Bubble.propTypes = {
@@ -181,6 +193,7 @@ Bubble.propTypes = {
   autoFocus: React.PropTypes.bool,
   multiline: React.PropTypes.bool,
   returnKeyType: React.PropTypes.string,
+  placeholder: React.PropTypes.string,
   value: React.PropTypes.string,
   onFocus: React.PropTypes.func,
   onBlur: React.PropTypes.func,
