@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
   content: {
     fontSize: 14
   },
+  contentSmall: {
+    fontSize: 12
+  },
+  contentBig: {
+    fontSize: 18
+  },
   contentLeft: {
     color: colorSet.left.fg
   },

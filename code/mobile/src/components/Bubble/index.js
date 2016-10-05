@@ -8,6 +8,7 @@ import Text from '../Text';
 import styles from './styles';
 
 const types = ['text', 'input'];
+const contentSizes = ['small', 'regular', 'big'];
 const positions = ['left', 'right'];
 
 export default class Bubble extends React.Component {
@@ -31,7 +32,7 @@ export default class Bubble extends React.Component {
     if (this.props.type === 'text') {
       return (
         <View style={this._getContainerStyle()}>
-          <Text chatText={true} style={this._getTextStyle()}>{this.props.text}</Text>
+          <Text chatText={true} style={this._getContentStyle()}>{this.props.text}</Text>
 
           {this._renderTail()}
         </View>
@@ -53,7 +54,7 @@ export default class Bubble extends React.Component {
             onChangeText={this.props.onChange}
             onSubmitEditing={this.props.onSubmitEditing}
             onContentSizeChange={event => this._onContentSizeChange(event)}
-            style={this._getTextInputStyle()}
+            style={[this._getContentStyle(), this._getTextInputStyle()]}
           />
         </View>
       );
@@ -117,24 +118,32 @@ export default class Bubble extends React.Component {
     return tailStyle;
   }
 
-  // text methods
-  _getTextStyle() {
-    let textStyle = [styles.content];
+  _getContentStyle() {
+    let contentStyle = [styles.content];
 
     switch (this.props.position) {
       case 'left':
-        textStyle.push(styles.contentLeft);
+        contentStyle.push(styles.contentLeft);
         break;
       case 'right':
-        textStyle.push(styles.contentRight);
+        contentStyle.push(styles.contentRight);
+        break;
+    }
+
+    switch (this.props.contentSize) {
+      case 'small':
+        contentStyle.push(styles.contentSmall);
+        break;
+      case 'big':
+        contentStyle.push(styles.contentBig);
         break;
     }
 
     if (this.props.alternativeStyle) {
-      textStyle.push(styles.contentAlt);
+      contentStyle.push(styles.contentAlt);
     }
 
-    return textStyle;
+    return contentStyle;
   }
 
   // input methods
@@ -147,23 +156,10 @@ export default class Bubble extends React.Component {
   }
 
   _getTextInputStyle() {
-    let textInputStyle = [styles.content, styles.textInput, {height: this.state.textInputHeight}];
+    let textInputStyle = [styles.textInput, {height: this.state.textInputHeight}];
 
     if (this.props.multiline) {
       textInputStyle.push(styles.textInputMultiLine);
-    }
-
-    switch (this.props.position) {
-      case 'left':
-        textInputStyle.push(styles.contentLeft);
-        break;
-      case 'right':
-        textInputStyle.push(styles.contentRight);
-        break;
-    }
-
-    if (this.props.alternativeStyle) {
-      textInputStyle.push(styles.contentAlt);
     }
 
     return textInputStyle;
@@ -175,6 +171,7 @@ Bubble.propTypes = {
   position: React.PropTypes.oneOf(positions).isRequired,
   alternativeStyle: React.PropTypes.bool,
   noTail: React.PropTypes.bool,
+  contentSize: React.PropTypes.oneOf(contentSizes),
   style: React.PropTypes.any,
 
   // text
@@ -194,6 +191,7 @@ Bubble.propTypes = {
 Bubble.defaultProps = {
   alternativeStyle: false,
   noTail: false,
+  contentSize: contentSizes[1],
   autoFocus: false,
   multiline: false,
   returnKeyType: 'next'
