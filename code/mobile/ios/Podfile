@@ -13,7 +13,6 @@ target 'Proco' do
   pod 'Firebase/RemoteConfig'
   pod 'Firebase/Messaging'
   pod 'Firebase/DynamicLinks'
-  pod 'SCRecorder'
   
   target 'ProcoTests' do
     inherit! :search_paths
