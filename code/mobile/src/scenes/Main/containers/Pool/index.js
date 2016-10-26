@@ -2,6 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Animated, ListView, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import Video from 'react-native-video';
+
+import PoolInProgress from '../../../../components/PoolInProgress';
 import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
@@ -63,6 +66,10 @@ export default class Pool extends React.Component {
     }
 
     if (this.props.poolKeys.length < 1) {
+      return (
+        <PoolInProgress />
+      );
+
       return (
         <Card
           label="Just a sec!"
