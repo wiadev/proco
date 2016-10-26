@@ -8,7 +8,7 @@ const MobileNumber = require('./MobileNumber');
 const isAnyTrue = (arr) => arr.some(el => Boolean(el) == true);
 
 module.exports = functions.database().path('/users/info/{uid}')
-  .on('write', (event) => {
+  .onWrite('write', (event) => {
 
     const {data, params: {uid}} = event;
 

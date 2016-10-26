@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 
 module.exports = functions.database().path('/users/verifications/{verification_type}/{uid}')
-  .on('write', ({
+  .onWrite('write', ({
     params: {verification_type, uid},
     data,
   }) => {

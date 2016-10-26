@@ -2,7 +2,7 @@ var functions = require('firebase-functions');
 const axios = require('axios');
 const moment = require('moment');
 
-module.exports = functions.database().path('/users/tokens/{uid}').on('write', (event) => {
+module.exports = functions.database().path('/users/tokens/{uid}').onWrite('write', (event) => {
 
   const data = event.data;
 

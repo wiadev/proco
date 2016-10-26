@@ -7,7 +7,7 @@ const timestamp = firebase.database.ServerValue.TIMESTAMP;
 const $ = {};
 
 $.ocean = functions.database().path('/ocean/index/{uid}')
-  .on('write', (event) => {
+  .onWrite('write', (event) => {
 
     const locationData = event.data.child('l');
 

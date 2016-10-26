@@ -3,16 +3,6 @@
     "rules": "rules.json"
   },
   "hosting": {
-    "public": "public",
-    "rewrites": [
-      {
-        "source": "/dashboard/**",
-        "destination": "/apps/dashboard/index.html"
-      },
-      {
-        "source": "**",
-        "destination": "/apps/site/index.html"
-      }
-    ]
+    "public": "public"
   }
 }
