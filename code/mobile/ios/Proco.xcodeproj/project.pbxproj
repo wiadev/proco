@@ -45,6 +45,9 @@
 		62EA81431D9E6AB900BF52C2 /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 62EA813A1D9E6AB900BF52C2 /* SF-UI-Display-Ultralight.otf */; };
 		631F69686E4D42118700C96E /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF52AFB6CAE24AD393BAFABE /* libRNFetchBlob.a */; };
 		6B20FCB2FA4546208F06B0CA /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10577893D20348DBABA66E2F /* Octicons.ttf */; };
+		744B8E261DC021A90059FCC0 /* ProcoLoopGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 74256E8C1DBD97F7005B806E /* ProcoLoopGenerator.m */; };
+		744B8E3E1DC023460059FCC0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744B8E3D1DC023460059FCC0 /* CoreData.framework */; };
+		744B8E401DC023D60059FCC0 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 744B8E3F1DC023D60059FCC0 /* CoreMedia.framework */; };
 		7452C7601D592B7F00AAACD7 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75D1D592B7F00AAACD7 /* logo.png */; };
 		7452C7611D592B7F00AAACD7 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75E1D592B7F00AAACD7 /* logo@2x.png */; };
 		7452C7621D592B7F00AAACD7 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7452C75F1D592B7F00AAACD7 /* logo@3x.png */; };
@@ -295,6 +298,8 @@
 		7424EF671D69ADD000044091 /* Proco.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Proco.entitlements; path = Proco/Proco.entitlements; sourceTree = "<group>"; };
 		74256E8B1DBD97E2005B806E /* ProcoLoopGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcoLoopGenerator.h; path = Proco/ProcoLoopGenerator/ProcoLoopGenerator.h; sourceTree = "<group>"; };
 		74256E8C1DBD97F7005B806E /* ProcoLoopGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProcoLoopGenerator.m; path = Proco/ProcoLoopGenerator/ProcoLoopGenerator.m; sourceTree = "<group>"; };
+		744B8E3D1DC023460059FCC0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		744B8E3F1DC023D60059FCC0 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		7452C75D1D592B7F00AAACD7 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../src/assets/images/logo.png; sourceTree = "<group>"; };
 		7452C75E1D592B7F00AAACD7 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "../src/assets/images/logo@2x.png"; sourceTree = "<group>"; };
 		7452C75F1D592B7F00AAACD7 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@3x.png"; path = "../src/assets/images/logo@3x.png"; sourceTree = "<group>"; };
@@ -339,6 +344,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				744B8E401DC023D60059FCC0 /* CoreMedia.framework in Frameworks */,
+				744B8E3E1DC023460059FCC0 /* CoreData.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -481,6 +488,8 @@
 		1F99B562A4683BC70EA46DFD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				744B8E3F1DC023D60059FCC0 /* CoreMedia.framework */,
+				744B8E3D1DC023460059FCC0 /* CoreData.framework */,
 				3237A91D6AF67B398168C205 /* libPods-Proco.a */,
 				1471247FC2F524FFCA2E3C58 /* libPods-ProcoTests.a */,
 				B24152153627426DBDACB867 /* libz.tbd */,
@@ -1204,6 +1213,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				744B8E261DC021A90059FCC0 /* ProcoLoopGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

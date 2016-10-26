@@ -1,5 +1,5 @@
 import React from "react";
-import { NativeModules, View } from "react-native";
+import { NativeModules, View, Text } from "react-native";
 import Camera from "react-native-camera";
 import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
@@ -18,6 +18,7 @@ export default class Recorder extends React.Component {
   capture(callback) {
     if (this.state.inProgress) return;
 
+    console.log("started capturing");
     this.setState({
       inProgress: true,
     });
@@ -25,11 +26,11 @@ export default class Recorder extends React.Component {
     this.camera.capture().then(data => {
       const path = data.path;
 
-      console.log("captured", data)
-      NativeModules.ProcoLoopGenerator.processVideo(path, (imageURL, test) => {
-        console.log("processed", imageURL, test);
+      console.log("captured", data);
+      NativeModules.ProcoLoopGenerator.generateLoop(path, (_, finalImagePath) => {
+        console.log("processed", _, finalImagePath);
 
-        callback(imageURL);
+        //callback(null);
       });
 
     });
@@ -40,7 +41,7 @@ export default class Recorder extends React.Component {
       this.setState({
         inProgress: false,
       });
-    }, 500);
+    }, 550);
 
   }
 
@@ -52,14 +53,14 @@ export default class Recorder extends React.Component {
           ref={(cam) => {
             this.camera = cam;
           }}
-          style={styles.preview}
+          style={styles.container}
           aspect={Camera.constants.Aspect.fill}
           captureAudio={false}
           captureMode={Camera.constants.CaptureMode.video}
           captureTarget={Camera.constants.CaptureTarget.temp}
           type={this.props.device || "front"}
         >
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+          {this.state.inProgress || <Text style={styles.capture} onPress={this.capture.bind(this)}>[CAPTURE]</Text>}
         </Camera>
       </View>
     );
