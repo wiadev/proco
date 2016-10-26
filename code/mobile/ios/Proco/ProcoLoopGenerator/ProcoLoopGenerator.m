@@ -68,6 +68,7 @@ RCT_EXPORT_METHOD(generateLoop:
   
     UIImage *finalImage = [self mergeImagesFromArray:@[
             [self imageFromVideo:assetIG atTime:0],
+            [self imageFromVideo:assetIG atTime:0.1],
             [self imageFromVideo:assetIG atTime:0.2],
             [self imageFromVideo:assetIG atTime:0.3],
             [self imageFromVideo:assetIG atTime:0.4]
