@@ -6,24 +6,17 @@
 
 RCT_EXPORT_MODULE();
 
-- (UIImage *)imageFromVideo:(NSURL *)videoURL atTime:(NSTimeInterval)time {
+- (UIImage *)imageFromVideo:(AVAssetImageGenerator *)assetIG atTime:(NSTimeInterval)time {
 
     // courtesy of memmons
     // http://stackoverflow.com/questions/1518668/grabbing-the-first-frame-of-a-video-from-uiimagepickercontroller
-
-    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
-    NSParameterAssert(asset);
-    AVAssetImageGenerator *assetIG =
-            [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    assetIG.appliesPreferredTrackTransform = YES;
-    assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
 
     CGImageRef thumbnailImageRef = NULL;
     CFTimeInterval thumbnailImageTime = time;
     NSError *igError = nil;
     thumbnailImageRef =
-            [assetIG copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 60)
-                            actualTime:NULL
+            [assetIG copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 1)
+                            actualTime:nil
                                  error:&igError];
 
     if (!thumbnailImageRef)
@@ -64,12 +57,20 @@ RCT_EXPORT_METHOD(generateLoop:
             (RCTResponseSenderBlock) callback) {
 
     //400 ms, [0, 100, 200, 300, 400]
+  
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
+    NSParameterAssert(asset);
+    AVAssetImageGenerator *assetIG =
+    [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    assetIG.appliesPreferredTrackTransform = YES;
+    assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
 
+  
     UIImage *finalImage = [self mergeImagesFromArray:@[
-            [self imageFromVideo:videoURL atTime:0],
-            [self imageFromVideo:videoURL atTime:200],
-            [self imageFromVideo:videoURL atTime:300],
-            [self imageFromVideo:videoURL atTime:400]
+            [self imageFromVideo:assetIG atTime:0],
+            [self imageFromVideo:assetIG atTime:0.2],
+            [self imageFromVideo:assetIG atTime:0.3],
+            [self imageFromVideo:assetIG atTime:0.4]
     ]];
 
     NSString *finalImagePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"loop_generated.jpg"];
