@@ -9,8 +9,18 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'relative',
   },
-  recorderContainer: {
+  camera: {
+    position: 'relative',
+    flex: 1,
     justifyContent: 'flex-end'
+  },
+  sparkle: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: colors.primaryAlt
   },
   backButton: {
     position: 'absolute',
@@ -27,21 +37,7 @@ const styles = StyleSheet.create({
     color: colors.primaryAlt,
     fontSize: 18
   },
-  recorderProgressBar: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    height: 10,
-    backgroundColor: colors.primaryAlt,
-    opacity: 0.5
-  },
-  recorderProgressBarInner: {
-    height: 10,
-    backgroundColor: colors.primary1
-  },
-  recorderDeviceSwitchButton: {
+  cameraTypeSwitchButton: {
     position: 'absolute',
     top: 10,
     right: 10,
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.gray1
   },
-  recorderDeviceSwitchButtonIcon: {
+  cameraTypeSwitchButtonIcon: {
     color: colors.primaryAlt,
     fontSize: 18
   },

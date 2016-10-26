@@ -1,24 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
+  NativeModules,
   StatusBar,
   View,
   TouchableOpacity,
   ActivityIndicator,
-  Animated,
-  Dimensions
+  Animated
 } from "react-native";
+import Camera from "react-native-camera";
 import { Actions } from "react-native-router-flux";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
 
-import Recorder from '../../modules/User/Loop/Recorder';
-
 import ProfileLoop from "../../components/ProfileLoop";
-import { startedCapturing, doneCapturing, upload, cancelled } from '../../modules/User/Loop/actions';
+import { startedCapturing, doneCapturing, upload, cancelled } from "../../modules/User/Loop/actions";
 import styles from "./styles";
-import colors from '../../core/style/colors';
+import colors from "../../core/style/colors";
 
 @connect(state => ({profileLoop: state.userloop}))
 @reactMixin.decorate(reactTimerMixin)
@@ -27,19 +26,21 @@ export default class ShootNewProfileLoop extends React.Component {
     super(props);
 
     this.state = {
-      recorderDevice: 'front',
-      recordProgressBarWidth: new Animated.Value(0)
+      cameraType: 'front',
+      profileLoop: null,
+      sparkleOpacity: new Animated.Value(0)
     };
 
-    this.recordProgressBarAnimation = Animated.timing(
-      this.state.recordProgressBarWidth, {
-        toValue: Dimensions.get('window').width,
-        duration: 2000
-      }
-    );
+    this.sparkleCount = 0;
   }
 
   render() {
+    this.state.sparkleOpacity.addListener(animatedValue => {
+      if (animatedValue.value === 0.6) {
+        this._startSparkleAnimation();
+      }
+    });
+
     return (
       <View style={styles.shootNewProfileLoop}>
         <StatusBar hidden={true} />
@@ -48,39 +49,49 @@ export default class ShootNewProfileLoop extends React.Component {
 
         {this._renderBackButton()}
 
-        {this._renderRecorderDeviceSwitchButton()}
+        {this._renderCameraTypeSwitchButton()}
       </View>
     );
+  }
+
+  _startSparkleAnimation() {
+    this.setState({
+      sparkleOpacity: new Animated.Value(0)
+    }, () => {
+      if (this.sparkleCount < 5) {
+        let animation = Animated.timing(this.state.sparkleOpacity, {
+          toValue: 0.6,
+          duration: 100
+        });
+
+        animation.start();
+      }
+    });
+
+    this.sparkleCount += 1;
   }
 
   _renderCameraOrProfileLoop() {
     if (['WAITING', 'CAPTURING'].indexOf(this.props.profileLoop.status) !== -1) {
       return (
-        <Recorder
-          ref={recorder => {
-            if (!this.recorder) {
-              this.recorder = recorder;
-            }
-          }}
-          device={this.state.recorderDevice}
-          containerStyle={styles.recorderContainer}
+        <Camera
+          ref="camera"
+          captureMode={Camera.constants.CaptureMode.video}
+          captureAudio={false}
+          captureTarget={Camera.constants.CaptureTarget.temp}
+          type={this.state.cameraType}
+          style={styles.camera}
         >
-          <View style={styles.recorderProgressBar}>
-            <Animated.View style={[styles.recorderProgressBarInner, {width: this.state.recordProgressBarWidth}]} />
-          </View>
+          <Animated.View style={[styles.sparkle, {opacity: this.state.sparkleOpacity}]} />
 
           <View style={styles.actionButtons}>
             {this._renderActionButtons()}
           </View>
-        </Recorder>
+        </Camera>
       );
     } else {
       return (
-        <ProfileLoop
-          video={this.props.profileLoop.file}
-          repeat={true}
-          containerStyle={styles.profileLoop}
-        >
+        <ProfileLoop imageSource={{uri: this.state.profileLoop}} isStatic={true}>
           <View style={styles.actionButtons}>
             {this._renderActionButtons()}
           </View>
@@ -99,17 +110,17 @@ export default class ShootNewProfileLoop extends React.Component {
     }
   }
 
-  _renderRecorderDeviceSwitchButton() {
+  _renderCameraTypeSwitchButton() {
     if (this.props.profileLoop.status === 'WAITING') {
       let iconName = 'camera-front';
 
-      if (this.state.recorderDevice === 'front') {
+      if (this.state.cameraType === 'front') {
         iconName = 'camera-rear';
       }
 
       return (
-        <TouchableOpacity style={styles.recorderDeviceSwitchButton} onPress={() => this._switchRecorderDevice()}>
-          <Icon name={iconName} style={styles.recorderDeviceSwitchButtonIcon} />
+        <TouchableOpacity style={styles.cameraTypeSwitchButton} onPress={() => this._switchCameraType()}>
+          <Icon name={iconName} style={styles.cameraTypeSwitchButtonIcon} />
         </TouchableOpacity>
       );
     }
@@ -166,43 +177,40 @@ export default class ShootNewProfileLoop extends React.Component {
     // );
   }
 
-  _switchRecorderDevice() {
-    let recorderDevice = 'front';
+  _switchCameraType() {
+    let cameraType = 'front';
 
-    if (this.state.recorderDevice === 'front') {
-      recorderDevice = 'back';
+    if (this.state.cameraType === 'front') {
+      cameraType = 'back';
     }
 
     this.setState({
-      recorderDevice: recorderDevice
+      cameraType: cameraType
     });
   }
 
   _startRecording() {
     this.props.dispatch(startedCapturing());
+    this._startSparkleAnimation();
 
-    this.recorder.record();
+    this.refs.camera.capture()
+      .then(data => {
+        // We got the video, now we need to generate the jpeg.
+        NativeModules.ProcoLoopGenerator.generateLoop(data.path, (error, imagePath) => {
+          this.props.dispatch(doneCapturing(imagePath));
 
-    this.recordProgressBarAnimation.start(() => {
-      this.recorder.pause();
-
-      this.recorder.save((error, url) => {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(url);
-          this.props.dispatch(doneCapturing(url));
-        }
+          this.setState({
+            profileLoop: imagePath
+          });
+        });
       });
-    });
+
+    this.setTimeout(() => {
+      this.refs.camera.stopCapture();
+    }, 550);
   }
 
   _reset() {
-    console.log(this);
-    this.state.recordProgressBarWidth.setValue(0);
-
-    this.recorder.removeAllSegments();
-
     this.props.dispatch(cancelled());
   }
 

@@ -66,6 +66,7 @@ export default class ProfileLoop extends React.Component {
       <View style={[styles.profileLoop, this.props.style]}>
         <Image
           source={this.props.imageSource}
+          isStatic={this.props.isStatic}
           style={[styles.image, {
             marginTop: -1 * this.state.factor * screen.height
           }]} />
@@ -80,10 +81,12 @@ export default class ProfileLoop extends React.Component {
 
 ProfileLoop.propTypes = {
   imageSource: React.PropTypes.any,
+  isStatic: React.PropTypes.bool,
   style: React.PropTypes.any,
   containerStyle: React.PropTypes.any
 };
 
 ProfileLoop.defaultProps = {
-  imageSource: {uri: 'http://images.phhhoto.com/3/IRsBq56727a/jpeg'}
+  imageSource: {uri: 'http://images.phhhoto.com/3/IRsBq56727a/jpeg'},
+  isStatic: false
 };
