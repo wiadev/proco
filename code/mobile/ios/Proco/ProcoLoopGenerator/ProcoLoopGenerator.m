@@ -8,23 +8,26 @@ RCT_EXPORT_MODULE();
 
 - (UIImage *)imageFromVideo:(AVAssetImageGenerator *)assetIG atTime:(NSTimeInterval)time {
 
-    // courtesy of memmons
-    // http://stackoverflow.com/questions/1518668/grabbing-the-first-frame-of-a-video-from-uiimagepickercontroller
+    // Stolen from http://stackoverflow.com/questions/1518668/grabbing-the-first-frame-of-a-video-from-uiimagepickercontroller
 
     CGImageRef thumbnailImageRef = NULL;
     CFTimeInterval thumbnailImageTime = time;
     NSError *igError = nil;
+
     thumbnailImageRef =
             [assetIG copyCGImageAtTime:CMTimeMake(thumbnailImageTime, 1)
                             actualTime:nil
                                  error:&igError];
 
+
     if (!thumbnailImageRef)
         NSLog(@"thumbnailImageGenerationError %@", igError);
 
     UIImage *image = thumbnailImageRef
-            ? [[UIImage alloc] initWithCGImage:thumbnailImageRef]
+            ? [[UIImage alloc] initWithCGImage:thumbnailImageRef ]
             : nil;
+  
+  UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
 
     return image;
 }
@@ -56,7 +59,7 @@ RCT_EXPORT_METHOD(generateLoop:
             callback:
             (RCTResponseSenderBlock) callback) {
 
-    //400 ms, [0, 100, 200, 300, 400]
+    // get at milliseconds  [0, 100, 200, 300, 400]
   
     AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:videoURL options:nil];
     NSParameterAssert(asset);
@@ -64,8 +67,9 @@ RCT_EXPORT_METHOD(generateLoop:
     [[AVAssetImageGenerator alloc] initWithAsset:asset];
     assetIG.appliesPreferredTrackTransform = YES;
     assetIG.apertureMode = AVAssetImageGeneratorApertureModeEncodedPixels;
+    CGSize maxSize = CGSizeMake(480, 640);
+    assetIG.maximumSize = maxSize;
 
-  
     UIImage *finalImage = [self mergeImagesFromArray:@[
             [self imageFromVideo:assetIG atTime:0],
             [self imageFromVideo:assetIG atTime:0.1],
