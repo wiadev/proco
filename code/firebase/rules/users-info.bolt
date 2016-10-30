@@ -14,6 +14,11 @@ type UserInfo extends OnlyCurrentUser {
   current_question_id: CurrentQuestion | Null,
   current_question: CurrentQuestionID | Null,
   loop_key: LoopKey | Null,
+  network_email_verified: Boolean | Null,
+  mobile_number_verified: Boolean | Null,
+  onboarded: UserIsOnboarded | Null,
+  god: Boolean | Null,
+  banned: UserBanStatus | Null,
 }
 
 type WritableByCUString extends String {
@@ -35,5 +40,19 @@ type UIGender extends String {
 
 type UINetwork extends String {}
 type UINetworkEmail extends String {}
+
+type UserIsOnboarded extends Boolean {
+  write() {
+    isCurrentUser(uid)
+    && getInfo(uid).network_email != null
+    && getInfo(uid).birthday != null
+    && getInfo(uid).gender != null
+  }
+}
+
+type UserBanStatus extends Boolean {
+  write() { didUserReportedUser(currentUser(), uid) }
+  validate() { getReportCountFor(uid) > 4 }
+}
 
 getInfo(uid) { root.users.info[uid] }

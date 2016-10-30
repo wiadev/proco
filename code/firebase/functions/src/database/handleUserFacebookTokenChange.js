@@ -1,9 +1,8 @@
-var functions = require('firebase-functions');
+const functions = require('firebase-functions');
 const axios = require('axios');
 const moment = require('moment');
 
-module.exports = functions.database().path('/users/tokens/{uid}').onWrite('write', (event) => {
-
+module.exports = functions.database().path('/users/tokens/{uid}').onWrite(event => {
   const data = event.data;
 
   if (data.previous.child('facebook').val() === data.child('facebook').val()) {
@@ -69,33 +68,21 @@ module.exports = functions.database().path('/users/tokens/{uid}').onWrite('write
                 .once('value')
                 .then(snap => snap.val())
                 .then(currentSettings => {
-                  if(!currentSettings) currentSettings = {};
+                  if (!currentSettings) currentSettings = {};
 
                   return userSettings
                     .set(Object.assign({
                       suspend_discovery: false,
                       notify_new_messages: true,
                       notify_announcements: false,
-                    }, currentSettings))
-                    .then(() => {
-                      const userFilters = adminRoot.child(`/users/filters/${uid}`);
-                      return userFilters
-                        .once('value')
-                        .then(snap => snap.val())
-                        .then(currentFilters => {
-                          if(!currentFilters) currentFilters = {};
-
-                          return userFilters.set(Object.assign({
-                            gender: 'both',
-                            age_min: 18,
-                            age_max: 45,
-                            only_from_network: false,
-                          }, currentFilters));
-                        });
-                    })
-                });
-            })
-        });
+                      gender: 'both',
+                      age_min: 18,
+                      age_max: 45,
+                      only_from_network: false,
+                    }, currentSettings));
+                })
+            });
+        })
     })
     .catch(e => {
       console.log("Error in tokens", data.val(), e);

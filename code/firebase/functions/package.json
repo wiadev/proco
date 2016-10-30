@@ -4,9 +4,9 @@
   "dependencies": {
     "axios": "^0.14.0",
     "deep-equal": "^1.0.1",
-    "firebase": "^3.1",
+    "firebase": "^3.5.2",
     "firebase-functions": "https://storage.googleapis.com/firebase-preview-drop/node/firebase-functions/firebase-functions-preview.latest.tar.gz",
-    "geofire": "^4.1.1",
+    "geofire": "^4.1.2",
     "jwt-simple": "^0.5.0",
     "moment": "^2.14.1",
     "qs": "^6.2.1",

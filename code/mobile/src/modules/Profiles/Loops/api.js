@@ -1,5 +1,5 @@
 import RNFetchBlob from "react-native-fetch-blob";
-import { database, storage } from "../../../core/Api";
+import { database, storage } from "../../../core/firebase";
 
 const fs = RNFetchBlob.fs;
 const cachePoolDir = fs.dirs.DocumentDir + '/LoopCache';

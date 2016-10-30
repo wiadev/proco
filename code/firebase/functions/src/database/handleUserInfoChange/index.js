@@ -8,11 +8,12 @@ const MobileNumber = require('./MobileNumber');
 const isAnyTrue = (arr) => arr.some(el => Boolean(el) == true);
 
 module.exports = functions.database().path('/users/info/{uid}')
-  .onWrite('write', (event) => {
+  .onWrite(event => {
 
     const {data, params: {uid}} = event;
 
-    if (data.val() === null) return Promise.resolve(); // This only happens when the user is deleted, clean up functions takes care of other information.
+    if (data.val() === null) return Promise.resolve(); // This only happens when the user is deleted, clean up
+                                                       // functions takes care of other information.
 
     const {previous, adminRef : {root}} = data;
 
@@ -34,9 +35,10 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('gender'),
       ])) {
 
-      const isOnboarded = !!(data.child('network_email').val() && data.child('birthday').val() && data.child('gender').val());
+      const isOnboarded = !!(data.child('network_email').val() && data.child('birthday').val() && data.child('gender')
+        .val());
 
-      actions.push(root.child(`/users/is/${uid}/onboarded`).set(isOnboarded));
+      actions.push(root.child(`/users/info/${uid}/onboarded`).set(isOnboarded));
 
     }
 

@@ -9,7 +9,7 @@ import UpperMenu from './containers/UpperMenu';
 import Pool from './containers/Pool';
 import styles from './styles';
 
-@connect(state => ({user: state.api.data.userInfo, isUser: state.api.data.userIs}))
+//@connect(state => ({user: state.api.data.userInfo, isUser: state.api.data.userIs}))
 export default class MainScreen extends React.Component {
   render() {
     return (

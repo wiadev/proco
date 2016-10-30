@@ -1,6 +1,5 @@
 const Permissions = require('react-native-permissions');
 import FCM from 'react-native-fcm';
-import { update } from '../User/actions';
 
 const typeMap = {
   'camera': 'CAMERA',

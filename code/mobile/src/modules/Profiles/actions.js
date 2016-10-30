@@ -1,4 +1,4 @@
-import { database, logEvent, getFirebaseData, getNetworkTitle, timestamp, refs } from "../../core/Api";
+import { database, logEvent, getFirebaseData, getNetworkTitle, timestamp, refs } from "../../core/firebase";
 import { assign } from "../../core/utils";
 import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";

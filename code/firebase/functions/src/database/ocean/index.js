@@ -7,8 +7,7 @@ const timestamp = firebase.database.ServerValue.TIMESTAMP;
 const $ = {};
 
 $.ocean = functions.database().path('/ocean/index/{uid}')
-  .onWrite('write', (event) => {
-
+  .onWrite(event => {
     const locationData = event.data.child('l');
 
     if (!locationData) {
@@ -35,7 +34,7 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
   });
 
 $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
-  .on('write', (event) => {
+  .onWrite(event => {
 
     const current = event.data.val();
 
@@ -44,7 +43,6 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
     const previous = event.data.previous.val();
 
     if (current && !current.status.includes('IN_PROGRESS')) return Promise.resolve();
-
     if (previous && previous.status === current.status) return Promise.resolve();
 
     if (current.status === 'IN_PROGRESS_RESET') {
@@ -55,7 +53,6 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
     if (previous && !(Date.now() - previous.last_checked >= 30000)) return Promise.resolve();
 
     return generator(event);
-
   });
 
 

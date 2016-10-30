@@ -1,4 +1,4 @@
-import { database, getFirebaseDataWithCache } from '../../core/Api';
+import { database, getFirebaseDataWithCache } from '../../core/firebase';
 import { getProfileLoopOf } from '../Profiles/Loops/api';
 
 const getQuestion = qid =>

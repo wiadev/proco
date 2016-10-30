@@ -1,4 +1,4 @@
-import { getFirebaseDataWithCache } from "../../core/Api";
+import { getFirebaseDataWithCache } from "../../core/firebase";
 
 export const getThreadPeople = tid =>
   getFirebaseDataWithCache(`threads/info/${tid}/people`)

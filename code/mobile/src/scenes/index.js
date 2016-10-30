@@ -2,14 +2,8 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {Actions, ActionConst, Router, Switch, Scene, Reducer} from "react-native-router-flux";
 
-import {Login, Register, SMSVerification} from "./Authentication";
+import Authentication from "./Authentication";
 import Main from "./Main";
-import Settings from "./Settings";
-import UpdateYourQuestion from "./UpdateYourQuestion";
-import ShootNewProfileLoop from "./ShootNewProfileLoop";
-import Filters from "./Filters";
-import Conversations from "./Chat/List";
-import Conversation from "./Chat/Conversation";
 import * as StaticPages from "./StaticPages";
 
 import WebView from "../components/WebView";
@@ -45,35 +39,17 @@ const scenes = Actions.create(
     <Scene
       key="app"
       component={connect(state=>({
-        uid: state.auth.uid,
-        isBoarded: state.api.data.userIs.onboarded,
+        uid: state.auth.get('uid'),
       }))(Switch)}
       tabs={true}
       unmountScenes
       initial
-      selector={({uid, isBoarded}) => {
-        console.log("uid", uid, isBoarded);
-        if (uid && isBoarded) {
-          console.log("proco");
-          return 'proco';
-        }
-        console.log("auth");
-        return 'auth';
-      }}
+      selector={({uid}) => uid ? 'proco' : 'auth'}
     >
       <Scene key="proco" hideNavBar>
-        <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
-        <Scene key="Settings" component={Settings} />
-        <Scene key="Filters" component={Filters} />
-        <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} />
-        <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
-        <Scene key="ConversationList" component={Conversations}/>
-        <Scene key="Conversations">
-          <Scene key="Conversation" component={Conversation} clone/>
-        </Scene>
-        <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
+        <Scene hideNavBar key="auth" component={Authentication} />
       </Scene>
-      <Scene hideNavBar key="auth" component={Login} />
+      <Scene hideNavBar key="auth" component={Authentication} />
     </Scene>
   </Scene>
 );

@@ -4,4 +4,19 @@ type UserSettings extends OnlyCurrentUser {
   notify_announcements: Boolean | Null,
   notify_new_messages: Boolean | Null,
   suspend_discovery: Boolean | Null,
+  age_min: UFAgeMin,
+  age_max: UFAgeMax,
+  gender: UFGender,
+  only_from_network: Boolean,
 }
+
+type UFGender extends String {
+  validate() { this == 'male' || this == 'female' || this == 'both' }
+}
+
+type UFAge extends Number {
+  validate() { this >= 18 && this <= 45 }
+}
+
+type UFAgeMin extends UFAge {}
+type UFAgeMax extends UFAge {}

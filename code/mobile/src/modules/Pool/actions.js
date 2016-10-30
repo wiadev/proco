@@ -1,4 +1,4 @@
-import { database, timestamp, refs } from "../../core/Api";
+import { database, timestamp, refs } from "../../core/firebase";
 import { assign } from "../../core/utils";
 import { block, report, match } from "../Profiles/actions";
 import { requestPermission } from "../Permissions/actions";

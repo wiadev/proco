@@ -63,7 +63,6 @@ type LONG extends Number {
   validate() {this >= -180 && this <= 180 }
 }
 
-
 checkPoolFilters(uid, mid) {
   hasCurrentQuestion(mid)
   && isNotSelf(mid) // We shouldn't users themselves to their pool
@@ -74,7 +73,7 @@ checkPoolFilters(uid, mid) {
   && checkAgeFilterFor(mid)
 }
 
-getFilterOptionForCU(option) { root.users.filters[currentUser()][option] }
+getFilterOptionForCU(option) { root.users.settings[currentUser()][option] }
 getSummaryForPI(user) { root.users.summary[user] }
 
 getAgeFor(uid) { getSummaryForPI(uid).age }

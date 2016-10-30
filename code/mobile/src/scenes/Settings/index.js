@@ -12,15 +12,27 @@ import codePush from 'react-native-code-push';
 import _ from 'lodash';
 
 import Text from '../../components/Text';
-import {database} from "../../core/Api";
+import {database} from "../../core/firebase";
 import {assign} from "../../core/utils";
 import {getUserRefForTypeAsString} from "../../modules/User/actions";
-import {logout} from "../../modules/Authentication/actions";
 import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import Field from '../../components/Field';
 import styles from './styles';
-
+const genderChoices = [
+  {
+    label: "Female",
+    value: 'female'
+  },
+  {
+    label: "Male",
+    value: 'male'
+  },
+  {
+    label: "Both",
+    value: 'both'
+  }
+];
 @connect(state => ({auth: state.auth, user: state.api.data.userInfo, settings: state.api.data.userSettings}))
 class Settings extends React.Component {
   constructor(props) {
@@ -59,6 +71,37 @@ class Settings extends React.Component {
         <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
 
         <ScrollView>
+          <View style={styles.group}>
+            <Text style={styles.sectionTitle}>Show me</Text>
+
+            {genderChoices.map((choice, key) => {
+              return (
+                <Field
+                  key={key}
+                  type="choice"
+                  legend={choice.label}
+                  value={this.state.filters.gender === choice.value}
+                  onPress={() => this._updateFilter('gender', choice.value)}
+                  stickToPrevious={key !== 0}
+                />
+              );
+            })}
+          </View>
+
+          <View style={styles.group}>
+            <Field
+              type="range"
+              legend="Age limits"
+              value={[this.state.filters.age_min, this.state.filters.age_max]}
+              minValue={18}
+              maxValue={45}
+              onChange={newValue => this._updateFilter('ageLimits', newValue)}
+            />
+          </View>
+
+          <View style={styles.group}>
+            <Field type="bool" legend="People only from my university" value={this.state.filters.only_from_network} onChange={newValue => this._updateFilter('only_from_network', newValue)} />
+          </View>
           <View style={styles.infoBox}>
             <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon} />
 
@@ -132,6 +175,23 @@ class Settings extends React.Component {
     this.setState({
       settings: Object.assign({}, this.state.settings, {[name]: value})
     });
+  }
+
+  _updateFilter(name, value) {
+    if (name === 'ageLimits') {
+      this.setState({
+        filters: Object.assign({}, this.state.filters, {
+          age_min: value[0],
+          age_max: value[1]
+        })
+      })
+    } else {
+      this.setState({
+        filters: Object.assign({}, this.state.filters, {
+          [name]: value
+        })
+      });
+    }
   }
 
   _done() {

@@ -1,26 +1,21 @@
-import React, {Component} from "react";
-import {AppState, NetInfo, View, StatusBar, Linking} from "react-native";
-import startLocationTracking from "./modules/Location";
-import {connect} from "react-redux";
+import React, { Component } from "react";
+import { AppState, NetInfo, View, StatusBar, Linking } from "react-native";
+import startLocationTracking from "./core/location";
+import { connect } from "react-redux";
 import InAppAlert from "./components/InAppAlert";
-import {AuthListener, logout} from "./modules/Authentication";
-import {syncPermissions, updateNotificationToken} from "./modules/Permissions/actions";
-import {createAlert} from "./modules/InAppAlert/actions";
+import { syncPermissions, updateNotificationToken } from "./modules/Permissions/actions";
 import NoInternetModal from "./components/NoInternetModal";
 import BlockedUserModal from "./components/BlockedUserModal";
-import Loading from './components/Loading';
+import Loading from "./components/Loading";
 import FCM from "react-native-fcm";
 import Routes from "./scenes";
-import {clearCachedLoops} from "./modules/Profiles/Loops/api";
+import { clearCachedLoops } from "./modules/Profiles/Loops/api";
+
+const logout = () => console.log("logout");
 
 @connect(
   state => ({
-    uid: state.auth.uid,
-    isLoadedAuth: state.auth.isLoaded,
-    isLoadedIs: state.api.data.userIs.isLoaded,
-    banned: state.api.data.userIs.banned,
-    locationPermission: state.permissions.location,
-    first_name: state.api.data.userInfo.first_name,
+    isAuthLoaded: state.auth.get('loaded'),
   }),
 )
 class App extends Component {
@@ -66,7 +61,7 @@ class App extends Component {
   }
 
   handleAppStateChange(appState) {
-    this.props.dispatch(syncPermissions());
+    //this.props.dispatch(syncPermissions());
     if (appState == 'active') {
       this.setState({isActive: true});
     } else {
@@ -87,12 +82,7 @@ class App extends Component {
 
   render() {
     const {
-      dispatch,
-      uid,
-      isLoadedIs,
-      isLoadedAuth,
-      first_name,
-      banned,
+      isAuthLoaded,
     } = this.props;
 
     return (
@@ -100,16 +90,8 @@ class App extends Component {
         flex: 1,
         backgroundColor: '#7A36AD',
       }}>
-        <InAppAlert />
         <NoInternetModal />
-        <AuthListener uid={uid}/>
-        {(uid && banned) && <BlockedUserModal
-          banned={banned}
-          logout={() => dispatch(logout())}
-          contact={() => Linking.openURL("https://procoapp.com/pages/banned-user.html")}
-          name={first_name}
-        />}
-        {isLoadedAuth && (!uid || (uid && isLoadedIs === true)) ? <Routes /> : <Loading />}
+        {isAuthLoaded ? <Routes /> : <Loading />}
       </View>
     );
   }

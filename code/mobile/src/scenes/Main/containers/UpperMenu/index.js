@@ -31,7 +31,7 @@ const menuItems = [
   }
 ];
 
-@connect(state => ({avatar: state.api.data.userInfo.avatar}))
+//@connect(state => ({avatar: state.api.data.userInfo.avatar}))
 export default class UpperMenu extends React.Component {
   render() {
     // TODO: Colors used in LinearGradient are not in color palette. Need to replace those colors or add them to palette.

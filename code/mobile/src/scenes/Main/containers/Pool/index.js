@@ -15,11 +15,11 @@ import styles from "./styles";
 const AnimatedListView = Animated.createAnimatedComponent(ListView);
 const data = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.uid !== r2.uid});
 
-@connect(state => ({
+/*@connect(state => ({
   permissions: state.permissions,
   poolItems: state.pool.items,
   poolKeys: Object.keys(state.pool.items).slice(0, 3),
-}))
+}))*/
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
@@ -39,7 +39,7 @@ export default class Pool extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(trigger());
+//    this.props.dispatch(trigger());
     this._updatePoolData();
   }
 

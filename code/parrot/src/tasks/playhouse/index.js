@@ -34,7 +34,6 @@ const addNewDoll = () => {
   // UID's are generated with the Doll name. We also add unix timestamp to the end to prevent possible collusions.
   const uid = slug(`d-${first_name}-${last_name}-${birthday.format('X')}`, { lower: true });
 
-
   const info = {
     fid: 0, // Facebook ID is always 0 with the dolls.
     name: `${first_name} ${last_name}`,
@@ -45,38 +44,33 @@ const addNewDoll = () => {
     avatar: faker.internet.avatar(),
     network_email: `${uid}@playhouse.procoapp.com`,
     network: `playhouse`, // Also, the network assignment normally automatic but done in the e-mail verification steps (obivously)
+    // We are not setting onboarded because that's handled by our handlers :)
+    network_email_verified: true,
   };
 
-  const settings = {
-    suspend_discovery: (Math.round(Math.random()) ? true : false),
-    notify_announcements: false,
-    notify_new_messages: false,
-  };
-
-  const genderFilters = ['male', 'female', 'both'];
-  
   // Since we are only testing with a few hundred users and manually checking, this filter would be an overkill.
   //const randomAge = (min = 18, max = 45) => Math.floor(Math.random() * (max - min + 1) + min);
   //const age_min = randomAge();
   //const age_max = randomAge(age_min);
 
-  const filters = {
+
+  const genderFilters = ['male', 'female', 'both'];
+
+  const settings = {
+    suspend_discovery: (Math.round(Math.random()) ? true : false),
+    notify_announcements: false,
+    notify_new_messages: false,
     gender: genderFilters[Math.floor(Math.random() * genderFilters.length)],
     age_min: 18,
     age_max: 45,
     only_from_network: (Math.round(Math.random()) ? true : false),
   };
 
-  // We are not setting onboarded because that's handled by our handlers :)
-  const is = {
-    verified: true,
-  };
+
 
   const data = {
     [`info/${uid}`]: info,
     [`settings/${uid}`]: settings,
-    [`filters/${uid}`]: filters,
-    [`is/${uid}`]: is,
     [`network-map/playhouse/${uid}`]: true,
   };
 
@@ -85,7 +79,6 @@ const addNewDoll = () => {
       data: {
         info,
         settings,
-        filters,
       },
       token: firebaseAppROOT.auth().createCustomToken(uid),
       added_at: moment().toString(),

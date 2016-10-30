@@ -1,7 +1,6 @@
-import { database, timestamp, refs, getKey } from "../../core/Api";
+import { database, timestamp, refs, getKey } from "../../core/firebase";
 import { assign } from "../../core/utils";
 import { getThreadPeople } from "./api";
-import { startWatching } from "../../core/Api/firebase";
 import { loadSummary } from "../Profiles/actions";
 
 const getThreadRef = (thread_id, uid) => {
