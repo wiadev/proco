@@ -1,6 +1,6 @@
-path /users/summary/{uid} is UserSummary;
+path /users/profile/{uid} is UserProfile;
 
-type UserSummary {
+type UserProfile {
   read() { !isBlocked(uid) }
   age: Number | Null,
   avatar: String | Null,

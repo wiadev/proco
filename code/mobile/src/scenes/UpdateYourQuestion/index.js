@@ -15,8 +15,8 @@ import Text from '../../components/Text';
 import Button from '../../components/Button';
 import ProfileLoop from '../../components/ProfileLoop';
 import Bubble from '../../components/Bubble';
-import { getProfileLoopOf } from '../../modules/Profiles/Loops/api';
-import { postQuestion } from '../../modules/User/actions';
+//import { getProfileLoopOf } from '../../modules/Profiles/Loops/api';
+//import { postQuestion } from '../../modules/User/actions';
 import styles from './styles';
 
 const statuses = {

@@ -4,24 +4,48 @@ import GeoFire from 'geofire';
 import { DeviceEventEmitter } from 'react-native';
 var { RNLocation: Location } = require('NativeModules');
 
-const oceanRef = database.ref('ocean/index');
-const geoFire = new GeoFire(oceanRef);
+
+export function subscriber(uid, emit) {
 
 DeviceEventEmitter.addListener(
   'locationUpdated',
-  (location) => {
-    const uid = getCUID();
-    if (!uid) return;
-    const { coords: { latitude, longitude } } = location;
-    database.ref(`archived/location-history/${uid}`).push(location);
-    return geoFire.set(uid, [latitude, longitude]);
+  ({ coords: { latitude, longitude } }) => {
+    emit(locationUpdated({
+      uid, latitude, longitude,
+    }))
   }
 );
 
-const startTracking = () => {
-  Location.requestAlwaysAuthorization();
-  Location.startUpdatingLocation();
-  Location.setDistanceFilter(50);
-};
+  return () => DeviceEventEmitter.removeAllListeners('locationUpdated');
+}
 
-export default startTracking;
+
+function* startLocationTracking() {
+    yield call([Location, Location.requestAlwaysAuthorization]);
+    yield call([Location, Location.startUpdatingLocation]);
+    yield call([Location, Location.setDistanceFilter], 50);
+    let listener = yield fork(watchLocation, payload.uid);
+
+    yield take([authActions.SIGN_OUT_FULFILLED]);
+    yield cancel(listener);
+  }
+}
+
+function* watchLocation() {
+  while (true) {
+
+    yield take(START_TRACKING_LOCATION);
+    yield fork(watch)
+    yield take(STARTED_TRACKING_LOCATION);
+
+    let listener = yield fork(watchLocation, payload.uid);
+
+    yield take([authActions.SIGN_OUT_FULFILLED]);
+    yield cancel(listener);
+  }
+}
+
+export const userSagas = [
+  fork(watchAuthentication),
+];
+

@@ -1,7 +1,7 @@
 /* @flow */
 
 import { combineReducers } from "redux";
-import { authReducer } from "../core/auth/reducer";
+import authReducer from "../core/auth/reducer";
 import { userDataReducer} from "../modules/user/reducer";
 
 const reducers = {

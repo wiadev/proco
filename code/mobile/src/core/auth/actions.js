@@ -1,37 +1,35 @@
-export const authActions = {
-  SIGN_IN: 'SIGN_IN',
-  SIGN_IN_FAILED: 'SIGN_IN_FAILED',
-  SIGN_IN_FULFILLED: 'SIGN_IN_FULFILLED',
+export const SIGN_IN = 'proco/auth/SIGN_IN';
+export const SIGN_IN_FAILED = 'proco/auth/SIGN_IN_FAILED';
+export const SIGN_IN_FULFILLED = 'proco/auth/SIGN_IN_FULFILLED';
 
-  SIGN_OUT: 'SIGN_OUT',
-  SIGN_OUT_FAILED: 'SIGN_OUT_FAILED',
-  SIGN_OUT_FULFILLED: 'SIGN_OUT_FULFILLED',
+export const SIGN_OUT = 'proco/auth/SIGN_OUT';
+export const SIGN_OUT_FAILED = 'proco/auth/SIGN_OUT_FAILED';
+export const SIGN_OUT_FULFILLED = 'proco/auth/SIGN_OUT_FULFILLED';
 
-  signIn: facebookAccessToken => ({
-    type: authActions.SIGN_IN,
+export const signIn = facebookAccessToken => ({
+    type: SIGN_IN,
     payload: {facebookAccessToken}
-  }),
+  });
 
-  signInFailed: error => ({
-    type: authActions.SIGN_IN_FAILED,
+export const signInFailed = error => ({
+    type: SIGN_IN_FAILED,
     payload: {error}
-  }),
+  });
 
-  signInFulfilled: authUser => ({
-    type: authActions.SIGN_IN_FULFILLED,
-    payload: {authUser}
-  }),
+export const signInFulfilled = (uid, name) => ({
+    type: SIGN_IN_FULFILLED,
+    payload: {uid, name}
+  });
 
-  signOut: () => ({
-    type: authActions.SIGN_OUT
-  }),
+export const signOut = () => ({
+    type: SIGN_OUT
+  });
 
-  signOutFailed: error => ({
-    type: authActions.SIGN_OUT_FAILED,
+export const signOutFailed = error => ({
+    type: SIGN_OUT_FAILED,
     payload: {error}
-  }),
+  });
 
-  signOutFulfilled: () => ({
-    type: authActions.SIGN_OUT_FULFILLED
-  })
-};
+export const signOutFulfilled = () => ({
+    type: SIGN_OUT_FULFILLED
+  });

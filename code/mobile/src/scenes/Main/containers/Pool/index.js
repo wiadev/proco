@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import Video from 'react-native-video';
 
 import PoolInProgress from '../../../../components/PoolInProgress';
-import { trigger, action } from "../../../../modules/Pool/actions";
+//import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";

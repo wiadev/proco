@@ -17,7 +17,8 @@ export const timestamp = firebase.database.ServerValue.TIMESTAMP;
 
 export const refs = {};
 
-export const getUserRef = (uid, child) => database.ref(`users/${uid}/${child}`);
+export const getUserPath = (uid, child) => `users/${child}/${uid}`;
+export const getUserRef = (uid, child) => database.ref(getUserPath(uid, child));
 export const getFirebaseData = (ref) => database.ref(ref)
   .once('value')
   .then(snap => snap.val());

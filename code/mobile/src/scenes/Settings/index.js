@@ -14,7 +14,7 @@ import _ from 'lodash';
 import Text from '../../components/Text';
 import {database} from "../../core/firebase";
 import {assign} from "../../core/utils";
-import {getUserRefForTypeAsString} from "../../modules/User/actions";
+//import {getUserRefForTypeAsString} from "../../modules/User/actions";
 import Loading from '../../components/Loading';
 import Header from '../../components/Header';
 import Field from '../../components/Field';

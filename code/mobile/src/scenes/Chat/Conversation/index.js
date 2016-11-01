@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
-import { report, block } from "../../../modules/Profiles/actions";
+//import { report, block } from "../../../modules/Profiles/actions";
 import {
   post,
   startWatchingThread,

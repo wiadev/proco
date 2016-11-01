@@ -5,7 +5,7 @@ import {
   USER_LOOP_STATUS_CHANGED,
   USER_LOOP_UPLOAD_PROGRESS_CHANGED,
   USER_LOOP_CLEAN_CAPTURED
-} from "./constants";
+} from "./actions";
 
 export const initialState = {
   current: null,

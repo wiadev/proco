@@ -1,11 +1,5 @@
 import { Record } from 'immutable';
 
-export const UserData = new Record({
-  settings: new UserSettings(),
-  info: new UserInfo(),
-  initialized: false,
-});
-
 const UserSettings = new Record({
   notify_announcements: true,
   notify_new_messages: true,
@@ -13,12 +7,16 @@ const UserSettings = new Record({
   age_min: 18,
   age_max: 30,
   only_from_network: false,
+  gender: 'both',
 });
 
 const UserInfo = new Record({
+  age_range_on_facebook_min: null,
+  age_range_on_facebook_max: null,
   avatar: null,
   birthday: null,
   fid: null,
+  name: null,
   first_name: null,
   last_name: null,
   gender: null,
@@ -32,4 +30,10 @@ const UserInfo = new Record({
   onboarded: false,
   god: false,
   banned: false,
+});
+
+export const UserData = new Record({
+  settings: new UserSettings(),
+  info: new UserInfo(),
+  initialized: false,
 });

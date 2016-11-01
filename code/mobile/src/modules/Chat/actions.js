@@ -1,7 +1,7 @@
 import { database, timestamp, refs, getKey } from "../../core/firebase";
 import { assign } from "../../core/utils";
 import { getThreadPeople } from "./api";
-import { loadSummary } from "../Profiles/actions";
+//import { loadSummary } from "../Profiles/actions";
 
 const getThreadRef = (thread_id, uid) => {
   if (!refs[`threadRefs_${thread_id}`]) {

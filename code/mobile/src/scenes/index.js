@@ -1,11 +1,13 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Actions, ActionConst, Router, Switch, Scene, Reducer} from "react-native-router-flux";
-
+import React, { Component } from "react";
+import { Actions, ActionConst, Router, Scene, Reducer } from "react-native-router-flux";
 import Authentication from "./Authentication";
 import Main from "./Main";
+import Settings from "./Settings";
+import UpdateYourQuestion from "./UpdateYourQuestion";
+import ShootNewProfileLoop from "./ShootNewProfileLoop";
+import Conversations from "./Chat/List";
+import Conversation from "./Chat/Conversation";
 import * as StaticPages from "./StaticPages";
-
 import WebView from "../components/WebView";
 import Card from "../components/Card";
 
@@ -34,22 +36,22 @@ const staticPageScenes = (pages = StaticPages) => {
 };
 
 const scenes = Actions.create(
-  <Scene key="root">
+  <Scene key="root" unmountScenes>
     {staticPageScenes()}
-    <Scene
-      key="app"
-      component={connect(state=>({
-        uid: state.auth.get('uid'),
-      }))(Switch)}
-      tabs={true}
-      unmountScenes
-      initial
-      selector={({uid}) => uid ? 'proco' : 'auth'}
-    >
-      <Scene key="proco" hideNavBar>
-        <Scene hideNavBar key="auth" component={Authentication} />
+    <Scene key="before" initial>
+      <Scene hideNavBar key="Login" component={Authentication} initial/>
+      <Scene hideNavBar key="Onboarding" component={Authentication}/>
+    </Scene>
+    <Scene key="after" hideNavBar>
+      <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
+      <Scene key="Settings" component={Settings}/>
+      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion}/>
+      <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
+      <Scene key="ConversationList" component={Conversations}/>
+      <Scene key="Conversations">
+        <Scene key="Conversation" component={Conversation} clone/>
       </Scene>
-      <Scene hideNavBar key="auth" component={Authentication} />
+      <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
     </Scene>
   </Scene>
 );

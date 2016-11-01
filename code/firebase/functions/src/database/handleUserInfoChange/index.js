@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const moment = require('moment');
 
-const GenerateSummary = require('./GenerateSummary');
+const GenerateProfile = require('./GenerateProfile');
 const NetworkEmail = require('./NetworkEmail');
 const MobileNumber = require('./MobileNumber');
 
@@ -51,7 +51,7 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('avatar')
       ])) {
 
-      actions.push(root.child(`/users/summary/${uid}`).set(GenerateSummary(data.val())));
+      actions.push(root.child(`/users/profile/${uid}`).set(GenerateProfile(data.val())));
 
     }
 

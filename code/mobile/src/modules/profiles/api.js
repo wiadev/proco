@@ -1,30 +1,34 @@
-import { database, logEvent, getFirebaseData, getNetworkTitle, timestamp, refs } from "../../core/firebase";
+import {
+  database,
+  logEvent,
+  getUserPath,
+  getFirebaseDataWithCache,
+  getNetworkTitle,
+  timestamp,
+  refs
+} from "../../core/firebase";
 import { assign } from "../../core/utils";
-import { getProfileLoop } from "./Loops/api";
 import { post } from "../Chat/actions";
 
-export const loadSummary = (uid) => {
-  return async(dispatch, getState) => {
-    const {profiles: {profiles}} = getState();
+export async function getProfile(uid) {
+  const {
+    display_name,
+    age,
+    avatar,
+    gender,
+    network
+  } = await getFirebaseDataWithCache(getUserPath(uid, 'profile'));
 
-    if (profiles[uid]) return;
-
-    const {display_name, age, avatar, gender, network} = await getFirebaseData(`users/summary/${uid}`);
-
-    dispatch({
-      type: 'PROFILE_LOADED',
-      payload: {
-        uid,
-        name: display_name,
-        age,
-        avatar,
-        gender,
-        network: await getNetworkTitle(network),
-      },
-    });
+  return {
+    uid,
+    name: display_name,
+    age,
+    avatar,
+    gender,
+    network: await getNetworkTitle(network),
   };
-};
 
+}
 
 export const report = (id, payload) => {
   return (dispatch, getState) => {

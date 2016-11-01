@@ -1,5 +1,22 @@
+import { Record } from 'immutable';
 import { assign } from '../../core/utils';
 import _ from 'lodash';
+
+const UserProfiles = new Record({
+
+});
+
+export const UserProfile = new Record({
+  age: null,
+  avatar: null,
+  display_name: null,
+  gender: null,
+  network: null,
+  is_online: false,
+  current_question_id: null,
+  current_question: null,
+});
+
 
 export const initialState = {
   profiles: {

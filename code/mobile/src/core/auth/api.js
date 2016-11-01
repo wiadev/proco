@@ -1,6 +1,6 @@
 import { AccessToken, LoginManager } from "react-native-fbsdk";
 import { auth as firebaseAuth } from "../firebase";
-import { authActions } from "./actions";
+import { signIn, signInFulfilled, signOutFulfilled } from "./actions";
 
 export function initAuth(dispatch) {
   return new Promise((resolve, reject) => {
@@ -8,9 +8,9 @@ export function initAuth(dispatch) {
       authUser => {
 
         if (authUser) {
-          dispatch(authActions.signInFulfilled(authUser));
+          dispatch(signInFulfilled(authUser.uid, authUser.displayName));
         } else {
-          dispatch(authActions.signOutFulfilled());
+          dispatch(signOutFulfilled());
         }
 
         resolve();
@@ -25,7 +25,7 @@ export function initAuth(dispatch) {
 export function getFacebookAccessToken(dispatch) {
   return AccessToken.getCurrentAccessToken().then(data => {
     if (data) {
-      dispatch(authActions.signIn(data.accessToken.toString()));
+      dispatch(signIn(data.accessToken.toString()));
       return Promise.resolve();
     } else {
       return LoginManager.logInWithReadPermissions(

@@ -11,20 +11,20 @@ module.exports = (data = {}) => {
     avatar = null,
   } = data;
 
-  let summary = {};
+  let profile = {};
 
-  if (network) summary.network = network;
-  if (gender) summary.gender = gender;
-  if (avatar) summary.avatar = avatar;
+  if (network) profile.network = network;
+  if (gender) profile.gender = gender;
+  if (avatar) profile.avatar = avatar;
 
   if (birthday) {
-    summary.age = moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years');
+    profile.age = moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years');
   }
 
   if (first_name && last_name) {
-    summary.display_name = `${first_name} ${last_name.charAt(0)}.`;
+    profile.display_name = `${first_name} ${last_name.charAt(0)}.`;
   }
 
-  return summary;
+  return profile;
 };
 

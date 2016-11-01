@@ -9,12 +9,19 @@ import reactTimerMixin from 'react-timer-mixin';
 
 import { Actions } from "react-native-router-flux";
 import Swiper from "react-native-swiper";
-import Text from "../../components/Text";
-import { getFacebookAccessToken } from "../../core/auth/auth";
+import { getFacebookAccessToken } from "../../core/auth/api";
 import colors from "../../core/style/colors";
 import styles from "./styles";
+import Text from '../../components/Text';
+import Button from '../../components/Button';
+import NetworkVerification from './NetworkVerification';
 
-@connect(state => ({auth: state.auth}))
+
+@connect(state => ({
+  isAuthenticated: state.auth.get('authenticated'),
+  isUserInitialized: state.user.get('initialized'),
+  isUserOnboarded: state.user.info.get('onboarded'),
+}))
 @reactMixin.decorate(reactTimerMixin)
 export default class Authentication extends React.Component {
   constructor(props) {
@@ -89,6 +96,7 @@ export default class Authentication extends React.Component {
             <Text style={styles.privacyPolicyNoticeLink} onPress={Actions.PRIVACY_POLICY}>privacy policy</Text>.
           </Text>
         </View>
+        {this._renderRegister()}
       </Container>
     );
   }
@@ -144,11 +152,14 @@ export default class Authentication extends React.Component {
   }
 
   _renderLoginButton() {
-    if (this.state.isInProgress) {
+
+    if (this.state.isInProgress || (this.props.isAuthenticated && !this.props.isUserInitialized)) {
       return (
         <ActivityIndicator size="large" color={colors.primaryAlt}/>
       );
     }
+
+    if (this.props.isUserInitialized) return null;
 
     return (
       <TouchableOpacity onPress={() => this.startFacebookLogin()} style={styles.loginButton} activeOpacity={0.5}>
@@ -159,5 +170,12 @@ export default class Authentication extends React.Component {
         </View>
       </TouchableOpacity>
     );
+  }
+
+  _renderRegister() {
+
+    if (!this.props.isUserInitialized || this.props.isUserOnboarded) return null;
+
+    return (<NetworkVerification />);
   }
 }

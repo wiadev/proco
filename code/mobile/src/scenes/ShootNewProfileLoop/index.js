@@ -15,7 +15,7 @@ import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
 
 import ProfileLoop from "../../components/ProfileLoop";
-import { startedCapturing, doneCapturing, upload, cancelled } from "../../modules/User/Loop/actions";
+//import { startedCapturing, doneCapturing, upload, cancelled } from "../../modules/User/Loop/actions";
 import styles from "./styles";
 import colors from "../../core/style/colors";
 
