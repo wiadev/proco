@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
   },
   backdropContent: {
     flex: 1
+  },
+  content: {
+    flex: 1
   }
 });
 

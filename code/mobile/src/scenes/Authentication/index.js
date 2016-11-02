@@ -1,21 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Image, TouchableOpacity, ActivityIndicator, Alert, StatusBar } from "react-native";
-import Container from "../../components/Container";
 import Icon from "react-native-vector-icons/FontAwesome";
-
 import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
-
 import { Actions } from "react-native-router-flux";
 import Swiper from "react-native-swiper";
+import Modal from '../../components/Modal';
+
+import Container from "../../components/Container";
 import { getFacebookAccessToken } from "../../core/auth/api";
 import colors from "../../core/style/colors";
 import styles from "./styles";
 import Text from '../../components/Text';
-import Button from '../../components/Button';
 import NetworkVerification from './NetworkVerification';
-
 
 @connect(state => ({
   isAuthenticated: state.auth.get('authenticated'),
@@ -68,10 +66,8 @@ export default class Authentication extends React.Component {
   render() {
     return (
       <Container>
-        <StatusBar
-          backgroundColor="blue"
-          barStyle="light-content"
-        />
+        <StatusBar backgroundColor="blue" barStyle="light-content" />
+
         <View style={styles.login}>
           <View style={styles.logoRow}>
             <View style={styles.logoSideCushion}/>
@@ -81,8 +77,7 @@ export default class Authentication extends React.Component {
             <View style={styles.logoSideCushion}/>
           </View>
 
-          <View style={styles.swiperRow}
-                onLayout={event => this.setState({swiperHeight: event.nativeEvent.layout.height})}>
+          <View style={styles.swiperRow} onLayout={event => this.setState({swiperHeight: event.nativeEvent.layout.height})}>
             {this._renderSwiper()}
           </View>
 
@@ -91,8 +86,9 @@ export default class Authentication extends React.Component {
           </View>
 
           <Text style={styles.privacyPolicyNotice}>
-            By continuing you agree to our&nbsp;
-            <Text style={styles.privacyPolicyNoticeLink} onPress={Actions.TERMS_OF_USAGE}>terms</Text> and&nbsp;
+            <Text>By continuing you agree to our </Text>
+            <Text style={styles.privacyPolicyNoticeLink} onPress={Actions.TERMS_OF_USAGE}>terms</Text>
+            <Text> and </Text>
             <Text style={styles.privacyPolicyNoticeLink} onPress={Actions.PRIVACY_POLICY}>privacy policy</Text>.
           </Text>
         </View>
@@ -152,7 +148,6 @@ export default class Authentication extends React.Component {
   }
 
   _renderLoginButton() {
-
     if (this.state.isInProgress || (this.props.isAuthenticated && !this.props.isUserInitialized)) {
       return (
         <ActivityIndicator size="large" color={colors.primaryAlt}/>
@@ -173,9 +168,12 @@ export default class Authentication extends React.Component {
   }
 
   _renderRegister() {
-
     if (!this.props.isUserInitialized || this.props.isUserOnboarded) return null;
 
-    return (<NetworkVerification />);
+    return (
+      <Modal ref="modal" isOpen={true} backdropPressToClose={false} height={0.8}>
+        <NetworkVerification />
+      </Modal>
+    );
   }
 }

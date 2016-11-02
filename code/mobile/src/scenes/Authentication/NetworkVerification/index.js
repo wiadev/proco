@@ -1,95 +1,103 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  ActivityIndicator,
-  View
+  View,
+  Image,
+  ActivityIndicator
 } from 'react-native';
-
 import Swiper from "react-native-swiper";
 
 import Text from '../../../components/Text';
+import TextInput from '../../../components/TextInput';
 import Button from '../../../components/Button';
-import Modal from '../../../components/Modal';
+import styles from './styles';
+import colors from '../../../core/style/colors';
 
-import styles from "../styles";
+@connect(state => ({user: state.user}))
+export default class NetworkVerification extends React.Component {
+  constructor(props) {
+    super(props);
 
-@connect(
-  state => ({
-    user: state.user,
-  }),
-)
-class NetworkVerification extends React.Component {
-
-  state = {
-    isChecking: true,
-  };
-
-
-  _renderSteps() {
-      return (
-        <Swiper
-          loop={false}
-          scrollEnabled={true}
-        >
-          
-         {this._renderStep1()}
-         {this._renderStep2()}
-        </Swiper>
-      );
+    this.state = {
+      isChecking: true,
+      swiperWidth: 0,
+      swiperHeight: 0
+    };
   }
-
-  _renderStep1() {
-    return (
-          <View style={styles.swiperSlide}>
-              <Text style={{textAlign: 'center', fontWeight: '500'}}>University verification</Text>
-      </View>
-    );
-  }
-
-  _renderStep2() {
-    return (
-          <View style={styles.swiperSlide}>
-              <Text style={{textAlign: 'center', fontWeight: '500'}}>University verification</Text>
-      </View>
-    );
-  }
-
 
   render() {
+    return (
+      <View style={styles.container} onLayout={e => this.setState({
+        swiperWidth: e.nativeEvent.layout.width,
+        swiperHeight: e.nativeEvent.layout.height
+      })}>
+        <Swiper
+          ref="swiper"
+          loop={false}
+          showsPagination={false}
+          width={this.state.swiperWidth}
+          height={this.state.swiperHeight}>
+          {this._renderForm()}
 
-    return (<Modal ref="modal" isOpen={true} height={0.8}>
-          <View style={{flex: 1, justifyContent: 'space-between'}}>
-            <View>
-              <Text style={{marginBottom: 10, textAlign: 'center', fontWeight: '500'}}>University verification</Text>
-            </View>
+          {this._renderErrors()}
 
-       <View
-                onLayout={event => this.setState({swiperHeight: event.nativeEvent.layout.height})}>
-            {this._renderSteps()}
-          </View>
-
-
-            <Button type="text" text="Send verification link" highlight={true} onPress={() => this.refs.modal.close()} />
-          </View>
-        </Modal>);
-    return (<Card
-        label="One last step!"
-        text={`We've just sent a link to ${this.props.user.email}. You can click the link on any device to verify your university email.`}
-        buttons={[
-          {
-            text: "Resend",
-            onPress: () => this.props.dispatch(updateNetworkEmail(this.props.user.email))
-          },
-          {
-            text: "Logout",
-            onPress: () => this.props.dispatch(logout())
-          },
-        ]}
-        noClose={this.state.isChecking}
-        activityIndicator={this.state.isChecking}
-      />
+          {this._renderLoading()}
+        </Swiper>
+      </View>
     );
   }
-}
 
-export default NetworkVerification;
+  // slide#1
+  _renderForm() {
+    return (
+      <View style={styles.slide}>
+        <Image source={require('../../../assets/images/verify.png')} style={styles.topImage} />
+
+        <Text style={[styles.title, styles.formTitle]}>We'll need to verify your school e-mail.</Text>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.formLabel}>TYPE YOUR UNIVERSITY EMAIL</Text>
+
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="next"
+            keyboardType="email-address"
+            placeholder='yourname@university.edu'
+            placeholderTextColor={colors.gray3}
+            onChangeText={network_email => this.setState({network_email})}
+            style={styles.formInput}
+          />
+        </View>
+
+        <Button type="text" text="Continue" onPress={::this._onFormSubmit} highlight={true} style={styles.button} textStyle={styles.buttonTextStyle} />
+      </View>
+    );
+  }
+
+  // slide#2
+  _renderErrors() {
+    return (
+      <View style={styles.slide}>
+        <Image source={require('../../../assets/images/error.png')} style={styles.topImage} />
+
+        <Text style={[styles.title, styles.errorTitle]}>There are some errors :(</Text>
+      </View>
+    );
+  }
+
+  // slide#3
+  _renderLoading() {
+    return (
+      <View style={styles.slide}>
+        <ActivityIndicator size="large" color={colors.success} style={[styles.loadingIndicator, {transform: [{scale: 1.5}]}]} />
+
+        <Text style={[styles.title, styles.loadingTitle]}>Please click the link in the e-mail we sent you.</Text>
+      </View>
+    );
+  }
+
+  _onFormSubmit() {
+    this.refs.swiper.scrollBy(1);
+  }
+}
