@@ -1,6 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Image, TouchableOpacity, ActivityIndicator, Alert, StatusBar } from "react-native";
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+  StatusBar
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import reactMixin from 'react-mixin';
 import reactTimerMixin from 'react-timer-mixin';
@@ -14,6 +21,7 @@ import colors from "../../core/style/colors";
 import styles from "./styles";
 import Text from '../../components/Text';
 import NetworkVerification from './NetworkVerification';
+import MissingInformation from './MissingInformation';
 
 @connect(state => ({
   isAuthenticated: state.auth.get('authenticated'),
@@ -172,7 +180,8 @@ export default class Authentication extends React.Component {
 
     return (
       <Modal ref="modal" isOpen={true} backdropPressToClose={false} height={0.8}>
-        <NetworkVerification />
+        <MissingInformation />
+        {/*<NetworkVerification />*/}
       </Modal>
     );
   }
