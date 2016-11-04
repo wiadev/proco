@@ -13,7 +13,19 @@ import Button from '../../../components/Button';
 import styles from './styles';
 import colors from '../../../core/style/colors';
 
-@connect(state => ({user: state.user}))
+import { userOnboardingPostNetworkEmail } from '../../../modules/user/onboarding';
+
+@connect(
+  state => ({
+    user: state.user,
+    step: state.userOnboarding.get('step'),
+    in_progress: state.userOnboarding.get('in_progress'),
+    error: state.userOnboarding.get('error'),
+  }),
+  dispatch => ({
+    submit: (network_email) => dispatch(userOnboardingPostNetworkEmail(network_email)),
+  })
+)
 export default class NetworkVerification extends React.Component {
   constructor(props) {
     super(props);
@@ -98,6 +110,7 @@ export default class NetworkVerification extends React.Component {
   }
 
   _onFormSubmit() {
+    this.props.submit(this.state.network_email);
     this.refs.swiper.scrollBy(1);
   }
 }

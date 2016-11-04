@@ -40,3 +40,5 @@ export function getFacebookAccessToken(dispatch) {
     }
   });
 }
+
+export const getUID = state => state.auth.get('uid');

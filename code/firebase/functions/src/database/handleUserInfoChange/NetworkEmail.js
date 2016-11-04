@@ -12,7 +12,7 @@ module.exports = (uid, network_email, previous_network_email, root) => {
   return getFID.then(fid => {
     if (fid === 0) return Promise.resolve(); // User is either a system user, admin or a doll.
 
-    const isVerifiedRef = root.child(`/users/settings/${uid}/network_email_verified`);
+    const isVerifiedRef = root.child(`/users/info/${uid}/network_email_verified`);
 
     // @TODO: Handle brute forcing.
 

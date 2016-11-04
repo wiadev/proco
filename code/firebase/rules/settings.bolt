@@ -2,6 +2,6 @@ path /settings/networks/list/{network}/title {
   read() { this.parent().allowed == true }
 }
 
-path /settings/networks/email-map/{network}/title {
-  read() { root.settings.networks.list[network].allowed == true }
+path /settings/networks/email-map {
+  read() { true }
 }

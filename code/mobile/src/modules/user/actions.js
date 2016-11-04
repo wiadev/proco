@@ -1,25 +1,13 @@
-export const userDataActions = {
+export const USER_DATA_INITIALIZED = 'USER_DATA_INITIALIZED';
+export const USER_DATA_RECEIVED = 'USER_DATA_RECEIVED';
 
-  USER_DATA_INITIALIZED: 'USER_DATA_INITIALIZED',
-  USER_DATA_RECEIVED: 'USER_DATA_RECEIVED',
-  USER_ONBOARDED: 'USER_ONBOARDED',
+export const userDataInitialized = () => ({
+  type: USER_DATA_INITIALIZED,
+});
 
-  userDataInitialized: () => ({
-    type: userDataActions.USER_DATA_INITIALIZED,
-  }),
-
-  userDataReceived: (type, key, value) => ({
-    type: userDataActions.USER_DATA_RECEIVED,
-    payload: {
-      type, key, value
-    },
-  }),
-
-  userOnboarded: status => ({
-    type: userDataActions.USER_ONBOARDED,
-    payload: {
-      status,
-    },
-  }),
-
-};
+export const userDataReceived = (type, key, value) => ({
+  type: USER_DATA_RECEIVED,
+  payload: {
+    type, key, value,
+  },
+});

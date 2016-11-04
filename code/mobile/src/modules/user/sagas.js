@@ -1,10 +1,10 @@
 import { eventChannel } from "redux-saga";
 import { call, cancel, fork, put, take, select } from "redux-saga/effects";
 import { Actions } from "react-native-router-flux";
-import { SIGN_IN_FULFILLED,
-SIGN_OUT_FULFILLED} from "../../core/auth/actions";
-import { userDataActions } from "./actions";
-import { isOnboarded } from "./api";
+import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
+import { USER_DATA_INITIALIZED, USER_ONBOARDED } from "./actions";
+import { onboardingData } from "./onboarding/api";
+import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted } from "./onboarding";
 import subscriptionCreator from "./subscribe";
 
 const subscribe = (uid, emit) =>
@@ -24,14 +24,17 @@ function* watchAuthentication() {
 
     let jobs = yield fork(read, payload.uid);
 
-    yield take(userDataActions.USER_DATA_INITIALIZED);
+    yield take(USER_DATA_INITIALIZED);
 
-    let _isOnboarded = yield select(isOnboarded);
-    if (!_isOnboarded) {
-      yield take(userDataActions.USER_ONBOARDED);
+    let _onboardingData = yield select(onboardingData);
+    if (!_onboardingData.onboarded) {
+      let onboardingFlow = yield fork(onboarding, payload.uid);
+      yield put(userOnboardingStarted());
+      yield take(USER_ONBOARDING_COMPLETED);
+      yield cancel(onboardingFlow);
     }
 
-    yield call([Actions, Actions.Main]);
+    yield call(Actions.Main);
 
     yield take([SIGN_OUT_FULFILLED]);
     yield cancel(jobs);

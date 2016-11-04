@@ -1,6 +1,10 @@
-import { getUserRef } from '../../core/firebase';
+import { getUserRef } from "../../core/firebase";
 
 export const saveToken = (uid, type, token) =>
-  getUserRef(uid, 'tokens').child(type).set(token);
+  getUserRef(uid, `tokens`).child(type).set(token);
 
-export const isOnboarded = (state) => state.onboarded;
+export const setInfo = (uid, type, value) =>
+  getUserRef(uid, `info`).child(type).set(value);
+
+export const setSetting = (uid, type, value) =>
+  getUserRef(uid, `settings`).child(type).set(value);

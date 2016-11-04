@@ -27,6 +27,7 @@ import MissingInformation from './MissingInformation';
   isAuthenticated: state.auth.get('authenticated'),
   isUserInitialized: state.user.get('initialized'),
   isUserOnboarded: state.user.info.get('onboarded'),
+  userOnboarding: state.userOnboarding,
 }))
 @reactMixin.decorate(reactTimerMixin)
 export default class Authentication extends React.Component {
@@ -178,10 +179,16 @@ export default class Authentication extends React.Component {
   _renderRegister() {
     if (!this.props.isUserInitialized || this.props.isUserOnboarded) return null;
 
+    let show = this.props.userOnboarding.get('show');
+    if (show === 'loading') return null;
+
+    let step = this.props.userOnboarding.get('step');
+
+    let modalToShow = (show === 'network_verification') ? <NetworkVerification /> : <MissingInformation />;
+
     return (
       <Modal ref="modal" isOpen={true} backdropPressToClose={false} height={0.8}>
-        <MissingInformation />
-        {/*<NetworkVerification />*/}
+        { modalToShow }
       </Modal>
     );
   }

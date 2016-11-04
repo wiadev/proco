@@ -1,6 +1,6 @@
 import { getUserRef } from "../../core/firebase";
-import { userDataActions } from "./actions";
-
+import { userDataInitialized, userDataReceived } from "./actions";
+import { userOnboardingCompleted } from "./onboarding";
 export default function (uid, emit) {
 
   let infoRef = getUserRef(uid, 'info');
@@ -9,9 +9,10 @@ export default function (uid, emit) {
   let initializedInfo = false;
   let initializedSettings = false;
 
+
   const checkInitialization = () => {
     if (initializedInfo && initializedSettings) {
-      emit(userDataActions.userDataInitialized());
+      emit(userDataInitialized());
     }
   };
 
@@ -19,10 +20,10 @@ export default function (uid, emit) {
     let value = snap.val();
     let key = snap.key;
 
-    emit(userDataActions.userDataReceived(type, key, value));
+    emit(userDataReceived(type, key, value));
 
     if (type === 'info' && key === 'onboarded' && value == true) {
-      emit(userDataActions.userOnboarded(value));
+      emit(userOnboardingCompleted());
     }
 
   };

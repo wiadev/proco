@@ -3,10 +3,12 @@
 import { combineReducers } from "redux";
 import authReducer from "../core/auth/reducer";
 import { userDataReducer} from "../modules/user/reducer";
+import userOnboardingReducer from "../modules/user/onboarding/reducer";
 
 const reducers = {
   auth: authReducer,
   user: userDataReducer,
+  userOnboarding: userOnboardingReducer,
 };
 
 const namespacedReducer = combineReducers(
