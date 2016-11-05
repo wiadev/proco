@@ -5,7 +5,6 @@ import {
   Image,
   ActivityIndicator
 } from 'react-native';
-import Swiper from "react-native-swiper";
 
 import Text from '../../../components/Text';
 import TextInput from '../../../components/TextInput';
@@ -32,34 +31,55 @@ export default class NetworkVerification extends React.Component {
 
     this.state = {
       isChecking: true,
-      swiperWidth: 0,
-      swiperHeight: 0
+      networkEmail: "",
     };
   }
 
   render() {
+    let subScene = null;
+
+    switch (this.props.step) {
+      case 'form':
+        subScene = this._renderForm();
+        break;
+      case 'error':
+        subScene = this._renderErrors();
+        break;
+      case 'result':
+        subScene = this._renderLoading();
+        break;
+    }
+
     return (
-      <View style={styles.container} onLayout={e => this.setState({
-        swiperWidth: e.nativeEvent.layout.width,
-        swiperHeight: e.nativeEvent.layout.height
-      })}>
-        <Swiper
-          ref="swiper"
-          loop={false}
-          showsPagination={false}
-          width={this.state.swiperWidth}
-          height={this.state.swiperHeight}>
-          {this._renderForm()}
-
-          {this._renderErrors()}
-
-          {this._renderLoading()}
-        </Swiper>
+      <View style={styles.container}>
+        {subScene}
       </View>
     );
+
+    // return (
+    //   <View style={styles.container} onLayout={e => this.setState({
+    //     swiperWidth: e.nativeEvent.layout.width,
+    //     swiperHeight: e.nativeEvent.layout.height
+    //   })}>
+    //     <Swiper
+    //       ref={swiper => this.swiper = swiper}
+    //       scrollEnabled={false}
+    //       loop={false}
+    //       showsPagination={false}
+    //       width={this.state.swiperWidth}
+    //       height={this.state.swiperHeight}>
+    //       {this._renderForm()}
+    //
+    //       {this._renderErrors()}
+    //
+    //       {this._renderLoading()}
+    //     </Swiper>
+    //
+    //     {this._listenToStore()}
+    //   </View>
+    // );
   }
 
-  // slide#1
   _renderForm() {
     return (
       <View style={styles.slide}>
@@ -77,7 +97,7 @@ export default class NetworkVerification extends React.Component {
             keyboardType="email-address"
             placeholder='yourname@university.edu'
             placeholderTextColor={colors.gray3}
-            onChangeText={network_email => this.setState({network_email})}
+            onChangeText={networkEmail => this.setState({networkEmail: networkEmail})}
             style={styles.formInput}
           />
         </View>
@@ -87,30 +107,44 @@ export default class NetworkVerification extends React.Component {
     );
   }
 
-  // slide#2
+  _onFormSubmit() {
+    this.props.submit(this.state.networkEmail);
+  }
+
   _renderErrors() {
+    let errorMessage = "";
+
+    switch (this.props.error) {
+      case 'INVALID_EMAIL':
+        errorMessage = "The email you provided is not valid.";
+        break;
+      case 'COMMON_PROVIDER':
+        errorMessage = "University email is required to continue.";
+        break;
+      case 'CHECK_EMAIL':
+        errorMessage = "University email is required to continue.";
+        break;
+      case 'NETWORK_NOT_SUPPORTED':
+        errorMessage = "Proco is not available in your university, yet.";
+        break;
+    }
+
     return (
       <View style={styles.slide}>
         <Image source={require('../../../assets/images/error.png')} style={styles.topImage} />
 
-        <Text style={[styles.title, styles.errorTitle]}>There are some errors :(</Text>
+        <Text style={[styles.title, styles.errorTitle]}>{errorMessage}</Text>
       </View>
     );
   }
 
-  // slide#3
   _renderLoading() {
     return (
       <View style={styles.slide}>
         <ActivityIndicator size="large" color={colors.success} style={[styles.loadingIndicator, {transform: [{scale: 1.5}]}]} />
 
-        <Text style={[styles.title, styles.loadingTitle]}>Please click the link in the e-mail we sent you.</Text>
+        <Text style={[styles.title, styles.loadingTitle]}>Please click the link in the email we sent you.</Text>
       </View>
     );
-  }
-
-  _onFormSubmit() {
-    this.props.submit(this.state.network_email);
-    this.refs.swiper.scrollBy(1);
   }
 }

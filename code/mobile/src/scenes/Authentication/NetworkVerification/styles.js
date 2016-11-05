@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   formInput: {
-    color: colors.primary1,
     fontSize: 26,
     height: 35,
     marginTop: 10,
