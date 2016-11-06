@@ -46,6 +46,7 @@ export const checkBirthday = birthday => new Promise((resolve, reject) => {
   if (isISO8601(birthday)) return resolve();
   return reject('INVALID_DATE');
 });
+
 export const checkGender = gender => new Promise((resolve, reject) => {
   if (isIn(gender, ['male', 'female'])) return resolve();
   return reject('INVALID_GENDER');

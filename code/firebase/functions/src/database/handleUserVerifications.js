@@ -21,7 +21,7 @@ module.exports = functions.database().path('/users/verifications/{verification_t
         .set(true)
         .then(() => adminRef.set(null));
     } else {
-      return adminRef.root.update({
+      return adminRef.update({
         code: null,
         status: 'WRONG_CODE',
       });

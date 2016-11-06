@@ -23,7 +23,7 @@ import { userOnboardingPostNetworkEmail } from '../../../modules/user/onboarding
   }),
   dispatch => ({
     submit: (network_email) => dispatch(userOnboardingPostNetworkEmail(network_email)),
-  })
+  }),
 )
 export default class NetworkVerification extends React.Component {
   constructor(props) {

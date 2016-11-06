@@ -6,5 +6,5 @@ export const saveToken = (uid, type, token) =>
 export const setInfo = (uid, type, value) =>
   getUserRef(uid, `info`).child(type).set(value);
 
-export const saveSettings = (uid, settings) =>
-  getUserRef(uid, 'settings').update(settings);
+export const saveSetting = (uid, type, value) =>
+  getUserRef(uid, `settings`).child(type).set(value);
