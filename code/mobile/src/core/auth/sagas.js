@@ -2,7 +2,7 @@
 import { takeLatest } from "redux-saga";
 import { call, fork, put, take } from "redux-saga/effects";
 import { Actions } from "react-native-router-flux";
-import { auth as firebaseAuth, facebookCredentia } from "../firebase";
+import { auth as firebaseAuth, facebookCredential } from "../firebase";
 import {
   signInFulfilled,
   signInFailed,
