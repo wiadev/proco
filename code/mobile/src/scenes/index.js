@@ -38,12 +38,9 @@ const staticPageScenes = (pages = StaticPages) => {
 const scenes = Actions.create(
   <Scene key="root" unmountScenes>
     {staticPageScenes()}
-    <Scene key="before" initial>
-      <Scene hideNavBar key="Login" component={Authentication} initial/>
-      <Scene hideNavBar key="Onboarding" component={Authentication}/>
-    </Scene>
-    <Scene key="after" hideNavBar>
-      <Scene key="Main" component={Main} animation="fade" type={ActionConst.RESET} initial/>
+    <Scene hideNavBar key="Login" type={ActionConst.RESET} component={Authentication} initial/>
+    <Scene key="app" hideNavBar animation="fade" type={ActionConst.RESET}>
+      <Scene key="Main" component={Main} initial/>
       <Scene key="Settings" component={Settings}/>
       <Scene key="UpdateYourQuestion" component={UpdateYourQuestion}/>
       <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
