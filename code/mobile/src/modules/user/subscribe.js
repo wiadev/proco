@@ -1,6 +1,5 @@
 import { getUserRef } from "../../core/firebase";
 import { userDataInitialized, userDataReceived } from "./actions";
-import { userOnboardingCompleted } from "./onboarding";
 export default function (uid, emit) {
 
   let infoRef = getUserRef(uid, 'info');
@@ -21,10 +20,6 @@ export default function (uid, emit) {
     let key = snap.key;
 
     emit(userDataReceived(type, key, value));
-
-    if (type === 'info' && key === 'onboarded' && value == true) {
-      emit(userOnboardingCompleted());
-    }
 
   };
 

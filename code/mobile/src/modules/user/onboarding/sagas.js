@@ -8,7 +8,8 @@ import {
   USER_ONBOARDING_MISSING_INFORMATION_RESULTED,
   userOnboardingNetworkEmailResulted,
   userOnboardingMissingInformationResulted,
-  userOnboardingDecideStep
+  userOnboardingDecideStep,
+  userOnboardingCompleted,
 } from "./actions";
 import {
   onboardingData,
@@ -24,7 +25,13 @@ import { USER_DATA_RECEIVED } from '../actions';
 
 export function* decideStep() {
   let data = yield select(onboardingData);
-  yield put(userOnboardingDecideStep(data));
+
+  if (data.onboarded) {
+    yield put(userOnboardingCompleted());
+  } else {
+    yield put(userOnboardingDecideStep(data));
+  }
+  
 }
 
 function* processNetworkEmail(action) {
