@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux";
 import {
   View,
   TouchableOpacity
@@ -10,14 +11,21 @@ import Text from '../../../components/Text';
 import Button from '../../../components/Button';
 import {styles, dpCustom} from './styles';
 
+import { userOnboardingPostMissingInformation } from '../../../modules/user/onboarding';
+
+@connect(
+  state => ({
+    isBirthdayMissing: state.userOnboarding.get('birthday_missing'),
+    isGenderMissing: state.userOnboarding.get('gender_missing'),
+  }),
+)
 export default class MissingInformation extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      birthday: '1990-01-01',
+      birthday: '01/01/1990',
       gender: null,
-      missingInformation: ['birthday', 'gender']
     };
   }
 
@@ -36,19 +44,22 @@ export default class MissingInformation extends React.Component {
   }
 
   _renderBirthdayFormGroup() {
-    if (this.state.missingInformation.indexOf('birthday') !== -1) {
+    if (this.props.isBirthdayMissing) {
+      const maxDate = moment().subtract(17, 'years').format('DD/MM/YYYY');
+
       return (
         <View style={styles.formGroup}>
           <Text style={styles.formLabel}>BIRTHDAY</Text>
 
           <DatePicker
             format="DD/MM/YYYY"
+            maxDate={maxDate}
             confirmBtnText="Confirm"
             cancelBtnText="Cancel"
             iconSource={null}
             customStyles={dpCustom}
-            date={moment(this.state.birthday, 'YYYY-MM-DD').format('DD/MM/YYYY')}
-            onDateChange={birthday => this.setState({birthday: moment(birthday, 'DD/MM/YYYY').format('YYYY-MM-DD')})}
+            date={this.state.birthday}
+            onDateChange={birthday => this.setState({birthday: birthday})}
           />
         </View>
       );
@@ -56,7 +67,7 @@ export default class MissingInformation extends React.Component {
   }
 
   _renderGenderFormGroup() {
-    if (this.state.missingInformation.indexOf('gender') !== -1) {
+    if (this.props.isGenderMissing) {
       return (
         <View style={styles.formGroup}>
           <Text style={styles.formLabel}>GENDER</Text>
@@ -92,6 +103,18 @@ export default class MissingInformation extends React.Component {
   }
 
   _onSubmit() {
-    // hellooooo, is it meee you're looking foor?
+    let dataToPost = {};
+
+    if (this.state.gender !== null) {
+      dataToPost.gender = this.state.gender;
+    }
+
+    // FIXME: The component we used to get date is buggy (because of the timezone probably).
+    // Since there is no easy fix or workaround for now, it is left intentionally.
+    if (this.state.birthday != "") {
+      dataToPost.birthday = moment(this.state.birthday, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }
+
+    this.props.dispatch(userOnboardingPostMissingInformation(dataToPost));
   }
 }
