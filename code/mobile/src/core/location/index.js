@@ -1,51 +1,69 @@
-import { database, getCUID } from '../firebase';
-import GeoFire from 'geofire';
+import { eventChannel, takeEvery, takeLatest } from "redux-saga";
+import { call, cancel, fork, take, put, select } from "redux-saga/effects";
+import { SIGN_OUT_FULFILLED } from "../auth/actions";
+import { getUID } from "../auth/api";
+import subscriptionCreator from "./subscribe";
+import { LOCATION_UPDATED, START_TRACKING_LOCATION, STARTED_TRACKING_LOCATION, STOP_TRACKING_LOCATION, startedTracking, stoppedTracking} from "./actions";
+import { updateLocation as updateLocationToDatabase } from "./api";
 
-import { DeviceEventEmitter } from 'react-native';
-var { RNLocation: Location } = require('NativeModules');
+const subscribe = (uid, emit) =>
+  eventChannel(emit => subscriptionCreator(uid, emit));
 
+function* processNewLocationData(action) {
+  let {payload: {uid, latitude, longitude}} = action;
 
-export function subscriber(uid, emit) {
-
-DeviceEventEmitter.addListener(
-  'locationUpdated',
-  ({ coords: { latitude, longitude } }) => {
-    emit(locationUpdated({
-      uid, latitude, longitude,
-    }))
+  try {
+    yield call(updateLocationToDatabase, uid, latitude, longitude);
+  } catch (e) {
+    //
   }
-);
 
-  return () => DeviceEventEmitter.removeAllListeners('locationUpdated');
 }
 
-
-function* startLocationTracking() {
-    yield call([Location, Location.requestAlwaysAuthorization]);
-    yield call([Location, Location.startUpdatingLocation]);
-    yield call([Location, Location.setDistanceFilter], 50);
-    let listener = yield fork(watchLocation, payload.uid);
-
-    yield take([authActions.SIGN_OUT_FULFILLED]);
-    yield cancel(listener);
+function* startTracking() {
+  try {
+    yield call(Location.requestAlwaysAuthorization);
+    yield call(Location.startUpdatingLocation);
+    yield call(Location.setDistanceFilter, 50);
+    yield put(startedTracking());
+  } catch (e) {
+    //
   }
+
+}
+
+function* stopTracking() {
+  try {
+    yield call(Location.stopUpdatingLocation);
+    yield put(stoppedTracking());
+  } catch (e) {
+    //
+  }
+}
+
+function* watchNewLocationData() {
+  yield * takeEvery(LOCATION_UPDATED, processNewLocationData);
+}
+
+function* watchStartTracking() {
+  yield * takeLatest(START_TRACKING_LOCATION, startTracking);
 }
 
 function* watchLocation() {
   while (true) {
-
-    yield take(START_TRACKING_LOCATION);
-    yield fork(watch)
+    let uid = yield select(getUID);
     yield take(STARTED_TRACKING_LOCATION);
-
-    let listener = yield fork(watchLocation, payload.uid);
-
-    yield take([authActions.SIGN_OUT_FULFILLED]);
-    yield cancel(listener);
+    let watcher = yield fork(read, subscribe, uid);
+    yield take([SIGN_OUT_FULFILLED, STOP_TRACKING_LOCATION]);
+    yield cancel(watcher);
+    yield fork(stopTracking);
   }
 }
 
-export const userSagas = [
-  fork(watchAuthentication),
+const sagas = [
+  fork(watchLocation),
+  fork(watchStartTracking),
+  fork(watchNewLocationData),
 ];
 
+export default sagas;

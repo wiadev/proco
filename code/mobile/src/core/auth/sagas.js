@@ -1,12 +1,19 @@
 /* eslint-disable no-constant-condition */
+import { takeLatest } from "redux-saga";
 import { call, fork, put, take } from "redux-saga/effects";
-import { auth as firebaseAuth, facebookCredential } from "../firebase";
-import { signInFulfilled,
-signInFailed,
-SIGN_IN,
-SIGN_IN_FULFILLED,
-SIGN_OUT } from "./actions";
-import { saveToken } from '../../modules/user/api';
+import { Actions } from "react-native-router-flux";
+import { auth as firebaseAuth, facebookCredentia } from "../firebase";
+import {
+  signInFulfilled,
+  signInFailed,
+  signOutFulfilled,
+  signOutFailed,
+  SIGN_IN,
+  SIGN_IN_FULFILLED,
+  SIGN_OUT
+} from "./actions";
+import { saveToken } from "../../modules/user/api";
+import { signOut as firebaseSignOut } from "./api";
 
 function* signIn(facebookCredential) {
   try {
@@ -19,14 +26,13 @@ function* signIn(facebookCredential) {
 
 function* signOut() {
   try {
-    yield call([firebaseAuth, firebaseAuth.signOut]);
+    yield call(firebaseSignOut);
+    yield call(Actions.Login);
     yield put(signOutFulfilled());
   } catch (error) {
     yield put(signOutFailed(error));
   }
 }
-
-// WATCHERS
 
 function* watchSignIn() {
   while (true) {
@@ -36,16 +42,13 @@ function* watchSignIn() {
 }
 
 function* watchSignOut() {
-  while (true) {
-    yield take(SIGN_OUT);
-    yield fork(signOut);
-  }
+  yield * takeLatest(SIGN_OUT, signOut);
 }
 
 function* watchFacebookToken() {
   while (true) {
-    let { payload: { facebookAccessToken } } = yield take(SIGN_IN);
-    let { payload: { uid } } = yield take(SIGN_IN_FULFILLED);
+    let {payload: {facebookAccessToken}} = yield take(SIGN_IN);
+    let {payload: {uid}} = yield take(SIGN_IN_FULFILLED);
 
     if (uid && facebookAccessToken) {
       yield call(saveToken, uid, 'facebook', facebookAccessToken);
@@ -53,8 +56,6 @@ function* watchFacebookToken() {
 
   }
 }
-
-// AUTH SAGAS
 
 export const authSagas = [
   fork(watchSignIn),

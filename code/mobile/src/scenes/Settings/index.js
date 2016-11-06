@@ -5,13 +5,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Actions } from "react-native-router-flux";
 import codePush from "react-native-code-push";
 import _ from "lodash";
+import {signOut} from "../../core/auth/actions";
+import {userSaveSetting} from "../../modules/user/actions";
 import Text from "../../components/Text";
 import { assign } from "../../core/utils";
 import Loading from "../../components/Loading";
 import Header from "../../components/Header";
 import Field from "../../components/Field";
 import styles from "./styles";
-import {userSaveSetting} from "../../modules/user/actions";
 
 const genderChoices = [
   {
@@ -35,6 +36,7 @@ const genderChoices = [
   }),
   dispatch => ({
     save: (key, value) => dispatch(userSaveSetting(key, value)),
+    signOut: () => dispatch(signOut()),
   }),
 )
 class Settings extends React.Component {
@@ -42,7 +44,7 @@ class Settings extends React.Component {
     super(props);
 
     this.state = {
-      version: null
+      version: null,
     };
   }
 
@@ -145,7 +147,7 @@ class Settings extends React.Component {
           <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true}/>
 
 
-          <Field type="link" legend="Logout" onPress={() => this.props.dispatch(logout())} stickToPrevious={true}/>
+          <Field type="link" legend="Logout" onPress={this.props.signOut} stickToPrevious={true}/>
 
           <View style={styles.infoBox}>
             <View style={styles.infoBoxContent}>

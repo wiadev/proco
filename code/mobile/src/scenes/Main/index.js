@@ -23,7 +23,6 @@ export default class MainScreen extends React.Component {
     return (
       <Swiper horizontal={false} loop={false} showsPagination={false} index={1}>
         <UpperMenu />
-        <Pool />
       </Swiper>
     );
   }

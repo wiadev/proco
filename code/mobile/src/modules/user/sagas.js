@@ -1,6 +1,7 @@
 import { eventChannel, takeEvery } from "redux-saga";
 import { call, cancel, fork, put, take, select } from "redux-saga/effects";
 import { Actions } from "react-native-router-flux";
+import { read } from "../../core/sagas";
 import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
 import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, userDataReceived } from "./actions";
@@ -10,14 +11,6 @@ import subscriptionCreator from "./subscribe";
 import {saveSetting as saveSettingToDatabase} from './api';
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
-
-function* read(uid) {
-  const channel = yield call(subscribe, uid);
-  while (true) {
-    let action = yield take(channel);
-    yield put(action);
-  }
-}
 
 function* saveSetting(action) {
   let {payload: { key, value }} = action;
@@ -41,7 +34,7 @@ function* watchAuthentication() {
   while (true) {
     let {payload} = yield take(SIGN_IN_FULFILLED);
 
-    let dataJobs = yield fork(read, payload.uid);
+    let dataJobs = yield fork(read, subscribe, payload.uid);
 
     yield take(USER_DATA_INITIALIZED);
 
@@ -57,7 +50,8 @@ function* watchAuthentication() {
     yield call(Actions.app);
 
     yield take([SIGN_OUT_FULFILLED]);
-    yield cancel([dataJobs, settingsJob]);
+    yield cancel(settingsJob);
+    yield cancel(dataJobs);
   }
 }
 

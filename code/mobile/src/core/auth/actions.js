@@ -22,7 +22,7 @@ export const signInFulfilled = (uid, name) => ({
 });
 
 export const signOut = () => ({
-  type: SIGN_OUT
+  type: SIGN_OUT,
 });
 
 export const signOutFailed = error => ({

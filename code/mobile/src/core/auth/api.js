@@ -41,4 +41,13 @@ export function getFacebookAccessToken(dispatch) {
   });
 }
 
+export const signOut = () => new Promise((resolve, reject) => {
+  let signOut = firebaseAuth.signOut();
+  if (signOut) {
+    resolve();
+  } else {
+    reject(signOut);
+  }
+});
+
 export const getUID = state => state.auth.get('uid');

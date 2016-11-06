@@ -4,11 +4,13 @@ import { combineReducers } from "redux";
 import authReducer from "../core/auth/reducer";
 import { userDataReducer} from "../modules/user/reducer";
 import userOnboardingReducer from "../modules/user/onboarding/reducer";
+import locationReducer from "../core/location/reducer";
 
 const reducers = {
   auth: authReducer,
   user: userDataReducer,
   userOnboarding: userOnboardingReducer,
+  location: locationReducer,
 };
 
 const namespacedReducer = combineReducers(

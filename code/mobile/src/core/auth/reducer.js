@@ -23,6 +23,7 @@ export default function authReducer(state = new InitialAuthState(), {payload, ty
       return state.merge({
         authenticated: false,
         uid: null,
+        name: null,
         loaded: true,
       });
 
