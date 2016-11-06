@@ -20,6 +20,7 @@ import {
   saveGender
 } from "./api";
 import { getUID } from "../../../core/auth/api";
+import { USER_DATA_RECEIVED } from '../actions';
 
 export function* decideStep() {
   let data = yield select(onboardingData);
@@ -83,6 +84,7 @@ export function* onboarding() {
     USER_ONBOARDING_STARTED,
     USER_ONBOARDING_NETWORK_EMAIL_RESULTED,
     USER_ONBOARDING_MISSING_INFORMATION_RESULTED,
+    USER_DATA_RECEIVED,
   ], decideStep);
 
 }
