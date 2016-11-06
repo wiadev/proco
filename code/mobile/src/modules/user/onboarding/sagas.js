@@ -31,7 +31,7 @@ export function* decideStep() {
   } else {
     yield put(userOnboardingDecideStep(data));
   }
-  
+
 }
 
 function* processNetworkEmail(action) {

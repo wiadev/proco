@@ -2,11 +2,12 @@ import { eventChannel, takeEvery } from "redux-saga";
 import { call, cancel, fork, put, take, select } from "redux-saga/effects";
 import { Actions } from "react-native-router-flux";
 import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
-import { USER_DATA_INITIALIZED, USER_SETTINGS_SAVE_REQUESTED } from "./actions";
+import { getUID } from "../../core/auth/api";
+import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, userDataReceived } from "./actions";
 import { onboardingData } from "./onboarding/api";
 import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted } from "./onboarding";
 import subscriptionCreator from "./subscribe";
-import {saveSettings as saveSettingsToDatabase} from './api';
+import {saveSetting as saveSettingToDatabase} from './api';
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
 
@@ -18,20 +19,22 @@ function* read(uid) {
   }
 }
 
-function* saveSettings(action) {
-  let {payload} = action;
+function* saveSetting(action) {
+  let {payload: { key, value }} = action;
 
   try {
-    yield call(saveSettingsToDatabase, uid, payload);
+    yield put(userDataReceived('settings', key, value));
+    let uid = yield select(getUID);
+    yield call(saveSettingToDatabase, uid, key, value);
   } catch (e) {
-    // @TODO: save failed
+    console.log("SAVE FAILED", e);
   }
 
 }
 
 
-function* watchRequestsForSaveSettings() {
-  yield * takeEvery(USER_SETTINGS_SAVE_REQUESTED, saveSettings);
+function* watchRequestsForSaveSetting() {
+  yield * takeEvery(USER_SETTING_SAVE_REQUESTED, saveSetting);
 }
 
 function* watchAuthentication() {
@@ -50,7 +53,7 @@ function* watchAuthentication() {
       yield cancel(onboardingFlow);
     }
 
-    let settingsJob = yield fork(watchRequestsForSaveSettings);
+    let settingsJob = yield fork(watchRequestsForSaveSetting);
     yield call(Actions.app);
 
     yield take([SIGN_OUT_FULFILLED]);
