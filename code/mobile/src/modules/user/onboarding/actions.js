@@ -22,7 +22,7 @@ export const userOnboardingDecideStep = data => {
     payload.step = network_email_missing ? 'form' : 'result';
   } else if (birthday_missing || gender_missing) {
     payload.show = 'missing_information';
-    payload.step = network_email_missing ? 'form' : 'result';
+    payload.step = 'form';
   }
 
   if (error) payload.step = 'error';
