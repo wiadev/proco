@@ -10,8 +10,6 @@ import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 
-import {startWatching} from '../../../../modules/pool/actions';
-
 import styles from "./styles";
 
 const AnimatedListView = Animated.createAnimatedComponent(ListView);
