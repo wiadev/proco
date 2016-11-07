@@ -6,7 +6,8 @@ import { userDataReducer} from "../modules/user/reducer";
 import userOnboardingReducer from "../modules/user/onboarding/reducer";
 import poolReducer from "../modules/pool/reducer";
 import locationReducer from "../core/location/reducer";
-import chatReducer from "../core/Chat/reducer";
+import profilesReducer from "../modules/profiles/reducer";
+import chatReducer from "../modules/Chat/reducer";
 
 const reducers = {
   auth: authReducer,
@@ -14,6 +15,7 @@ const reducers = {
   userOnboarding: userOnboardingReducer,
   location: locationReducer,
   pool: poolReducer,
+  profiles: profilesReducer,
   chat: chatReducer,
 };
 
