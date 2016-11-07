@@ -2,6 +2,7 @@ import { assign } from "../../core/utils";
 
 export const initialState = {
   messages: {},
+  threads: {},
 };
 
 export default function reducer(state = initialState, action = {}) {
