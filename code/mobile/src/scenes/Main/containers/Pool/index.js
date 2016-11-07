@@ -6,8 +6,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import PoolInProgress from '../../../../components/PoolInProgress';
 //import { trigger, action } from "../../../../modules/Pool/actions";
 import PoolItem from "../../../../components/PoolItem";
-import Card from "../../../../components/Card";
-import PermissionModal from "../../../../components/PermissionModal";
 import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 
 import styles from "./styles";
@@ -42,7 +40,7 @@ export default class Pool extends React.Component {
   }
 
   componentWillReceiveProps(props) {
- this._updatePoolData(props);
+    this._updatePoolData(props);
   }
 
   _updatePoolData(props = this.props) {
@@ -87,9 +85,9 @@ export default class Pool extends React.Component {
 
         <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
 
-        <View style={styles.messageIconWrapper}>
-          <MessageCountIcon />
-        </View>
+        {/*<View style={styles.messageIconWrapper}>*/}
+          {/*<MessageCountIcon />*/}
+        {/*</View>*/}
 
       </View>
     );
@@ -114,7 +112,7 @@ export default class Pool extends React.Component {
       console.log("here");
       const gone = _changedRows[0];
 
-      this.props.dispatch(action(gone));
+      // this.props.dispatch(action(gone));
 
       this.refs.poolList._component.scrollTo({
         x: 0,
@@ -123,7 +121,7 @@ export default class Pool extends React.Component {
       });
 
       const come = _visibleRows[0];
-console.log(gone, come);
+      console.log(gone, come);
       this.setState({
         current: {
           uid: come,

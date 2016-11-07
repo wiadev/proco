@@ -3,15 +3,14 @@ import {
   View,
   KeyboardAvoidingView,
   ActionSheetIOS,
-  TouchableOpacity
-} from "react-native";
-import PureRenderMixin from "react-addons-pure-render-mixin";
-import _ from "lodash";
+} from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import _ from 'lodash';
 
-import ProfileLoop from "../ProfileLoop";
+import ProfileLoop from '../ProfileLoop';
 import Bubble from '../Bubble';
 import Button from '../Button';
-import styles from "./styles";
+import styles from './styles';
 
 const initialState = {
   answer: "",
@@ -40,10 +39,11 @@ export default class PoolItem extends React.Component {
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop video={this.props.profileLoop.file} repeat={true}>
+        <ProfileLoop>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
               {this._renderQuestionAndAnswer()}
+
               {this._renderActionButton()}
             </View>
           </KeyboardAvoidingView>

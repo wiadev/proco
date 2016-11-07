@@ -3,8 +3,6 @@ import {
   Dimensions,
 } from 'react-native';
 
-import colors from '../../core/style/colors';
-
 const styles = StyleSheet.create({
   poolItem: {
     width: Dimensions.get('window').width

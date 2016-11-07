@@ -16,7 +16,7 @@ export default class ProfileLoop extends React.Component {
     super(props);
 
     this.factor = 0;
-    this.factorOperation = 'plus';
+    this.nextFactorOperation = 'plus';
 
     this.state = {
       factor: 0
@@ -87,6 +87,6 @@ ProfileLoop.propTypes = {
 };
 
 ProfileLoop.defaultProps = {
-  imageSource: {uri: 'http://images.phhhoto.com/3/IRsBq56727a/jpeg'},
+  imageSource: {uri: 'https://images.phhhoto.com/3/IRsBq56727a/jpeg'},
   isStatic: false
 };
