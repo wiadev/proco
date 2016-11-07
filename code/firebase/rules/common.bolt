@@ -31,7 +31,6 @@ path /keyGenerator {
   write() { true }
 }
 
-
 isAdmin() {
   root.internal.acl.admin[currentUser()] == true
 }

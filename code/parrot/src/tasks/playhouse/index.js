@@ -11,7 +11,7 @@ import { generateRandomPoint } from './utils';
 export const usersRef = database.ref('users');
 export const dollsRef = (uid) => database.ref(`internal/playhouse/dolls/${uid ? uid : ''}`);
 export const oceanRef = new GeoFire(database.ref('ocean/index'));
-export const summaryRef = usersRef.child('summary');
+export const summaryRef = usersRef.child('profile');
 
 /*
 * This function imitates what happens after a real user logins.
@@ -139,13 +139,15 @@ export const spreadDollsRandomly = (count = 20, lat = 41, lng = 29, radius = 100
 });
 
 function postQuestion(uid, question) { // this is taken directly from the app (except for the UID param) and shouldn't be tweaked.
+
+  console.log(uid, question);
   const usersRef = database.ref('users');
   const key = database.ref('keyGenerator').push().key;
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
-    [`summary/${uid}/current_question`]: question,
-    [`summary/${uid}/current_question_id`]: key,
+    [`profile/${uid}/current_question`]: question,
+    [`profile/${uid}/current_question_id`]: key,
     [`questions/${key}`]: {
       uid,
       question,

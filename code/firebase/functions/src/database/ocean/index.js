@@ -8,7 +8,7 @@ const $ = {};
 
 $.ocean = functions.database().path('/ocean/index/{uid}')
   .onWrite(event => {
-    const locationData = event.data.child('l');
+    const locationData = event.data.child('l').val();
 
     if (!locationData) {
       return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
@@ -17,14 +17,16 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
       });
     }
 
-    const previousLocationData = event.data.previous.child('l');
+    const previousLocationData = event.data.previous.child('l').val();
 
     if (previousLocationData) {
       const distance = GeoFire.distance([locationData[0], locationData[1]], [previousLocationData[0], previousLocationData[1]]);
+      console.log("distance", distance);
       if (distance < 0.5) {
         return Promise.resolve();
       }
     }
+    console.log("here");
 
     return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
       status: 'NEEDS_REFRESH',
@@ -37,12 +39,13 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
   .onWrite(event => {
 
     const current = event.data.val();
+    console.log("generating1");
 
     if (current === null) return Promise.resolve();
+    console.log("generating2");
 
     const previous = event.data.previous.val();
 
-    if (current && !current.status.includes('IN_PROGRESS')) return Promise.resolve();
     if (previous && previous.status === current.status) return Promise.resolve();
 
     if (current.status === 'IN_PROGRESS_RESET') {
@@ -50,8 +53,8 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
         .then(() => generator(event));
     }
 
-    if (previous && !(Date.now() - previous.last_checked >= 30000)) return Promise.resolve();
 
+    console.log("generating");
     return generator(event);
   });
 

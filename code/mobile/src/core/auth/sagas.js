@@ -57,8 +57,10 @@ function* watchFacebookToken() {
   }
 }
 
-export const authSagas = [
+const authSagas = [
   fork(watchSignIn),
   fork(watchSignOut),
   fork(watchFacebookToken),
 ];
+
+export default authSagas;

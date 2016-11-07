@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Animated, ListView, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import Video from 'react-native-video';
 
 import PoolInProgress from '../../../../components/PoolInProgress';
 //import { trigger, action } from "../../../../modules/Pool/actions";
@@ -10,16 +9,18 @@ import PoolItem from "../../../../components/PoolItem";
 import Card from "../../../../components/Card";
 import PermissionModal from "../../../../components/PermissionModal";
 import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
+
+import {startWatching} from '../../../../modules/pool/actions';
+
 import styles from "./styles";
 
 const AnimatedListView = Animated.createAnimatedComponent(ListView);
 const data = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.uid !== r2.uid});
 
-/*@connect(state => ({
-  permissions: state.permissions,
+@connect(state => ({
   poolItems: state.pool.items,
   poolKeys: Object.keys(state.pool.items).slice(0, 3),
-}))*/
+}))
 export default class Pool extends React.Component {
   constructor(props) {
     super(props);
@@ -39,12 +40,11 @@ export default class Pool extends React.Component {
   }
 
   componentWillMount() {
-//    this.props.dispatch(trigger());
     this._updatePoolData();
   }
 
   componentWillReceiveProps(props) {
-    this._updatePoolData(props);
+ this._updatePoolData(props);
   }
 
   _updatePoolData(props = this.props) {
@@ -59,24 +59,9 @@ export default class Pool extends React.Component {
 
   render() {
 
-    if (this.props.permissions.location !== 'authorized') {
-      return (
-        <PermissionModal type="location"/>
-      );
-    }
-
     if (this.props.poolKeys.length < 1) {
       return (
         <PoolInProgress />
-      );
-
-      return (
-        <Card
-          label="Just a sec!"
-          text="Looking for awesome people nearby..."
-          noClose={true}
-          activityIndicator={true}
-        />
       );
     }
 

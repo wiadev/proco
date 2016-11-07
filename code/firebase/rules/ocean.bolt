@@ -32,7 +32,7 @@ path /ocean {
     index() { [ "added_on" ] }
 
     path /{mid} {
-      write() { isCurrentUser(uid) && (checkPoolFilters(uid, mid) || this == null) }
+      write() { checkPoolFilters(uid, mid) }
     }
   }
 
@@ -66,21 +66,21 @@ type LONG extends Number {
 checkPoolFilters(uid, mid) {
   hasCurrentQuestion(mid)
   && isNotSelf(mid) // We shouldn't users themselves to their pool
-  && !isBlocked(mid)
-  && !isMatched(mid)
+  //&& !isBlocked(mid)
+  //&& !isMatched(mid)
   //&& !isSeenCurrentQuestion(mid)
-  && checkGenderFilterFor(mid)
-  && checkAgeFilterFor(mid)
+  //&& checkGenderFilterFor(mid)
+  //&& checkAgeFilterFor(mid)
 }
 
 getFilterOptionForCU(option) { root.users.settings[currentUser()][option] }
-getSummaryForPI(user) { root.users.summary[user] }
+getProfileForPI(user) { root.users.profile[user] }
 
-getAgeFor(uid) { getSummaryForPI(uid).age }
-getGenderFor(uid) { getSummaryForPI(uid).gender }
-getNetworkFor(uid) { getSummaryForPI(uid).network }
+getAgeFor(uid) { getProfileForPI(uid).age }
+getGenderFor(uid) { getProfileForPI(uid).gender }
+getNetworkFor(uid) { getProfileForPI(uid).network }
 
-hasCurrentQuestion(mid) { getSummaryForPI(mid).current_question_id != null }
+hasCurrentQuestion(mid) { getProfileForPI(mid).current_question_id != null }
 
 checkGenderFilterFor(mid) {
   getFilterOptionForCU('gender') == 'both' || getFilterOptionForCU('gender') == getGenderFor(mid)
@@ -92,7 +92,7 @@ checkAgeMax(mid) { getAgeFor(mid) <= getFilterOptionForCU('age_max') }
 checkAgeFilterFor(mid) { checkAgeMin(mid) && checkAgeMax(mid) }
 
 isSeenCurrentQuestion(mid) {
-  root.users.questions[getSummaryForPI(mid).current_question_id].seen_by[currentUser()] == true
+  root.users.questions[getProfileForPI(mid).current_question_id].seen_by[currentUser()] == true
 }
 
 

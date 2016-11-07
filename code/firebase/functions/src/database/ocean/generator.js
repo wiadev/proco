@@ -37,6 +37,8 @@ module.exports = (event) => {
 
       geoQuery.on("ready", () => {
 
+        console.log("drops", drops);
+
         if (drops.length > 0) {
           status.set({
             status: 'COMPLETED',

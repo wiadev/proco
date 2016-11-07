@@ -27,7 +27,6 @@ export async function getProfile(uid) {
     gender,
     network: await getNetworkTitle(network),
   };
-
 }
 
 export const report = (id, payload) => {

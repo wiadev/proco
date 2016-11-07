@@ -1,41 +1,33 @@
-import { assign } from '../../core/utils';
-import _ from 'lodash';
+import { POOL_STATUS_CHANGED, POOL_ADDED, POOL_REMOVED, POOL_FOCUS, POOL_RESET } from "./actions";
+import { assign } from "../../core/utils";
+import { SIGN_OUT_FULFILLED } from "../../core/auth/actions";
+import _ from "lodash";
 
-export const initialState = {
+const PoolState = {
   items: {},
-  watchStatus: 'LOADING',
-  status: {
-    status: 'NULL',
-    last_checked: 0,
-  },
+  status: null,
 };
 
-export default function reducer(state = initialState, action = {}) {
-
-  switch (action.type) {
-    default: return state;
-    case 'POOL_ADD':
+export default function userPoolReducer(state = PoolState, {payload, type}) {
+  switch (type) {
+    case POOL_STATUS_CHANGED:
+      return assign(state, {status: payload.status});
+    case POOL_FOCUS:
+      return state.set('permission_requested', true, 'permission_status', payload.status);
+    case POOL_ADDED:
       return assign(state, {
         items: assign(state.items, {
-          [action.payload.uid]: action.payload
+          [payload.uid]: payload,
         }),
       });
-    case 'POOL_REMOVE':
+    case POOL_REMOVED:
       return assign(state, {
-        items: _.omit(state.items, action.payload.uid),
+        items: _.omit(state.items, payload.uid),
       });
-    case 'POOL_STATUS_CHANGED':
-      return assign(state, {
-        status: action.payload.status,
-      });
-    case 'POOL_WATCH_STATUS_CHANGED':
-      return assign(state, {
-        watchStatus: action.payload.status,
-      });
-    case 'POOL_RESET':
-      return assign(state, {
-        items: {},
-      });
+    case POOL_RESET:
+    case SIGN_OUT_FULFILLED:
+      return PoolState;
+    default:
+      return state;
   }
-
 }

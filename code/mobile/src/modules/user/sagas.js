@@ -6,7 +6,7 @@ import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
 import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, userDataReceived } from "./actions";
 import { onboardingData } from "./onboarding/api";
-import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted } from "./onboarding";
+import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted, userOnboardingCompleted } from "./onboarding";
 import subscriptionCreator from "./subscribe";
 import {saveSetting as saveSettingToDatabase} from './api';
 const subscribe = (uid, emit) =>
@@ -44,6 +44,8 @@ function* watchAuthentication() {
       yield put(userOnboardingStarted());
       yield take(USER_ONBOARDING_COMPLETED);
       yield cancel(onboardingFlow);
+    } else {
+      yield put(userOnboardingCompleted());
     }
 
     let settingsJob = yield fork(watchRequestsForSaveSetting);
@@ -55,6 +57,8 @@ function* watchAuthentication() {
   }
 }
 
-export const userSagas = [
+const userSagas = [
   fork(watchAuthentication),
 ];
+
+export default userSagas;

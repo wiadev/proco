@@ -1,33 +1,45 @@
 import { eventChannel, takeEvery, takeLatest } from "redux-saga";
 import { call, cancel, fork, take, put, select } from "redux-saga/effects";
+import { read } from "../sagas";
 import { SIGN_OUT_FULFILLED } from "../auth/actions";
 import { getUID } from "../auth/api";
 import subscriptionCreator from "./subscribe";
-import { LOCATION_UPDATED, START_TRACKING_LOCATION, STARTED_TRACKING_LOCATION, STOP_TRACKING_LOCATION, startedTracking, stoppedTracking} from "./actions";
-import { updateLocation as updateLocationToDatabase } from "./api";
+import {
+  LOCATION_UPDATED,
+  START_TRACKING_LOCATION,
+  STARTED_TRACKING_LOCATION,
+  STOP_TRACKING_LOCATION,
+  startedTracking,
+  stoppedTracking,
+  locationPermissionRequestFailed,
+  locationPermissionRequest,
+} from "./actions";
+import { updateLocation as updateLocationToDatabase, requestPermission } from "./api";
+const {RNLocation: Location} = require('NativeModules');
 
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
 
 function* processNewLocationData(action) {
-  let {payload: {uid, latitude, longitude}} = action;
+  let {payload: {latitude, longitude}} = action;
 
   try {
+    let uid = yield select(getUID);
     yield call(updateLocationToDatabase, uid, latitude, longitude);
   } catch (e) {
-    //
+    console.log("failed location save", e)
   }
-
 }
 
 function* startTracking() {
   try {
-    yield call(Location.requestAlwaysAuthorization);
+    yield put(locationPermissionRequest());
+    yield call(requestPermission);
+    yield put(startedTracking());
     yield call(Location.startUpdatingLocation);
     yield call(Location.setDistanceFilter, 50);
-    yield put(startedTracking());
   } catch (e) {
-    //
+    yield put(locationPermissionRequestFailed(e));
   }
 
 }
