@@ -28,6 +28,7 @@ const genderChoices = [
     value: 'both'
   }
 ];
+
 @connect(
   state => ({
     auth: state.auth,
@@ -67,7 +68,7 @@ class Settings extends React.Component {
 
         <ScrollView>
           <View style={styles.group}>
-            <Text style={styles.sectionTitle}>Show me</Text>
+            <Text style={styles.sectionTitle}>SHOW ME</Text>
 
             {genderChoices.map((choice, key) => {
               return (
@@ -98,6 +99,9 @@ class Settings extends React.Component {
             <Field type="bool" legend="People only from my university" value={this.props.settings.get('only_from_network')}
                    onChange={newValue => this.props.save('only_from_network', newValue)}/>
           </View>
+
+          <Text style={styles.sectionTitle}>MY PROFILE</Text>
+
           <View style={styles.infoBox}>
             <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon}/>
 
@@ -109,9 +113,11 @@ class Settings extends React.Component {
             </View>
           </View>
 
-          <Field type="text" legend="Birthday" value={this.props.user.get('birthday')} style={styles.singleField}/>
+          <Field type="text" legend="Name" value={this.props.user.get('name')} />
 
-          <Field type="text" legend="University" value={this.props.user.get('network')} style={styles.singleField}/>
+          <Field type="text" legend="Birthday" value={this.props.user.get('birthday')} stickToPrevious={true} />
+
+          <Field type="text" legend="University" value={this.props.user.get('network')} stickToPrevious={true} />
 
           <Field type="bool" legend="Suspend Discovery" value={this.props.settings.get('suspend_discovery')}
                  onChange={value => this.props.save('suspend_discovery', value)} style={styles.singleField}/>
