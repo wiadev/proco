@@ -1,11 +1,10 @@
 const functions = require('firebase-functions');
-const moment = require('moment');
 
 const GenerateProfile = require('./GenerateProfile');
 const NetworkEmail = require('./NetworkEmail');
 const MobileNumber = require('./MobileNumber');
 
-const isAnyTrue = (arr) => arr.some(el => Boolean(el) == true);
+const isAnyTrue = (arr) => arr.some(el => Boolean(el) === true);
 
 module.exports = functions.database().path('/users/info/{uid}')
   .onWrite(event => {
@@ -48,7 +47,9 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('gender'),
         isChanged('first_name'),
         isChanged('last_name'),
-        isChanged('avatar')
+        isChanged('avatar'),
+        isChanged('current_question'),
+        isChanged('current_question_id'),
       ])) {
 
       actions.push(root.child(`/users/profile/${uid}`).set(GenerateProfile(data.val())));

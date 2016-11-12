@@ -1,4 +1,3 @@
-const functions = require('firebase-functions');
 const moment = require('moment');
 
 module.exports = (data = {}) => {
@@ -9,6 +8,8 @@ module.exports = (data = {}) => {
     first_name = null,
     last_name = null,
     avatar = null,
+    current_question = null,
+    current_question_id = null,
   } = data;
 
   let profile = {};
@@ -16,6 +17,8 @@ module.exports = (data = {}) => {
   if (network) profile.network = network;
   if (gender) profile.gender = gender;
   if (avatar) profile.avatar = avatar;
+  if (current_question) profile.current_question = current_question;
+  if (current_question_id) profile.current_question_id = current_question_id;
 
   if (birthday) {
     profile.age = moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years');
