@@ -26,7 +26,7 @@ class App extends Component {
         backgroundColor: '#7A36AD',
       }}>
         <NoInternetModal />
-        {this.props.isAuthLoaded ? <Routes /> : <Loading />}
+        <Routes />
       </View>
     );
   }
