@@ -1,6 +1,7 @@
-import { eventChannel, takeEvery } from "redux-saga";
+import { eventChannel, takeEvery, takeLatest } from "redux-saga";
 import { call, put, select, fork, take, cancel } from "redux-saga/effects";
 import { isIn } from "validator";
+import { delay } from "../../core/sagas";
 import { SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
 import { startTracking as startTrackingLocation } from "../../core/location/actions";
@@ -8,9 +9,19 @@ import { USER_DATA_RECEIVED } from "../../modules/user/actions";
 import { getCurrentQuestion } from "../../modules/user/api";
 import { USER_ONBOARDING_COMPLETED } from "../../modules/user/onboarding/actions";
 import { read } from "../../core/sagas";
-import { POOL_SPOTTED, POOL_ADDED, POOL_REMOVED, POOL_ACTION, POOL_VIEW, POOL_ANSWER, reset, added, updated } from "./actions";
+import {
+  POOL_SPOTTED,
+  POOL_ADDED,
+  POOL_REMOVED,
+  POOL_ACTION,
+  POOL_RESET,
+  POOL_ANSWER,
+  reset,
+  added,
+  updated,
+} from "./actions";
 import { focus as focusSubscriptionCreator, pool as poolSubscriptionCreator } from "./subscribers";
-import { getPoolData, isAlreadyInPool, setAnswer, decideAction } from "./api";
+import { getPoolData, isAlreadyInPool, setAnswer, decideAction, resetPool } from "./api";
 
 const poolSubscription = (uid, emit) =>
   eventChannel(emit => poolSubscriptionCreator(uid, emit));
@@ -23,6 +34,7 @@ export function* decideReset(action) {
   if (type === 'settings' && isIn(key, [
       'age_min', 'age_max', 'only_from_network', 'gender',
     ])) {
+    yield call(delay, 100);
     yield put(reset());
   }
 }
@@ -56,18 +68,23 @@ function * triggerPoolUpdate() {
   yield put(updated());
 }
 
-function * processPoolAction({ payload: { uid, act, payload }}) {
+function * processAfterReset () {
+  let uid = yield select(getUID);
+  yield call(resetPool, uid);
+}
+
+function * processPoolAction({payload: {uid, act, payload}}) {
 
   try {
-  yield put(decideAction(uid, act, payload));
+    yield put(decideAction(uid, act, payload));
 
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 }
 
 function * processPoolAnswer(action) {
-  let { payload: {  qid, answer, }} = action;
+  let {payload: {qid, answer,}} = action;
 
   try {
     let uid = yield select(getUID);
@@ -98,7 +115,11 @@ function * watchPool() {
 }
 
 function * watchUserData() {
-  yield * takeEvery(USER_DATA_RECEIVED, decideReset);
+  yield * takeLatest(USER_DATA_RECEIVED, decideReset);
+}
+
+function * watchPoolReset() {
+  yield * takeEvery(POOL_RESET, processAfterReset);
 }
 
 function * startPool() {
@@ -121,6 +142,7 @@ function * watchAuthentication() {
 const sagas = [
   fork(watchAuthentication),
   fork(watchPool),
+  fork(watchPoolReset),
   fork(watchAdditions),
   fork(watchFocus),
   fork(watchActions),
