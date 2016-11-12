@@ -1,10 +1,13 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,} from 'react-native';
 
 import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
   pool: {
-    flex: 1
+    flex: 1,
+  },
+  poolItemO: {
+
   },
   messageIconWrapper: {
     position: 'absolute',

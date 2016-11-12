@@ -3,9 +3,11 @@ import {
   Dimensions,
 } from 'react-native';
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   poolItem: {
-    width: Dimensions.get('window').width
+    width,
+    height,
   },
   poolItemContent: {
     flex: 0,

@@ -20,6 +20,7 @@ export default class PoolItem extends React.Component {
   constructor(props) {
     super(props);
 
+    console.log("props of item", props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {
@@ -135,7 +136,7 @@ export default class PoolItem extends React.Component {
         this.props.onComplete(this.props.uid, 'match');
         break;
       case 'ANSWER':
-        this.props.onComplete(this.props.uid, 'answer', {answer: this.state.answer});
+        this.props.onComplete(this.props.uid, 'answer', {answer: this.state.answer, qid: this.props.question.qid});
         break;
       case 'BLOCK':
         this.props.onComplete(this.props.uid, 'block');

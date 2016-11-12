@@ -9,17 +9,9 @@ import Loading from "./components/Loading";
 import FCM from "react-native-fcm";
 import Routes from "./scenes";
 
-
-@connect(
-  state => ({
-    isAuthLoaded: state.auth.get('loaded'),
-  }),
-)
 class App extends Component {
 
   render() {
-    console.log("isAuthLoaded", this.props.isAuthLoaded);
-
     return (
       <View style={{
         flex: 1,

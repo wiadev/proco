@@ -7,7 +7,6 @@ import {
   timestamp,
   refs
 } from "../../core/firebase";
-import { assign } from "../../core/utils";
 import { post } from "../chat/actions";
 
 export const getProfileFromState = (uid, state) => state.profiles[uid];
@@ -36,54 +35,34 @@ export async function getProfile(uid) {
   };
 }
 
-export const report = (id, payload) => {
-  return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
+export const report = (uid, pid, payload) => new Promise((resolve, reject) => {
+  logEvent('reports', {
+    reported_user: pid,
+    report_payload: payload,
+  });
 
-    dispatch(block(id, assign({
-      triggered_by: 'report',
-    }, payload)));
+  const reportRef = database.ref(`reports/${pid}`);
+  const counterRef = reportRef.child('counter');
 
-    logEvent('reports', {
-      reported_user: id,
-      report_payload: payload,
-    });
-
-    const reportRef = database.ref(`reports/${id}`);
-    const counterRef = reportRef.child('counter');
-
-    reportRef.child(`reported_by/${uid}`).set(true).then(() => {
-      return counterRef.transaction((count) => {
-        if (count) {
-          count++;
-        }
-        return count;
-      }).then(() => {
-        return counterRef.once('value').then(snap => snap.val()).then(count => {
-          if (count < 5) return Promise.resolve();
-          return database.ref(`users/is/${id}/banned`).set(true).then(() => {
-            return logEvent('autoban', {
-              banned_user: id,
-              count,
-            });
+  return reportRef.child(`reported_by/${uid}`).set(true).then(() => {
+    return counterRef.transaction((count) => {
+      if (count) {
+        count++;
+      }
+      return count;
+    }).then(() => {
+      return counterRef.once('value').then(snap => snap.val()).then(count => {
+        if (count < 5) return Promise.resolve();
+        return database.ref(`users/info/${pid}/banned`).set(true).then(() => {
+          return logEvent('autoban', {
+            banned_user: pid,
+            count,
           });
         });
       });
     });
-  };
-};
-
-export const block = (id, payload = {}) => {
-  return (dispatch) => {
-    dispatch(changeBlockStatus(id, true, payload));
-  };
-};
-
-export const unblock = (id, payload = {}) => {
-  return (dispatch) => {
-    dispatch(changeBlockStatus(id, false, payload));
-  };
-};
+  });
+});
 
 export const startTrackingOnlineStatus = (uid) => {
   return dispatch => {
@@ -128,65 +107,35 @@ const onlineStatusChanged = (uid, status = false) => ({
   },
 });
 
-const changeBlockStatus = (id, status = true, payload = {}) => {
-  return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
-    database.ref(`users/blocks/${uid}/${id}`).set(status).then(() => {
-      return logEvent('blocks', {
-        user: id,
-        block_payload: payload,
-        status,
-      });
+export const changeBlockStatus = (uid, pid, status = true, payload = {}) =>
+  database.ref(`users/blocks/${uid}/${pid}`).set(status).then(() => {
+    return logEvent('blocks', {
+      user: pid,
+      block_payload: payload,
+      status,
     });
-  };
+  });
+
+export const afterMatchTasks = (uid, uidToMatch) => {
+  const thread = database.ref('threads/info').push();
+
+  return thread.set({
+    people: {
+      [uidToMatch]: true,
+      [uid]: true,
+    },
+    created_at: timestamp,
+  }).then(() => thread.key)
+
 };
 
-export const match = (uidToMatch) => {
-  return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
-
-    dispatch(changeMatchStatus(uidToMatch, true));
-
-    const thread = database.ref('threads/info').push();
-
-    thread.set({
-      people: {
-        [uidToMatch]: true,
-        [uid]: true,
-      },
-      created_at: timestamp,
-    }).then(() => {
-
-      dispatch(post(thread.key, {
-        text: `Congrats, it's a match!`,
-        createdAt: timestamp,
-        user: 'proco',
-        type: 'matched-banner',
-      }));
+export const changeMatchStatus = (uid, uidToMatch, status) =>
+  database.ref('users/matches').update({
+    [`${uid}/${uidToMatch}`]: status,
+    [`${uidToMatch}/${uid}`]: status,
+  }).then(() => {
+    return logEvent('matches', {
+      uidToMatch,
+      status,
     });
-
-  };
-};
-
-export const unmatch = (mid) => {
-  return (dispatch, getState) => {
-    dispatch(changeMatchStatus(mid, false));
-  };
-};
-
-
-const changeMatchStatus = (uidToMatch, status) => {
-  return (dispatch, getState) => {
-    const {auth: {uid}} = getState();
-    const matchUpdates = {
-      [`${uid}/${uidToMatch}`]: status,
-      [`${uidToMatch}/${uid}`]: status,
-    };
-    database.ref('users/matches').update(matchUpdates).then(() => {
-      return logEvent('matches', {
-        uidToMatch,
-        status,
-      });
-    });
-  };
-};
+  });

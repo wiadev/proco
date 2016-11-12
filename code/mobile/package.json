@@ -20,7 +20,7 @@
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.3.2",
     "react-mixin": "^3.0.5",
-    "react-native": "^0.36.0",
+    "react-native": "https://github.com/facebook/react-native/archive/v0.38.0-rc.0.tar.gz",
     "react-native-blur": "^1.0.1",
     "react-native-camera": "https://github.com/lwansbrough/react-native-camera.git",
     "react-native-code-push": "^1.14.6-beta",

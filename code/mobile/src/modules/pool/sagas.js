@@ -8,9 +8,9 @@ import { USER_DATA_RECEIVED } from "../../modules/user/actions";
 import { getCurrentQuestion } from "../../modules/user/api";
 import { USER_ONBOARDING_COMPLETED } from "../../modules/user/onboarding/actions";
 import { read } from "../../core/sagas";
-import { POOL_SPOTTED, reset, added } from "./actions";
+import { POOL_SPOTTED, POOL_ADDED, POOL_REMOVED, POOL_ACTION, POOL_VIEW, POOL_ANSWER, reset, added, updated } from "./actions";
 import { focus as focusSubscriptionCreator, pool as poolSubscriptionCreator } from "./subscribers";
-import { getPoolData, isAlreadyInPool } from "./api";
+import { getPoolData, isAlreadyInPool, setAnswer, decideAction } from "./api";
 
 const poolSubscription = (uid, emit) =>
   eventChannel(emit => poolSubscriptionCreator(uid, emit));
@@ -52,16 +52,45 @@ function * processSpottedPoolItem(action) {
   }
 }
 
-function * focusToPoolItem(action) {
+function * triggerPoolUpdate() {
+  yield put(updated());
+}
 
+function * processPoolAction({ payload: { uid, act, payload }}) {
+
+  try {
+  yield put(decideAction(uid, act, payload));
+
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+function * processPoolAnswer(action) {
+  let { payload: {  qid, answer, }} = action;
+
+  try {
+    let uid = yield select(getUID);
+    let action = yield call(setAnswer, uid, qid, answer);
+  } catch (e) {
+
+  }
 }
 
 function * watchFocus() {
   //yield * takeLatest(POOL_SPOTTED, focusToPoolItem);
 }
 
-function * watchAction() {
-  //yield * takeEvery(POOL_SPOTTED, processSpottedPoolItem);
+function * watchAnswers() {
+  yield * takeEvery(POOL_ANSWER, processPoolAnswer);
+}
+
+function * watchActions() {
+  yield * takeEvery(POOL_ACTION, processPoolAction);
+}
+
+function * watchAdditions() {
+  yield * takeEvery([POOL_ADDED, POOL_REMOVED], triggerPoolUpdate);
 }
 
 function * watchPool() {
@@ -92,8 +121,10 @@ function * watchAuthentication() {
 const sagas = [
   fork(watchAuthentication),
   fork(watchPool),
+  fork(watchAdditions),
   fork(watchFocus),
-  fork(watchAction),
+  fork(watchActions),
+  fork(watchAnswers),
 ];
 
 export default sagas;

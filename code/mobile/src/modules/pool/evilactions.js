@@ -1,6 +1,6 @@
 import { database, timestamp, refs } from "../../core/firebase";
 import { assign } from "../../core/utils";
-import { block, report, match } from "../Profiles/actions";
+import { block, report, match } from "../profiles/actions";
 import { requestPermission } from "../Permissions/actions";
 import { getPoolData } from "./api";
 import { clearLoop } from "../Profiles/Loops/api";
