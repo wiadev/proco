@@ -1,3 +1,3 @@
-export { userDataActions } from './actions';
+export userDataActions from './actions';
 export { userDataReducer } from './reducer';
-export { userSagas } from './sagas';
+export userSagas from './sagas';

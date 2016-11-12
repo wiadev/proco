@@ -42,7 +42,7 @@ const scenes = Actions.create(
     <Scene key="app" hideNavBar animation="fade" type={ActionConst.RESET}>
       <Scene key="Main" component={Main} initial/>
       <Scene key="Settings" component={Settings}/>
-      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion}/>
+      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical"/>
       <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
       <Scene key="ConversationList" component={Conversations}/>
       <Scene key="Conversations">

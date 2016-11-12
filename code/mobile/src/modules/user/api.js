@@ -1,4 +1,4 @@
-import { getUserRef } from "../../core/firebase";
+import { getUserRef, getKey, database, timestamp } from "../../core/firebase";
 
 export const saveToken = (uid, type, token) =>
   getUserRef(uid, `tokens`).child(type).set(token);
@@ -13,3 +13,21 @@ export const getCurrentQuestion = state => ({
   question: state.user.info.get('current_question'),
   qid: state.user.info.get('current_question_id'),
 });
+
+export const updateCurrentQuestion = (uid, question) => {
+  const usersRef = database.ref('users');
+  const key = getKey();
+  const questionUpdates = {
+    [`info/${uid}/current_question`]: question,
+    [`info/${uid}/current_question_id`]: key,
+    [`summary/${uid}/current_question`]: question,
+    [`summary/${uid}/current_question_id`]: key,
+    [`questions/${key}`]: {
+      uid,
+      question,
+      current: true,
+      timestamp: timestamp,
+    },
+  };
+  return usersRef.update(questionUpdates);
+};

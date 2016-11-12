@@ -4,11 +4,12 @@ import { Actions } from "react-native-router-flux";
 import { read } from "../../core/sagas";
 import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
-import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, userDataReceived } from "./actions";
+import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, USER_QUESTION_UPDATE_REQUEST, userDataReceived } from "./actions";
 import { onboardingData } from "./onboarding/api";
 import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted, userOnboardingCompleted } from "./onboarding";
 import subscriptionCreator from "./subscribe";
-import {saveSetting as saveSettingToDatabase} from './api';
+import {saveSetting as saveSettingToDatabase, updateCurrentQuestion } from './api';
+
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
 
@@ -25,6 +26,22 @@ function* saveSetting(action) {
 
 }
 
+function* processQuestionUpdate(action) {
+  let {payload: { question }} = action;
+
+  try {
+    let uid = yield select(getUID);
+    yield call(updateCurrentQuestion, uid, question);
+  } catch (e) {
+    console.log("SAVE FAILED", e);
+  }
+
+}
+
+
+function* watchQuestionUpdateRequests() {
+  yield * takeEvery(USER_QUESTION_UPDATE_REQUEST, processQuestionUpdate);
+}
 
 function* watchRequestsForSaveSetting() {
   yield * takeEvery(USER_SETTING_SAVE_REQUESTED, saveSetting);

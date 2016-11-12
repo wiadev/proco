@@ -1,6 +1,7 @@
 export const USER_DATA_INITIALIZED = 'USER_DATA_INITIALIZED';
 export const USER_DATA_RECEIVED = 'USER_DATA_RECEIVED';
 export const USER_SETTING_SAVE_REQUESTED = 'USER_SETTING_SAVE_REQUESTED';
+export const USER_QUESTION_UPDATE_REQUEST = 'proco/user/question/update_request';
 
 export const userDataInitialized = () => ({
   type: USER_DATA_INITIALIZED,
@@ -17,5 +18,12 @@ export const userSaveSetting = (key, value) => ({
   type: USER_SETTING_SAVE_REQUESTED,
   payload: {
     key, value,
+  },
+});
+
+export const questionUpdateRequest = question => ({
+  type: USER_QUESTION_UPDATE_REQUEST,
+  payload: {
+    question,
   },
 });

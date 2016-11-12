@@ -20,7 +20,6 @@ export default class PoolItem extends React.Component {
   constructor(props) {
     super(props);
 
-    console.log("props of item", props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.state = {

@@ -32,7 +32,7 @@ export const getProfileLoop = (loop_key) => {
 
 export const getProfileLoopOf = async(uid) => {
   const snap = await database.ref(`users/profile/${uid}/loop_key`).once('value');
-  const loop_key = snap.val() || 'default.mp4';
+  const loop_key = snap.val() || 'default.jpeg';
   return {
     file: await getProfileLoop(loop_key),
     key: loop_key,
