@@ -74,8 +74,7 @@ function* watchAuthentication() {
   }
 }
 
-const userSagas = [
+export default [
   fork(watchAuthentication),
+  fork(watchQuestionUpdateRequests),
 ];
-
-export default userSagas;

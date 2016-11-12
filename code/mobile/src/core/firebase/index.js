@@ -47,11 +47,6 @@ export const logEvent = (type, payload = {}) =>
 export const getKey = () => database.ref('keyGenerator').push().key;
 
 export const takeOnline = (uid) => {
-  const isOnlineRef = database.ref(`users/summary/${uid}/is_online`);
+  const isOnlineRef = database.ref(`users/profile/${uid}/is_online`);
   return isOnlineRef.set(true).then(() => isOnlineRef.onDisconnect().set(false));
-};
-
-export const getCUID = () => {
-  const currentUser = base.auth().currentUser;
-  return (currentUser ? currentUser.uid : null);
 };

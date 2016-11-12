@@ -16,12 +16,10 @@ export const getCurrentQuestion = state => ({
 
 export const updateCurrentQuestion = (uid, question) => {
   const usersRef = database.ref('users');
-  const key = getKey();
+  const key = uid + '-' + getKey();
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
-    [`summary/${uid}/current_question`]: question,
-    [`summary/${uid}/current_question_id`]: key,
     [`questions/${key}`]: {
       uid,
       question,
