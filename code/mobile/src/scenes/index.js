@@ -9,7 +9,6 @@ import Conversations from "./Chat/List";
 import Conversation from "./Chat/Conversation";
 import * as StaticPages from "./StaticPages";
 import WebView from "../components/WebView";
-import Card from "../components/Card";
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -42,13 +41,12 @@ const scenes = Actions.create(
     <Scene key="app" hideNavBar animation="fade" type={ActionConst.RESET}>
       <Scene key="Main" component={Main} initial/>
       <Scene key="Settings" component={Settings}/>
-      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} direction="vertical"/>
+      <Scene key="UpdateYourQuestion" component={UpdateYourQuestion} animation="fade"/>
       <Scene key="ShootNewProfileLoop" component={ShootNewProfileLoop}/>
       <Scene key="ConversationList" component={Conversations}/>
       <Scene key="Conversations">
         <Scene key="Conversation" component={Conversation} clone/>
       </Scene>
-      <Scene key="Card" isModal transparent component={Card} animationType="fade" hideNavBar/>
     </Scene>
   </Scene>
 );
