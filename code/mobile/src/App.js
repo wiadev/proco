@@ -18,6 +18,8 @@ import Routes from "./scenes";
 class App extends Component {
 
   render() {
+    console.log("isAuthLoaded", this.props.isAuthLoaded);
+
     return (
       <View style={{
         flex: 1,

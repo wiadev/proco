@@ -10,7 +10,14 @@ export function initAuth(dispatch) {
         if (authUser) {
           dispatch(signInFulfilled(authUser.uid, authUser.displayName));
         } else {
-          dispatch(signOutFulfilled());
+          // If we don't have a session in Firebase, maybe we have a token in Facebook?
+          AccessToken.getCurrentAccessToken().then(data => {
+            if (data) {
+              dispatch(signIn(data.accessToken.toString()));
+            } else {
+              dispatch(signOutFulfilled());
+            }
+          });
         }
 
         resolve();

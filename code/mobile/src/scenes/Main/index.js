@@ -25,25 +25,23 @@ export default class MainScreen extends React.Component {
     return (
       <Container>
         <StatusBar backgroundColor="blue" barStyle="light-content" />
+        <Swiper horizontal={false} loop={false} showsPagination={false} index={1}>
+          <UpperMenu />
+          {this._renderPool()}
+        </Swiper>
 
-        {this._renderContent()}
       </Container>
     );
   }
 
-  _renderContent() {
+  _renderPool() {
     switch (this.props.locationPermissionStatus) {
       case null:
         return (
           <Loading />
         );
       case 'authorized':
-        return (
-          <Swiper horizontal={false} loop={false} showsPagination={false} index={1}>
-            <UpperMenu />
-            <Pool />
-          </Swiper>
-        );
+        return <Pool />;
       default:
         return (
           <Modal isOpen={true} backdropPressToClose={false} height={0.8}>

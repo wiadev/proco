@@ -4,6 +4,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+StatusBar,
 } from 'react-native';
 
 import Container from '../../../../components/Container';
@@ -33,6 +34,9 @@ export default class UpperMenu extends React.Component {
     // TODO: Colors used in LinearGradient are not in color palette. Need to replace those colors or add them to palette.
     return (
       <Container>
+        <StatusBar
+          hidden={true}
+        />
         <View style={styles.logoRow}>
           <View style={styles.logoSideCushion} />
 

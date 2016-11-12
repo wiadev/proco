@@ -1,6 +1,6 @@
 import { Record } from 'immutable';
 import { assign } from '../../core/utils';
-import _ from 'lodash';
+import { PROFILE_LOADED } from './actions';
 
 export const UserProfile = new Record({
   age: null,
@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action = {}) {
 
   switch (action.type) {
     default: return state;
-    case 'PROFILE_LOADED':
+    case PROFILE_LOADED:
       return assign(state, {
         profiles: assign(state.profiles, {
           [action.payload.uid]: action.payload,

@@ -25,6 +25,7 @@ import MissingInformation from './MissingInformation';
 
 @connect(state => ({
   isAuthenticated: state.auth.get('authenticated'),
+  isAuthLoaded: state.auth.get('loaded'),
   isUserInitialized: state.user.get('initialized'),
   isUserOnboarded: state.user.info.get('onboarded'),
   userOnboarding: state.userOnboarding,
@@ -157,23 +158,22 @@ export default class Authentication extends React.Component {
   }
 
   _renderLoginButton() {
-    if (this.state.isInProgress || (this.props.isAuthenticated && !this.props.isUserInitialized)) {
+    if (this.props.isAuthLoaded && !this.state.isInProgress && !this.props.isAuthenticated) {
       return (
-        <ActivityIndicator size="large" color={colors.primaryAlt}/>
+        <TouchableOpacity onPress={() => this.startFacebookLogin()} style={styles.loginButton} activeOpacity={0.5}>
+          <View style={styles.loginButtonContent}>
+            <Icon name="facebook-official" style={styles.loginButtonIcon}/>
+
+            <Text style={styles.loginButtonText}>Login with Facebook</Text>
+          </View>
+        </TouchableOpacity>
       );
     }
 
-    if (this.props.isUserInitialized) return null;
-
     return (
-      <TouchableOpacity onPress={() => this.startFacebookLogin()} style={styles.loginButton} activeOpacity={0.5}>
-        <View style={styles.loginButtonContent}>
-          <Icon name="facebook-official" style={styles.loginButtonIcon}/>
-
-          <Text style={styles.loginButtonText}>Login with Facebook</Text>
-        </View>
-      </TouchableOpacity>
+      <ActivityIndicator size="large" color={colors.primaryAlt}/>
     );
+
   }
 
   _renderRegister() {

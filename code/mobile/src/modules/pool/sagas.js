@@ -52,48 +52,48 @@ function * processSpottedPoolItem(action) {
   }
 }
 
-  function * focusToPoolItem(action) {
+function * focusToPoolItem(action) {
 
+}
+
+function * watchFocus() {
+  //yield * takeLatest(POOL_SPOTTED, focusToPoolItem);
+}
+
+function * watchAction() {
+  //yield * takeEvery(POOL_SPOTTED, processSpottedPoolItem);
+}
+
+function * watchPool() {
+  yield * takeEvery(POOL_SPOTTED, processSpottedPoolItem);
+}
+
+function * watchUserData() {
+  yield * takeEvery(USER_DATA_RECEIVED, decideReset);
+}
+
+function * startPool() {
+  let uid = yield select(getUID);
+  yield put(startTrackingLocation());
+  yield fork(read, poolSubscription, uid);
+}
+
+function * watchAuthentication() {
+  while (true) {
+    yield take(USER_ONBOARDING_COMPLETED);
+    let userDataWatcher = yield fork(watchUserData);
+    let poolWatcher = yield fork(startPool);
+    yield take(SIGN_OUT_FULFILLED);
+    yield cancel(userDataWatcher);
+    yield cancel(poolWatcher);
   }
+}
 
-  function * watchFocus() {
-    //yield * takeLatest(POOL_SPOTTED, focusToPoolItem);
-  }
+const sagas = [
+  fork(watchAuthentication),
+  fork(watchPool),
+  fork(watchFocus),
+  fork(watchAction),
+];
 
-  function * watchAction() {
-    //yield * takeEvery(POOL_SPOTTED, processSpottedPoolItem);
-  }
-
-  function * watchPool() {
-    yield * takeEvery(POOL_SPOTTED, processSpottedPoolItem);
-  }
-
-  function * watchUserData() {
-    yield * takeEvery(USER_DATA_RECEIVED, decideReset);
-  }
-
-  function * startPool() {
-    let uid = yield select(getUID);
-    yield put(startTrackingLocation());
-    yield fork(read, poolSubscription, uid);
-  }
-
-  function * watchAuthentication() {
-    while (true) {
-      yield take(USER_ONBOARDING_COMPLETED);
-      let userDataWatcher = yield fork(watchUserData);
-      let poolWatcher = yield fork(startPool);
-      yield take(SIGN_OUT_FULFILLED);
-      yield cancel(userDataWatcher);
-      yield cancel(poolWatcher);
-    }
-  }
-
-  const sagas = [
-    fork(watchAuthentication),
-    fork(watchPool),
-    fork(watchFocus),
-    fork(watchAction),
-  ];
-
-  export default sagas;
+export default sagas;

@@ -8,7 +8,14 @@ import {
   refs
 } from "../../core/firebase";
 import { assign } from "../../core/utils";
-import { post } from "../Chat/actions";
+import { post } from "../chat/actions";
+
+export const getProfileFromState = (uid, state) => state.profiles[uid];
+
+export const shouldGetProfile = (uid, state) => {
+  let profile = getProfileFromState(uid, state);
+  return (!profile || profile.last_checked > 5000);
+};
 
 export async function getProfile(uid) {
   const {

@@ -73,6 +73,9 @@ export default class Pool extends React.Component {
           removeClippedSubviews={true}
           ref="poolList"
           enableEmptySections={true}
+          automaticallyAdjustContentInsets={false}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           renderRow={(row) =>
             <PoolItem
               key={row.uid}
@@ -104,9 +107,11 @@ export default class Pool extends React.Component {
   }
 
   _onSwiperScroll(visibleRows, changedRows) {
+    console.log("onswiperscroll", visibleRows, changedRows);
     const _visibleRows = Object.keys(visibleRows.s1);
     const _changedRows = Object.keys(changedRows.s1);
 
+    return;
     if (_visibleRows.length === 1 && _changedRows.length === 1) {
 
       console.log("here");
@@ -136,32 +141,19 @@ export default class Pool extends React.Component {
     return [
       styles.pool,
       {
-        width: this.state.poolAnimation.interpolate({
-          inputRange: [0, 1],
-          outputRange: [Dimensions.get('window').width, Dimensions.get('window').width * 2],
-        }),
-      },
-      {
         transform: [
-          {
-            scale: this.state.poolAnimation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [1, 0.5],
-              // extrapolate: 'clamp'
-            }),
-          },
           {
             translateX: this.state.poolAnimation.interpolate({
               inputRange: [0, 1],
               outputRange: [0, -(Dimensions.get('window').width)],
-              // extrapolate: 'clamp'
+              extrapolate: 'clamp'
             }),
           },
           {
             translateY: this.state.poolAnimation.interpolate({
               inputRange: [0, 1],
               outputRange: [0, (Dimensions.get('window').height / 2)],
-              // extrapolate: 'clamp'
+              extrapolate: 'clamp'
             }),
           }
         ],

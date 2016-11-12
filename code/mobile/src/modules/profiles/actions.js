@@ -14,3 +14,8 @@ export const profileLoaded = (uid, profile) => ({
   type: PROFILE_LOADED,
   payload: {uid, profile}
 });
+
+export const profileLoadFailed = (uid, error) => ({
+  type: PROFILE_LOADED,
+  payload: {uid, error}
+});

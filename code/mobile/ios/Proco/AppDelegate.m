@@ -32,6 +32,8 @@
 
 #if DEBUG
     jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
+    [[UIApplication sharedApplication] setIdleTimerDisabled: YES]; // Keeps the screen open for easy debugging.
+
 #else
     jsCodeLocation = [CodePush bundleURL];
 #endif

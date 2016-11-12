@@ -7,7 +7,7 @@ import userOnboardingReducer from "../modules/user/onboarding/reducer";
 import poolReducer from "../modules/pool/reducer";
 import locationReducer from "../core/location/reducer";
 import profilesReducer from "../modules/profiles/reducer";
-import chatReducer from "../modules/Chat/reducer";
+import chatReducer from "../modules/chat/reducer";
 
 const reducers = {
   auth: authReducer,

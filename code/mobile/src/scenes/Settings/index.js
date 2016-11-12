@@ -55,6 +55,11 @@ class Settings extends React.Component {
         this.setState({
           version: `${currentVersionData.appVersion} (${currentVersionData.label})`
         });
+      })
+      .catch(e => {
+        this.setState({
+          version: "App Store v1",
+        });
       });
   }
 
@@ -62,7 +67,7 @@ class Settings extends React.Component {
 
     return (
       <View style={styles.settings}>
-        <StatusBar hidden={false}/>
+        <StatusBar hidden={false} barStyle="dark-content"/>
         <Header theme="light" title="Settings" rightActorType="text" rightActor="Done"
                 rightAction={() => this._done()}/>
 
