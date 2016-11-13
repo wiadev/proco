@@ -1,10 +1,12 @@
 import React from "react";
 import {
   View,
+  TouchableOpacity,
   KeyboardAvoidingView,
   ActionSheetIOS,
 } from 'react-native';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
 import ProfileLoop from '../ProfileLoop';
@@ -42,6 +44,12 @@ export default class PoolItem extends React.Component {
         <ProfileLoop>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
+              <TouchableOpacity onPress={() => this._showDispleaseMenu()} activeOpacity={0.5} style={styles.displeaseButton}>
+                <View style={styles.displeaseButtonContent}>
+                  <Icon name="ios-warning" style={styles.displeaseButtonIcon} />
+                </View>
+              </TouchableOpacity>
+
               {this._renderQuestionAndAnswer()}
 
               {this._renderActionButton()}
