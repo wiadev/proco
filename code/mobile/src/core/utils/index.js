@@ -20,6 +20,9 @@ export const getCorrectFontSizeForScreen = (PixelRatio, screenWidth, screenHeigh
   }
 
   return currentFont;
-}
+};
 
 export const IsAnyTrue = (arr) => arr.some(el => Boolean(el) == true);
+export const IsAllTrue = (arr) => arr.every(el => Boolean(el) == true);
+
+export const logger = (...context) => __DEV__ && console.log(...context);

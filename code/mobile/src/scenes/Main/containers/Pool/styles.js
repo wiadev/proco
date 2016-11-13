@@ -1,10 +1,13 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet,} from 'react-native';
 
 import colors from '../../../../core/style/colors';
 
 const styles = StyleSheet.create({
   pool: {
-    flex: 1
+    flex: 1,
+  },
+  poolItemO: {
+
   },
   messageIconWrapper: {
     position: 'absolute',
@@ -13,9 +16,11 @@ const styles = StyleSheet.create({
   },
   upperMenuIcon: {
     position: 'absolute',
-    top: 10,
+    top: 0,
     left: 0,
     right: 0,
+    // horizontal margin is for not covering those areas, there may be some buttons or such.
+    marginHorizontal: 100,
     color: colors.primaryAlt,
     fontSize: 44,
     textAlign: 'center',

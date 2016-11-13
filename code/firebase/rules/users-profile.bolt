@@ -1,0 +1,18 @@
+path /users/profile/{uid} is UserProfile;
+
+type UserProfile {
+  read() { !isBlocked(uid) }
+  age: Number | Null,
+  avatar: String | Null,
+  display_name: String | Null,
+  gender: String | Null,
+  network: String | Null,
+  is_online: IsOnline | Null,
+  current_question_id: CurrentQuestion | Null,
+  current_question: CurrentQuestionID | Null,
+  loop_key: LoopKey | Null,
+}
+
+type IsOnline extends Boolean {
+  write() { isCurrentUser(uid) }
+}

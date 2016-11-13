@@ -4,12 +4,21 @@
   "dependencies": {
     "axios": "^0.14.0",
     "deep-equal": "^1.0.1",
-    "firebase": "^3.1",
-    "firebase-functions": "https://storage.googleapis.com/firebase-preview-drop/node/firebase-functions/firebase-functions-preview.latest.tar.gz",
-    "geofire": "^4.1.1",
+    "firebase": "^3.5.2",
+    "firebase-functions": "https://storage.googleapis.com/firebase-preview-drop/node/firebase-functions/firebase-functions-0.3.2.tgz",
+    "geofire": "^4.1.2",
     "jwt-simple": "^0.5.0",
     "moment": "^2.14.1",
     "qs": "^6.2.1",
     "validator": "^5.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "webpack": "^1.13.3"
+  },
+  "scripts": {
+    "build": "webpack -p --progress"
   }
 }

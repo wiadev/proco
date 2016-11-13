@@ -7,18 +7,17 @@ const timestamp = firebase.database.ServerValue.TIMESTAMP;
 const $ = {};
 
 $.ocean = functions.database().path('/ocean/index/{uid}')
-  .onWrite('write', (event) => {
-
-    const locationData = event.data.child('l');
+  .onWrite(event => {
+    const locationData = event.data.child('l').val();
 
     if (!locationData) {
-      return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
+      return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).update({
         status: 'NO_LOCATION',
         last_checked: timestamp,
       });
     }
 
-    const previousLocationData = event.data.previous.child('l');
+    const previousLocationData = event.data.previous.child('l').val();
 
     if (previousLocationData) {
       const distance = GeoFire.distance([locationData[0], locationData[1]], [previousLocationData[0], previousLocationData[1]]);
@@ -27,23 +26,21 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
       }
     }
 
-    return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
+    return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).update({
       status: 'NEEDS_REFRESH',
       last_checked: timestamp,
+      location: locationData,
     });
 
   });
 
 $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
-  .on('write', (event) => {
+  .onWrite(event => {
 
     const current = event.data.val();
-
     if (current === null) return Promise.resolve();
 
     const previous = event.data.previous.val();
-
-    if (current && !current.status.includes('IN_PROGRESS')) return Promise.resolve();
 
     if (previous && previous.status === current.status) return Promise.resolve();
 
@@ -52,11 +49,7 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
         .then(() => generator(event));
     }
 
-    if (previous && !(Date.now() - previous.last_checked >= 30000)) return Promise.resolve();
-
     return generator(event);
-
   });
-
 
 module.exports = $;

@@ -1,66 +1,114 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import {
-  View,
-  ScrollView,
-  Image,
-  StatusBar
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Actions} from 'react-native-router-flux';
-import codePush from 'react-native-code-push';
-import _ from 'lodash';
+import React from "react";
+import { connect } from "react-redux";
+import { View, ScrollView, Image, StatusBar } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Actions } from "react-native-router-flux";
+import codePush from "react-native-code-push";
+import _ from "lodash";
+import {signOut} from "../../core/auth/actions";
+import {userSaveSetting} from "../../modules/user/actions";
+import Text from "../../components/Text";
+import { assign } from "../../core/utils";
+import Loading from "../../components/Loading";
+import Header from "../../components/Header";
+import Field from "../../components/Field";
+import styles from "./styles";
 
-import Text from '../../components/Text';
-import {database} from "../../core/Api";
-import {assign} from "../../core/utils";
-import {getUserRefForTypeAsString} from "../../modules/User/actions";
-import {logout} from "../../modules/Authentication/actions";
-import Loading from '../../components/Loading';
-import Header from '../../components/Header';
-import Field from '../../components/Field';
-import styles from './styles';
+const genderChoices = [
+  {
+    label: "Female",
+    value: 'female'
+  },
+  {
+    label: "Male",
+    value: 'male'
+  },
+  {
+    label: "Both",
+    value: 'both'
+  }
+];
 
-@connect(state => ({auth: state.auth, user: state.api.data.userInfo, settings: state.api.data.userSettings}))
+@connect(
+  state => ({
+    auth: state.auth,
+    user: state.user.info,
+    settings: state.user.settings,
+  }),
+  dispatch => ({
+    save: (key, value) => dispatch(userSaveSetting(key, value)),
+    signOut: () => dispatch(signOut()),
+  }),
+)
 class Settings extends React.Component {
   constructor(props) {
     super(props);
 
-    this.ref = database.ref(getUserRefForTypeAsString('settings', this.props.auth.uid));
-
     this.state = {
-      settings: null,
-      version: null
+      version: null,
     };
   }
 
   componentWillMount() {
-    this.setState({settings: assign(_.omit(this.props.settings, 'isLoaded'))});
-
     codePush.getUpdateMetadata(codePush.UpdateState.RUNNING)
       .then(currentVersionData => {
         this.setState({
           version: `${currentVersionData.appVersion} (${currentVersionData.label})`
         });
+      })
+      .catch(e => {
+        this.setState({
+          version: "App Store v1",
+        });
       });
   }
 
   render() {
-    // TODO: Clicking on Contact should do something.
-    if (this.state.settings === null) {
-      return (
-        <Loading />
-      );
-    }
 
     return (
       <View style={styles.settings}>
-        <StatusBar hidden={false} />
-        <Header theme="light" title="Settings" rightActorType="text" rightActor="Done" rightAction={() => this._done()} />
+        <StatusBar hidden={false} barStyle="dark-content"/>
+        <Header theme="light" title="Settings" rightActorType="text" rightActor="Done"
+                rightAction={() => this._done()}/>
 
         <ScrollView>
+          <View style={styles.group}>
+            <Text style={styles.sectionTitle}>SHOW ME</Text>
+
+            {genderChoices.map((choice, key) => {
+              return (
+                <Field
+                  key={key}
+                  type="choice"
+                  legend={choice.label}
+                  value={this.props.settings.get('gender') === choice.value}
+                  onPress={() => this.props.save('gender', choice.value)}
+                  stickToPrevious={key !== 0}
+                />
+              );
+            })}
+          </View>
+
+          <View style={styles.group}>
+            <Field
+              type="range"
+              legend="Age limits"
+              value={[this.props.settings.get('age_min'), this.props.settings.get('age_max')]}
+              minValue={18}
+              maxValue={45}
+              onChange={newValue => this._updateAgeLimits(newValue)}
+            />
+          </View>
+
+          <View style={styles.group}>
+            <Field type="bool" legend="People only from my university" value={this.props.settings.get('only_from_network')}
+                   onChange={newValue => this.props.save('only_from_network', newValue)}/>
+          </View>
+
+          <Text style={styles.sectionTitle}>MY PROFILE</Text>
+
           <View style={styles.infoBox}>
-            <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon} />
+            <Icon name="ios-information-circle-outline" style={styles.infoBoxIcon}/>
 
             <View style={styles.infoBoxContent}>
               <Text style={styles.infoBoxText}>
@@ -70,11 +118,14 @@ class Settings extends React.Component {
             </View>
           </View>
 
-          <Field type="text" legend="Birthday" value={this.props.user.birthday_display} style={styles.singleField} />
+          <Field type="text" legend="Name" value={this.props.user.get('name')} />
 
-          <Field type="text" legend="University" value={this.props.user.network} style={styles.singleField} />
+          <Field type="text" legend="Birthday" value={this.props.user.get('birthday')} stickToPrevious={true} />
 
-          <Field type="bool" legend="Suspend Discovery" value={this.state.settings.suspend_discovery} onChange={value => this._updateSetting('suspend_discovery', value)} style={styles.singleField} />
+          <Field type="text" legend="University" value={this.props.user.get('network')} stickToPrevious={true} />
+
+          <Field type="bool" legend="Suspend Discovery" value={this.props.settings.get('suspend_discovery')}
+                 onChange={value => this.props.save('suspend_discovery', value)} style={styles.singleField}/>
 
           <View style={styles.infoBox}>
             <View style={styles.infoBoxContent}>
@@ -88,24 +139,26 @@ class Settings extends React.Component {
 
           <Text style={styles.sectionTitle}>NOTIFICATIONS</Text>
 
-          <Field type="bool" legend="New messages" value={this.state.settings.notify_new_messages} onChange={value => this._updateSetting('notify_new_messages', value)} />
+          <Field type="bool" legend="New messages" value={this.props.settings.get('notify_new_messages')}
+                 onChange={value => this.props.save('notify_new_messages', value)}/>
 
-          <Field type="bool" legend="Announcements & Updates" value={this.state.settings.notify_announcements} onChange={value => this._updateSetting('notify_announcements', value)} stickToPrevious={true} />
+          <Field type="bool" legend="Announcements & Updates" value={this.props.settings.get('notify_announcements')}
+                 onChange={value => this.props.save('notify_announcements', value)} stickToPrevious={true}/>
 
           <Text style={styles.sectionTitle}>PROCO</Text>
 
-          <Field type="link" legend="Contact" onPress={() => true} />
+          <Field type="link" legend="Contact" onPress={() => true}/>
 
           <Text style={styles.sectionTitle}>LEGAL</Text>
 
-          <Field type="link" legend="Privacy Policy" onPress={Actions.PRIVACY_POLICY} />
+          <Field type="link" legend="Privacy Policy" onPress={Actions.PRIVACY_POLICY}/>
 
-          <Field type="link" legend="Terms of Usage" onPress={Actions.TERMS_OF_USAGE} stickToPrevious={true} />
+          <Field type="link" legend="Terms of Usage" onPress={Actions.TERMS_OF_USAGE} stickToPrevious={true}/>
 
-          <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true} />
+          <Field type="link" legend="Licenses" onPress={Actions.LICENSES} stickToPrevious={true}/>
 
 
-          <Field type="link" legend="Logout" onPress={() => this.props.dispatch(logout())} stickToPrevious={true} />
+          <Field type="link" legend="Logout" onPress={this.props.signOut} stickToPrevious={true}/>
 
           <View style={styles.infoBox}>
             <View style={styles.infoBoxContent}>
@@ -115,9 +168,9 @@ class Settings extends React.Component {
               </Text>
             </View>
           </View>
-          
+
           <View style={styles.procoLogoContainer}>
-            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo} />
+            <Image source={require('../../assets/images/logo-light.png')} style={styles.logo}/>
           </View>
 
           <View style={styles.versionContainer}>
@@ -128,15 +181,12 @@ class Settings extends React.Component {
     );
   }
 
-  _updateSetting(name, value) {
-    this.setState({
-      settings: Object.assign({}, this.state.settings, {[name]: value})
-    });
+  _updateAgeLimits(value) {
+    this.props.save('age_min', value[0]);
+    this.props.save('age_max', value[1]);
   }
 
   _done() {
-    this.ref.set(this.state.settings);
-
     Actions.pop();
   }
 }

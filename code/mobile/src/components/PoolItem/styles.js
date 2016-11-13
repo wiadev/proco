@@ -5,14 +5,34 @@ import {
 
 import colors from '../../core/style/colors';
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
   poolItem: {
-    width: Dimensions.get('window').width
+    width,
+    height,
   },
   poolItemContent: {
     flex: 0,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     padding: 10
+  },
+  displeaseButton: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+  },
+  displeaseButtonContent: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 16,
+    backgroundColor: colors.gray1,
+    opacity: 0.4
+  },
+  displeaseButtonIcon: {
+    backgroundColor: 'transparent',
+    color: colors.primaryAlt,
+    fontSize: 14
   },
   actionButtonContainer: {
     alignItems: 'center',

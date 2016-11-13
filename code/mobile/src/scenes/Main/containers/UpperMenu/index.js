@@ -4,6 +4,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+StatusBar,
 } from 'react-native';
 
 import Container from '../../../../components/Container';
@@ -22,21 +23,20 @@ const menuItems = [
     action: () => Actions.ShootNewProfileLoop()
   },
   {
-    title: "Discovery filters",
-    action: () => Actions.Filters()
-  },
-  {
     title: "Settings",
     action: () => Actions.Settings()
   }
 ];
 
-@connect(state => ({avatar: state.api.data.userInfo.avatar}))
+@connect(state => ({avatar: state.user.info.get('avatar')}))
 export default class UpperMenu extends React.Component {
   render() {
     // TODO: Colors used in LinearGradient are not in color palette. Need to replace those colors or add them to palette.
     return (
       <Container>
+        <StatusBar
+          hidden={true}
+        />
         <View style={styles.logoRow}>
           <View style={styles.logoSideCushion} />
 

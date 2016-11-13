@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import Conversation from "../../../components/Chat/Conversation";
-import { report, block } from "../../../modules/Profiles/actions";
+//import { report, block } from "../../../modules/Profiles/actions";
 import {
   post,
-  startWatchingThread,
-  stopWatchingThread,
   loadMessages,
   markThreadAsSeen,
-} from "../../../modules/Chat/actions";
+} from "../../../modules/chat/actions";
 
 @connect(
   (state, ownProps) => {
@@ -27,8 +25,6 @@ import {
   },
   (dispatch, ownProps) => ({
     post: (message) => dispatch(post(ownProps.data, message)),
-    startWatching: () => dispatch(startWatchingThread(ownProps.data)),
-    stopWatching: () => dispatch(stopWatchingThread(ownProps.data)),
     loadMessages: (endAt) => dispatch(loadMessages(ownProps.data, endAt)),
     markThreadAsSeen: () => dispatch(markThreadAsSeen(ownProps.data)),
     report: (uid) => dispatch(report(uid, {

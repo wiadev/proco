@@ -1,18 +1,18 @@
 const functions = require('firebase-functions');
-const moment = require('moment');
 
-const GenerateSummary = require('./GenerateSummary');
+const GenerateProfile = require('./GenerateProfile');
 const NetworkEmail = require('./NetworkEmail');
 const MobileNumber = require('./MobileNumber');
 
-const isAnyTrue = (arr) => arr.some(el => Boolean(el) == true);
+const isAnyTrue = (arr) => arr.some(el => Boolean(el) === true);
 
 module.exports = functions.database().path('/users/info/{uid}')
-  .onWrite('write', (event) => {
+  .onWrite(event => {
 
     const {data, params: {uid}} = event;
 
-    if (data.val() === null) return Promise.resolve(); // This only happens when the user is deleted, clean up functions takes care of other information.
+    if (data.val() === null) return Promise.resolve(); // This only happens when the user is deleted, clean up
+                                                       // functions takes care of other information.
 
     const {previous, adminRef : {root}} = data;
 
@@ -34,9 +34,10 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('gender'),
       ])) {
 
-      const isOnboarded = !!(data.child('network_email').val() && data.child('birthday').val() && data.child('gender').val());
+      const isOnboarded = !!(data.child('network_email').val() && data.child('network_email_verified').val() && data.child('birthday').val() && data.child('gender')
+        .val());
 
-      actions.push(root.child(`/users/is/${uid}/onboarded`).set(isOnboarded));
+      actions.push(root.child(`/users/info/${uid}/onboarded`).set(isOnboarded));
 
     }
 
@@ -46,10 +47,12 @@ module.exports = functions.database().path('/users/info/{uid}')
         isChanged('gender'),
         isChanged('first_name'),
         isChanged('last_name'),
-        isChanged('avatar')
+        isChanged('avatar'),
+        isChanged('current_question'),
+        isChanged('current_question_id'),
       ])) {
 
-      actions.push(root.child(`/users/summary/${uid}`).set(GenerateSummary(data.val())));
+      actions.push(root.child(`/users/profile/${uid}`).set(GenerateProfile(data.val())));
 
     }
 

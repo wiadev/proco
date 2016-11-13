@@ -11,7 +11,7 @@ import { generateRandomPoint } from './utils';
 export const usersRef = database.ref('users');
 export const dollsRef = (uid) => database.ref(`internal/playhouse/dolls/${uid ? uid : ''}`);
 export const oceanRef = new GeoFire(database.ref('ocean/index'));
-export const summaryRef = usersRef.child('summary');
+export const summaryRef = usersRef.child('profile');
 
 /*
 * This function imitates what happens after a real user logins.
@@ -34,7 +34,6 @@ const addNewDoll = () => {
   // UID's are generated with the Doll name. We also add unix timestamp to the end to prevent possible collusions.
   const uid = slug(`d-${first_name}-${last_name}-${birthday.format('X')}`, { lower: true });
 
-
   const info = {
     fid: 0, // Facebook ID is always 0 with the dolls.
     name: `${first_name} ${last_name}`,
@@ -45,38 +44,33 @@ const addNewDoll = () => {
     avatar: faker.internet.avatar(),
     network_email: `${uid}@playhouse.procoapp.com`,
     network: `playhouse`, // Also, the network assignment normally automatic but done in the e-mail verification steps (obivously)
+    // We are not setting onboarded because that's handled by our handlers :)
+    network_email_verified: true,
   };
 
-  const settings = {
-    suspend_discovery: (Math.round(Math.random()) ? true : false),
-    notify_announcements: false,
-    notify_new_messages: false,
-  };
-
-  const genderFilters = ['male', 'female', 'both'];
-  
   // Since we are only testing with a few hundred users and manually checking, this filter would be an overkill.
   //const randomAge = (min = 18, max = 45) => Math.floor(Math.random() * (max - min + 1) + min);
   //const age_min = randomAge();
   //const age_max = randomAge(age_min);
 
-  const filters = {
+
+  const genderFilters = ['male', 'female', 'both'];
+
+  const settings = {
+    suspend_discovery: (Math.round(Math.random()) ? true : false),
+    notify_announcements: false,
+    notify_new_messages: false,
     gender: genderFilters[Math.floor(Math.random() * genderFilters.length)],
     age_min: 18,
     age_max: 45,
     only_from_network: (Math.round(Math.random()) ? true : false),
   };
 
-  // We are not setting onboarded because that's handled by our handlers :)
-  const is = {
-    verified: true,
-  };
+
 
   const data = {
     [`info/${uid}`]: info,
     [`settings/${uid}`]: settings,
-    [`filters/${uid}`]: filters,
-    [`is/${uid}`]: is,
     [`network-map/playhouse/${uid}`]: true,
   };
 
@@ -85,7 +79,6 @@ const addNewDoll = () => {
       data: {
         info,
         settings,
-        filters,
       },
       token: firebaseAppROOT.auth().createCustomToken(uid),
       added_at: moment().toString(),
@@ -146,13 +139,15 @@ export const spreadDollsRandomly = (count = 20, lat = 41, lng = 29, radius = 100
 });
 
 function postQuestion(uid, question) { // this is taken directly from the app (except for the UID param) and shouldn't be tweaked.
+
+  console.log(uid, question);
   const usersRef = database.ref('users');
   const key = database.ref('keyGenerator').push().key;
   const questionUpdates = {
     [`info/${uid}/current_question`]: question,
     [`info/${uid}/current_question_id`]: key,
-    [`summary/${uid}/current_question`]: question,
-    [`summary/${uid}/current_question_id`]: key,
+    [`profile/${uid}/current_question`]: question,
+    [`profile/${uid}/current_question_id`]: key,
     [`questions/${key}`]: {
       uid,
       question,

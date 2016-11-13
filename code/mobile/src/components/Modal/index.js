@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { BlurView } from 'react-native-blur';
 
@@ -21,6 +21,7 @@ export default class CustomModal extends React.Component {
       <Modal
         ref="modal"
         isOpen={this.props.isOpen}
+        backdropPressToClose={this.props.backdropPressToClose}
         swipeToClose={this.props.swipeToClose}
         entry="top"
         animationDuration={300}
@@ -31,7 +32,9 @@ export default class CustomModal extends React.Component {
           height: screenSize.height * this.props.height
         }]}
       >
-        {this.props.children}
+        <View style={styles.content}>
+          {this.props.children}
+        </View>
       </Modal>
     );
   }
@@ -51,6 +54,7 @@ export default class CustomModal extends React.Component {
 
 CustomModal.propTypes = {
   isOpen: React.PropTypes.bool,
+  backdropPressToClose: React.PropTypes.bool,
   swipeToClose: React.PropTypes.bool,
   width: React.PropTypes.number,
   height: React.PropTypes.number
@@ -58,6 +62,7 @@ CustomModal.propTypes = {
 
 CustomModal.defaultProps = {
   isOpen: false,
+  backdropPressToClose: true,
   swipeToClose: false,
   width: 0.9,
   height: 0.6

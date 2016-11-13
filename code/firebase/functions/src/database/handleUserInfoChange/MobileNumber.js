@@ -7,7 +7,7 @@ module.exports = (uid, mobile_number, root) => {
   // @TODO: Verify the number here too.
   // @TODO: Handle brute forcing.
 
-  return root.child(`/users/is/${uid}/mobile_number_verified`)
+  return root.child(`/users/info/${uid}/mobile_number_verified`)
     .set(false)
     .then(() => {
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   StatusBar,
@@ -15,8 +15,8 @@ import Text from '../../components/Text';
 import Button from '../../components/Button';
 import ProfileLoop from '../../components/ProfileLoop';
 import Bubble from '../../components/Bubble';
-import { getProfileLoopOf } from '../../modules/Profiles/Loops/api';
-import { postQuestion } from '../../modules/User/actions';
+import { getProfileLoopOf } from '../../modules/profiles/loops/api';
+import { questionUpdateRequest } from '../../modules/user/actions';
 import styles from './styles';
 
 const statuses = {
@@ -25,8 +25,16 @@ const statuses = {
   VIEWING: 'viewing'
 };
 
-@connect(state => ({auth: state.auth, user: state.api.data.userInfo}))
-export default class UpdateYourQuestion extends React.Component {
+@connect(
+  state => ({
+    auth: state.auth,
+    current_question: state.user.info.get('current_question'),
+  }),
+  dispatch => ({
+    update: (question) => dispatch(questionUpdateRequest(question)),
+  })
+)
+export default class UpdateYourQuestion extends Component {
   constructor(props) {
     super(props);
 
@@ -40,7 +48,7 @@ export default class UpdateYourQuestion extends React.Component {
 
   componentDidMount() {
     this.setState({
-      question: this.props.user.current_question
+      question: this.props.current_question
     });
 
     getProfileLoopOf(this.props.auth.uid)
@@ -58,7 +66,7 @@ export default class UpdateYourQuestion extends React.Component {
       <View style={styles.updateYourQuestion}>
         <StatusBar hidden={true} />
 
-        <ProfileLoop video={this.state.profileLoop} repeat={true}>
+        <ProfileLoop video={this.state.profileLoop}>
           {this._renderOverlay()}
 
           <KeyboardAvoidingView behavior="padding" style={styles.wrapper}>
@@ -135,7 +143,7 @@ export default class UpdateYourQuestion extends React.Component {
 
   _done() {
     // Editing is complete. User's question is available on this.state.question.
-    postQuestion(this.state.question);
+    this.props.update(this.state.question);
 
     this.setState({
       status: statuses.VIEWING

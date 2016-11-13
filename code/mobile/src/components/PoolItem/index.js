@@ -1,17 +1,18 @@
 import React from "react";
 import {
   View,
+  TouchableOpacity,
   KeyboardAvoidingView,
   ActionSheetIOS,
-  TouchableOpacity
-} from "react-native";
-import PureRenderMixin from "react-addons-pure-render-mixin";
-import _ from "lodash";
+} from 'react-native';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import Icon from 'react-native-vector-icons/Ionicons';
+import _ from 'lodash';
 
-import ProfileLoop from "../ProfileLoop";
+import ProfileLoop from '../ProfileLoop';
 import Bubble from '../Bubble';
 import Button from '../Button';
-import styles from "./styles";
+import styles from './styles';
 
 const initialState = {
   answer: "",
@@ -40,11 +41,20 @@ export default class PoolItem extends React.Component {
   render() {
     return (
       <View style={styles.poolItem} onLayout={event => this._onPoolItemLayout(event)}>
-        <ProfileLoop video={this.props.profileLoop.file} repeat={true}>
+        <ProfileLoop>
           <KeyboardAvoidingView behavior="position">
             <View style={[styles.poolItemContent, {height: this.state.height}]}>
-              {this._renderQuestionAndAnswer()}
-              {this._renderActionButton()}
+              <TouchableOpacity onPress={() => this._showDispleaseMenu()} activeOpacity={0.5} style={styles.displeaseButton}>
+                <View style={styles.displeaseButtonContent}>
+                  <Icon name="ios-warning" style={styles.displeaseButtonIcon} />
+                </View>
+              </TouchableOpacity>
+
+              <View>
+                {this._renderQuestionAndAnswer()}
+
+                {this._renderActionButton()}
+              </View>
             </View>
           </KeyboardAvoidingView>
         </ProfileLoop>
@@ -135,7 +145,7 @@ export default class PoolItem extends React.Component {
         this.props.onComplete(this.props.uid, 'match');
         break;
       case 'ANSWER':
-        this.props.onComplete(this.props.uid, 'answer', {answer: this.state.answer});
+        this.props.onComplete(this.props.uid, 'answer', {answer: this.state.answer, qid: this.props.question.qid});
         break;
       case 'BLOCK':
         this.props.onComplete(this.props.uid, 'block');

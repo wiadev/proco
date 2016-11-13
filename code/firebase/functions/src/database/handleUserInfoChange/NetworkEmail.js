@@ -1,7 +1,7 @@
-var axios = require('axios');
-var jwt = require('jwt-simple');
-var qs = require('qs');
-var validator = require('validator');
+const axios = require('axios');
+const jwt = require('jwt-simple');
+const qs = require('qs');
+const validator = require('validator');
 
 const getCleanNetworkDomain = (email) => email.split('@')[1].replace(/\./g, '-');
 
@@ -12,14 +12,13 @@ module.exports = (uid, network_email, previous_network_email, root) => {
   return getFID.then(fid => {
     if (fid === 0) return Promise.resolve(); // User is either a system user, admin or a doll.
 
-    const isVerifiedRef = root.child(`/users/is/${uid}/network_email_verified`);
+    const isVerifiedRef = root.child(`/users/info/${uid}/network_email_verified`);
 
     // @TODO: Handle brute forcing.
 
     return isVerifiedRef.set(false).then(() => {
 
       const userInfoRef = root.child(`/users/info/${uid}`);
-
       const verRef = root.child(`/users/verifications/network_email/${uid}`); // verification ref
 
       /*
@@ -55,7 +54,8 @@ module.exports = (uid, network_email, previous_network_email, root) => {
 
       if (network_email !== normalizedEmail) return networkEmailRef.set(normalizedEmail);
 
-      const code = root.child('/code-generation').push().key; // Learn this trick. It generates a time-based sortable random key.
+      const code = root.child('/code-generation').push().key; // Learn this trick. It generates a time-based sortable
+                                                              // random key.
       return verRef.child('_code').set(code).then(() => {
 
         const token = jwt.encode({
@@ -99,6 +99,5 @@ module.exports = (uid, network_email, previous_network_email, root) => {
           })
       });
     });
-
   });
 };

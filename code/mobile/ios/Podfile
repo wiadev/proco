@@ -6,6 +6,7 @@ target 'Proco' do
   pod 'FBSDKShareKit'
   pod 'FBSDKLoginKit'
   pod 'Firebase'
+  pod 'Firebase/Analytics'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Firebase/Storage'
@@ -19,4 +20,5 @@ target 'Proco' do
     # Pods for testing
   end
 
+  use_frameworks!
 end

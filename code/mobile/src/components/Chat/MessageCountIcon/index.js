@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 
-@connect(state => ({threads: state.api.data.userThreads, profiles: state.profiles.profiles}))
+@connect(state => ({threads: state.chat.threads, profiles: state.profiles.profiles}))
 export default class MessageCountIcon extends React.Component {
   constructor(props) {
     super(props);
