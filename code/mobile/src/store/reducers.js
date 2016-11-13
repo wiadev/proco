@@ -8,6 +8,7 @@ import poolReducer from "../modules/pool/reducer";
 import locationReducer from "../core/location/reducer";
 import profilesReducer from "../modules/profiles/reducer";
 import chatReducer from "../modules/chat/reducer";
+import inAppAlertsReducer from "../modules/InAppAlert/reducer";
 
 const reducers = {
   auth: authReducer,
@@ -17,6 +18,7 @@ const reducers = {
   pool: poolReducer,
   profiles: profilesReducer,
   chat: chatReducer,
+  inAppAlerts: inAppAlertsReducer,
 };
 
 const namespacedReducer = combineReducers(

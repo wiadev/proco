@@ -12,11 +12,40 @@ alert props:
     type: string['danger'|'warning'|'success'|'info']
     duration: int
     title: string
-    context: string
+    context: string,
+    onPress: function
 */
 
 export const initialState = {
     alerts: [
+      {
+        duration: 3000,
+        type: 'danger',
+        title: "Danger",
+        context: "This is a danger type alert.",
+        onPress: () => console.log("onPress"),
+      },
+      {
+        duration: 4000,
+        type: 'warning',
+        title: "Warning",
+        context: "This is a warning type alert.",
+        onPress: () => console.log("onPress"),
+      },
+      {
+        duration: 5000,
+        type: 'success',
+        title: "Success",
+        context: "This is a success type alert.",
+        onPress: () => console.log("onPress"),
+      },
+      {
+        duration: 6000,
+        type: 'info',
+        title: "Info",
+        context: "This is a info type alert.",
+        onPress: () => console.log("onPress"),
+      }
     ]
 };
 
