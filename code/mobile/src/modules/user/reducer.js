@@ -2,7 +2,7 @@ import { UserData } from './user';
 import { USER_DATA_INITIALIZED, USER_DATA_RECEIVED } from './actions';
 import { SIGN_OUT_FULFILLED } from '../../core/auth/actions';
 
-export function userDataReducer(state = new UserData(), {payload, type}) {
+export default function userDataReducer(state = new UserData(), {payload, type}) {
 
   switch (type) {
     case USER_DATA_INITIALIZED:

@@ -8,7 +8,7 @@ import {
   USER_DATA_INITIALIZED,
   USER_SETTING_SAVE_REQUESTED,
   USER_QUESTION_UPDATE_REQUEST,
-  userDataReceived
+  userDataReceived,
 } from "./actions";
 import { onboardingData } from "./onboarding/api";
 import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted, userOnboardingCompleted } from "./onboarding";

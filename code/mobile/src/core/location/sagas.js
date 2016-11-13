@@ -20,9 +20,7 @@ const {RNLocation: Location} = require('NativeModules');
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
 
-function* processNewLocationData(action) {
-  let {payload: {latitude, longitude}} = action;
-
+function* processNewLocationData({payload: {latitude, longitude}}) {
   try {
     let uid = yield select(getUID);
     yield call(updateLocationToDatabase, uid, latitude, longitude);
@@ -63,8 +61,8 @@ function* watchStartTracking() {
 
 function* watchLocation() {
   while (true) {
-    let uid = yield select(getUID);
     yield take(STARTED_TRACKING_LOCATION);
+    let uid = yield select(getUID);
     let watcher = yield fork(read, subscribe, uid);
     yield take([SIGN_OUT_FULFILLED, STOP_TRACKING_LOCATION]);
     yield cancel(watcher);
