@@ -1,6 +1,7 @@
 import { takeEvery } from "redux-saga";
 import { call, fork, put, select } from "redux-saga/effects";
 import { getUID } from "../../core/auth/api";
+import { send } from "../chat/actions";
 import {
   PROFILE_LOAD_REQUEST,
   PROFILE_REPORT_REQUEST,
@@ -58,7 +59,7 @@ function * processMatchRequest({payload: {pid}}) {
     let uid = yield select(getUID);
     yield call(changeMatchStatus, uid, pid, true);
     let thread_key = yield call(afterMatchTasks, uid, pid);
-    yield put(newMessage(thread_key, {
+    yield put(send(thread_key, {
       text: `Congrats, it's a match!`,
       user: 'proco',
       type: 'matched-banner',

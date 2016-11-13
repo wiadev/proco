@@ -139,7 +139,7 @@ function * watchAuthentication() {
   }
 }
 
-const sagas = [
+export default [
   fork(watchAuthentication),
   fork(watchPool),
   fork(watchPoolReset),
@@ -148,5 +148,3 @@ const sagas = [
   fork(watchActions),
   fork(watchAnswers),
 ];
-
-export default sagas;

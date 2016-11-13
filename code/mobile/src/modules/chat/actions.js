@@ -3,6 +3,7 @@ import { assign } from "../../core/utils";
 import { getThreadPeople } from "./api";
 //import { loadSummary } from "../Profiles/actions";
 
+export const CHAT_MESSAGE_SEND_REQUEST = 'Proco/Chat/SendRequest';
 export const MESSAGES_RECEIVED = 'Proco/Chat/MessagesReceived';
 export const THREAD_OPEN_REQUEST = 'Proco/Chat/ThreadOpenRequest';
 export const THREAD_CLOSE_REQUEST = 'Proco/Chat/ThreadCloseRequest';
@@ -131,5 +132,13 @@ export const openThread = (thread_id, payload) => ({
   payload: {
     thread_id,
     payload,
+  },
+});
+
+export const send = (thread_id, message) => ({
+  type: CHAT_MESSAGE_SEND_REQUEST,
+  payload: {
+    thread_id,
+    message,
   },
 });

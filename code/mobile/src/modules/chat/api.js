@@ -1,4 +1,4 @@
-import { database, getFirebaseDataWithCache } from "../../core/firebase";
+import { database, timestamp,getKey,  getFirebaseDataWithCache } from "../../core/firebase";
 
 export const getThreadPeople = thread_id =>
   getFirebaseDataWithCache(`threads/info/${thread_id}/people`)
@@ -9,7 +9,7 @@ export const getThreadRefAsString = (uid, thread_id) => `threads/messages/${thre
 export const markThreadAsSeen = (uid, thread_id) =>
   database.ref(`inboxes/${uid}/unseen_threads/${thread_id}`).set(null);
 
-export const post = async(uid, thread_id, message) => {
+export const send = async(uid, thread_id, message) => {
 
   const people = await getThreadPeople(thread_id);
 
