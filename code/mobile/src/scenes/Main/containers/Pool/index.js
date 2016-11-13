@@ -81,7 +81,6 @@ export default class Pool extends React.Component {
   }
 
   _doneWithPoolItem(uid, act = 'skip', payload = {}) {
-    console.log("u", uid, act, payload)
     this.props.takeAction(uid, act, payload);
   }
 

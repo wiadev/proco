@@ -1,13 +1,13 @@
 import { takeEvery } from "redux-saga";
 import { call, fork, put, select } from "redux-saga/effects";
 import { getUID } from "../../core/auth/api";
+import { assign } from "../../core/utils";
 import { send } from "../chat/actions";
 import {
   PROFILE_LOAD_REQUEST,
   PROFILE_REPORT_REQUEST,
   PROFILE_BLOCK_REQUEST,
   PROFILE_MATCH_REQUEST,
-  PROFILE_UNMATCH_REQUEST,
   profileLoaded,
   profileLoadFailed,
   block
@@ -28,15 +28,13 @@ function* loadProfile(action) {
 }
 
 
-function * processBlockRequest({payload: {pid, payload}}) {
-
+function * processBlockRequest({payload: {pid, status, payload}}) {
   try {
     let uid = yield select(getUID);
-    yield call(changeBlockStatus, uid, pid, (payload.status || true), payload);
+    yield call(changeBlockStatus, uid, pid, status, payload);
   } catch (e) {
     console.log(e);
   }
-
 }
 
 function * processReportRequest({payload: {pid, payload}}) {

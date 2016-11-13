@@ -4,17 +4,22 @@ import { Actions } from "react-native-router-flux";
 import { read } from "../../core/sagas";
 import { SIGN_IN_FULFILLED, SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
-import { USER_DATA_INITIALIZED, USER_SETTING_SAVE_REQUESTED, USER_QUESTION_UPDATE_REQUEST, userDataReceived } from "./actions";
+import {
+  USER_DATA_INITIALIZED,
+  USER_SETTING_SAVE_REQUESTED,
+  USER_QUESTION_UPDATE_REQUEST,
+  userDataReceived
+} from "./actions";
 import { onboardingData } from "./onboarding/api";
 import { onboarding, USER_ONBOARDING_COMPLETED, userOnboardingStarted, userOnboardingCompleted } from "./onboarding";
 import subscriptionCreator from "./subscribe";
-import {saveSetting as saveSettingToDatabase, updateCurrentQuestion } from './api';
+import { saveSetting as saveSettingToDatabase, updateCurrentQuestion } from "./api";
 
 const subscribe = (uid, emit) =>
   eventChannel(emit => subscriptionCreator(uid, emit));
 
 function* saveSetting(action) {
-  let {payload: { key, value }} = action;
+  let {payload: {key, value}} = action;
 
   try {
     yield put(userDataReceived('settings', key, value));
@@ -27,7 +32,7 @@ function* saveSetting(action) {
 }
 
 function* processQuestionUpdate(action) {
-  let {payload: { question }} = action;
+  let {payload: {question}} = action;
 
   try {
     let uid = yield select(getUID);

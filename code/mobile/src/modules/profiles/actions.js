@@ -28,7 +28,11 @@ export const report = (pid, payload) => ({
 
 export const block = (pid, payload) => ({
   type: PROFILE_BLOCK_REQUEST,
-  payload: {pid, ...payload}
+  payload: {
+    pid, ...Object.assign({
+      status: true,
+    }, payload)
+  },
 });
 
 export const match = (pid, payload) => ({

@@ -1,11 +1,12 @@
 import {
   database,
   logEvent,
+  getUserRef,
   getUserPath,
   getFirebaseDataWithCache,
   getNetworkTitle,
   timestamp,
-  refs
+  refs,
 } from "../../core/firebase";
 import { post } from "../chat/actions";
 
@@ -35,16 +36,18 @@ export async function getProfile(uid) {
   };
 }
 
-export const report = (uid, pid, payload) => new Promise((resolve, reject) => {
-  logEvent('reports', {
+export const report = (uid, pid, payload = null) => {
+  let actions = [];
+
+  actions.push(logEvent('reports', {
     reported_user: pid,
     report_payload: payload,
-  });
+  }));
 
   const reportRef = database.ref(`reports/${pid}`);
   const counterRef = reportRef.child('counter');
 
-  return reportRef.child(`reported_by/${uid}`).set(true).then(() => {
+  actions.push(reportRef.child(`reported_by/${uid}`).set(true).then(() => {
     return counterRef.transaction((count) => {
       if (count) {
         count++;
@@ -61,8 +64,10 @@ export const report = (uid, pid, payload) => new Promise((resolve, reject) => {
         });
       });
     });
-  });
-});
+  }));
+
+  return Promise.all(actions);
+};
 
 export const startTrackingOnlineStatus = (uid) => {
   return dispatch => {
@@ -107,14 +112,24 @@ const onlineStatusChanged = (uid, status = false) => ({
   },
 });
 
-export const changeBlockStatus = (uid, pid, status = true, payload = {}) =>
-  database.ref(`users/blocks/${uid}/${pid}`).set(status).then(() => {
+export const changeBlockStatus = (uid, pid, status = true, payload = {}) => {
+
+  status = (status ? true : null);
+
+  let updates = {
+    [`blocks/${uid}/${pid}`]: status,
+    [`blocked_by/${pid}/${uid}`]: status,
+  };
+
+  return database.ref('users').update(updates).then(() => {
     return logEvent('blocks', {
       user: pid,
       block_payload: payload,
       status,
     });
   });
+
+};
 
 export const afterMatchTasks = (uid, uidToMatch) => {
   const thread = database.ref('threads/info').push();

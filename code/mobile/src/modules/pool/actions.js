@@ -61,7 +61,6 @@ export const focus = uid => ({
   },
 });
 
-
 export const statusChanged = status => ({
   type: POOL_STATUS_CHANGED,
   payload: {
