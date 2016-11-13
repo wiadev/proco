@@ -86,11 +86,9 @@ function* watchMatchRequests() {
   yield * takeEvery(PROFILE_MATCH_REQUEST, processMatchRequest);
 }
 
-const sagas = [
+export default [
   fork(watchProfileLoadRequests),
   fork(watchBlockRequests),
   fork(watchReportRequests),
   fork(watchMatchRequests),
 ];
-
-export default sagas;

@@ -45,7 +45,7 @@ function* processSendMessageRequest(action) {
 }
 
 function* watchReceivedMessages() {
-  yield * takeEvery(MESSAGES_RECEIVED, processRecievedMessages);
+  yield * takeEvery(MESSAGES_RECEIVED, processReceivedMessages);
 }
 
 function* watchThreadOpenRequests() {
