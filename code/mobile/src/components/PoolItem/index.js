@@ -50,9 +50,11 @@ export default class PoolItem extends React.Component {
                 </View>
               </TouchableOpacity>
 
-              {this._renderQuestionAndAnswer()}
+              <View>
+                {this._renderQuestionAndAnswer()}
 
-              {this._renderActionButton()}
+                {this._renderActionButton()}
+              </View>
             </View>
           </KeyboardAvoidingView>
         </ProfileLoop>
