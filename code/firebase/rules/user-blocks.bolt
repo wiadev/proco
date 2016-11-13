@@ -2,3 +2,8 @@ path /users/blocks/{uid}/{mid} is Boolean {
   read() { isCurrentUser(uid) }
   write() { isCurrentUser(uid) }
 }
+
+path /users/blocked_by/{mid}/{uid} is Boolean {
+  read() { isCurrentUser(uid) }
+  write() { isCurrentUser(uid) }
+}

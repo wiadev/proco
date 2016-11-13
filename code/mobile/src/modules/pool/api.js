@@ -1,6 +1,7 @@
+import { assign } from "../../core/utils";
 import { database, timestamp, getFirebaseDataWithCache } from "../../core/firebase";
 import { getProfileLoopOf } from "../profiles/loops/api";
-import { block, report, match} from "../profiles/actions";
+import { block, report, match } from "../profiles/actions";
 import { answer as answerAction } from "./actions";
 
 const getQuestion = qid =>
@@ -44,7 +45,7 @@ export const decideAction = (uid, act, payload = {}) => {
     case 'report':
       return report(uid, assign({
         ref: 'pool',
-      }));
+      }, payload));
       break;
     case 'block':
       return block(uid, {
