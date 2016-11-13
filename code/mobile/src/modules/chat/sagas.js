@@ -32,16 +32,15 @@ function* processReceivedMessages(action) {
   let profile = yield select(getProfile, uid)
 }
 
-function* processSendMessageRequest(action) {
-  let {payload: {thread_id, message}} = action;
+function* processSendMessageRequest({payload: {thread_id, message}}) {
 
   try {
     let uid = yield select(getUID);
     yield call(send, uid, thread_id, message);
-
   } catch (e) {
-
+    console.log(e);
   }
+
 }
 
 function* watchReceivedMessages() {

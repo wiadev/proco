@@ -20,3 +20,8 @@ export const requestPermission = () =>
     .then(status => {
       if (status == !'authorized') return Promise.reject(status);
     });
+
+export const getLatestLocation = ({location: {latitude, longitude}}) => ({
+  latitude,
+  longitude,
+});

@@ -44,11 +44,11 @@ path /ocean {
       validate() { this.includes('IN_PROGRESS') }
     }
 
+    path /location is LDCoords;
     path /last_checked is CurrentTimestamp;
   }
 
 }
-
 
 type LDCoords extends Object {
   '0': LAT,

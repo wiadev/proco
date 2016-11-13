@@ -67,8 +67,9 @@ export const decideAction = (uid, act, payload = {}) => {
 export const removeFromPool = (uid, user_key, loop_key) =>
   database.ref(`ocean/pools/${uid}/${user_key}`).set(null);
 
-export const resetPool = (uid) =>
+export const resetPool = (uid, latestLocation) =>
   database.ref(`ocean/statuses/${uid}`).set({
     status: 'IN_PROGRESS_RESET',
     last_checked: timestamp,
+    location: [latestLocation.latitude, latestLocation.longitude],
   });

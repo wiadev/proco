@@ -11,7 +11,7 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
     const locationData = event.data.child('l').val();
 
     if (!locationData) {
-      return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
+      return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).update({
         status: 'NO_LOCATION',
         last_checked: timestamp,
       });
@@ -21,16 +21,15 @@ $.ocean = functions.database().path('/ocean/index/{uid}')
 
     if (previousLocationData) {
       const distance = GeoFire.distance([locationData[0], locationData[1]], [previousLocationData[0], previousLocationData[1]]);
-      console.log("distance", distance);
       if (distance < 0.5) {
         return Promise.resolve();
       }
     }
-    console.log("here");
 
-    return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).set({
+    return event.data.adminRef.root.child(`ocean/statuses/${event.params.uid}`).update({
       status: 'NEEDS_REFRESH',
       last_checked: timestamp,
+      location: locationData,
     });
 
   });
@@ -39,10 +38,7 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
   .onWrite(event => {
 
     const current = event.data.val();
-    console.log("generating1");
-
     if (current === null) return Promise.resolve();
-    console.log("generating2");
 
     const previous = event.data.previous.val();
 
@@ -53,10 +49,7 @@ $.poolStatus = functions.database().path('/ocean/statuses/{uid}')
         .then(() => generator(event));
     }
 
-
-    console.log("generating");
     return generator(event);
   });
-
 
 module.exports = $;

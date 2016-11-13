@@ -1,9 +1,10 @@
 import { eventChannel, takeEvery, takeLatest } from "redux-saga";
 import { call, put, select, fork, take, cancel } from "redux-saga/effects";
-import { isIn } from "validator";
+import isIn from "validator/lib/isIn";
 import { delay } from "../../core/sagas";
 import { SIGN_OUT_FULFILLED } from "../../core/auth/actions";
 import { getUID } from "../../core/auth/api";
+import { getLatestLocation } from "../../core/location/api";
 import { startTracking as startTrackingLocation } from "../../core/location/actions";
 import { USER_DATA_RECEIVED } from "../../modules/user/actions";
 import { getCurrentQuestion } from "../../modules/user/api";
@@ -69,8 +70,13 @@ function * triggerPoolUpdate() {
 }
 
 function * processAfterReset () {
-  let uid = yield select(getUID);
-  yield call(resetPool, uid);
+  try {
+    let uid = yield select(getUID);
+    let latestLocation = yield select(getLatestLocation);
+    yield call(resetPool, uid, latestLocation);
+  } catch (e) {
+    //
+  }
 }
 
 function * processPoolAction({payload: {uid, act, payload}}) {
