@@ -3,6 +3,10 @@ export const USER_ONBOARDING_COMPLETED = 'Proco/User/Onboarding/Completed';
 export const USER_ONBOARDING_STARTED = 'Proco/User/Onboarding/Started';
 export const USER_ONBOARDING_STEP_DECIDED = 'Proco/User/Onboarding/StepDecided';
 export const USER_ONBOARDING_RESET_ERROR = 'Proco/User/Onboarding/ResetError';
+export const USER_ONBOARDING_NETWORK_EMAIL_POSTED = 'Proco/User/Onboarding/NetworkEmail/Posted';
+export const USER_ONBOARDING_NETWORK_EMAIL_RESULTED = 'Proco/User/Onboarding/NetworkEmail/Resulted';
+export const USER_ONBOARDING_MISSING_INFORMATION_POSTED = 'Proco/User/Onboarding/MissingInformation/Posted';
+export const USER_ONBOARDING_MISSING_INFORMATION_RESULTED = 'Proco/User/Onboarding/MissingInformation/Resulted';
 
 export const userOnboardingDecideStep = data => {
   const {
@@ -37,7 +41,6 @@ export const userOnboardingDecideStep = data => {
   };
 };
 
-export const USER_ONBOARDING_NETWORK_EMAIL_POSTED = 'USER_ONBOARDING_NETWORK_EMAIL_POSTED';
 export const userOnboardingPostNetworkEmail = network_email => ({
   type: USER_ONBOARDING_NETWORK_EMAIL_POSTED,
   payload: {
@@ -45,7 +48,6 @@ export const userOnboardingPostNetworkEmail = network_email => ({
   },
 });
 
-export const USER_ONBOARDING_NETWORK_EMAIL_RESULTED = 'USER_ONBOARDING_NETWORK_EMAIL_RESULTED';
 export const userOnboardingNetworkEmailResulted = (error = false) => ({
   type: USER_ONBOARDING_NETWORK_EMAIL_RESULTED,
   payload: {
@@ -53,7 +55,6 @@ export const userOnboardingNetworkEmailResulted = (error = false) => ({
   },
 });
 
-export const USER_ONBOARDING_MISSING_INFORMATION_POSTED = 'USER_ONBOARDING_MISSING_INFORMATION_POSTED';
 export const userOnboardingPostMissingInformation = info => ({
   type: USER_ONBOARDING_MISSING_INFORMATION_POSTED,
   payload: {
@@ -61,7 +62,6 @@ export const userOnboardingPostMissingInformation = info => ({
   },
 });
 
-export const USER_ONBOARDING_MISSING_INFORMATION_RESULTED = 'USER_ONBOARDING_MISSING_INFORMATION_RESULTED';
 export const userOnboardingMissingInformationResulted = (error = false) => ({
   type: USER_ONBOARDING_MISSING_INFORMATION_RESULTED,
   payload: {
