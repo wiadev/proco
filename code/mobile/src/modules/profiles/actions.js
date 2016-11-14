@@ -1,10 +1,9 @@
-export const PROFILE_LOAD_REQUEST = 'PROFILE_LOAD_REQUESTED';
-export const PROFILE_LOADED = 'PROFILE_LOADED';
-
-export const PROFILE_REPORT_REQUEST = 'proco/profiles/report';
-export const PROFILE_BLOCK_REQUEST = 'proco/profiles/block';
-export const PROFILE_MATCH_REQUEST = 'proco/profiles/match';
-export const PROFILE_UNMATCH_REQUEST = 'proco/profiles/unmatch';
+export const PROFILE_LOAD_REQUEST = 'Proco/Profiles/LoadRequested';
+export const PROFILE_LOADED = 'Proco/Profiles/Loaded';
+export const PROFILE_REPORT_REQUEST = 'Proco/Profiles/Report';
+export const PROFILE_BLOCK_REQUEST = 'Proco/Profiles/Block';
+export const PROFILE_MATCH_REQUEST = 'Proco/Profiles/Match';
+export const PROFILE_UNMATCH_REQUEST = 'Poco/Profiles/Unmatch';
 
 export const profileLoadRequest = uid => ({
   type: PROFILE_LOAD_REQUEST,
@@ -13,7 +12,7 @@ export const profileLoadRequest = uid => ({
 
 export const profileLoaded = (uid, profile) => ({
   type: PROFILE_LOADED,
-  payload: {uid, profile}
+  payload: {uid, ...profile}
 });
 
 export const profileLoadFailed = (uid, error) => ({

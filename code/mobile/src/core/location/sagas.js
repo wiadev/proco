@@ -12,7 +12,7 @@ import {
   startedTracking,
   stoppedTracking,
   locationPermissionRequestFailed,
-  locationPermissionRequest,
+  locationPermissionRequest
 } from "./actions";
 import { updateLocation as updateLocationToDatabase, requestPermission } from "./api";
 const {RNLocation: Location} = require('NativeModules');
@@ -70,10 +70,8 @@ function* watchLocation() {
   }
 }
 
-const sagas = [
+export default [
   fork(watchLocation),
   fork(watchStartTracking),
   fork(watchNewLocationData),
 ];
-
-export default sagas;

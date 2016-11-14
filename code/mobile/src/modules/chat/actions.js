@@ -1,14 +1,14 @@
-import { database, timestamp, refs, getKey } from "../../core/firebase";
 import { assign } from "../../core/utils";
-import { getThreadPeople } from "./api";
-//import { loadSummary } from "../Profiles/actions";
 
-export const CHAT_MESSAGE_SEND_REQUEST = 'Proco/Chat/SendRequest';
+export const CHAT_MESSAGE_SEND_REQUEST = 'Proco/Chat/MessageSendRequest';
 export const MESSAGES_RECEIVED = 'Proco/Chat/MessagesReceived';
 export const THREAD_OPEN_REQUEST = 'Proco/Chat/ThreadOpenRequest';
 export const THREAD_CLOSE_REQUEST = 'Proco/Chat/ThreadCloseRequest';
+export const THREAD_SPOTTED = 'Proco/Chat/ThreadSpotted';
 export const THREAD_ADDED = 'Proco/Chat/ThreadAdded';
 export const THREAD_CHANGED = 'Proco/Chat/ThreadChanged';
+export const UNSEEN_THREAD_SPOTTED = 'Proco/Chat/UnseenThreadSpotted';
+export const UNSEEN_THREAD_SEEN= 'Proco/Chat/UnseenThreadSeen';
 
 export const messagesReceived = (thread_id, messages) => ({
   type: MESSAGES_RECEIVED,
@@ -111,11 +111,19 @@ export const loadedMessages = (thread_id, messages) => ({
   },
 });
 
+export const threadSpotted = (thread_id, payload) => ({
+  type: THREAD_SPOTTED,
+  payload: {
+    thread_id,
+    ...payload,
+  },
+});
+
 export const threadAdded = (thread_id, payload) => ({
   type: THREAD_ADDED,
   payload: {
     thread_id,
-    payload,
+    ...payload,
   },
 });
 
@@ -123,7 +131,7 @@ export const threadChanged = (thread_id, payload) => ({
   type: THREAD_CHANGED,
   payload: {
     thread_id,
-    payload,
+    ...payload,
   },
 });
 
@@ -140,5 +148,20 @@ export const send = (thread_id, message) => ({
   payload: {
     thread_id,
     message,
+  },
+});
+
+
+export const unseenThreadSpotted = thread_id => ({
+  type: UNSEEN_THREAD_SPOTTED,
+  payload: {
+    thread_id,
+  },
+});
+
+export const unseenThreadSeen = thread_id => ({
+  type: UNSEEN_THREAD_SEEN,
+  payload: {
+    thread_id,
   },
 });

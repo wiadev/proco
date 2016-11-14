@@ -1,4 +1,5 @@
-import { database, timestamp,getKey,  getFirebaseDataWithCache } from "../../core/firebase";
+import { database, timestamp, getKey, getFirebaseDataWithCache } from "../../core/firebase";
+import { assign } from "../../core/utils";
 
 export const getThreadPeople = thread_id =>
   getFirebaseDataWithCache(`threads/info/${thread_id}/people`)

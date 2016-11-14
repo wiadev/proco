@@ -4,12 +4,9 @@ import { View, ScrollView, Image, StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Actions } from "react-native-router-flux";
 import codePush from "react-native-code-push";
-import _ from "lodash";
-import {signOut} from "../../core/auth/actions";
-import {userSaveSetting} from "../../modules/user/actions";
+import { signOut } from "../../core/auth/actions";
+import { userSaveSetting } from "../../modules/user/actions";
 import Text from "../../components/Text";
-import { assign } from "../../core/utils";
-import Loading from "../../components/Loading";
 import Header from "../../components/Header";
 import Field from "../../components/Field";
 import styles from "./styles";
@@ -101,7 +98,8 @@ class Settings extends React.Component {
           </View>
 
           <View style={styles.group}>
-            <Field type="bool" legend="People only from my university" value={this.props.settings.get('only_from_network')}
+            <Field type="bool" legend="People only from my university"
+                   value={this.props.settings.get('only_from_network')}
                    onChange={newValue => this.props.save('only_from_network', newValue)}/>
           </View>
 
@@ -118,11 +116,11 @@ class Settings extends React.Component {
             </View>
           </View>
 
-          <Field type="text" legend="Name" value={this.props.user.get('name')} />
+          <Field type="text" legend="Name" value={this.props.user.get('name')}/>
 
-          <Field type="text" legend="Birthday" value={this.props.user.get('birthday')} stickToPrevious={true} />
+          <Field type="text" legend="Birthday" value={this.props.user.get('birthday')} stickToPrevious={true}/>
 
-          <Field type="text" legend="University" value={this.props.user.get('network')} stickToPrevious={true} />
+          <Field type="text" legend="University" value={this.props.user.get('network')} stickToPrevious={true}/>
 
           <Field type="bool" legend="Suspend Discovery" value={this.props.settings.get('suspend_discovery')}
                  onChange={value => this.props.save('suspend_discovery', value)} style={styles.singleField}/>

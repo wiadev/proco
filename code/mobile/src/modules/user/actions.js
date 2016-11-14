@@ -1,7 +1,7 @@
-export const USER_DATA_INITIALIZED = 'USER_DATA_INITIALIZED';
-export const USER_DATA_RECEIVED = 'USER_DATA_RECEIVED';
-export const USER_SETTING_SAVE_REQUESTED = 'USER_SETTING_SAVE_REQUESTED';
-export const USER_QUESTION_UPDATE_REQUEST = 'proco/user/question/update_request';
+export const USER_DATA_INITIALIZED = 'Proco/User/DataInitialized';
+export const USER_DATA_RECEIVED = 'Proco/User/DataReceived';
+export const USER_SETTING_SAVE_REQUESTED = 'Proco/User/Settings/SaveRequested';
+export const USER_QUESTION_UPDATE_REQUEST = 'Proco/User/Question/UpdateRequest';
 
 export const userDataInitialized = () => ({
   type: USER_DATA_INITIALIZED,

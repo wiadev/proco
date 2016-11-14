@@ -1,4 +1,4 @@
-import { Vibration } from "react-native";
+export const VIBRATION_REQUEST = 'Proco/Notifications/VibrationRequest';
 
 export const NOTIFICATION_RECEIVED = 'proco/notifications/received';
 export const NOTIFICATION_SHOW = 'proco/notifications/show';
@@ -6,6 +6,10 @@ export const NOTIFICATION_HIDE = 'proco/notifications/hide';
 
 export const CREATE_ALERT = 'proco/alert/CREATE_ALERT';
 export const DELETE_ALERT = 'proco/alert/DELETE_ALERT';
+
+export const vibrationRequest = () => ({
+  type: VIBRATION_REQUEST,
+});
 
 export const notificationReceived = params => ({
   type: NOTIFICATION_RECEIVED,
@@ -29,7 +33,6 @@ export const notificationHide = id => ({
 });
 
 export function createAlert(alertParams) {
-  Vibration.vibrate([0, 500, 200, 500]);
   return {
     type: CREATE_ALERT,
     payload: alertParams

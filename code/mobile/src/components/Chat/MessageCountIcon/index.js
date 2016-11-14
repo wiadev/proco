@@ -4,14 +4,20 @@ import {
   View,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './styles';
 
-@connect(state => ({threads: state.chat.threads, profiles: state.profiles.profiles}))
+@connect(
+  state => ({
+    unseen_threads: state.chat.unseen_threads,
+    threads: state.chat.threads,
+    profiles: state.profiles.profiles
+  }),
+)
 export default class MessageCountIcon extends React.Component {
   constructor(props) {
     super(props);
@@ -23,11 +29,11 @@ export default class MessageCountIcon extends React.Component {
   }
 
   componentWillMount() {
-    this.props.threads.unseen.map(threadId => this._checkUnseenThread(threadId));
+    this.props.unseen_threads.map(threadId => this._checkUnseenThread(threadId));
   }
 
   componentDidUpdate() {
-    this.props.threads.unseen.map(threadId => this._checkUnseenThread(threadId));
+    this.props.unseen_threads.map(threadId => this._checkUnseenThread(threadId));
   }
 
   render() {
@@ -51,15 +57,15 @@ export default class MessageCountIcon extends React.Component {
   }
 
   _renderUnreadMessageCount() {
-    if (this.props.threads.unseen.length > 99) {
-      return '99+';
+    if (this.props.unseen_threads.length < 99) {
+      return this.props.unseen_threads.length;
     } else {
-      return this.props.threads.unseen.length;
+      return '99+';
     }
   }
 
   _renderUnreadIndicator() {
-    if (this.props.threads.unseen.length !== 0) {
+    if (this.props.unseen_threads.length !== 0) {
       return (
         <View style={styles.unreadIndicator}>
           <View style={styles.unreadIndicatorInner} />
@@ -81,8 +87,8 @@ export default class MessageCountIcon extends React.Component {
   }
 
   _addUnseenThread(threadId) {
-    const timestamp = this.props.threads.threads[threadId].last_message.createdAt;
-    const userId = this.props.threads.threads[threadId].people[0];
+    const timestamp = this.props.threads[threadId].last_message.createdAt;
+    const userId = this.props.threads[threadId].people[0];
 
     let newUsers = this.state.users.slice();
 
@@ -102,7 +108,7 @@ export default class MessageCountIcon extends React.Component {
       return;
     }
 
-    if (this.props.threads.threads[threadId].last_message.createdAt !== this.state.unseenThreads[threadId]) {
+    if (this.props.threads[threadId].last_message.createdAt !== this.state.unseenThreads[threadId]) {
       this._addUnseenThread(threadId);
       return;
     }

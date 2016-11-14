@@ -1,10 +1,10 @@
-export const SIGN_IN = 'Proco/core/auth/SIGN_IN';
-export const SIGN_IN_FAILED = 'Proco/core/auth/SIGN_IN_FAILED';
-export const SIGN_IN_FULFILLED = 'Proco/core/auth/SIGN_IN_FULFILLED';
+export const SIGN_IN = 'Proco/Auth/SignIn';
+export const SIGN_IN_FAILED = 'Proco/Auth/SignInFailed';
+export const SIGN_IN_FULFILLED = 'Proco/Auth/SignInFulfilled';
 
-export const SIGN_OUT = 'Proco/core/auth/SIGN_OUT';
-export const SIGN_OUT_FAILED = 'Proco/core/auth/SIGN_OUT_FAILED';
-export const SIGN_OUT_FULFILLED = 'Proco/core/auth/SIGN_OUT_FULFILLED';
+export const SIGN_OUT = 'Proco/Auth/SignOut';
+export const SIGN_OUT_FAILED = 'Proco/Auth/SignOutFailed';
+export const SIGN_OUT_FULFILLED = 'Proco/Auth/SignOutFulfilled';
 
 export const signIn = facebookAccessToken => ({
   type: SIGN_IN,

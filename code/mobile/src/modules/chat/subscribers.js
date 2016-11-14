@@ -1,22 +1,41 @@
 import { database } from "../../core/firebase";
 import { getThreadRefAsString } from "./api";
-import { newMessageReceived, threadSpotted, threadChanged } from "./actions";
+import { newMessageReceived, threadSpotted, threadChanged, unseenThreadSpotted, unseenThreadSeen } from "./actions";
 
-export function list(uid) {
+export function threads(uid, emit) {
 
   let initialized = false;
   let ref = database.ref(`inboxes/${uid}/threads`);
 
   ref.on('child_added', snap => {
     const data = snap.val();
-
-    emit(threadSpotted());
-
+    emit(threadSpotted(snap.key, data));
   });
 
   ref.on('child_changed', snap => {
     const data = snap.val();
-    emit(threadChanged());
+    emit(threadChanged(snap.key, data));
+  });
+
+  ref.once('value', () => {
+    initialized = true;
+  });
+
+  return () => ref.off();
+
+}
+
+export function unseenThreads(uid, emit) {
+
+  let initialized = false;
+  let ref = database.ref(`inboxes/${uid}/unseen_threads`);
+
+  ref.on('child_added', snap => {
+    emit(unseenThreadSpotted(snap.key));
+  });
+
+  ref.on('child_removed', snap => {
+    emit(unseenThreadSeen(snap.key));
   });
 
   ref.once('value', () => {

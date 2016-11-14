@@ -8,12 +8,11 @@ import {
   timestamp,
   refs,
 } from "../../core/firebase";
-import { post } from "../chat/actions";
 
-export const getProfileFromState = (uid, state) => state.profiles[uid];
+export const getProfileFromState = (state, uid) => state.profiles[uid];
 
-export const shouldGetProfile = (uid, state) => {
-  let profile = getProfileFromState(uid, state);
+export const shouldGetProfile = (state, uid) => {
+  let profile = getProfileFromState(state, uid);
   return (!profile || profile.last_checked > 5000);
 };
 
