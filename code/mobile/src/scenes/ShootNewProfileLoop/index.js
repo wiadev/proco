@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
-  Animated
+  Animated,
 } from "react-native";
 import Camera from "react-native-camera";
 import { Actions } from "react-native-router-flux";
@@ -15,11 +15,11 @@ import reactMixin from "react-mixin";
 import reactTimerMixin from "react-timer-mixin";
 
 import ProfileLoop from "../../components/ProfileLoop";
-//import { startedCapturing, doneCapturing, upload, cancelled } from "../../modules/User/Loop/actions";
+import { startedCapturing, doneCapturing, upload, cancelled } from "../../modules/user/loop/actions";
 import styles from "./styles";
 import colors from "../../core/style/colors";
 
-@connect(state => ({profileLoop: state.userloop}))
+@connect(state => ({profileLoop: state.userLoop}))
 @reactMixin.decorate(reactTimerMixin)
 export default class ShootNewProfileLoop extends React.Component {
   constructor(props) {

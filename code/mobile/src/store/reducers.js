@@ -4,6 +4,7 @@ import { combineReducers } from "redux";
 import authReducer from "../core/auth/reducer";
 import userDataReducer from "../modules/user/reducer";
 import userOnboardingReducer from "../modules/user/onboarding/reducer";
+import userLoopReducer from "../modules/user/loop/reducer";
 import locationReducer from "../core/location/reducer";
 import fcmReducer from "../core/fcm/reducer";
 import profilesReducer from "../modules/profiles/reducer";
@@ -15,6 +16,7 @@ const reducers = {
   auth: authReducer,
   user: userDataReducer,
   userOnboarding: userOnboardingReducer,
+  userLoop: userLoopReducer,
   location: locationReducer,
   fcm: fcmReducer,
   profiles: profilesReducer,
