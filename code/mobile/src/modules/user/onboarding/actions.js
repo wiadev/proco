@@ -2,6 +2,7 @@ export const USER_ONBOARDING_RESULTED = 'Proco/User/Onboarding/Resulted';
 export const USER_ONBOARDING_COMPLETED = 'Proco/User/Onboarding/Completed';
 export const USER_ONBOARDING_STARTED = 'Proco/User/Onboarding/Started';
 export const USER_ONBOARDING_STEP_DECIDED = 'Proco/User/Onboarding/StepDecided';
+export const USER_ONBOARDING_RESET_ERROR = 'Proco/User/Onboarding/ResetError';
 
 export const userOnboardingDecideStep = data => {
   const {
@@ -80,3 +81,6 @@ export const userOnboardingStarted = () => ({
   type: USER_ONBOARDING_STARTED,
 });
 
+export const userOnboardingResetError = () => ({
+  type: USER_ONBOARDING_RESET_ERROR,
+});

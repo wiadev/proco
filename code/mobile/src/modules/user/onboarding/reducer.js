@@ -5,7 +5,8 @@ import {
   USER_ONBOARDING_NETWORK_EMAIL_POSTED,
   USER_ONBOARDING_NETWORK_EMAIL_RESULTED,
   USER_ONBOARDING_MISSING_INFORMATION_POSTED,
-  USER_ONBOARDING_MISSING_INFORMATION_RESULTED
+  USER_ONBOARDING_MISSING_INFORMATION_RESULTED,
+  USER_ONBOARDING_RESET_ERROR,
 } from "./actions";
 import { SIGN_OUT_FULFILLED } from "../../../core/auth/actions";
 
@@ -37,6 +38,8 @@ export default function userOnboardingReducer(state = new UserOnboardingState(),
       return state.set('in_progress', !!payload.error).set('error', payload.error);
     case USER_ONBOARDING_COMPLETED:
       return state.set('in_progress', false).set('error', null);
+    case USER_ONBOARDING_RESET_ERROR:
+      return state.set('error', null);
     case SIGN_OUT_FULFILLED:
       return new UserOnboardingState();
     default:
