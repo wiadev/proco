@@ -1,16 +1,15 @@
-
-export const POOL_START_WATCHING = 'proco/pool/startWatching';
-export const POOL_STARTED_WATCHING = 'proco/pool/startedWatching';
-export const POOL_STATUS_CHANGED = 'proco/pool/status_changed';
-export const POOL_SPOTTED = 'proco/pool/spotted';
-export const POOL_ADDED = 'proco/pool/added';
-export const POOL_REMOVED = 'proco/pool/removed';
-export const POOL_FOCUS = 'proco/pool/focus';
-export const POOL_UPDATED = 'proco/pool/updated';
-export const POOL_ACTION = 'proco/pool/action';
-export const POOL_ANSWER = 'proco/pool/answer';
-export const POOL_RESET = 'proco/pool/reset';
-export const POOL_VIEW = 'proco/pool/view';
+export const POOL_START_WATCHING = 'Proco/Pool/StartWatching';
+export const POOL_STARTED_WATCHING = 'Proco/Pool/StartedWatching';
+export const POOL_STATUS_CHANGED = 'Proco/Pool/StatusChanged';
+export const POOL_SPOTTED = 'Proco/Pool/Spotted';
+export const POOL_ADDED = 'Proco/Pool/Added';
+export const POOL_REMOVED = 'Proco/Pool/Removed';
+export const POOL_FOCUS = 'Proco/Pool/Focus';
+export const POOL_UPDATED = 'Proco/Pool/Updated';
+export const POOL_ACTION = 'Proco/Pool/Action';
+export const POOL_ANSWER = 'Proco/Pool/Answer';
+export const POOL_RESET = 'Proco/Pool/Reset';
+export const POOL_VIEW = 'Proco/Pool/View';
 
 export const spotted = (uid, added_on, is_close) => ({
   type: POOL_SPOTTED,

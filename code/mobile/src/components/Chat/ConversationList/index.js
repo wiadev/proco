@@ -36,7 +36,7 @@ export default class ConversationList extends React.Component {
   }
 
   _renderConversationList() {
-    if (Object.keys(this.props.threads.threads).length === 0) {
+    if (Object.keys(this.props.threads).length === 0) {
       return (
         <Card label="You have no messages" noClose={true} />
       );
@@ -46,9 +46,9 @@ export default class ConversationList extends React.Component {
 
     let threadsArray = [];
 
-    Object.keys(this.props.threads.threads).map(threadId => threadsArray.push({
+    Object.keys(this.props.threads).map(threadId => threadsArray.push({
       threadId: threadId,
-      ...this.props.threads.threads[threadId]
+      ...this.props.threads[threadId]
     }));
 
     return (

@@ -18,7 +18,7 @@ import {
 
 export const initialState = {
   alerts: [
-    {
+    /*{
       duration: 3000,
       type: 'danger',
       title: "Danger",
@@ -45,7 +45,7 @@ export const initialState = {
       title: "Info",
       context: "This is a info type alert.",
       onPress: () => console.log("onPress"),
-    }
+    }*/
   ]
 };
 

@@ -4,6 +4,7 @@ import { View, Animated, ListView, Dimensions } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import PoolInProgress from "../../../../components/PoolInProgress";
 import PoolItem from "../../../../components/PoolItem";
+import MessageCountIcon from "../../../../components/Chat/MessageCountIcon";
 import styles from "./styles";
 import { action } from "../../../../modules/pool/actions";
 
@@ -72,9 +73,9 @@ export default class Pool extends React.Component {
 
         <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
 
-        {/*<View style={styles.messageIconWrapper}>*/}
-        {/*<MessageCountIcon />*/}
-        {/*</View>*/}
+        <View style={styles.messageIconWrapper}>
+          <MessageCountIcon />
+        </View>
 
       </View>
     );

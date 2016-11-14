@@ -14,12 +14,11 @@ import {
 } from "./actions";
 import { getProfile, changeBlockStatus, report, changeMatchStatus, afterMatchTasks, shouldGetProfile } from "./api";
 
-function* loadProfile(action) {
-  let {payload: {uid}} = action;
+function* processProfileLoadRequest({payload: {uid}}) {
   try {
-    let shouldGetProfile = yield select(shouldGetProfile, uid);
-    if (shouldGetProfile) {
-      profile = yield call(getProfile, uid);
+    let shouldGet = yield select(shouldGetProfile, uid);
+    if (shouldGet) {
+      let profile = yield call(getProfile, uid);
       yield put(profileLoaded(uid, profile));
     }
   } catch (error) {
@@ -69,7 +68,7 @@ function * processMatchRequest({payload: {pid}}) {
 }
 
 function* watchProfileLoadRequests() {
-  yield * takeEvery(PROFILE_LOAD_REQUEST, loadProfile);
+  yield * takeEvery(PROFILE_LOAD_REQUEST, processProfileLoadRequest);
 }
 
 function* watchBlockRequests() {

@@ -5,6 +5,7 @@ import fcmSagas from '../core/fcm/sagas';
 import profilesSagas from '../modules/profiles/sagas';
 import poolSagas from '../modules/pool/sagas';
 import chatSagas from '../modules/chat/sagas';
+import inAppAlertSagas from '../modules/inappalerts/sagas';
 
 export default function* sagas() {
   yield [
@@ -15,5 +16,6 @@ export default function* sagas() {
     ...profilesSagas,
     ...poolSagas,
     ...chatSagas,
+    ...inAppAlertSagas,
   ];
 }
