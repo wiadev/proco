@@ -56,7 +56,7 @@ function* watchAuthentication() {
   while (true) {
     let {payload} = yield take(SIGN_IN_FULFILLED);
 
-    let dataJobs = yield fork(read, subscribe, payload.uid);
+    let dataJobs = yield fork(read, subscribe);
 
     yield take(USER_DATA_INITIALIZED);
 

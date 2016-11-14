@@ -129,9 +129,8 @@ function * watchPoolReset() {
 }
 
 function * startPool() {
-  let uid = yield select(getUID);
   yield put(startTrackingLocation());
-  yield fork(read, poolSubscription, uid);
+  yield fork(read, poolSubscription);
 }
 
 function * watchAuthentication() {

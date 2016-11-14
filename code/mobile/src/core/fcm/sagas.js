@@ -66,8 +66,8 @@ function* watchReceivedCloudNotifications() {
 }
 
 export default [
-  fork(read, subscribeToNotifications, null),
-  fork(read, subscribeToFCMTokens, null),
+  fork(read, subscribeToNotifications),
+  fork(read, subscribeToFCMTokens),
   fork(watchPermissionRequests),
   fork(watchReceivedCloudNotifications),
   fork(watchReceivedFCMTokens),

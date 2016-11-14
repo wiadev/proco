@@ -55,3 +55,47 @@ export const markMessageAsSeen = async(uid, thread_id, message_id) => {
 
   return database.ref().update(updates);
 };
+
+export const loadMessages = async(uid, thread_id, endAt, startAt) => {
+  console.log("LOAD MESSAGES uid", uid, thread_id);
+  let ref = database.ref(getThreadRefAsString(uid, thread_id)).orderByChild('createdAt');
+
+  if (endAt) ref = ref.endAt(endAt);
+  if (startAt !== null) {
+    ref = ref.startAt(startAt);
+  } else {
+    ref = ref.limitToLast(30);
+  }
+
+  return ref.once('value')
+    .then(snap => snap.val())
+    .then(messages => {
+      if (messages) {
+        return Object.keys(messages).map(message => messages[message]);
+      } else {
+        return [];
+      }
+    });
+
+};
+
+export const getMessageObjectForApp = (state, message) => {
+  let user = state.profiles.profiles[message.user];
+  if (!user) {
+    if (state.auth.get('uid') === message.user) {
+      user = {
+        name: state.user.info.get('name'),
+        avatar: state.user.info.get('avatar'),
+      }
+    } else {
+      return null;
+    }
+  }
+  return assign(message, {
+    user: {
+      _id: message.user,
+      name: user.name,
+      avatar: user.avatar,
+    },
+  });
+};

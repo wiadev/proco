@@ -39,38 +39,10 @@ export default class Pool extends React.Component {
   }
 
   render() {
-
-    if (this.props.poolKeys.length < 1) {
-      return (
-        <PoolInProgress />
-      );
-    }
-
     return (
       <View style={styles.pool}>
-        <AnimatedListView
-          horizontal={true}
-          pagingEnabled={true}
-          style={this._getListViewStyle()}
-          dataSource={this.props.poolData}
-          pageSize={1}
-          initialListSize={1}
-          ref="poolList"
-          enableEmptySections={false}
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          renderRow={(row) =>
-            <View style={styles.poolItemO}>
-              <PoolItem
-                key={row.uid}
-                onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
-                {...row}
-              />
-            </View>
-          }
-          onChangeVisibleRows={::this._onSwiperScroll}
-        />
 
+        {this._renderPoolContent()}
         <Icon name="keyboard-arrow-up" style={styles.upperMenuIcon}/>
 
         <View style={styles.messageIconWrapper}>
@@ -79,6 +51,38 @@ export default class Pool extends React.Component {
 
       </View>
     );
+  }
+
+  _renderPoolContent() {
+    if (this.props.poolKeys.length < 1) {
+      return (
+        <PoolInProgress />
+      );
+    }
+
+    return (<AnimatedListView
+      horizontal={true}
+      pagingEnabled={true}
+      style={this._getListViewStyle()}
+      dataSource={this.props.poolData}
+      pageSize={1}
+      initialListSize={1}
+      ref="poolList"
+      enableEmptySections={false}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+      renderRow={(row) =>
+        <View style={styles.poolItemO}>
+          <PoolItem
+            key={row.uid}
+            onComplete={(uid, act, payload) => this._doneWithPoolItem(uid, act, payload)}
+            {...row}
+          />
+        </View>
+      }
+      onChangeVisibleRows={::this._onSwiperScroll}
+    />);
+
   }
 
   _doneWithPoolItem(uid, act = 'skip', payload = {}) {

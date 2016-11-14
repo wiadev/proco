@@ -63,7 +63,7 @@ export default class ConversationList extends React.Component {
 
   _renderSingleConversation(thread) {
     return (
-      <TouchableHighlight onPress={() => Actions.Conversation(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.05)">
+      <TouchableHighlight onPress={() => this.props.threadOpener(thread.threadId)} underlayColor="rgba(0, 0, 0, 0.05)">
         <View style={styles.conversation}>
           <View style={styles.avatar}>
             {this._renderAvatar(thread.people[0])}
@@ -93,5 +93,6 @@ export default class ConversationList extends React.Component {
 
 ConversationList.propTypes = {
   threads: React.PropTypes.any.isRequired,
-  profiles: React.PropTypes.any.isRequired
+  profiles: React.PropTypes.any.isRequired,
+  threadOpener: React.PropTypes.func,
 };

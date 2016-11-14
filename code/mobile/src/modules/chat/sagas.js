@@ -1,7 +1,7 @@
 import { eventChannel, takeEvery, takeLatest } from "redux-saga";
-import { call, cancel, fork, take, select, put } from "redux-saga/effects";
+import { call, fork, take, select, put } from "redux-saga/effects";
 import { Actions } from "react-native-router-flux";
-import { read } from "../../core/sagas";
+import { read, delay } from "../../core/sagas";
 import { getUID } from "../../core/auth/api";
 import { SIGN_IN_FULFILLED } from "../../core/auth/actions";
 import { profileLoadRequest } from "../profiles/actions";
@@ -13,14 +13,18 @@ import {
   THREAD_SPOTTED,
   THREAD_CHANGED,
   THREAD_CLOSE_REQUEST,
-  threadAdded
+  LOAD_MESSAGES,
+  threadAdded,
+  messagesReceived,
+  addMessagesToThread,
+  loadMessages as loadMessagesRequest,
 } from "./actions";
 import {
   threads as threadsSubscriptionCreator,
   unseenThreads as unseenThreadsSubscriptionCreator,
-  thread as threadSubscriptionCreator,
+  subscribeToThread
 } from "./subscribers";
-import { send, getThreadPeople } from "./api";
+import { send, getThreadPeople, loadMessages, getMessageObjectForApp } from "./api";
 
 const subscribeToThreads = (uid, emit) =>
   eventChannel(emit => threadsSubscriptionCreator(uid, emit));
@@ -28,26 +32,27 @@ const subscribeToThreads = (uid, emit) =>
 const subscribeToUnseenThreads = (uid, emit) =>
   eventChannel(emit => unseenThreadsSubscriptionCreator(uid, emit));
 
-const subscribeToThread = (uid, thread_id, emit) =>
-  eventChannel(emit => threadSubscriptionCreator(uid, thread_id, emit));
+function* processReceivedMessage(thread_id, message) {
+  console.log("got new", thread_id, message);
 
-function* processThreadOpenRequest(action) {
-  let {payload: {thread_id}} = action;
+  try {
+    let messageObject = yield select(getMessageObjectForApp, message);
+    if (messageObject) {
+      yield put(addMessagesToThread(thread_id, [messageObject]));
+    } else {
+      yield call(delay, 100);
+      yield fork(processReceivedMessage, thread_id, message);
+    }
+  } catch (e) {
+    console.log("error", e);
+  }
 
-  yield call(Actions.Thread, {
-    thread_id,
-  });
-
-  let listener = yield fork(read, subscribeToThread(), uid, thread_id);
-  yield take(THREAD_CLOSE_REQUEST);
-  yield call(Actions.pop);
-  yield cancel(listener);
 }
 
-function* processReceivedMessages(action) {
-  let {payload} = action;
-
-  let profile = yield select(getProfile, uid)
+function* processReceivedMessages({payload: {thread_id, messages}}) {
+  for (let message in messages) {
+    yield fork(processReceivedMessage, thread_id, messages[message]);
+  }
 }
 
 function* processSendMessageRequest({payload: {thread_id, message}}) {
@@ -92,13 +97,11 @@ function* processChangedThread({payload: {last_message: {user}}}) {
 }
 
 function* startWatchingThreadList() {
-  let uid = yield select(getUID);
-  yield fork(read, subscribeToThreads, uid);
+  yield fork(read, subscribeToThreads);
 }
 
 function* startWatchingUnseenThreadList() {
-  let uid = yield select(getUID);
-  yield fork(read, subscribeToUnseenThreads, uid);
+  yield fork(read, subscribeToUnseenThreads);
 }
 
 function* watchReceivedMessages() {
@@ -113,8 +116,41 @@ function* watchChangedThreads() {
   yield * takeLatest(THREAD_CHANGED, processChangedThread);
 }
 
-function* watchThreadOpenRequests() {
-  yield * takeLatest(THREAD_OPEN_REQUEST, processThreadOpenRequest);
+function* processOpenCloseRequest({type, payload: {thread_id}}) {
+  if (type === THREAD_CLOSE_REQUEST) {
+    yield call(Actions.pop);
+  } else {
+    yield call(Actions.Conversation, {
+      thread_id,
+    });
+    let uid = yield select(getUID);
+    let now = Date.now();
+    yield put(loadMessagesRequest(thread_id, now, 'LAST_MESSAGE'));
+    const chan = yield call(subscribeToThread, uid, thread_id, now);
+    try {
+      while (true) {
+        let seconds = yield take(chan);
+        yield put(seconds);
+      }
+    } finally {
+      console.log('countdown terminated')
+    }
+  }
+
+}
+
+function* processLoadMessagesRequest({payload: {thread_id, endAt, startAt}}) {
+  try {
+    let uid = yield select(getUID);
+    let messages = yield call(loadMessages, uid, thread_id, endAt, startAt);
+    yield put(messagesReceived(thread_id, messages));
+  } catch (e) {
+    console.log("error", e);
+  }
+}
+
+function* watchThreadOpenCloseRequests() {
+  yield * takeLatest([THREAD_OPEN_REQUEST, THREAD_CLOSE_REQUEST], processOpenCloseRequest)
 }
 
 function* watchSendMessageRequests() {
@@ -129,12 +165,18 @@ function* watchUnseenThreadList() {
   yield * takeLatest(SIGN_IN_FULFILLED, startWatchingUnseenThreadList);
 }
 
+function* watchLoadMessagesRequests() {
+  yield * takeEvery(LOAD_MESSAGES, processLoadMessagesRequest);
+}
+
+
 export default [
-  fork(watchThreadOpenRequests),
+  fork(watchThreadOpenCloseRequests),
   fork(watchReceivedMessages),
   fork(watchSendMessageRequests),
   fork(watchThreadList),
   fork(watchUnseenThreadList),
   fork(watchSpottedThreads),
   fork(watchChangedThreads),
+  fork(watchLoadMessagesRequests),
 ];

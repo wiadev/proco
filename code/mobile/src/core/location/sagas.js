@@ -62,8 +62,7 @@ function* watchStartTracking() {
 function* watchLocation() {
   while (true) {
     yield take(STARTED_TRACKING_LOCATION);
-    let uid = yield select(getUID);
-    let watcher = yield fork(read, subscribe, uid);
+    let watcher = yield fork(read, subscribe);
     yield take([SIGN_OUT_FULFILLED, STOP_TRACKING_LOCATION]);
     yield cancel(watcher);
     yield fork(stopTracking);

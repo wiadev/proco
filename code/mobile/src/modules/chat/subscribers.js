@@ -1,6 +1,7 @@
 import { database } from "../../core/firebase";
 import { getThreadRefAsString } from "./api";
-import { newMessageReceived, threadSpotted, threadChanged, unseenThreadSpotted, unseenThreadSeen } from "./actions";
+import { eventChannel } from "redux-saga";
+import { messagesReceived, threadSpotted, threadChanged, unseenThreadSpotted, unseenThreadSeen } from "./actions";
 
 export function threads(uid, emit) {
 
@@ -46,23 +47,23 @@ export function unseenThreads(uid, emit) {
 
 }
 
-export function thread(uid, thread_id, emit) {
-  const now = Date.now();
+export function subscribeToThread(uid, thread_id, now) {
+  return eventChannel(emit => {
+    let initialized = false;
+    let ref = database.ref(getThreadRefAsString(uid, thread_id))
+      .orderByChild('createdAt')
+      .startAt(now)
+      .limitToLast(1);
 
-  emit(loadMessages(thread_id, now, 'LAST_MESSAGE'));
-
-  let initialized = false;
-  let ref = database.ref(getThreadRefAsString(thread_id, uid))
-    .orderByChild('createdAt')
-    .startAt(now)
-    .limitToLast(1)
-    .on('child_added', (snap) => {
-      emit(newMessageReceived(thread_id, snap.val()));
+    ref.on('child_added', snap => {
+      const data = snap.val();
+      emit(messagesReceived(thread_id, [data]));
     });
 
-  ref.once('value', () => {
-    initialized = true;
-  });
+    ref.once('value', () => {
+      initialized = true;
+    });
 
-  return () => ref.off();
+    return () => ref.off();
+  });
 }

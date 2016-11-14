@@ -1,12 +1,14 @@
 import { assign } from "../../core/utils";
 
 export const CHAT_MESSAGE_SEND_REQUEST = 'Proco/Chat/MessageSendRequest';
+export const LOAD_MESSAGES = 'Proco/Chat/LoadMessages';
 export const MESSAGES_RECEIVED = 'Proco/Chat/MessagesReceived';
 export const THREAD_OPEN_REQUEST = 'Proco/Chat/ThreadOpenRequest';
 export const THREAD_CLOSE_REQUEST = 'Proco/Chat/ThreadCloseRequest';
 export const THREAD_SPOTTED = 'Proco/Chat/ThreadSpotted';
 export const THREAD_ADDED = 'Proco/Chat/ThreadAdded';
 export const THREAD_CHANGED = 'Proco/Chat/ThreadChanged';
+export const ADD_MESSAGES_TO_THREAD = 'Proco/Chat/AddMessagesToThread';
 export const UNSEEN_THREAD_SPOTTED = 'Proco/Chat/UnseenThreadSpotted';
 export const UNSEEN_THREAD_SEEN= 'Proco/Chat/UnseenThreadSeen';
 
@@ -18,47 +20,20 @@ export const messagesReceived = (thread_id, messages) => ({
   },
 });
 
-const getMessageObjectForApp = (message, profiles) => {
-  const user = profiles[message.user];
-  return assign(message, {
-    user: {
-      _id: message.user,
-      name: user.name,
-      avatar: user.avatar,
-    },
-  });
-};
+export const addMessagesToThread = (thread_id, messages) => ({
+  type: ADD_MESSAGES_TO_THREAD,
+  payload: {
+    thread_id,
+    messages,
+  },
+});
 
-export const loadMessages = (thread_id, endAt, startAt) => {
-  console.log("load messages", thread_id, endAt, startAt);
-  return (dispatch, getState) => {
-    const {auth: {uid}, profiles: {profiles}} = getState();
-
-    let ref = getThreadRef(thread_id, uid).orderByChild('createdAt');
-
-    if (endAt) ref = ref.endAt(endAt);
-    if (startAt !== null) {
-      ref = ref.startAt(startAt);
-    } else {
-      ref = ref.limitToLast(30);
-    }
-
-    ref.once('value')
-      .then(snap => snap.val())
-      .then(messages => {
-        if (messages) {
-
-         console.log("got messages", messages, startAt, endAt, Object.keys(messages).length);
-
-          dispatch(loadedMessages(thread_id,
-            Object.keys(messages).map(message => getMessageObjectForApp(messages[message], profiles))
-          ));
-
-        }
-      });
-
-  };
-};
+export const loadMessages = (thread_id, endAt, startAt) => ({
+  type: LOAD_MESSAGES,
+  payload: {
+    thread_id, endAt, startAt,
+  },
+});
 
 export const startWatchingThread = (thread_id) => {
   return (dispatch, getState) => {
@@ -135,11 +110,17 @@ export const threadChanged = (thread_id, payload) => ({
   },
 });
 
-export const openThread = (thread_id, payload) => ({
+export const openThread = thread_id => ({
   type: THREAD_OPEN_REQUEST,
   payload: {
     thread_id,
-    payload,
+  },
+});
+
+export const closeThread = thread_id => ({
+  type: THREAD_CLOSE_REQUEST,
+  payload: {
+    thread_id,
   },
 });
 

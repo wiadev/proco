@@ -1,18 +1,12 @@
-import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  ActionSheetIOS,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Actions } from 'react-native-router-flux';
-import { GiftedChat } from 'react-native-gifted-chat';
+import React, { Component } from "react";
+import { View, TouchableOpacity, ActionSheetIOS } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { GiftedChat } from "react-native-gifted-chat";
+import Header from "../../Header";
+import Bubble from "../../Bubble";
+import styles from "./styles";
 
-import Header from '../../Header';
-import Bubble from '../../Bubble';
-import styles from './styles';
-
-export default class Conversation extends React.Component {
+export default class Conversation extends Component {
   render() {
     return (
       <View style={styles.conversation}>
@@ -20,7 +14,7 @@ export default class Conversation extends React.Component {
           theme="light"
           leftActorType="icon"
           leftActor="ios-arrow-back"
-          leftAction={Actions.pop}
+          leftAction={this.props.close}
           rightActorType="icon"
           rightActor="ios-alert-outline"
           rightAction={() => this._showUserActionSheet()}
@@ -65,7 +59,7 @@ export default class Conversation extends React.Component {
       <TouchableOpacity
         onPress={() => chatProps.onSend({text: chatProps.text.trim()}, true)}
         style={styles.send}>
-        <Icon name="ios-send" style={styles.sendIcon} />
+        <Icon name="ios-send" style={styles.sendIcon}/>
       </TouchableOpacity>
     );
   }
@@ -92,5 +86,6 @@ export default class Conversation extends React.Component {
 
 Conversation.propTypes = {
   messages: React.PropTypes.array.isRequired,
-  onSend: React.PropTypes.func.isRequired
+  onSend: React.PropTypes.func.isRequired,
+  close: React.PropTypes.func.isRequired,
 };
