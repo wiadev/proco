@@ -83,7 +83,7 @@ export default class NetworkVerification extends React.Component {
 
   _renderForm() {
     return (
-      <View style={styles.slide}>
+      <View style={styles.slideSticksToTop}>
         <Image source={require('../../../assets/images/verify.png')} style={styles.topImage} />
 
         <Text style={[styles.title, styles.formTitle]}>We'll need to verify your school e-mail.</Text>
@@ -94,16 +94,15 @@ export default class NetworkVerification extends React.Component {
           <TextInput
             autoCapitalize="none"
             autoCorrect={false}
+            autoFocus={true}
             returnKeyType="next"
             keyboardType="email-address"
             placeholder='yourname@university.edu'
-            placeholderTextColor={colors.gray3}
             onChangeText={networkEmail => this.setState({networkEmail: networkEmail})}
+            onEndEditing={() => this._onFormSubmit()}
             style={styles.formInput}
           />
         </View>
-
-        <Button type="text" text="Continue" onPress={::this._onFormSubmit} highlight={true} style={styles.button} textStyle={styles.buttonTextStyle} />
       </View>
     );
   }

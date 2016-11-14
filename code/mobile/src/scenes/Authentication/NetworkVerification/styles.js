@@ -10,11 +10,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
+  slideSticksToTop: {
+    justifyContent: 'flex-start'
+  },
   topImage: {
     alignSelf: 'center',
-    width: 120,
-    height: 120,
-    marginBottom: 40
+    width: 100,
+    height: 100,
+    marginBottom: 10
   },
   title: {
     marginBottom: 20,

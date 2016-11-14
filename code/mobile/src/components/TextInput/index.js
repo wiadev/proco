@@ -10,5 +10,6 @@ export default class CustomTextInput extends React.Component {
 }
 
 CustomTextInput.propTypes = {
+  autoFocus: React.PropTypes.bool,
   style: React.PropTypes.any
 };

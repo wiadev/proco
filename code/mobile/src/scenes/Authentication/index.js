@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-  StatusBar,
+  StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import reactMixin from 'react-mixin';
@@ -184,7 +184,17 @@ export default class Authentication extends React.Component {
 
     let step = this.props.userOnboarding.get('step');
 
-    let modalToShow = (show === 'network_verification') ? <NetworkVerification /> : <MissingInformation />;
+    let modalToShow;
+
+    if (show === 'network_verification') {
+      modalToShow = (
+        <NetworkVerification />
+      );
+    } else {
+      modalToShow = (
+        <MissingInformation />
+      );
+    }
 
     return (
       <Modal ref="modal" isOpen={true} backdropPressToClose={false} height={0.8}>

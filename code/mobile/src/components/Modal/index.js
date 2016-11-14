@@ -27,6 +27,7 @@ export default class CustomModal extends React.Component {
         animationDuration={300}
         backdropColor="transparent"
         backdropContent={this.backdropContent}
+        position={this.props.position}
         style={[styles.customModal, {
           width: screenSize.width * this.props.width,
           height: screenSize.height * this.props.height
@@ -57,7 +58,8 @@ CustomModal.propTypes = {
   backdropPressToClose: React.PropTypes.bool,
   swipeToClose: React.PropTypes.bool,
   width: React.PropTypes.number,
-  height: React.PropTypes.number
+  height: React.PropTypes.number,
+  position: React.PropTypes.oneOf('top', 'center', 'bottom')
 };
 
 CustomModal.defaultProps = {
@@ -65,5 +67,6 @@ CustomModal.defaultProps = {
   backdropPressToClose: true,
   swipeToClose: false,
   width: 0.9,
-  height: 0.6
+  height: 0.6,
+  position: 'center'
 };
