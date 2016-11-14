@@ -12,7 +12,7 @@ import Button from '../../../components/Button';
 import styles from './styles';
 import colors from '../../../core/style/colors';
 
-import { userOnboardingPostNetworkEmail } from '../../../modules/user/onboarding';
+import { userOnboardingPostNetworkEmail, userOnboardingResetError } from '../../../modules/user/onboarding';
 
 @connect(
   state => ({
@@ -23,6 +23,7 @@ import { userOnboardingPostNetworkEmail } from '../../../modules/user/onboarding
   }),
   dispatch => ({
     submit: (network_email) => dispatch(userOnboardingPostNetworkEmail(network_email)),
+    resetError: () => dispatch(userOnboardingResetError()),
   }),
 )
 export default class NetworkVerification extends React.Component {
@@ -134,6 +135,8 @@ export default class NetworkVerification extends React.Component {
         <Image source={require('../../../assets/images/error.png')} style={styles.topImage} />
 
         <Text style={[styles.title, styles.errorTitle]}>{errorMessage}</Text>
+
+        <Button type="text" text="Go back" onPress={() => this.props.resetError()} highlight={true} />
       </View>
     );
   }
